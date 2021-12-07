@@ -1,0 +1,13 @@
+01 Aug 86  ehg
+  qwgt*.f were declared double precision, but should have been single
+
+21 May 87  ehg, reported by dongarra
+  dqc25c.f was missing data x(11).  copied from dqc25s.f
+
+05 Oct 21  julien langou, reported at https://github.com/scipy/scipy/issues/14807
+  dqk15w.f change the weight "0.3818300505051889d+00" to "0.3818300505051189d+00"
+  qk15w.f  change the weight "0.3818300505051889e+00" to "0.3818300505051189e+00"
+
+11 Oct 21  julien langou, reported at https://github.com/scipy/scipy/pull/14836
+  dqc25f.f was not accumulating properly in resabs in do loop 150
+  qc25f.f  was not accumulating properly in resabs in do loop 150
