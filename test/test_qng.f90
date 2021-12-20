@@ -10,7 +10,7 @@ b = 1.0e0
 epsabs = 0.0e0
 epsrel = 1.0e-3
 call dqng(f,a,b,epsabs,epsrel,result,abserr,neval,ier)
-!  include write statements
+write(*,*) 'result = ', result
 end program test_qng
 
 double precision function f(x)

@@ -18,7 +18,7 @@ maxp1 = 21
 lenw = leniw*2+maxp1*25
 call dqawf(f,a,omega,integr,epsabs,result,abserr,neval,&
           ier,limlst,lst,leniw,maxp1,lenw,iwork,work)
-!  include write statements
+write(*,*) 'result = ', result
 end program test_qawf
 
 double precision function f(x)

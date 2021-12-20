@@ -342,8 +342,8 @@ module quadpack
 !***end prologue  dqage
 !
       DOUBLE PRECISION A , Abserr , Alist , area , area1 , area12 ,     &
-                     & area2 , a1 , a2 , B , Blist , b1 , b2 , DABS ,   &
-                     & defabs , defab1 , defab2 , DMAX1 , D1MACH ,      &
+                     & area2 , a1 , a2 , B , Blist , b1 , b2 , abs ,   &
+                     & defabs , defab1 , defab2 , DMAX1 ,      &
                      & Elist , epmach , Epsabs , Epsrel , errbnd ,      &
                      & errmax , error1 , error2 , erro12 , errsum , F , &
                      & resabs , Result , Rlist , uflow
@@ -424,7 +424,7 @@ module quadpack
 !
 !           test on accuracy.
 !
-         errbnd = DMAX1(Epsabs,Epsrel*DABS(Result))
+         errbnd = DMAX1(Epsabs,Epsrel*abs(Result))
          IF ( Abserr<=0.5D+02*epmach*defabs .AND. Abserr>errbnd )       &
             & Ier = 2
          IF ( Limit==1 ) Ier = 1
@@ -488,14 +488,14 @@ module quadpack
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
                IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-                  IF ( DABS(Rlist(maxerr)-area12)<=0.1D-04*DABS(area12) &
+                  IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) &
                      & .AND. erro12>=0.99D+00*errmax ) iroff1 = iroff1 +&
                      & 1
                   IF ( Last>10 .AND. erro12>errmax ) iroff2 = iroff2 + 1
                ENDIF
                Rlist(maxerr) = area1
                Rlist(Last) = area2
-               errbnd = DMAX1(Epsabs,Epsrel*DABS(area))
+               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
                IF ( errsum>errbnd ) THEN
 !
 !           test for roundoff error and eventually set error flag.
@@ -510,9 +510,9 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-                  IF ( DMAX1(DABS(a1),DABS(b2))                         &
+                  IF ( DMAX1(abs(a1),abs(b2))                         &
                      & <=(0.1D+01+0.1D+03*epmach)                       &
-                     & *(DABS(a2)+0.1D+04*uflow) ) Ier = 3
+                     & *(abs(a2)+0.1D+04*uflow) ) Ier = 3
                ENDIF
 !
 !           append the newly-created intervals to the list.
@@ -906,8 +906,8 @@ module quadpack
 !***end prologue  dqagie
       DOUBLE PRECISION abseps , Abserr , Alist , area , area1 , area12 ,&
                      & area2 , a1 , a2 , Blist , boun , Bound , b1 ,    &
-                     & b2 , correc , DABS , defabs , defab1 , defab2 ,  &
-                     & DMAX1 , dres , D1MACH , Elist , epmach , Epsabs ,&
+                     & b2 , correc , abs , defabs , defab1 , defab2 ,  &
+                     & DMAX1 , dres , Elist , epmach , Epsabs ,&
                      & Epsrel , erlarg , erlast , errbnd , errmax ,     &
                      & error1 , error2 , erro12 , errsum , ertest , F , &
                      & oflow , resabs , reseps , Result , res3la ,      &
@@ -1015,7 +1015,7 @@ module quadpack
       Rlist(1) = Result
       Elist(1) = Abserr
       Iord(1) = 1
-      dres = DABS(Result)
+      dres = abs(Result)
       errbnd = DMAX1(Epsabs,Epsrel*dres)
       IF ( Abserr<=1.0D+02*epmach*defabs .AND. Abserr>errbnd ) Ier = 2
       IF ( Limit==1 ) Ier = 1
@@ -1069,7 +1069,7 @@ module quadpack
          errsum = errsum + erro12 - errmax
          area = area + area12 - Rlist(maxerr)
          IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-            IF ( DABS(Rlist(maxerr)-area12)<=0.1D-04*DABS(area12) .AND. &
+            IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) .AND. &
                & erro12>=0.99D+00*errmax ) THEN
                IF ( extrap ) iroff2 = iroff2 + 1
                IF ( .NOT.extrap ) iroff1 = iroff1 + 1
@@ -1078,7 +1078,7 @@ module quadpack
          ENDIF
          Rlist(maxerr) = area1
          Rlist(Last) = area2
-         errbnd = DMAX1(Epsabs,Epsrel*DABS(area))
+         errbnd = DMAX1(Epsabs,Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
@@ -1093,8 +1093,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at some points of the integration range.
 !
-         IF ( DMAX1(DABS(a1),DABS(b2))<=(0.1D+01+0.1D+03*epmach)        &
-            & *(DABS(a2)+0.1D+04*uflow) ) Ier = 4
+         IF ( DMAX1(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)        &
+            & *(abs(a2)+0.1D+04*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -1128,13 +1128,13 @@ module quadpack
             rlist2(2) = area
          ELSEIF ( .NOT.(noext) ) THEN
             erlarg = erlarg - erlast
-            IF ( DABS(b1-a1)>small ) erlarg = erlarg + erro12
+            IF ( abs(b1-a1)>small ) erlarg = erlarg + erro12
             IF ( .NOT.(extrap) ) THEN
 !
 !           test whether the interval to be bisected next is the
 !           smallest interval.
 !
-               IF ( DABS(Blist(maxerr)-Alist(maxerr))>small ) GOTO 100
+               IF ( abs(Blist(maxerr)-Alist(maxerr))>small ) GOTO 100
                extrap = .TRUE.
                nrmax = 2
             ENDIF
@@ -1150,7 +1150,7 @@ module quadpack
                DO k = id , jupbnd
                   maxerr = Iord(nrmax)
                   errmax = Elist(maxerr)
-                  IF ( DABS(Blist(maxerr)-Alist(maxerr))>small )        &
+                  IF ( abs(Blist(maxerr)-Alist(maxerr))>small )        &
                      & GOTO 100
                   nrmax = nrmax + 1
                ENDDO
@@ -1168,7 +1168,7 @@ module quadpack
                Abserr = abseps
                Result = reseps
                correc = erlarg
-               ertest = DMAX1(Epsabs,Epsrel*DABS(reseps))
+               ertest = DMAX1(Epsabs,Epsrel*abs(reseps))
                IF ( Abserr<=ertest ) GOTO 200
             ENDIF
 !
@@ -1195,17 +1195,17 @@ module quadpack
             IF ( Result==0.0D+00 .OR. area==0.0D+00 ) THEN
                IF ( Abserr>errsum ) GOTO 300
                IF ( area==0.0D+00 ) GOTO 400
-            ELSEIF ( Abserr/DABS(Result)>errsum/DABS(area) ) THEN
+            ELSEIF ( Abserr/abs(Result)>errsum/abs(area) ) THEN
                GOTO 300
             ENDIF
          ENDIF
 !
 !           test on divergence
 !
-         IF ( ksgn/=(-1) .OR. DMAX1(DABS(Result),DABS(area))            &
+         IF ( ksgn/=(-1) .OR. DMAX1(abs(Result),abs(area))            &
             & >defabs*0.1D-01 ) THEN
             IF ( 0.1D-01>(Result/area) .OR. (Result/area)>0.1D+03 .OR.  &
-               & errsum>DABS(area) ) Ier = 6
+               & errsum>abs(area) ) Ier = 6
          ENDIF
          GOTO 400
       ENDIF
@@ -1648,8 +1648,8 @@ module quadpack
 !***end prologue  dqagpe
       DOUBLE PRECISION A , abseps , Abserr , Alist , area , area1 ,     &
                      & area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
-                     & correc , DABS , defabs , defab1 , defab2 ,       &
-                     & DMAX1 , DMIN1 , dres , D1MACH , Elist , epmach , &
+                     & correc , abs , defabs , defab1 , defab2 ,       &
+                     & DMAX1 , DMIN1 , dres , Elist , epmach , &
                      & Epsabs , Epsrel , erlarg , erlast , errbnd ,     &
                      & errmax , error1 , erro12 , error2 , errsum ,     &
                      & ertest , F , oflow , Points , Pts , resa ,       &
@@ -1810,7 +1810,7 @@ module quadpack
 !
       Last = nint
       Neval = 21*nint
-      dres = DABS(Result)
+      dres = abs(Result)
       errbnd = DMAX1(Epsabs,Epsrel*dres)
       IF ( Abserr<=0.1D+03*epmach*resabs .AND. Abserr>errbnd ) Ier = 2
       IF ( nint/=1 ) THEN
@@ -1885,7 +1885,7 @@ module quadpack
          errsum = errsum + erro12 - errmax
          area = area + area12 - Rlist(maxerr)
          IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-            IF ( DABS(Rlist(maxerr)-area12)<=0.1D-04*DABS(area12) .AND. &
+            IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) .AND. &
                & erro12>=0.99D+00*errmax ) THEN
                IF ( extrap ) iroff2 = iroff2 + 1
                IF ( .NOT.extrap ) iroff1 = iroff1 + 1
@@ -1896,7 +1896,7 @@ module quadpack
          Level(Last) = levcur
          Rlist(maxerr) = area1
          Rlist(Last) = area2
-         errbnd = DMAX1(Epsabs,Epsrel*DABS(area))
+         errbnd = DMAX1(Epsabs,Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
@@ -1911,8 +1911,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range
 !
-         IF ( DMAX1(DABS(a1),DABS(b2))<=(0.1D+01+0.1D+03*epmach)        &
-            & *(DABS(a2)+0.1D+04*uflow) ) Ier = 4
+         IF ( DMAX1(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)        &
+            & *(abs(a2)+0.1D+04*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -1984,7 +1984,7 @@ module quadpack
                   Abserr = abseps
                   Result = reseps
                   correc = erlarg
-                  ertest = DMAX1(Epsabs,Epsrel*DABS(reseps))
+                  ertest = DMAX1(Epsabs,Epsrel*abs(reseps))
 ! ***jump out of do-loop
                   IF ( Abserr<ertest ) GOTO 200
                ENDIF
@@ -2014,17 +2014,17 @@ module quadpack
             IF ( Result==0.0D+00 .OR. area==0.0D+00 ) THEN
                IF ( Abserr>errsum ) GOTO 300
                IF ( area==0.0D+00 ) GOTO 400
-            ELSEIF ( Abserr/DABS(Result)>errsum/DABS(area) ) THEN
+            ELSEIF ( Abserr/abs(Result)>errsum/abs(area) ) THEN
                GOTO 300
             ENDIF
          ENDIF
 !
 !           test on divergence.
 !
-         IF ( ksgn/=(-1) .OR. DMAX1(DABS(Result),DABS(area))            &
+         IF ( ksgn/=(-1) .OR. DMAX1(abs(Result),abs(area))            &
             & >resabs*0.1D-01 ) THEN
             IF ( 0.1D-01>(Result/area) .OR. (Result/area)>0.1D+03 .OR.  &
-               & errsum>DABS(area) ) Ier = 6
+               & errsum>abs(area) ) Ier = 6
          ENDIF
          GOTO 400
       ENDIF
@@ -2385,8 +2385,8 @@ module quadpack
 !
       DOUBLE PRECISION A , abseps , Abserr , Alist , area , area1 ,     &
                      & area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
-                     & correc , DABS , defabs , defab1 , defab2 ,       &
-                     & D1MACH , DMAX1 , dres , Elist , epmach , Epsabs ,&
+                     & correc , abs , defabs , defab1 , defab2 ,       &
+                     & DMAX1 , dres , Elist , epmach , Epsabs ,&
                      & Epsrel , erlarg , erlast , errbnd , errmax ,     &
                      & error1 , error2 , erro12 , errsum , ertest , F , &
                      & oflow , resabs , reseps , Result , res3la ,      &
@@ -2482,7 +2482,7 @@ module quadpack
 !
 !           test on accuracy.
 !
-         dres = DABS(Result)
+         dres = abs(Result)
          errbnd = DMAX1(Epsabs,Epsrel*dres)
          Last = 1
          Rlist(1) = Result
@@ -2542,7 +2542,7 @@ module quadpack
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
                IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-                  IF ( DABS(Rlist(maxerr)-area12)<=0.1D-04*DABS(area12) &
+                  IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) &
                      & .AND. erro12>=0.99D+00*errmax ) THEN
                      IF ( extrap ) iroff2 = iroff2 + 1
                      IF ( .NOT.extrap ) iroff1 = iroff1 + 1
@@ -2551,7 +2551,7 @@ module quadpack
                ENDIF
                Rlist(maxerr) = area1
                Rlist(Last) = area2
-               errbnd = DMAX1(Epsabs,Epsrel*DABS(area))
+               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
@@ -2566,8 +2566,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-               IF ( DMAX1(DABS(a1),DABS(b2))<=(0.1D+01+0.1D+03*epmach)  &
-                  & *(DABS(a2)+0.1D+04*uflow) ) Ier = 4
+               IF ( DMAX1(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)  &
+                  & *(abs(a2)+0.1D+04*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -2597,19 +2597,19 @@ module quadpack
 ! ***jump out of do-loop
                IF ( Ier/=0 ) GOTO 40
                IF ( Last==2 ) THEN
-                  small = DABS(B-A)*0.375D+00
+                  small = abs(B-A)*0.375D+00
                   erlarg = errsum
                   ertest = errbnd
                   rlist2(2) = area
                ELSEIF ( .NOT.(noext) ) THEN
                   erlarg = erlarg - erlast
-                  IF ( DABS(b1-a1)>small ) erlarg = erlarg + erro12
+                  IF ( abs(b1-a1)>small ) erlarg = erlarg + erro12
                   IF ( .NOT.(extrap) ) THEN
 !
 !           test whether the interval to be bisected next is the
 !           smallest interval.
 !
-                     IF ( DABS(Blist(maxerr)-Alist(maxerr))>small )     &
+                     IF ( abs(Blist(maxerr)-Alist(maxerr))>small )     &
                         & GOTO 20
                      extrap = .TRUE.
                      nrmax = 2
@@ -2627,7 +2627,7 @@ module quadpack
                         maxerr = Iord(nrmax)
                         errmax = Elist(maxerr)
 ! ***jump out of do-loop
-                        IF ( DABS(Blist(maxerr)-Alist(maxerr))>small )  &
+                        IF ( abs(Blist(maxerr)-Alist(maxerr))>small )  &
                            & GOTO 20
                         nrmax = nrmax + 1
                      ENDDO
@@ -2645,7 +2645,7 @@ module quadpack
                      Abserr = abseps
                      Result = reseps
                      correc = erlarg
-                     ertest = DMAX1(Epsabs,Epsrel*DABS(reseps))
+                     ertest = DMAX1(Epsabs,Epsrel*abs(reseps))
 ! ***jump out of do-loop
                      IF ( Abserr<=ertest ) GOTO 40
                   ENDIF
@@ -2677,17 +2677,17 @@ module quadpack
                         Neval = 42*Last - 21
                         GOTO 99999
                      ENDIF
-                  ELSEIF ( Abserr/DABS(Result)>errsum/DABS(area) ) THEN
+                  ELSEIF ( Abserr/abs(Result)>errsum/abs(area) ) THEN
                      GOTO 50
                   ENDIF
                ENDIF
 !
 !           test on divergence.
 !
-               IF ( ksgn/=(-1) .OR. DMAX1(DABS(Result),DABS(area))      &
+               IF ( ksgn/=(-1) .OR. DMAX1(abs(Result),abs(area))      &
                   & >defabs*0.1D-01 ) THEN
                   IF ( 0.1D-01>(Result/area) .OR. (Result/area)         &
-                     & >0.1D+03 .OR. errsum>DABS(area) ) Ier = 6
+                     & >0.1D+03 .OR. errsum>abs(area) ) Ier = 6
                ENDIF
                IF ( Ier>2 ) Ier = Ier - 1
                Neval = 42*Last - 21
@@ -3032,7 +3032,7 @@ module quadpack
 !
       DOUBLE PRECISION A , aa , Abserr , Alist , area , area1 , area12 ,&
                      & area2 , a1 , a2 , B , bb , Blist , b1 , b2 , C , &
-                     & DABS , DMAX1 , D1MACH , Elist , epmach , Epsabs ,&
+                     & abs , DMAX1 , Elist , epmach , Epsabs ,&
                      & Epsrel , errbnd , errmax , error1 , erro12 ,     &
                      & error2 , errsum , F , Result , Rlist , uflow
       INTEGER Ier , Iord , iroff1 , iroff2 , k , krule , Last , Limit , &
@@ -3113,9 +3113,9 @@ module quadpack
 !
 !           test on accuracy
 !
-         errbnd = DMAX1(Epsabs,Epsrel*DABS(Result))
+         errbnd = DMAX1(Epsabs,Epsrel*abs(Result))
          IF ( Limit==1 ) Ier = 1
-         IF ( Abserr>=DMIN1(0.1D-01*DABS(Result),errbnd) .AND. Ier/=1 ) &
+         IF ( Abserr>=DMIN1(0.1D-01*abs(Result),errbnd) .AND. Ier/=1 ) &
             & THEN
 !
 !           initialization
@@ -3159,14 +3159,14 @@ module quadpack
                erro12 = error1 + error2
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
-               IF ( DABS(Rlist(maxerr)-area12)<0.1D-04*DABS(area12)     &
+               IF ( abs(Rlist(maxerr)-area12)<0.1D-04*abs(area12)     &
                   & .AND. erro12>=0.99D+00*errmax .AND. krule==0 )      &
                   & iroff1 = iroff1 + 1
                IF ( Last>10 .AND. erro12>errmax .AND. krule==0 )        &
                   & iroff2 = iroff2 + 1
                Rlist(maxerr) = area1
                Rlist(Last) = area2
-               errbnd = DMAX1(Epsabs,Epsrel*DABS(area))
+               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
                IF ( errsum>errbnd ) THEN
 !
 !           test for roundoff error and eventually set error flag.
@@ -3181,9 +3181,9 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-                  IF ( DMAX1(DABS(a1),DABS(b2))                         &
+                  IF ( DMAX1(abs(a1),abs(b2))                         &
                      & <=(0.1D+01+0.1D+03*epmach)                       &
-                     & *(DABS(a2)+0.1D+04*uflow) ) Ier = 3
+                     & *(abs(a2)+0.1D+04*uflow) ) Ier = 3
                ENDIF
 !
 !           append the newly-created intervals to the list.
@@ -3663,8 +3663,8 @@ module quadpack
 !***end prologue  dqawfe
 !
       DOUBLE PRECISION A , abseps , Abserr , Alist , Blist , Chebmo ,   &
-                     & correc , cycle , c1 , c2 , DABS , dl , dla ,     &
-                     & DMAX1 , drl , D1MACH , Elist , Erlst , ep , eps ,&
+                     & correc , cycle , c1 , c2 , abs , dl , dla ,     &
+                     & DMAX1 , drl , Elist , Erlst , ep , eps ,&
                      & epsa , Epsabs , errsum , F , fact , Omega , p ,  &
                      & pi , p1 , psum , reseps , Result , res3la ,      &
                      & Rlist , Rslst , uflow
@@ -3723,9 +3723,9 @@ module quadpack
 !           initializations
 !           ---------------
 !
-            l = DABS(Omega)
+            l = abs(Omega)
             dl = 2*l + 1
-            cycle = dl*pi/DABS(Omega)
+            cycle = dl*pi/abs(Omega)
             Ier = 0
             ktmin = 0
             Neval = 0
@@ -3759,7 +3759,7 @@ module quadpack
                Neval = Neval + nev
                fact = fact*p
                errsum = errsum + Erlst(Lst)
-               drl = 0.5D+02*DABS(Rslst(Lst))
+               drl = 0.5D+02*abs(Rslst(Lst))
 !
 !           test on accuracy with partial sum
 !
@@ -3819,7 +3819,7 @@ module quadpack
                IF ( Abserr>errsum ) GOTO 50
                IF ( psum(numrl2)==0.0D+00 ) GOTO 99999
             ENDIF
-            IF ( Abserr/DABS(Result)<=(errsum+drl)/DABS(psum(numrl2)) ) &
+            IF ( Abserr/abs(Result)<=(errsum+drl)/abs(psum(numrl2)) ) &
                & THEN
                IF ( Ier>=1 .AND. Ier/=7 ) Abserr = Abserr + drl
                GOTO 99999
@@ -4280,8 +4280,8 @@ module quadpack
 !
       DOUBLE PRECISION A , abseps , Abserr , Alist , area , area1 ,     &
                      & area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
-                     & Chebmo , correc , DABS , defab1 , defab2 ,       &
-                     & defabs , DMAX1 , domega , D1MACH , dres , Elist ,&
+                     & Chebmo , correc , abs , defab1 , defab2 ,       &
+                     & defabs , DMAX1 , domega , dres , Elist ,&
                      & epmach , Epsabs , Epsrel , erlarg , erlast ,     &
                      & errbnd , errmax , error1 , erro12 , error2 ,     &
                      & errsum , ertest , F , oflow , Omega , resabs ,   &
@@ -4375,7 +4375,7 @@ module quadpack
 !           first approximation to the integral
 !           -----------------------------------
 !
-         domega = DABS(Omega)
+         domega = abs(Omega)
          nrmom = 0
          IF ( Icall<=1 ) Momcom = 0
          CALL DQC25F(F,A,B,domega,Integr,nrmom,Maxp1,0,Result,Abserr,   &
@@ -4383,7 +4383,7 @@ module quadpack
 !
 !           test on accuracy.
 !
-         dres = DABS(Result)
+         dres = abs(Result)
          errbnd = DMAX1(Epsabs,Epsrel*dres)
          Rlist(1) = Result
          Elist(1) = Abserr
@@ -4414,16 +4414,16 @@ module quadpack
             iroff2 = 0
             iroff3 = 0
             ktmin = 0
-            small = DABS(B-A)*0.75D+00
+            small = abs(B-A)*0.75D+00
             nres = 0
             numrl2 = 0
             extall = .FALSE.
-            IF ( 0.5D+00*DABS(B-A)*domega<=0.2D+01 ) THEN
+            IF ( 0.5D+00*abs(B-A)*domega<=0.2D+01 ) THEN
                numrl2 = 1
                extall = .TRUE.
                rlist2(1) = Result
             ENDIF
-            IF ( 0.25D+00*DABS(B-A)*domega<=0.2D+01 ) extall = .TRUE.
+            IF ( 0.25D+00*abs(B-A)*domega<=0.2D+01 ) extall = .TRUE.
             ksgn = -1
             IF ( dres>=(0.1D+01-0.5D+02*epmach)*defabs ) ksgn = 1
 !
@@ -4456,7 +4456,7 @@ module quadpack
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
                IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-                  IF ( DABS(Rlist(maxerr)-area12)<=0.1D-04*DABS(area12) &
+                  IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) &
                      & .AND. erro12>=0.99D+00*errmax ) THEN
                      IF ( extrap ) iroff2 = iroff2 + 1
                      IF ( .NOT.extrap ) iroff1 = iroff1 + 1
@@ -4467,7 +4467,7 @@ module quadpack
                Rlist(Last) = area2
                Nnlog(maxerr) = nrmom
                Nnlog(Last) = nrmom
-               errbnd = DMAX1(Epsabs,Epsrel*DABS(area))
+               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
@@ -4482,8 +4482,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-               IF ( DMAX1(DABS(a1),DABS(b2))<=(0.1D+01+0.1D+03*epmach)  &
-                  & *(DABS(a2)+0.1D+04*uflow) ) Ier = 4
+               IF ( DMAX1(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)  &
+                  & *(abs(a2)+0.1D+04*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -4519,14 +4519,14 @@ module quadpack
                   IF ( noext ) GOTO 20
                   IF ( extall ) THEN
                      erlarg = erlarg - erlast
-                     IF ( DABS(b1-a1)>small ) erlarg = erlarg + erro12
+                     IF ( abs(b1-a1)>small ) erlarg = erlarg + erro12
                      IF ( extrap ) GOTO 5
                   ENDIF
 !
 !           test whether the interval to be bisected next is the
 !           smallest interval.
 !
-                  width = DABS(Blist(maxerr)-Alist(maxerr))
+                  width = abs(Blist(maxerr)-Alist(maxerr))
                   IF ( width>small ) GOTO 20
                   IF ( extall ) THEN
                      extrap = .TRUE.
@@ -4554,7 +4554,7 @@ module quadpack
                      DO k = id , jupbnd
                         maxerr = Iord(nrmax)
                         errmax = Elist(maxerr)
-                        IF ( DABS(Blist(maxerr)-Alist(maxerr))>small )  &
+                        IF ( abs(Blist(maxerr)-Alist(maxerr))>small )  &
                            & GOTO 20
                         nrmax = nrmax + 1
                      ENDDO
@@ -4573,7 +4573,7 @@ module quadpack
                         Abserr = abseps
                         Result = reseps
                         correc = erlarg
-                        ertest = DMAX1(Epsabs,Epsrel*DABS(reseps))
+                        ertest = DMAX1(Epsabs,Epsrel*abs(reseps))
 ! ***jump out of do-loop
                         IF ( Abserr<=ertest ) GOTO 40
                      ENDIF
@@ -4610,17 +4610,17 @@ module quadpack
                            & Result
                         GOTO 99999
                      ENDIF
-                  ELSEIF ( Abserr/DABS(Result)>errsum/DABS(area) ) THEN
+                  ELSEIF ( Abserr/abs(Result)>errsum/abs(area) ) THEN
                      GOTO 50
                   ENDIF
                ENDIF
 !
 !           test on divergence.
 !
-               IF ( ksgn/=(-1) .OR. DMAX1(DABS(Result),DABS(area))      &
+               IF ( ksgn/=(-1) .OR. DMAX1(abs(Result),abs(area))      &
                   & >defabs*0.1D-01 ) THEN
                   IF ( 0.1D-01>(Result/area) .OR. (Result/area)         &
-                     & >0.1D+03 .OR. errsum>=DABS(area) ) Ier = 6
+                     & >0.1D+03 .OR. errsum>=abs(area) ) Ier = 6
                ENDIF
                IF ( Ier>2 ) Ier = Ier - 1
                IF ( Integr==2 .AND. Omega<0.0D+00 ) Result = -Result
@@ -4805,7 +4805,7 @@ module quadpack
 !
       DOUBLE PRECISION A , Abserr , Alfa , Alist , area , area1 ,       &
                      & area12 , area2 , a1 , a2 , B , Beta , Blist ,    &
-                     & b1 , b2 , centre , DABS , DMAX1 , D1MACH ,       &
+                     & b1 , b2 , centre , abs , DMAX1 ,       &
                      & Elist , epmach , Epsabs , Epsrel , errbnd ,      &
                      & errmax , error1 , erro12 , error2 , errsum , F , &
                      & resas1 , resas2 , Result , rg , rh , ri , rj ,   &
@@ -4886,7 +4886,7 @@ module quadpack
 !
 !           test on accuracy.
 !
-         errbnd = DMAX1(Epsabs,Epsrel*DABS(Result))
+         errbnd = DMAX1(Epsabs,Epsrel*abs(Result))
 !
 !           initialization
 !           --------------
@@ -4953,8 +4953,8 @@ module quadpack
 !
 !           test for roundoff error.
 !
-                     IF ( DABS(Rlist(maxerr)-area12)                    &
-                        & <0.1D-04*DABS(area12) .AND.                   &
+                     IF ( abs(Rlist(maxerr)-area12)                    &
+                        & <0.1D-04*abs(area12) .AND.                   &
                         & erro12>=0.99D+00*errmax ) iroff1 = iroff1 + 1
                      IF ( Last>10 .AND. erro12>errmax )                 &
                         & iroff2 = iroff2 + 1
@@ -4965,7 +4965,7 @@ module quadpack
 !
 !           test on accuracy.
 !
-               errbnd = DMAX1(Epsabs,Epsrel*DABS(area))
+               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
                IF ( errsum>errbnd ) THEN
 !
 !           set error flag in the case that the number of interval
@@ -4981,9 +4981,9 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at interior points of integration range.
 !
-                  IF ( DMAX1(DABS(a1),DABS(b2))                         &
+                  IF ( DMAX1(abs(a1),abs(b2))                         &
                      & <=(0.1D+01+0.1D+03*epmach)                       &
-                     & *(DABS(a2)+0.1D+04*uflow) ) Ier = 3
+                     & *(abs(a2)+0.1D+04*uflow) ) Ier = 3
                ENDIF
 !
 !           append the newly-created intervals to the list.
@@ -5084,7 +5084,7 @@ module quadpack
 !***end prologue  dqc25c
 !
       DOUBLE PRECISION A , Abserr , ak22 , amom0 , amom1 , amom2 , B ,  &
-                     & C , cc , centr , cheb12 , cheb24 , DABS , DLOG , &
+                     & C , cc , centr , cheb12 , cheb24 , abs , DLOG , &
                      & F , fval , hlgth , p2 , p3 , p4 ,       &
                      & resabs , resasc , Result , res12 , res24 , u , x
       INTEGER i , isym , k , kp , Krul , Neval
@@ -5131,7 +5131,7 @@ module quadpack
 !
 !***first executable statement  dqc25c
       cc = (0.2D+01*C-B-A)/(B-A)
-      IF ( DABS(cc)<0.11D+01 ) THEN
+      IF ( abs(cc)<0.11D+01 ) THEN
 !
 !           use the generalized clenshaw-curtis method.
 !
@@ -5155,7 +5155,7 @@ module quadpack
 !           the modified chebyshev moments are computed by forward
 !           recursion, using amom0 and amom1 as starting values.
 !
-         amom0 = DLOG(DABS((0.1D+01-cc)/(0.1D+01+cc)))
+         amom0 = DLOG(abs((0.1D+01-cc)/(0.1D+01+cc)))
          amom1 = 0.2D+01 + cc*amom0
          res12 = cheb12(1)*amom0 + cheb12(2)*amom1
          res24 = cheb24(1)*amom0 + cheb24(2)*amom1
@@ -5177,7 +5177,7 @@ module quadpack
             amom1 = amom2
          ENDDO
          Result = res24
-         Abserr = DABS(res24-res12)
+         Abserr = abs(res24-res12)
       ELSE
 !
 !           apply the 15-point gauss-kronrod scheme.
@@ -5291,8 +5291,8 @@ module quadpack
 !
       DOUBLE PRECISION A , Abserr , ac , an , an2 , as , asap , ass ,   &
                      & B , centr , Chebmo , cheb12 , cheb24 , conc ,    &
-                     & cons , cospar , d , DABS , DCOS , DSIN ,&
-                     & d1 , D1MACH , d2 , estc , ests , F , fval ,      &
+                     & cons , cospar , d , abs , DCOS , DSIN ,&
+                     & d1 , d2 , estc , ests , F , fval ,      &
                      & hlgth , oflow , Omega , parint , par2 , par22 ,  &
                      & p2 , p3 , p4 , Resabs , Resasc , resc12 ,        &
                      & resc24 , ress12 , ress24 , Result , sinpar , v , &
@@ -5359,7 +5359,7 @@ module quadpack
 !           formula if the value of the parameter in the integrand
 !           is small.
 !
-      IF ( DABS(parint)>0.2D+01 ) THEN
+      IF ( abs(parint)>0.2D+01 ) THEN
 !
 !           compute the integral using the generalized clenshaw-
 !           curtis method.
@@ -5391,7 +5391,7 @@ module quadpack
                  & 0.80D+02)*par2+0.192D+03)*sinpar)/parint)/(par2*par2)
             ac = 0.8D+01*cospar
             as = 0.24D+02*parint*sinpar
-            IF ( DABS(parint)>0.24D+02 ) THEN
+            IF ( abs(parint)>0.24D+02 ) THEN
 !
 !           compute the chebyshev moments by means of forward
 !           recursion.
@@ -5452,7 +5452,7 @@ module quadpack
                  & (-0.2D+01+0.48D+02/par2)*cospar/parint
             ac = -0.24D+02*parint*cospar
             as = -0.8D+01*sinpar
-            IF ( DABS(parint)>0.24D+02 ) THEN
+            IF ( abs(parint)>0.24D+02 ) THEN
 !
 !           compute the chebyshev moments by means of forward recursion.
 !
@@ -5531,23 +5531,23 @@ module quadpack
          ENDDO
          resc24 = cheb24(25)*Chebmo(m,25)
          ress24 = 0.0D+00
-         Resabs = DABS(cheb24(25))
+         Resabs = abs(cheb24(25))
          k = 23
          DO j = 1 , 12
             resc24 = resc24 + cheb24(k)*Chebmo(m,k)
             ress24 = ress24 + cheb24(k+1)*Chebmo(m,k+1)
-            Resabs = Resabs + DABS(cheb24(k)) + DABS(cheb24(k+1))
+            Resabs = Resabs + abs(cheb24(k)) + abs(cheb24(k+1))
             k = k - 2
          ENDDO
-         estc = DABS(resc24-resc12)
-         ests = DABS(ress24-ress12)
-         Resabs = Resabs*DABS(hlgth)
+         estc = abs(resc24-resc12)
+         ests = abs(ress24-ress12)
+         Resabs = Resabs*abs(hlgth)
          IF ( Integr==2 ) THEN
             Result = conc*ress24 + cons*resc24
-            Abserr = DABS(conc*ests) + DABS(cons*estc)
+            Abserr = abs(conc*ests) + abs(cons*estc)
          ELSE
             Result = conc*resc24 - cons*ress24
-            Abserr = DABS(conc*estc) + DABS(cons*ests)
+            Abserr = abs(conc*estc) + abs(cons*ests)
          ENDIF
       ELSE
          CALL DQK15W(F,DQWGTF,Omega,p2,p3,p4,Integr,A,B,Result,Abserr,  &
@@ -5637,7 +5637,7 @@ module quadpack
 !***end prologue  dqc25s
 !
       DOUBLE PRECISION A , Abserr , Alfa , B , Beta , Bl , Br , centr , &
-                     & cheb12 , cheb24 , DABS , dc , DLOG , F , factor ,&
+                     & cheb12 , cheb24 , abs , dc , DLOG , F , factor ,&
                      & fix , fval , hlgth , resabs , Resasc , Result ,  &
                      & res12 , res24 , Rg , Rh , Ri , Rj , u , &
                      & x
@@ -5745,7 +5745,7 @@ module quadpack
 !
                dc = DLOG(Br-Bl)
                Result = res24*dc
-               Abserr = DABS((res24-res12)*dc)
+               Abserr = abs((res24-res12)*dc)
                res12 = 0.0D+00
                res24 = 0.0D+00
                DO i = 1 , 13
@@ -5774,7 +5774,7 @@ module quadpack
 !
                dc = DLOG(Br-Bl)
                Result = res24*dc
-               Abserr = DABS((res24-res12)*dc)
+               Abserr = abs((res24-res12)*dc)
                res12 = 0.0D+00
                res24 = 0.0D+00
                DO i = 1 , 13
@@ -5787,7 +5787,7 @@ module quadpack
             ENDIF
          ENDIF
          Result = (Result+res24)*factor
-         Abserr = (Abserr+DABS(res24-res12))*factor
+         Abserr = (Abserr+abs(res24-res12))*factor
       ELSEIF ( Br==B .AND. (Beta/=0.0D+00 .OR. Integr==3 .OR. Integr==4)&
              & ) THEN
 !
@@ -5845,7 +5845,7 @@ module quadpack
             IF ( Integr/=2 ) THEN
                dc = DLOG(Br-Bl)
                Result = res24*dc
-               Abserr = DABS((res24-res12)*dc)
+               Abserr = abs((res24-res12)*dc)
                res12 = 0.0D+00
                res24 = 0.0D+00
 !
@@ -5877,7 +5877,7 @@ module quadpack
 !
                dc = DLOG(Br-Bl)
                Result = res24*dc
-               Abserr = DABS((res24-res12)*dc)
+               Abserr = abs((res24-res12)*dc)
                res12 = 0.0D+00
                res24 = 0.0D+00
                DO i = 1 , 13
@@ -5890,7 +5890,7 @@ module quadpack
             ENDIF
          ENDIF
          Result = (Result+res24)*factor
-         Abserr = (Abserr+DABS(res24-res12))*factor
+         Abserr = (Abserr+abs(res24-res12))*factor
       ELSE
 !
 !           if a>bl and b<br, apply the 15-point gauss-kronrod
@@ -6105,8 +6105,8 @@ module quadpack
 !
 !***end prologue  dqelg
 !
-      DOUBLE PRECISION Abserr , DABS , delta1 , delta2 , delta3 ,       &
-                     & DMAX1 , D1MACH , epmach , epsinf , Epstab ,      &
+      DOUBLE PRECISION Abserr , abs , delta1 , delta2 , delta3 ,       &
+                     & DMAX1 , epmach , epsinf , Epstab ,      &
                      & error , err1 , err2 , err3 , e0 , e1 , e1abs ,   &
                      & e2 , e3 , oflow , res , Result , Res3la , ss ,   &
                      & tol1 , tol2 , tol3
@@ -6158,26 +6158,26 @@ module quadpack
             e0 = Epstab(k3)
             e1 = Epstab(k2)
             e2 = res
-            e1abs = DABS(e1)
+            e1abs = abs(e1)
             delta2 = e2 - e1
-            err2 = DABS(delta2)
-            tol2 = DMAX1(DABS(e2),e1abs)*epmach
+            err2 = abs(delta2)
+            tol2 = DMAX1(abs(e2),e1abs)*epmach
             delta3 = e1 - e0
-            err3 = DABS(delta3)
-            tol3 = DMAX1(e1abs,DABS(e0))*epmach
+            err3 = abs(delta3)
+            tol3 = DMAX1(e1abs,abs(e0))*epmach
             IF ( err2>tol2 .OR. err3>tol3 ) THEN
                e3 = Epstab(k1)
                Epstab(k1) = e1
                delta1 = e1 - e3
-               err1 = DABS(delta1)
-               tol1 = DMAX1(e1abs,DABS(e3))*epmach
+               err1 = abs(delta1)
+               tol1 = DMAX1(e1abs,abs(e3))*epmach
 !
 !           if two elements are very close to each other, omit
 !           a part of the table by adjusting the value of n
 !
                IF ( err1>tol1 .AND. err2>tol2 .AND. err3>tol3 ) THEN
                   ss = 0.1D+01/delta1 + 0.1D+01/delta2 - 0.1D+01/delta3
-                  epsinf = DABS(ss*e1)
+                  epsinf = abs(ss*e1)
 !
 !           test to detect irregular behaviour in the table, and
 !           eventually omit a part of the table adjusting the value
@@ -6191,7 +6191,7 @@ module quadpack
                      res = e1 + 0.1D+01/ss
                      Epstab(k1) = res
                      k1 = k1 - 2
-                     error = err2 + DABS(res-e2) + err3
+                     error = err2 + abs(res-e2) + err3
                      IF ( error<=Abserr ) THEN
                         Abserr = error
                         Result = res
@@ -6238,8 +6238,8 @@ module quadpack
 !
 !           compute error estimate
 !
-            Abserr = DABS(Result-Res3la(3)) + DABS(Result-Res3la(2))    &
-                   & + DABS(Result-Res3la(1))
+            Abserr = abs(Result-Res3la(3)) + abs(Result-Res3la(2))    &
+                   & + abs(Result-Res3la(1))
             Res3la(1) = Res3la(2)
             Res3la(2) = Res3la(3)
             Res3la(3) = Result
@@ -6248,7 +6248,7 @@ module quadpack
             Abserr = oflow
          ENDIF
       ENDIF
- 200  Abserr = DMAX1(Abserr,0.5D+01*epmach*DABS(Result))
+ 200  Abserr = DMAX1(Abserr,0.5D+01*epmach*abs(Result))
       END
 !*==DQK15.spg  processed by SPAG 6.72Dc at 04:31 on  7 Dec 2021
       SUBROUTINE DQK15(F,A,B,Result,Abserr,Resabs,Resasc)
@@ -6305,8 +6305,8 @@ module quadpack
 !***routines called  d1mach
 !***end prologue  dqk15
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , DABS , dhlgth ,  &
-                     & DMAX1 , DMIN1 , D1MACH , epmach , F , fc , fsum ,&
+      DOUBLE PRECISION A , absc , Abserr , B , centr , abs , dhlgth ,  &
+                     & DMAX1 , DMIN1 , epmach , F , fc , fsum ,&
                      & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
                      & Resasc , resg , resk , reskh , Result , uflow ,  &
                      & wg , wgk , xgk
@@ -6382,7 +6382,7 @@ module quadpack
 !
       centr = 0.5D+00*(A+B)
       hlgth = 0.5D+00*(B-A)
-      dhlgth = DABS(hlgth)
+      dhlgth = abs(hlgth)
 !
 !           compute the 15-point kronrod approximation to
 !           the integral, and estimate the absolute error.
@@ -6390,7 +6390,7 @@ module quadpack
       fc = F(centr)
       resg = fc*wg(4)
       resk = fc*wgk(8)
-      Resabs = DABS(resk)
+      Resabs = abs(resk)
       DO j = 1 , 3
          jtw = j*2
          absc = hlgth*xgk(jtw)
@@ -6401,7 +6401,7 @@ module quadpack
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
       ENDDO
       DO j = 1 , 4
          jtwm1 = j*2 - 1
@@ -6412,18 +6412,18 @@ module quadpack
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
       reskh = resk*0.5D+00
-      Resasc = wgk(8)*DABS(fc-reskh)
+      Resasc = wgk(8)*abs(fc-reskh)
       DO j = 1 , 7
          Resasc = Resasc + wgk(j)                                       &
-                & *(DABS(fv1(j)-reskh)+DABS(fv2(j)-reskh))
+                & *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
       ENDDO
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = DABS((resk-resg)*hlgth)
+      Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 )                      &
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
@@ -6505,7 +6505,7 @@ module quadpack
 !***end prologue  dqk15i
 !
       DOUBLE PRECISION A , absc , absc1 , absc2 , Abserr , B , Boun ,   &
-                     & centr , DABS , dinf , DMAX1 , DMIN1 , D1MACH ,   &
+                     & centr , abs , dinf , DMAX1 , DMIN1 ,   &
                      & epmach , F , fc , fsum , fval1 , fval2 , fv1 ,   &
                      & fv2 , hlgth , Resabs , Resasc , resg , resk ,    &
                      & reskh , Result , tabsc1 , tabsc2 , uflow , wg ,  &
@@ -6595,7 +6595,7 @@ module quadpack
 !
       resg = wg(8)*fc
       resk = wgk(8)*fc
-      Resabs = DABS(resk)
+      Resabs = abs(resk)
       DO j = 1 , 7
          absc = hlgth*xgk(j)
          absc1 = centr - absc
@@ -6613,18 +6613,18 @@ module quadpack
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(j)*fsum
-         Resabs = Resabs + wgk(j)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(j)*(abs(fval1)+abs(fval2))
       ENDDO
       reskh = resk*0.5D+00
-      Resasc = wgk(8)*DABS(fc-reskh)
+      Resasc = wgk(8)*abs(fc-reskh)
       DO j = 1 , 7
          Resasc = Resasc + wgk(j)                                       &
-                & *(DABS(fv1(j)-reskh)+DABS(fv2(j)-reskh))
+                & *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
       ENDDO
       Result = resk*hlgth
       Resasc = Resasc*hlgth
       Resabs = Resabs*hlgth
-      Abserr = DABS((resk-resg)*hlgth)
+      Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0D+00 .AND. Abserr/=0.D0 )                         &
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
@@ -6700,7 +6700,7 @@ module quadpack
 !***end prologue  dqk15w
 !
       DOUBLE PRECISION A , absc , absc1 , absc2 , Abserr , B , centr ,  &
-                     & DABS , dhlgth , DMAX1 , DMIN1 , D1MACH , epmach ,&
+                     & abs , dhlgth , DMAX1 , DMIN1 , epmach ,&
                      & F , fc , fsum , fval1 , fval2 , fv1 , fv2 ,      &
                      & hlgth , P1 , P2 , P3 , P4 , Resabs , Resasc ,    &
                      & resg , resk , reskh , Result , uflow , W , wg ,  &
@@ -6765,7 +6765,7 @@ module quadpack
 !
       centr = 0.5D+00*(A+B)
       hlgth = 0.5D+00*(B-A)
-      dhlgth = DABS(hlgth)
+      dhlgth = abs(hlgth)
 !
 !           compute the 15-point kronrod approximation to the
 !           integral, and estimate the error.
@@ -6773,7 +6773,7 @@ module quadpack
       fc = F(centr)*W(centr,P1,P2,P3,P4,Kp)
       resg = wg(4)*fc
       resk = wgk(8)*fc
-      Resabs = DABS(resk)
+      Resabs = abs(resk)
       DO j = 1 , 3
          jtw = j*2
          absc = hlgth*xgk(jtw)
@@ -6786,7 +6786,7 @@ module quadpack
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
       ENDDO
       DO j = 1 , 4
          jtwm1 = j*2 - 1
@@ -6799,18 +6799,18 @@ module quadpack
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
       reskh = resk*0.5D+00
-      Resasc = wgk(8)*DABS(fc-reskh)
+      Resasc = wgk(8)*abs(fc-reskh)
       DO j = 1 , 7
          Resasc = Resasc + wgk(j)                                       &
-                & *(DABS(fv1(j)-reskh)+DABS(fv2(j)-reskh))
+                & *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
       ENDDO
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = DABS((resk-resg)*hlgth)
+      Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 )                      &
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
@@ -6872,8 +6872,8 @@ module quadpack
 !***routines called  d1mach
 !***end prologue  dqk21
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , DABS , dhlgth ,  &
-                     & DMAX1 , DMIN1 , D1MACH , epmach , F , fc , fsum ,&
+      DOUBLE PRECISION A , absc , Abserr , B , centr , abs , dhlgth ,  &
+                     & DMAX1 , DMIN1 , epmach , F , fc , fsum ,&
                      & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
                      & Resasc , resg , resk , reskh , Result , uflow ,  &
                      & wg , wgk , xgk
@@ -6957,7 +6957,7 @@ module quadpack
 !
       centr = 0.5D+00*(A+B)
       hlgth = 0.5D+00*(B-A)
-      dhlgth = DABS(hlgth)
+      dhlgth = abs(hlgth)
 !
 !           compute the 21-point kronrod approximation to
 !           the integral, and estimate the absolute error.
@@ -6965,7 +6965,7 @@ module quadpack
       resg = 0.0D+00
       fc = F(centr)
       resk = wgk(11)*fc
-      Resabs = DABS(resk)
+      Resabs = abs(resk)
       DO j = 1 , 5
          jtw = 2*j
          absc = hlgth*xgk(jtw)
@@ -6976,7 +6976,7 @@ module quadpack
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
       ENDDO
       DO j = 1 , 5
          jtwm1 = 2*j - 1
@@ -6987,18 +6987,18 @@ module quadpack
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
       reskh = resk*0.5D+00
-      Resasc = wgk(11)*DABS(fc-reskh)
+      Resasc = wgk(11)*abs(fc-reskh)
       DO j = 1 , 10
          Resasc = Resasc + wgk(j)                                       &
-                & *(DABS(fv1(j)-reskh)+DABS(fv2(j)-reskh))
+                & *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
       ENDDO
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = DABS((resk-resg)*hlgth)
+      Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 )                      &
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
@@ -7060,8 +7060,8 @@ module quadpack
 !***references  (none)
 !***routines called  d1mach
 !***end prologue  dqk31
-      DOUBLE PRECISION A , absc , Abserr , B , centr , DABS , dhlgth ,  &
-                     & DMAX1 , DMIN1 , D1MACH , epmach , F , fc , fsum ,&
+      DOUBLE PRECISION A , absc , Abserr , B , centr , abs , dhlgth ,  &
+                     & DMAX1 , DMIN1 , epmach , F , fc , fsum ,&
                      & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
                      & Resasc , resg , resk , reskh , Result , uflow ,  &
                      & wg , wgk , xgk
@@ -7154,7 +7154,7 @@ module quadpack
 !
       centr = 0.5D+00*(A+B)
       hlgth = 0.5D+00*(B-A)
-      dhlgth = DABS(hlgth)
+      dhlgth = abs(hlgth)
 !
 !           compute the 31-point kronrod approximation to
 !           the integral, and estimate the absolute error.
@@ -7162,7 +7162,7 @@ module quadpack
       fc = F(centr)
       resg = wg(8)*fc
       resk = wgk(16)*fc
-      Resabs = DABS(resk)
+      Resabs = abs(resk)
       DO j = 1 , 7
          jtw = j*2
          absc = hlgth*xgk(jtw)
@@ -7173,7 +7173,7 @@ module quadpack
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
       ENDDO
       DO j = 1 , 8
          jtwm1 = j*2 - 1
@@ -7184,18 +7184,18 @@ module quadpack
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
       reskh = resk*0.5D+00
-      Resasc = wgk(16)*DABS(fc-reskh)
+      Resasc = wgk(16)*abs(fc-reskh)
       DO j = 1 , 15
          Resasc = Resasc + wgk(j)                                       &
-                & *(DABS(fv1(j)-reskh)+DABS(fv2(j)-reskh))
+                & *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
       ENDDO
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = DABS((resk-resg)*hlgth)
+      Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 )                      &
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
@@ -7258,8 +7258,8 @@ module quadpack
 !***routines called  d1mach
 !***end prologue  dqk41
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , DABS , dhlgth ,  &
-                     & DMAX1 , DMIN1 , D1MACH , epmach , F , fc , fsum ,&
+      DOUBLE PRECISION A , absc , Abserr , B , centr , abs , dhlgth ,  &
+                     & DMAX1 , DMIN1 , epmach , F , fc , fsum ,&
                      & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
                      & Resasc , resg , resk , reskh , Result , uflow ,  &
                      & wg , wgk , xgk
@@ -7367,7 +7367,7 @@ module quadpack
 !
       centr = 0.5D+00*(A+B)
       hlgth = 0.5D+00*(B-A)
-      dhlgth = DABS(hlgth)
+      dhlgth = abs(hlgth)
 !
 !           compute the 41-point gauss-kronrod approximation to
 !           the integral, and estimate the absolute error.
@@ -7375,7 +7375,7 @@ module quadpack
       resg = 0.0D+00
       fc = F(centr)
       resk = wgk(21)*fc
-      Resabs = DABS(resk)
+      Resabs = abs(resk)
       DO j = 1 , 10
          jtw = j*2
          absc = hlgth*xgk(jtw)
@@ -7386,7 +7386,7 @@ module quadpack
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
       ENDDO
       DO j = 1 , 10
          jtwm1 = j*2 - 1
@@ -7397,18 +7397,18 @@ module quadpack
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
       reskh = resk*0.5D+00
-      Resasc = wgk(21)*DABS(fc-reskh)
+      Resasc = wgk(21)*abs(fc-reskh)
       DO j = 1 , 20
          Resasc = Resasc + wgk(j)                                       &
-                & *(DABS(fv1(j)-reskh)+DABS(fv2(j)-reskh))
+                & *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
       ENDDO
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = DABS((resk-resg)*hlgth)
+      Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0D+00 .AND. Abserr/=0.D+00 )                       &
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
@@ -7470,8 +7470,8 @@ module quadpack
 !***routines called  d1mach
 !***end prologue  dqk51
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , DABS , dhlgth ,  &
-                     & DMAX1 , DMIN1 , D1MACH , epmach , F , fc , fsum ,&
+      DOUBLE PRECISION A , absc , Abserr , B , centr , abs , dhlgth ,  &
+                     & DMAX1 , DMIN1 , epmach , F , fc , fsum ,&
                      & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
                      & Resasc , resg , resk , reskh , Result , uflow ,  &
                      & wg , wgk , xgk
@@ -7593,7 +7593,7 @@ module quadpack
 !
       centr = 0.5D+00*(A+B)
       hlgth = 0.5D+00*(B-A)
-      dhlgth = DABS(hlgth)
+      dhlgth = abs(hlgth)
 !
 !           compute the 51-point kronrod approximation to
 !           the integral, and estimate the absolute error.
@@ -7601,7 +7601,7 @@ module quadpack
       fc = F(centr)
       resg = wg(13)*fc
       resk = wgk(26)*fc
-      Resabs = DABS(resk)
+      Resabs = abs(resk)
       DO j = 1 , 12
          jtw = j*2
          absc = hlgth*xgk(jtw)
@@ -7612,7 +7612,7 @@ module quadpack
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
       ENDDO
       DO j = 1 , 13
          jtwm1 = j*2 - 1
@@ -7623,18 +7623,18 @@ module quadpack
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
       reskh = resk*0.5D+00
-      Resasc = wgk(26)*DABS(fc-reskh)
+      Resasc = wgk(26)*abs(fc-reskh)
       DO j = 1 , 25
          Resasc = Resasc + wgk(j)                                       &
-                & *(DABS(fv1(j)-reskh)+DABS(fv2(j)-reskh))
+                & *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
       ENDDO
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = DABS((resk-resg)*hlgth)
+      Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 )                      &
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
@@ -7654,7 +7654,7 @@ module quadpack
 !           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  to compute i = integral of f over (a,b) with error
 !                           estimate
-!                       j = integral of dabs(f) over (a,b)
+!                       j = integral of abs(f) over (a,b)
 !***description
 !
 !        integration rule
@@ -7684,21 +7684,21 @@ module quadpack
 !
 !           abserr - double precision
 !                    estimate of the modulus of the absolute error,
-!                    which should equal or exceed dabs(i-result)
+!                    which should equal or exceed abs(i-result)
 !
 !           resabs - double precision
 !                    approximation to the integral j
 !
 !           resasc - double precision
-!                    approximation to the integral of dabs(f-i/(b-a))
+!                    approximation to the integral of abs(f-i/(b-a))
 !
 !
 !***references  (none)
 !***routines called  d1mach
 !***end prologue  dqk61
 !
-      DOUBLE PRECISION A , dabsc , Abserr , B , centr , DABS , dhlgth , &
-                     & DMAX1 , DMIN1 , D1MACH , epmach , F , fc , fsum ,&
+      DOUBLE PRECISION A , dabsc , Abserr , B , centr , abs , dhlgth , &
+                     & DMAX1 , DMIN1 , epmach , F , fc , fsum ,&
                      & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
                      & Resasc , resg , resk , reskh , Result , uflow ,  &
                      & wg , wgk , xgk
@@ -7829,7 +7829,7 @@ module quadpack
 !
       centr = 0.5D+00*(B+A)
       hlgth = 0.5D+00*(B-A)
-      dhlgth = DABS(hlgth)
+      dhlgth = abs(hlgth)
 !
 !           compute the 61-point kronrod approximation to the
 !           integral, and estimate the absolute error.
@@ -7838,7 +7838,7 @@ module quadpack
       resg = 0.0D+00
       fc = F(centr)
       resk = wgk(31)*fc
-      Resabs = DABS(resk)
+      Resabs = abs(resk)
       DO j = 1 , 15
          jtw = j*2
          dabsc = hlgth*xgk(jtw)
@@ -7849,7 +7849,7 @@ module quadpack
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
       ENDDO
       DO j = 1 , 15
          jtwm1 = j*2 - 1
@@ -7860,18 +7860,18 @@ module quadpack
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(DABS(fval1)+DABS(fval2))
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
       reskh = resk*0.5D+00
-      Resasc = wgk(31)*DABS(fc-reskh)
+      Resasc = wgk(31)*abs(fc-reskh)
       DO j = 1 , 30
          Resasc = Resasc + wgk(j)                                       &
-                & *(DABS(fv1(j)-reskh)+DABS(fv2(j)-reskh))
+                & *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
       ENDDO
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = DABS((resk-resg)*hlgth)
+      Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 )                      &
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
@@ -8089,8 +8089,8 @@ module quadpack
 !***routines called  d1mach,xerror
 !***end prologue  dqng
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , DABS , dhlgth ,  &
-                     & DMAX1 , DMIN1 , D1MACH , epmach , Epsabs ,       &
+      DOUBLE PRECISION A , absc , Abserr , B , centr , abs , dhlgth ,  &
+                     & DMAX1 , DMIN1 , epmach , Epsabs ,       &
                      & Epsrel , F , fcentr , fval , fval1 , fval2 ,     &
                      & fv1 , fv2 , fv3 , fv4 , hlgth , Result , res10 , &
                      & res21 , res43 , res87 , resabs , resasc , reskh ,&
@@ -8291,7 +8291,7 @@ module quadpack
       IF ( Epsabs>0.0D+00 .OR. Epsrel>=DMAX1(0.5D+02*epmach,0.5D-28) )  &
          & THEN
          hlgth = 0.5D+00*(B-A)
-         dhlgth = DABS(hlgth)
+         dhlgth = abs(hlgth)
          centr = 0.5D+00*(B+A)
          fcentr = F(centr)
          Neval = 21
@@ -8321,7 +8321,7 @@ module quadpack
 !          test for convergence.
 !
                Result = res43*hlgth
-               Abserr = DABS((res43-res21)*hlgth)
+               Abserr = abs((res43-res21)*hlgth)
             CASE (3)
 !
 !          compute the integral using the 87-point formula.
@@ -8336,11 +8336,11 @@ module quadpack
                   res87 = res87 + w87b(k)*(F(absc+centr)+F(centr-absc))
                ENDDO
                Result = res87*hlgth
-               Abserr = DABS((res87-res43)*hlgth)
+               Abserr = abs((res87-res43)*hlgth)
             CASE DEFAULT
                res10 = 0.0D+00
                res21 = w21b(6)*fcentr
-               resabs = w21b(6)*DABS(fcentr)
+               resabs = w21b(6)*abs(fcentr)
                DO k = 1 , 5
                   absc = hlgth*x1(k)
                   fval1 = F(centr+absc)
@@ -8348,7 +8348,7 @@ module quadpack
                   fval = fval1 + fval2
                   res10 = res10 + w10(k)*fval
                   res21 = res21 + w21a(k)*fval
-                  resabs = resabs + w21a(k)*(DABS(fval1)+DABS(fval2))
+                  resabs = resabs + w21a(k)*(abs(fval1)+abs(fval2))
                   savfun(k) = fval
                   fv1(k) = fval1
                   fv2(k) = fval2
@@ -8361,7 +8361,7 @@ module quadpack
                   fval2 = F(centr-absc)
                   fval = fval1 + fval2
                   res21 = res21 + w21b(k)*fval
-                  resabs = resabs + w21b(k)*(DABS(fval1)+DABS(fval2))
+                  resabs = resabs + w21b(k)*(abs(fval1)+abs(fval2))
                   savfun(ipx) = fval
                   fv3(k) = fval1
                   fv4(k) = fval2
@@ -8372,14 +8372,14 @@ module quadpack
                Result = res21*hlgth
                resabs = resabs*dhlgth
                reskh = 0.5D+00*res21
-               resasc = w21b(6)*DABS(fcentr-reskh)
+               resasc = w21b(6)*abs(fcentr-reskh)
                DO k = 1 , 5
                   resasc = resasc + w21a(k)                             &
-                         & *(DABS(fv1(k)-reskh)+DABS(fv2(k)-reskh))     &
+                         & *(abs(fv1(k)-reskh)+abs(fv2(k)-reskh))     &
                          & + w21b(k)                                    &
-                         & *(DABS(fv3(k)-reskh)+DABS(fv4(k)-reskh))
+                         & *(abs(fv3(k)-reskh)+abs(fv4(k)-reskh))
                ENDDO
-               Abserr = DABS((res21-res10)*hlgth)
+               Abserr = abs((res21-res10)*hlgth)
                resasc = resasc*dhlgth
             END SELECT
             IF ( resasc/=0.0D+00 .AND. Abserr/=0.0D+00 )                &
@@ -8387,7 +8387,7 @@ module quadpack
                & **1.5D+00)
             IF ( resabs>uflow/(0.5D+02*epmach) )                        &
                & Abserr = DMAX1((epmach*0.5D+02)*resabs,Abserr)
-            IF ( Abserr<=DMAX1(Epsabs,Epsrel*DABS(Result)) ) Ier = 0
+            IF ( Abserr<=DMAX1(Epsabs,Epsrel*abs(Result)) ) Ier = 0
 ! ***jump out of do-loop
             IF ( Ier==0 ) GOTO 99999
          ENDDO
@@ -8603,5 +8603,209 @@ module quadpack
          DQWGTS = DQWGTS*DLOG(xma)
       END SELECT
       END
+
+   !===================================================================
+   ! additional routines
+   !===================================================================
+
+   !********************************************************************************
+   !>
+   !     dgtsl given a general tridiagonal matrix and a right hand
+   !     side will find the solution.
+   !
+   !     on entry
+   !
+   !        n       integer
+   !                is the order of the tridiagonal matrix.
+   !
+   !        c       double precision(n)
+   !                is the subdiagonal of the tridiagonal matrix.
+   !                c(2) through c(n) should contain the subdiagonal.
+   !                on output c is destroyed.
+   !
+   !        d       double precision(n)
+   !                is the diagonal of the tridiagonal matrix.
+   !                on output d is destroyed.
+   !
+   !        e       double precision(n)
+   !                is the superdiagonal of the tridiagonal matrix.
+   !                e(1) through e(n-1) should contain the superdiagonal.
+   !                on output e is destroyed.
+   !
+   !        b       double precision(n)
+   !                is the right hand side vector.
+   !
+   !     on return
+   !
+   !        b       is the solution vector.
+   !
+   !        info    integer
+   !                = 0 normal value.
+   !                = k if the k-th element of the diagonal becomes
+   !                    exactly zero.  the subroutine returns when
+   !                    this is detected.
+   !
+   !     linpack. this version dated 08/14/78 .
+   !     jack dongarra, argonne national laboratory.
+
+    subroutine dgtsl(n,c,d,e,b,info)
+    implicit none
+    integer n,info
+    double precision c(*),d(*),e(*),b(*)
+
+    integer k,kb,kp1,nm1,nm2
+    double precision t
+
+    info = 0
+    c(1) = d(1)
+    nm1 = n - 1
+
+    if (nm1 >= 1) then
+        d(1) = e(1)
+        e(1) = 0.0d0
+        e(n) = 0.0d0
+
+        do k = 1, nm1
+            kp1 = k + 1
+
+            ! find the largest of the two rows
+
+            if (abs(c(kp1)) >= abs(c(k))) then
+                ! interchange row
+                t = c(kp1)
+                c(kp1) = c(k)
+                c(k) = t
+                t = d(kp1)
+                d(kp1) = d(k)
+                d(k) = t
+                t = e(kp1)
+                e(kp1) = e(k)
+                e(k) = t
+                t = b(kp1)
+                b(kp1) = b(k)
+                b(k) = t
+            end if
+
+            ! zero elements
+            if (c(k) == 0.0d0) then
+                info = k
+                return
+            end if
+
+            t = -c(kp1)/c(k)
+            c(kp1) = d(kp1) + t*d(k)
+            d(kp1) = e(kp1) + t*e(k)
+            e(kp1) = 0.0d0
+            b(kp1) = b(kp1) + t*b(k)
+        end do
+
+    end if
+
+    if (c(n) == 0.0d0) then
+        info = n
+        return
+    end if
+
+    ! back solve
+
+    nm2 = n - 2
+    b(n) = b(n)/c(n)
+    if (n /= 1) then
+        b(nm1) = (b(nm1) - d(nm1)*b(n))/c(nm1)
+        if (nm2 >= 1) then
+            do kb = 1, nm2
+                k = nm2 - kb + 1
+                b(k) = (b(k) - d(k)*b(k+1) - e(k)*b(k+2))/c(k)
+            end do
+        end if
+    end if
+
+    end subroutine dgtsl
+!********************************************************************************
+
+!********************************************************************************
+!>
+!
+! This function is intended to replace the old D1MACH by using F90
+! intrinsic functions.
+!
+! The traditional D1MACH constants are:
+!
+!  * D1MACH( 1) = B**(EMIN-1), THE SMALLEST POSITIVE MAGNITUDE.
+!  * D1MACH( 2) = B**EMAX*(1 - B**(-T)), THE LARGEST MAGNITUDE.
+!  * D1MACH( 3) = B**(-T), THE SMALLEST RELATIVE SPACING.
+!  * D1MACH( 4) = B**(1-T), THE LARGEST RELATIVE SPACING.
+!  * D1MACH( 5) = LOG10(B)
+
+    function d1mach(i)
+    implicit none
+
+    integer,intent(in) :: i
+    double precision :: d1mach
+
+    double precision, dimension(5), parameter :: d1mach_values = [ tiny(1.0d0), &
+                                                                    huge(1.0d0), &
+                                                                    real(radix(1.0d0),&
+                                                                    kind(1.0d0))**(-digits(1.0d0)), &
+                                                                    epsilon(1.0d0), &
+                                                                    log10(real(radix(1.0d0),&
+                                                                    kind(1.0d0))) ]
+
+    if (i<1 .or. i>5) then
+        write (*,'(1x,''d1mach(i) - i out of bounds, i ='',i10)') i
+        error stop ' d1mach(i) - i out of bounds'
+    end if
+    d1mach = d1mach_values(i)
+
+    end function d1mach
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  XERROR processes a diagnostic message, in a manner
+!  determined by the value of LEVEL and the current value
+!  of the library error control flag, KONTRL.
+!  (See subroutine XSETF for details.)
+!
+!     Examples
+!```fortran
+!  call xerror('smooth -- num was zero.',23,1,2)
+!  call xerror('integ  -- less than full accuracy achieved.',43,2,1)
+!  call xerror('rooter -- actual zero of f found before interval fully collapsed.',65,3,0)
+!  call xerror('exp    -- underflows being set to zero.',39,1,-1)
+!```
+!
+!### History
+!  * Written by Ron Jones, with SLATEC Common Math Library Subcommittee
+!  * Latest SLATEC revision ---  19 MAR 1980
+!  * Jacob Williams, Dec 2021 : rewrite simple version for new quadpack
+!
+!### References
+!  * Jones R.E., Kahaner D.K., "Xerror, the slatec error-
+!    handling package", sand82-0800, sandia laboratories,
+!    1982.
+
+    subroutine xerror(messg,nmessg,nerr,level)
+    implicit none
+    character(len=*),intent(in) :: messg !! message to be processed
+    integer,intent(in) :: nmessg !! the actual number of characters in MESSG
+    integer,intent(in) :: nerr  !! the error number associated with this message.
+                                !! NERR must not be zero.
+    integer,intent(in) :: level !! error category:
+                                !!  * =2 means this is an unconditionally fatal error.
+                                !!  * =1 means this is a recoverable error.  (I.e., it is
+                                !!    non-fatal if XSETF has been appropriately called.)
+                                !!  * =0 means this is a warning message only.
+                                !!  * =-1 means this is a warning message which is to be
+                                !!    printed at most once, regardless of how many
+                                !!    times this call is executed.
+
+    !call xerrwv(messg,nmessg,nerr,level,0,0,0,0,0.,0.)
+
+    write(*,*) nerr, messg(1:nmessg)
+    if (level==2) error stop
+
+    end subroutine xerror
+!********************************************************************************
 
 end module quadpack

@@ -15,7 +15,7 @@ limit = 100
 lenw = limit*4
 call dqag(f,a,b,epsabs,epsrel,key,result,abserr,neval,&
          ier,limit,lenw,last,iwork,work)
-!  include write statements
+write(*,*) 'result = ', result
 end program test_qag
 
 double precision function f(x)

@@ -15,7 +15,7 @@ limit = 100
 lenw = limit*4
 call dqawc(f,a,b,c,epsabs,epsrel,result,abserr,neval,&
           ier,limit,lenw,last,iwork,work)
-!  include write statements
+write(*,*) 'result = ', result
 end program test_qawc
 
 double precision function f(x)
