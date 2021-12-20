@@ -1,4 +1,5 @@
 program test_qawc
+    use quadpack
 implicit none
 
 double precision a,abserr,b,c,epsabs,epsrel,f,result,work

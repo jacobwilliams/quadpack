@@ -52,7 +52,7 @@ c
          info = 0
          c(1) = d(1)
          nm1 = n - 1
-         if (nm1 .lt. 1) go to 40
+         if (nm1 < 1) go to 40
             d(1) = e(1)
             e(1) = 0.0d0
             e(n) = 0.0d0
@@ -62,7 +62,7 @@ c
 c
 c              find the largest of the two rows
 c
-               if (dabs(c(kp1)) .lt. dabs(c(k))) go to 10
+               if (dabs(c(kp1)) < dabs(c(k))) go to 10
 c
 c                 interchange row
 c
@@ -82,7 +82,7 @@ c
 c
 c              zero elements
 c
-               if (c(k) .ne. 0.0d0) go to 20
+               if (c(k) /= 0.0d0) go to 20
                   info = k
 c     ............exit
                   go to 100
@@ -94,7 +94,7 @@ c     ............exit
                b(kp1) = b(kp1) + t*b(k)
    30       continue
    40    continue
-         if (c(n) .ne. 0.0d0) go to 50
+         if (c(n) /= 0.0d0) go to 50
             info = n
          go to 90
    50    continue
@@ -103,9 +103,9 @@ c           back solve
 c
             nm2 = n - 2
             b(n) = b(n)/c(n)
-            if (n .eq. 1) go to 80
+            if (n == 1) go to 80
                b(nm1) = (b(nm1) - d(nm1)*b(n))/c(nm1)
-               if (nm2 .lt. 1) go to 70
+               if (nm2 < 1) go to 70
                do 60 kb = 1, nm2
                   k = nm2 - kb + 1
                   b(k) = (b(k) - d(k)*b(k+1) - e(k)*b(k+2))/c(k)

@@ -1,4 +1,5 @@
 program test_qawf
+    use quadpack
 implicit none
 
 double precision a,abserr,epsabs,f,result,omega,work
@@ -22,6 +23,9 @@ end program test_qawf
 
 double precision function f(x)
 double precision x
-if(x>0.0d0) f = sin(50.0d0*x)/(x*sqrt(x))
-return
+if(x>0.0d0) then
+    f = sin(50.0d0*x)/(x*sqrt(x))
+else
+    f = 0.0d0
+end if
 end function f

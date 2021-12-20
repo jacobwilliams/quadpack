@@ -1,4 +1,5 @@
 program test_qagi
+    use quadpack
 implicit none
 
 double precision abserr,boun,epsabs,epsrel,f,result,work

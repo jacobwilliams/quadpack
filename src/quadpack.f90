@@ -1,3 +1,9 @@
+module quadpack
+
+   implicit none
+
+   contains
+
 !*==DQAG.spg  processed by SPAG 6.72Dc at 04:31 on  7 Dec 2021
       SUBROUTINE DQAG(F,A,B,Epsabs,Epsrel,Key,Result,Abserr,Neval,Ier,  &
                     & Limit,Lenw,Last,Iwork,Work)
@@ -37,19 +43,19 @@
 !                     absolute accoracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !            key    - integer
 !                     key for choice of local integration rule
 !                     a gauss-kronrod pair is used with
-!                       7 - 15 points if key.lt.2,
+!                       7 - 15 points if key<2,
 !                      10 - 21 points if key = 2,
 !                      15 - 31 points if key = 3,
 !                      20 - 41 points if key = 4,
 !                      25 - 51 points if key = 5,
-!                      30 - 61 points if key.gt.5.
+!                      30 - 61 points if key>5.
 !
 !         on return
 !            result - double precision
@@ -66,7 +72,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine
+!                     ier>0 abnormal termination of the routine
 !                             the estimates for result and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -95,9 +101,9 @@
 !                             at some points of the integration
 !                             interval.
 !                         = 6 the input is invalid, because
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28))
-!                             or limit.lt.1 or lenw.lt.limit*4.
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                             or limit<1 or lenw<limit*4.
 !                             result, abserr, neval, last are set
 !                             to zero.
 !                             except when lenw is invalid, iwork(1),
@@ -110,13 +116,13 @@
 !                    dimensioning parameter for iwork
 !                    limit determines the maximum number of subintervals
 !                    in the partition of the given integration interval
-!                    (a,b), limit.ge.1.
-!                    if limit.lt.1, the routine will end with ier = 6.
+!                    (a,b), limit>=1.
+!                    if limit<1, the routine will end with ier = 6.
 !
 !            lenw  - integer
 !                    dimensioning parameter for work
 !                    lenw must be at least limit*4.
-!                    if lenw.lt.limit*4, the routine will end with
+!                    if lenw<limit*4, the routine will end with
 !                    ier = 6.
 !
 !            last  - integer
@@ -132,7 +138,7 @@
 !                    estimates over the subintervals, such that
 !                    work(limit*3+iwork(1)),... , work(limit*3+iwork(k))
 !                    form a decreasing sequence with k = last if
-!                    last.le.(limit/2+2), and k = limit+1-last otherwise
+!                    last<=(limit/2+2), and k = limit+1-last otherwise
 !
 !            work  - double precision
 !                    vector of dimension at least lenw
@@ -202,7 +208,7 @@
 !***purpose  the routine calculates an approximation result to a given
 !            definite integral   i = integral of f over (a,b),
 !            hopefully satisfying following claim for accuracy
-!            abs(i-reslt).le.max(epsabs,epsrel*abs(i)).
+!            abs(i-reslt)<=max(epsabs,epsrel*abs(i)).
 !***description
 !
 !        computation of a definite integral
@@ -226,23 +232,23 @@
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !            key    - integer
 !                     key for choice of local integration rule
 !                     a gauss-kronrod pair is used with
-!                          7 - 15 points if key.lt.2,
+!                          7 - 15 points if key<2,
 !                         10 - 21 points if key = 2,
 !                         15 - 31 points if key = 3,
 !                         20 - 41 points if key = 4,
 !                         25 - 51 points if key = 5,
-!                         30 - 61 points if key.gt.5.
+!                         30 - 61 points if key>5.
 !
 !            limit  - integer
 !                     gives an upperbound on the number of subintervals
-!                     in the partition of (a,b), limit.ge.1.
+!                     in the partition of (a,b), limit>=1.
 !
 !         on return
 !            result - double precision
@@ -259,7 +265,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine
+!                     ier>0 abnormal termination of the routine
 !                             the estimates for result and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -288,8 +294,8 @@
 !                             at some points of the integration
 !                             interval.
 !                         = 6 the input is invalid, because
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                             result, abserr, neval, last, rlist(1) ,
 !                             elist(1) and iord(1) are set to zero.
 !                             alist(1) and blist(1) are set to a and b
@@ -323,7 +329,7 @@
 !                      error estimates over the subintervals,
 !                      such that elist(iord(1)), ...,
 !                      elist(iord(k)) form a decreasing sequence,
-!                      with k = last if last.le.(limit/2+2), and
+!                      with k = last if last<=(limit/2+2), and
 !                      k = limit+1-last otherwise
 !
 !            last    - integer
@@ -568,7 +574,7 @@
 !            or i = integral of f over (-infinity,bound)
 !            or i = integral of f over (-infinity,+infinity)
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.max(epsabs,epsrel*abs(i)).
+!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
 !***description
 !
 !        integration over infinite intervals
@@ -595,8 +601,8 @@
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !
@@ -615,7 +621,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                   - ier.gt.0 abnormal termination of the routine. the
+!                   - ier>0 abnormal termination of the routine. the
 !                             estimates for result and error are less
 !                             reliable. it is assumed that the requested
 !                             accuracy has not been achieved.
@@ -655,9 +661,9 @@
 !                             divergence can occur with any other value
 !                             of ier.
 !                         = 6 the input is invalid, because
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28))
-!                              or limit.lt.1 or leniw.lt.limit*4.
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                              or limit<1 or leniw<limit*4.
 !                             result, abserr, neval, last are set to
 !                             zero. exept when limit or leniw is
 !                             invalid, iwork(1), work(limit*2+1) and
@@ -669,13 +675,13 @@
 !                    dimensioning parameter for iwork
 !                    limit determines the maximum number of subintervals
 !                    in the partition of the given integration interval
-!                    (a,b), limit.ge.1.
-!                    if limit.lt.1, the routine will end with ier = 6.
+!                    (a,b), limit>=1.
+!                    if limit<1, the routine will end with ier = 6.
 !
 !            lenw  - integer
 !                    dimensioning parameter for work
 !                    lenw must be at least limit*4.
-!                    if lenw.lt.limit*4, the routine will end
+!                    if lenw<limit*4, the routine will end
 !                    with ier = 6.
 !
 !            last  - integer
@@ -691,7 +697,7 @@
 !                    to the error estimates over the subintervals,
 !                    such that work(limit*3+iwork(1)),... ,
 !                    work(limit*3+iwork(k)) form a decreasing
-!                    sequence, with k = last if last.le.(limit/2+2), and
+!                    sequence, with k = last if last<=(limit/2+2), and
 !                    k = limit+1-last otherwise
 !
 !            work  - double precision
@@ -765,7 +771,7 @@
 !            or i = integral of f over (-infinity,bound)
 !            or i = integral of f over (-infinity,+infinity),
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.max(epsabs,epsrel*abs(i))
+!            abs(i-result)<=max(epsabs,epsrel*abs(i))
 !***description
 !
 ! integration over infinite intervals
@@ -790,13 +796,13 @@
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
 !                     gives an upper bound on the number of subintervals
-!                     in the partition of (a,b), limit.ge.1
+!                     in the partition of (a,b), limit>=1
 !
 !         on return
 !            result - double precision
@@ -813,7 +819,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                   - ier.gt.0 abnormal termination of the routine. the
+!                   - ier>0 abnormal termination of the routine. the
 !                             estimates for result and error are less
 !                             reliable. it is assumed that the requested
 !                             accuracy has not been achieved.
@@ -853,8 +859,8 @@
 !                             divergence can occur with any other value
 !                             of ier.
 !                         = 6 the input is invalid, because
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                             result, abserr, neval, last, rlist(1),
 !                             elist(1) and iord(1) are set to zero.
 !                             alist(1) and blist(1) are set to 0
@@ -888,7 +894,7 @@
 !                     error estimates over the subintervals,
 !                     such that elist(iord(1)), ..., elist(iord(k))
 !                     form a decreasing sequence, with k = last
-!                     if last.le.(limit/2+2), and k = limit+1-last
+!                     if last<=(limit/2+2), and k = limit+1-last
 !                     otherwise
 !
 !            last   - integer
@@ -1257,8 +1263,8 @@
 !            npts2  - integer
 !                     number equal to two more than the number of
 !                     user-supplied break points within the integration
-!                     range, npts.ge.2.
-!                     if npts2.lt.2, the routine will end with ier = 6.
+!                     range, npts>=2.
+!                     if npts2<2, the routine will end with ier = 6.
 !
 !            points - double precision
 !                     vector of dimension npts2, the first (npts2-2)
@@ -1271,8 +1277,8 @@
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !         on return
@@ -1290,7 +1296,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine.
+!                     ier>0 abnormal termination of the routine.
 !                             the estimates for integral and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -1328,13 +1334,13 @@
 !                         = 5 the integral is probably divergent, or
 !                             slowly convergent. it must be noted that
 !                             divergence can occur with any other value
-!                             of ier.gt.0.
+!                             of ier>0.
 !                         = 6 the input is invalid because
-!                             npts2.lt.2 or
+!                             npts2<2 or
 !                             break points are specified outside
 !                             the integration range or
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28))
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
 !                             result, abserr, neval, last are set to
 !                             zero. exept when leniw or lenw or npts2 is
 !                             invalid, iwork(1), iwork(limit+1),
@@ -1349,14 +1355,14 @@
 !                    leniw determines limit = (leniw-npts2)/2,
 !                    which is the maximum number of subintervals in the
 !                    partition of the given integration interval (a,b),
-!                    leniw.ge.(3*npts2-2).
-!                    if leniw.lt.(3*npts2-2), the routine will end with
+!                    leniw>=(3*npts2-2).
+!                    if leniw<(3*npts2-2), the routine will end with
 !                    ier = 6.
 !
 !            lenw  - integer
 !                    dimensioning parameter for work
 !                    lenw must be at least leniw*2-npts2.
-!                    if lenw.lt.leniw*2-npts2, the routine will end
+!                    if lenw<leniw*2-npts2, the routine will end
 !                    with ier = 6.
 !
 !            last  - integer
@@ -1372,7 +1378,7 @@
 !                    pointers to the error estimates over the
 !                    subintervals, such that work(limit*3+iwork(1)),...,
 !                    work(limit*3+iwork(k)) form a decreasing
-!                    sequence, with k = last if last.le.(limit/2+2), and
+!                    sequence, with k = last if last<=(limit/2+2), and
 !                    k = limit+1-last otherwise
 !                    iwork(limit+1), ...,iwork(limit+last) contain the
 !                     subdivision levels of the subintervals, i.e.
@@ -1440,6 +1446,10 @@
 !         call error handler if necessary.
 !
          lvl = 0
+      else
+         write(*,*) Leniw, (3*Npts2-2)
+         write(*,*) Lenw, (Leniw*2-Npts2)
+         write(*,*) Npts2,  2
       ENDIF
       IF ( Ier==6 ) lvl = 1
       IF ( Ier/=0 ) CALL XERROR('abnormal return from dqagp',26,Ier,lvl)
@@ -1461,7 +1471,7 @@
 !           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  the routine calculates an approximation result to a given
 !            definite integral i = integral of f over (a,b), hopefully
-!            satisfying following claim for accuracy abs(i-result).le.
+!            satisfying following claim for accuracy abs(i-result)<=
 !            max(epsabs,epsrel*abs(i)). break points of the integration
 !            interval, where local difficulties of the integrand may
 !            occur(e.g. singularities,discontinuities),provided by user.
@@ -1487,8 +1497,8 @@
 !            npts2  - integer
 !                     number equal to two more than the number of
 !                     user-supplied break points within the integration
-!                     range, npts2.ge.2.
-!                     if npts2.lt.2, the routine will end with ier = 6.
+!                     range, npts2>=2.
+!                     if npts2<2, the routine will end with ier = 6.
 !
 !            points - double precision
 !                     vector of dimension npts2, the first (npts2-2)
@@ -1501,14 +1511,14 @@
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
 !                     gives an upper bound on the number of subintervals
-!                     in the partition of (a,b), limit.ge.npts2
-!                     if limit.lt.npts2, the routine will end with
+!                     in the partition of (a,b), limit>=npts2
+!                     if limit<npts2, the routine will end with
 !                     ier = 6.
 !
 !         on return
@@ -1526,7 +1536,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine.
+!                     ier>0 abnormal termination of the routine.
 !                             the estimates for integral and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -1563,14 +1573,14 @@
 !                         = 5 the integral is probably divergent, or
 !                             slowly convergent. it must be noted that
 !                             divergence can occur with any other value
-!                             of ier.gt.0.
+!                             of ier>0.
 !                         = 6 the input is invalid because
-!                             npts2.lt.2 or
+!                             npts2<2 or
 !                             break points are specified outside
 !                             the integration range or
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28))
-!                             or limit.lt.npts2.
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                             or limit<npts2.
 !                             result, abserr, neval, last, rlist(1),
 !                             and elist(1) are set to zero. alist(1) and
 !                             blist(1) are set to a and b respectively.
@@ -1626,7 +1636,7 @@
 !                     error estimates over the subintervals,
 !                     such that elist(iord(1)), ..., elist(iord(k))
 !                     form a decreasing sequence, with k = last
-!                     if last.le.(limit/2+2), and k = limit+1-last
+!                     if last<=(limit/2+2), and k = limit+1-last
 !                     otherwise
 !
 !            last   - integer
@@ -1728,9 +1738,16 @@
       Iord(1) = 0
       Level(1) = 0
       npts = Npts2 - 2
-      IF ( Npts2<2 .OR. Limit<=npts .OR.                                &
-         & (Epsabs<=0.0D+00 .AND. Epsrel<DMAX1(0.5D+02*epmach,0.5D-28)) &
-         & ) Ier = 6
+      IF ( Npts2<2 .OR. Limit<=npts .OR.                              &
+         & (Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28)) &
+         & ) then
+            write(*,*) 'Npts2=',Npts2
+            write(*,*) 'Epsabs=',Epsabs
+            write(*,*) 'Epsrel=',Epsabs
+            write(*,*) 'max(0.5D+02*epmach,0.5D-28)=',max(0.5D+02*epmach,0.5D-28)
+            write(*,*) 'oops'
+            Ier = 6
+      end if
       IF ( Ier==6 ) GOTO 99999
 !
 !            if any break points are provided, sort them into an
@@ -2039,7 +2056,7 @@
 !***purpose  the routine calculates an approximation result to a given
 !            definite integral  i = integral of f over (a,b),
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.max(epsabs,epsrel*abs(i)).
+!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
 !***description
 !
 !        computation of a definite integral
@@ -2064,8 +2081,8 @@
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !         on return
@@ -2083,7 +2100,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine
+!                     ier>0 abnormal termination of the routine
 !                             the estimates for integral and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -2123,9 +2140,9 @@
 !                             divergence can occur with any other value
 !                             of ier.
 !                         = 6 the input is invalid, because
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28)
-!                             or limit.lt.1 or lenw.lt.limit*4.
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28)
+!                             or limit<1 or lenw<limit*4.
 !                             result, abserr, neval, last are set to
 !                             zero.except when limit or lenw is invalid,
 !                             iwork(1), work(limit*2+1) and
@@ -2137,13 +2154,13 @@
 !                    dimensioning parameter for iwork
 !                    limit determines the maximum number of subintervals
 !                    in the partition of the given integration interval
-!                    (a,b), limit.ge.1.
-!                    if limit.lt.1, the routine will end with ier = 6.
+!                    (a,b), limit>=1.
+!                    if limit<1, the routine will end with ier = 6.
 !
 !            lenw  - integer
 !                    dimensioning parameter for work
 !                    lenw must be at least limit*4.
-!                    if lenw.lt.limit*4, the routine will end
+!                    if lenw<limit*4, the routine will end
 !                    with ier = 6.
 !
 !            last  - integer
@@ -2159,7 +2176,7 @@
 !                    to the error estimates over the subintervals
 !                    such that work(limit*3+iwork(1)),... ,
 !                    work(limit*3+iwork(k)) form a decreasing
-!                    sequence, with k = last if last.le.(limit/2+2),
+!                    sequence, with k = last if last<=(limit/2+2),
 !                    and k = limit+1-last otherwise
 !
 !            work  - double precision
@@ -2232,7 +2249,7 @@
 !***purpose  the routine calculates an approximation result to a given
 !            definite integral i = integral of f over (a,b),
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.max(epsabs,epsrel*abs(i)).
+!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
 !***description
 !
 !        computation of a definite integral
@@ -2256,8 +2273,8 @@
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
@@ -2279,7 +2296,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine
+!                     ier>0 abnormal termination of the routine
 !                             the estimates for integral and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -2320,8 +2337,8 @@
 !                             divergence can occur with any other value
 !                             of ier.
 !                         = 6 the input is invalid, because
-!                             epsabs.le.0 and
-!                             epsrel.lt.max(50*rel.mach.acc.,0.5d-28).
+!                             epsabs<=0 and
+!                             epsrel<max(50*rel.mach.acc.,0.5d-28).
 !                             result, abserr, neval, last, rlist(1),
 !                             iord(1) and elist(1) are set to zero.
 !                             alist(1) and blist(1) are set to a and b
@@ -2355,7 +2372,7 @@
 !                     error estimates over the subintervals,
 !                     such that elist(iord(1)), ..., elist(iord(k))
 !                     form a decreasing sequence, with k = last
-!                     if last.le.(limit/2+2), and k = limit+1-last
+!                     if last<=(limit/2+2), and k = limit+1-last
 !                     otherwise
 !
 !            last   - integer
@@ -2705,9 +2722,9 @@
 !           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  the routine calculates an approximation result to a
 !            cauchy principal value i = integral of f*w over (a,b)
-!            (w(x) = 1/((x-c), c.ne.a, c.ne.b), hopefully satisfying
+!            (w(x) = 1/((x-c), c/=a, c/=b), hopefully satisfying
 !            following claim for accuracy
-!            abs(i-result).le.max(epsabe,epsrel*abs(i)).
+!            abs(i-result)<=max(epsabe,epsrel*abs(i)).
 !***description
 !
 !        computation of a cauchy principal value
@@ -2728,7 +2745,7 @@
 !            b      - double precision
 !                     upper limit of integration
 !
-!            c      - parameter in the weight function, c.ne.a, c.ne.b.
+!            c      - parameter in the weight function, c/=a, c/=b.
 !                     if c = a or c = b, the routine will end with
 !                     ier = 6 .
 !
@@ -2736,8 +2753,8 @@
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !         on return
@@ -2755,7 +2772,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine
+!                     ier>0 abnormal termination of the routine
 !                             the estimates for integral and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -2782,9 +2799,9 @@
 !                             interval.
 !                         = 6 the input is invalid, because
 !                             c = a or c = b or
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28))
-!                             or limit.lt.1 or lenw.lt.limit*4.
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                             or limit<1 or lenw<limit*4.
 !                             result, abserr, neval, last are set to
 !                             zero. exept when lenw or limit is invalid,
 !                             iwork(1), work(limit*2+1) and
@@ -2796,13 +2813,13 @@
 !                    dimensioning parameter for iwork
 !                    limit determines the maximum number of subintervals
 !                    in the partition of the given integration interval
-!                    (a,b), limit.ge.1.
-!                    if limit.lt.1, the routine will end with ier = 6.
+!                    (a,b), limit>=1.
+!                    if limit<1, the routine will end with ier = 6.
 !
 !           lenw   - integer
 !                    dimensioning parameter for work
 !                    lenw must be at least limit*4.
-!                    if lenw.lt.limit*4, the routine will end with
+!                    if lenw<limit*4, the routine will end with
 !                    ier = 6.
 !
 !            last  - integer
@@ -2818,7 +2835,7 @@
 !                    to the error estimates over the subintervals,
 !                    such that work(limit*3+iwork(1)), ... ,
 !                    work(limit*3+iwork(k)) form a decreasing
-!                    sequence, with k = last if last.le.(limit/2+2),
+!                    sequence, with k = last if last<=(limit/2+2),
 !                    and k = limit+1-last otherwise
 !
 !            work  - double precision
@@ -2887,9 +2904,9 @@
 !           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***  purpose  the routine calculates an approximation result to a
 !              cauchy principal value i = integral of f*w over (a,b)
-!              (w(x) = 1/(x-c), (c.ne.a, c.ne.b), hopefully satisfying
+!              (w(x) = 1/(x-c), (c/=a, c/=b), hopefully satisfying
 !              following claim for accuracy
-!              abs(i-result).le.max(epsabs,epsrel*abs(i))
+!              abs(i-result)<=max(epsabs,epsrel*abs(i))
 !***description
 !
 !        computation of a cauchy principal value
@@ -2910,7 +2927,7 @@
 !                     upper limit of integration
 !
 !            c      - double precision
-!                     parameter in the weight function, c.ne.a, c.ne.b
+!                     parameter in the weight function, c/=a, c/=b
 !                     if c = a or c = b, the routine will end with
 !                     ier = 6.
 !
@@ -2918,13 +2935,13 @@
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
 !                     gives an upper bound on the number of subintervals
-!                     in the partition of (a,b), limit.ge.1
+!                     in the partition of (a,b), limit>=1
 !
 !         on return
 !            result - double precision
@@ -2941,7 +2958,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine
+!                     ier>0 abnormal termination of the routine
 !                             the estimates for integral and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -2967,9 +2984,9 @@
 !                             the integration interval.
 !                         = 6 the input is invalid, because
 !                             c = a or c = b or
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28))
-!                             or limit.lt.1.
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                             or limit<1.
 !                             result, abserr, neval, rlist(1), elist(1),
 !                             iord(1) and last are set to zero. alist(1)
 !                             and blist(1) are set to a and b
@@ -3002,7 +3019,7 @@
 !                      elements of which are pointers to the error
 !                      estimates over the subintervals, so that
 !                      elist(iord(1)), ..., elist(iord(k)) with k = last
-!                      if last.le.(limit/2+2), and k = limit+1-last
+!                      if last<=(limit/2+2), and k = limit+1-last
 !                      otherwise, form a decreasing sequence
 !
 !            last    - integer
@@ -3226,7 +3243,7 @@
 !            fourier integral i=integral of f(x)*w(x) over (a,infinity)
 !            where w(x) = cos(omega*x) or w(x) = sin(omega*x).
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.epsabs.
+!            abs(i-result)<=epsabs.
 !***description
 !
 !        computation of fourier integrals
@@ -3251,12 +3268,12 @@
 !                     indicates which of the weight functions is used
 !                     integr = 1      w(x) = cos(omega*x)
 !                     integr = 2      w(x) = sin(omega*x)
-!                     if integr.ne.1.and.integr.ne.2, the routine
+!                     if integr/=1.and.integr/=2, the routine
 !                     will end with ier = 6.
 !
 !            epsabs - double precision
-!                     absolute accuracy requested, epsabs.gt.0.
-!                     if epsabs.le.0, the routine will end with ier = 6.
+!                     absolute accuracy requested, epsabs>0.
+!                     if epsabs<=0, the routine will end with ier = 6.
 !
 !         on return
 !            result - double precision
@@ -3273,12 +3290,12 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine.
+!                     ier>0 abnormal termination of the routine.
 !                             the estimates for integral and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
 !            error messages
-!                    if omega.ne.0
+!                    if omega/=0
 !                     ier = 1 maximum number of cycles allowed
 !                             has been achieved, i.e. of subintervals
 !                             (a+(k-1)c,a+kc) where
@@ -3306,10 +3323,10 @@
 !                             to examine the array iwork which contains
 !                             the error flags on the cycles.
 !                         = 6 the input is invalid because
-!                             (integr.ne.1 and integr.ne.2) or
-!                              epsabs.le.0 or limlst.lt.1 or
-!                              leniw.lt.(limlst+2) or maxp1.lt.1 or
-!                              lenw.lt.(leniw*2+maxp1*25).
+!                             (integr/=1 and integr/=2) or
+!                              epsabs<=0 or limlst<1 or
+!                              leniw<(limlst+2) or maxp1<1 or
+!                              lenw<(leniw*2+maxp1*25).
 !                              result, abserr, neval, lst are set to
 !                              zero.
 !                         = 7 bad integrand behaviour occurs within
@@ -3354,8 +3371,8 @@
 !         dimensioning parameters
 !            limlst - integer
 !                     limlst gives an upper bound on the number of
-!                     cycles, limlst.ge.3.
-!                     if limlst.lt.3, the routine will end with ier = 6.
+!                     cycles, limlst>=3.
+!                     if limlst<3, the routine will end with ier = 6.
 !
 !            lst    - integer
 !                     on return, lst indicates the number of cycles
@@ -3366,20 +3383,20 @@
 !                     dimensioning parameter for iwork. on entry,
 !                     (leniw-limlst)/2 equals the maximum number of
 !                     subintervals allowed in the partition of each
-!                     cycle, leniw.ge.(limlst+2).
-!                     if leniw.lt.(limlst+2), the routine will end with
+!                     cycle, leniw>=(limlst+2).
+!                     if leniw<(limlst+2), the routine will end with
 !                     ier = 6.
 !
 !            maxp1  - integer
 !                     maxp1 gives an upper bound on the number of
 !                     chebyshev moments which can be stored, i.e. for
 !                     the intervals of lengths abs(b-a)*2**(-l),
-!                     l = 0,1, ..., maxp1-2, maxp1.ge.1.
-!                     if maxp1.lt.1, the routine will end with ier = 6.
+!                     l = 0,1, ..., maxp1-2, maxp1>=1.
+!                     if maxp1<1, the routine will end with ier = 6.
 !            lenw   - integer
 !                     dimensioning parameter for work
 !                     lenw must be at least leniw*2+maxp1*25.
-!                     if lenw.lt.(leniw*2+maxp1*25), the routine will
+!                     if lenw<(leniw*2+maxp1*25), the routine will
 !                     end with ier = 6.
 !
 !         work arrays
@@ -3465,7 +3482,7 @@
 !            i = integral of f(x)*w(x) over (a,infinity)
 !            where w(x)=cos(omega*x) or w(x)=sin(omega*x),
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.epsabs.
+!            abs(i-result)<=epsabs.
 !***description
 !
 !        computation of fourier integrals
@@ -3489,28 +3506,28 @@
 !                     indicates which weight function is used
 !                     integr = 1      w(x) = cos(omega*x)
 !                     integr = 2      w(x) = sin(omega*x)
-!                     if integr.ne.1.and.integr.ne.2, the routine will
+!                     if integr/=1.and.integr/=2, the routine will
 !                     end with ier = 6.
 !
 !            epsabs - double precision
-!                     absolute accuracy requested, epsabs.gt.0
-!                     if epsabs.le.0, the routine will end with ier = 6.
+!                     absolute accuracy requested, epsabs>0
+!                     if epsabs<=0, the routine will end with ier = 6.
 !
 !            limlst - integer
 !                     limlst gives an upper bound on the number of
-!                     cycles, limlst.ge.1.
-!                     if limlst.lt.3, the routine will end with ier = 6.
+!                     cycles, limlst>=1.
+!                     if limlst<3, the routine will end with ier = 6.
 !
 !            limit  - integer
 !                     gives an upper bound on the number of subintervals
-!                     allowed in the partition of each cycle, limit.ge.1
-!                     each cycle, limit.ge.1.
+!                     allowed in the partition of each cycle, limit>=1
+!                     each cycle, limit>=1.
 !
 !            maxp1  - integer
 !                     gives an upper bound on the number of
 !                     chebyshev moments which can be stored, i.e.
 !                     for the intervals of lengths abs(b-a)*2**(-l),
-!                     l=0,1, ..., maxp1-2, maxp1.ge.1
+!                     l=0,1, ..., maxp1-2, maxp1>=1
 !
 !         on return
 !            result - double precision
@@ -3526,12 +3543,12 @@
 !            ier    - ier = 0 normal and reliable termination of
 !                             the routine. it is assumed that the
 !                             requested accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine. the
+!                     ier>0 abnormal termination of the routine. the
 !                             estimates for integral and error are less
 !                             reliable. it is assumed that the requested
 !                             accuracy has not been achieved.
 !            error messages
-!                    if omega.ne.0
+!                    if omega/=0
 !                     ier = 1 maximum number of  cycles  allowed
 !                             has been achieved., i.e. of subintervals
 !                             (a+(k-1)c,a+kc) where
@@ -3560,8 +3577,8 @@
 !                             array iwork which contains the error
 !                             flags on the cycles.
 !                         = 6 the input is invalid because
-!                             (integr.ne.1 and integr.ne.2) or
-!                              epsabs.le.0 or limlst.lt.3.
+!                             (integr/=1 and integr/=2) or
+!                              epsabs<=0 or limlst<3.
 !                              result, abserr, neval, lst are set
 !                              to zero.
 !                         = 7 bad integrand behaviour occurs within one
@@ -3845,7 +3862,7 @@
 !            where w(x) = cos(omega*x)
 !            or w(x) = sin(omega*x),
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.max(epsabs,epsrel*abs(i)).
+!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
 !***description
 !
 !        computation of oscillatory integrals
@@ -3872,15 +3889,15 @@
 !                     indicates which of the weight functions is used
 !                     integr = 1      w(x) = cos(omega*x)
 !                     integr = 2      w(x) = sin(omega*x)
-!                     if integr.ne.1.and.integr.ne.2, the routine will
+!                     if integr/=1.and.integr/=2, the routine will
 !                     end with ier = 6.
 !
 !            epsabs - double precision
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if epsabs.le.0 and
-!                     epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if epsabs<=0 and
+!                     epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !         on return
@@ -3898,7 +3915,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                   - ier.gt.0 abnormal termination of the routine.
+!                   - ier>0 abnormal termination of the routine.
 !                             the estimates for integral and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -3940,11 +3957,11 @@
 !                             divergence can occur with any other value
 !                             of ier.
 !                         = 6 the input is invalid, because
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28))
-!                             or (integr.ne.1 and integr.ne.2),
-!                             or leniw.lt.2 or maxp1.lt.1 or
-!                             lenw.lt.leniw*2+maxp1*25.
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                             or (integr/=1 and integr/=2),
+!                             or leniw<2 or maxp1<1 or
+!                             lenw<leniw*2+maxp1*25.
 !                             result, abserr, neval, last are set to
 !                             zero. except when leniw, maxp1 or lenw are
 !                             invalid, work(limit*2+1), work(limit*3+1),
@@ -3957,20 +3974,20 @@
 !                     dimensioning parameter for iwork.
 !                     leniw/2 equals the maximum number of subintervals
 !                     allowed in the partition of the given integration
-!                     interval (a,b), leniw.ge.2.
-!                     if leniw.lt.2, the routine will end with ier = 6.
+!                     interval (a,b), leniw>=2.
+!                     if leniw<2, the routine will end with ier = 6.
 !
 !            maxp1  - integer
 !                     gives an upper bound on the number of chebyshev
 !                     moments which can be stored, i.e. for the
 !                     intervals of lengths abs(b-a)*2**(-l),
-!                     l=0,1, ..., maxp1-2, maxp1.ge.1
-!                     if maxp1.lt.1, the routine will end with ier = 6.
+!                     l=0,1, ..., maxp1-2, maxp1>=1
+!                     if maxp1<1, the routine will end with ier = 6.
 !
 !            lenw   - integer
 !                     dimensioning parameter for work
 !                     lenw must be at least leniw*2+maxp1*25.
-!                     if lenw.lt.(leniw*2+maxp1*25), the routine will
+!                     if lenw<(leniw*2+maxp1*25), the routine will
 !                     end with ier = 6.
 !
 !            last   - integer
@@ -3987,7 +4004,7 @@
 !                     subintervals, such that work(limit*3+iwork(1)), ..
 !                     work(limit*3+iwork(k)) form a decreasing
 !                     sequence, with limit = lenw/2 , and k = last
-!                     if last.le.(limit/2+2), and k = limit+1-last
+!                     if last<=(limit/2+2), and k = limit+1-last
 !                     otherwise.
 !                     furthermore, iwork(limit+1), ..., iwork(limit+
 !                     last) indicate the subdivision levels of the
@@ -4075,7 +4092,7 @@
 !            i = integral of f(x)*w(x) over (a,b)
 !            where w(x) = cos(omega*x) or w(x)=sin(omega*x),
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.max(epsabs,epsrel*abs(i)).
+!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
 !***description
 !
 !        computation of oscillatory integrals
@@ -4103,20 +4120,20 @@
 !                     used
 !                     integr = 1      w(x) = cos(omega*x)
 !                     integr = 2      w(x) = sin(omega*x)
-!                     if integr.ne.1 and integr.ne.2, the routine
+!                     if integr/=1 and integr/=2, the routine
 !                     will end with ier = 6.
 !
 !            epsabs - double precision
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
 !                     gives an upper bound on the number of subdivisions
-!                     in the partition of (a,b), limit.ge.1.
+!                     in the partition of (a,b), limit>=1.
 !
 !            icall  - integer
 !                     if dqawoe is to be used only once, icall must
@@ -4124,18 +4141,18 @@
 !                     chebyshev moments (for clenshaw-curtis integration
 !                     of degree 24) have been computed for intervals of
 !                     lenghts (abs(b-a))*2**(-l), l=0,1,2,...momcom-1.
-!                     if icall.gt.1 this means that dqawoe has been
+!                     if icall>1 this means that dqawoe has been
 !                     called twice or more on intervals of the same
 !                     length abs(b-a). the chebyshev moments already
 !                     computed are then re-used in subsequent calls.
-!                     if icall.lt.1, the routine will end with ier = 6.
+!                     if icall<1, the routine will end with ier = 6.
 !
 !            maxp1  - integer
 !                     gives an upper bound on the number of chebyshev
 !                     moments which can be stored, i.e. for the
 !                     intervals of lenghts abs(b-a)*2**(-l),
-!                     l=0,1, ..., maxp1-2, maxp1.ge.1.
-!                     if maxp1.lt.1, the routine will end with ier = 6.
+!                     l=0,1, ..., maxp1-2, maxp1>=1.
+!                     if maxp1<1, the routine will end with ier = 6.
 !
 !         on return
 !            result - double precision
@@ -4152,7 +4169,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the
 !                             requested accuracy has been achieved.
-!                   - ier.gt.0 abnormal termination of the routine.
+!                   - ier>0 abnormal termination of the routine.
 !                             the estimates for integral and error are
 !                             less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -4192,12 +4209,12 @@
 !                         = 5 the integral is probably divergent, or
 !                             slowly convergent. it must be noted that
 !                             divergence can occur with any other value
-!                             of ier.gt.0.
+!                             of ier>0.
 !                         = 6 the input is invalid, because
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28))
-!                             or (integr.ne.1 and integr.ne.2) or
-!                             icall.lt.1 or maxp1.lt.1.
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                             or (integr/=1 and integr/=2) or
+!                             icall<1 or maxp1<1.
 !                             result, abserr, neval, last, rlist(1),
 !                             elist(1), iord(1) and nnlog(1) are set
 !                             to zero. alist(1) and blist(1) are set
@@ -4237,7 +4254,7 @@
 !                     estimates over the subintervals,
 !                     such that elist(iord(1)), ...,
 !                     elist(iord(k)) form a decreasing sequence, with
-!                     k = last if last.le.(limit/2+2), and
+!                     k = last if last<=(limit/2+2), and
 !                     k = limit+1-last otherwise.
 !
 !            nnlog  - integer
@@ -4251,7 +4268,7 @@
 !                     indicating that the chebyshev moments
 !                     have been computed for intervals of lengths
 !                     (abs(b-a))*2**(-l), l=0,1,2, ..., momcom-1,
-!                     momcom.lt.maxp1
+!                     momcom<maxp1
 !
 !            chebmo - double precision
 !                     array of dimension (maxp1,25) containing the
@@ -4642,7 +4659,7 @@
 !            (where w shows a singular behaviour at the end points,
 !            see parameter integr).
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.max(epsabs,epsrel*abs(i)).
+!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
 !***description
 !
 !        integration of functions having algebraico-logarithmic
@@ -4661,17 +4678,17 @@
 !                     lower limit of integration
 !
 !            b      - double precision
-!                     upper limit of integration, b.gt.a
-!                     if b.le.a, the routine will end with ier = 6.
+!                     upper limit of integration, b>a
+!                     if b<=a, the routine will end with ier = 6.
 !
 !            alfa   - double precision
-!                     parameter in the weight function, alfa.gt.(-1)
-!                     if alfa.le.(-1), the routine will end with
+!                     parameter in the weight function, alfa>(-1)
+!                     if alfa<=(-1), the routine will end with
 !                     ier = 6.
 !
 !            beta   - double precision
-!                     parameter in the weight function, beta.gt.(-1)
-!                     if beta.le.(-1), the routine will end with
+!                     parameter in the weight function, beta>(-1)
+!                     if beta<=(-1), the routine will end with
 !                     ier = 6.
 !
 !            integr - integer
@@ -4680,21 +4697,21 @@
 !                     = 2  (x-a)**alfa*(b-x)**beta*log(x-a)
 !                     = 3  (x-a)**alfa*(b-x)**beta*log(b-x)
 !                     = 4  (x-a)**alfa*(b-x)**beta*log(x-a)*log(b-x)
-!                     if integr.lt.1 or integr.gt.4, the routine
+!                     if integr<1 or integr>4, the routine
 !                     will end with ier = 6.
 !
 !            epsabs - double precision
 !                     absolute accuracy requested
 !            epsrel - double precision
 !                     relative accuracy requested
-!                     if  epsabs.le.0
-!                     and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                     if  epsabs<=0
+!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
 !                     gives an upper bound on the number of subintervals
-!                     in the partition of (a,b), limit.ge.2
-!                     if limit.lt.2, the routine will end with ier = 6.
+!                     in the partition of (a,b), limit>=2
+!                     if limit<2, the routine will end with ier = 6.
 !
 !         on return
 !            result - double precision
@@ -4711,7 +4728,7 @@
 !                     ier = 0 normal and reliable termination of the
 !                             routine. it is assumed that the requested
 !                             accuracy has been achieved.
-!                     ier.gt.0 abnormal termination of the routine
+!                     ier>0 abnormal termination of the routine
 !                             the estimates for the integral and error
 !                             are less reliable. it is assumed that the
 !                             requested accuracy has not been achieved.
@@ -4738,11 +4755,11 @@
 !                             at some points of the integration
 !                             interval.
 !                         = 6 the input is invalid, because
-!                             b.le.a or alfa.le.(-1) or beta.le.(-1), or
-!                             integr.lt.1 or integr.gt.4, or
-!                             (epsabs.le.0 and
-!                              epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
-!                             or limit.lt.2.
+!                             b<=a or alfa<=(-1) or beta<=(-1), or
+!                             integr<1 or integr>4, or
+!                             (epsabs<=0 and
+!                              epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                             or limit<2.
 !                             result, abserr, neval, rlist(1), elist(1),
 !                             iord(1) and last are set to zero. alist(1)
 !                             and blist(1) are set to a and b
@@ -4775,7 +4792,7 @@
 !                     of which are pointers to the error
 !                     estimates over the subintervals, so that
 !                     elist(iord(1)), ..., elist(iord(k)) with k = last
-!                     if last.le.(limit/2+2), and k = limit+1-last
+!                     if last<=(limit/2+2), and k = limit+1-last
 !                     otherwise form a decreasing sequence
 !
 !            last   - integer
@@ -5037,7 +5054,7 @@
 !                    left end point of the integration interval
 !
 !           b      - double precision
-!                    right end point of the integration interval, b.gt.a
+!                    right end point of the integration interval, b>a
 !
 !           c      - double precision
 !                    parameter in the weight function
@@ -5068,13 +5085,13 @@
 !
       DOUBLE PRECISION A , Abserr , ak22 , amom0 , amom1 , amom2 , B ,  &
                      & C , cc , centr , cheb12 , cheb24 , DABS , DLOG , &
-                     & DQWGTC , F , fval , hlgth , p2 , p3 , p4 ,       &
+                     & F , fval , hlgth , p2 , p3 , p4 ,       &
                      & resabs , resasc , Result , res12 , res24 , u , x
       INTEGER i , isym , k , kp , Krul , Neval
 !
       DIMENSION x(11) , fval(25) , cheb12(13) , cheb24(25)
 !
-      EXTERNAL F , DQWGTC
+      EXTERNAL F
 !
 !           the vector x contains the values cos(k*pi/24),
 !           k = 1, ..., 11, to be used for the chebyshev series
@@ -5257,7 +5274,7 @@
 !                    for each interval length we need to compute the
 !                    chebyshev moments. momcom counts the number of
 !                    intervals for which these moments have already been
-!                    computed. if nrmom.lt.momcom or ksave = 1, the
+!                    computed. if nrmom<momcom or ksave = 1, the
 !                    chebyshev moments for the interval (a,b) have
 !                    already been computed and stored, otherwise we
 !                    compute them and we increase momcom.
@@ -5274,7 +5291,7 @@
 !
       DOUBLE PRECISION A , Abserr , ac , an , an2 , as , asap , ass ,   &
                      & B , centr , Chebmo , cheb12 , cheb24 , conc ,    &
-                     & cons , cospar , d , DABS , DCOS , DSIN , DQWGTF ,&
+                     & cons , cospar , d , DABS , DCOS , DSIN ,&
                      & d1 , D1MACH , d2 , estc , ests , F , fval ,      &
                      & hlgth , oflow , Omega , parint , par2 , par22 ,  &
                      & p2 , p3 , p4 , Resabs , Resasc , resc12 ,        &
@@ -5286,7 +5303,7 @@
       DIMENSION Chebmo(Maxp1,25) , cheb12(13) , cheb24(25) , d(25) ,    &
               & d1(25) , d2(25) , fval(25) , v(28) , x(11)
 !
-      EXTERNAL F , DQWGTF
+      EXTERNAL F
 !
 !           the vector x contains the values cos(k*pi/24)
 !           k = 1, ...,11, to be used for the chebyshev expansion of f
@@ -5571,13 +5588,13 @@
 !                    left end point of the original interval
 !
 !           b      - double precision
-!                    right end point of the original interval, b.gt.a
+!                    right end point of the original interval, b>a
 !
 !           bl     - double precision
-!                    lower limit of integration, bl.ge.a
+!                    lower limit of integration, bl>=a
 !
 !           br     - double precision
-!                    upper limit of integration, br.le.b
+!                    upper limit of integration, br<=b
 !
 !           alfa   - double precision
 !                    parameter in the weight function
@@ -5622,14 +5639,14 @@
       DOUBLE PRECISION A , Abserr , Alfa , B , Beta , Bl , Br , centr , &
                      & cheb12 , cheb24 , DABS , dc , DLOG , F , factor ,&
                      & fix , fval , hlgth , resabs , Resasc , Result ,  &
-                     & res12 , res24 , Rg , Rh , Ri , Rj , u , DQWGTS , &
+                     & res12 , res24 , Rg , Rh , Ri , Rj , u , &
                      & x
       INTEGER i , Integr , isym , Nev
 !
       DIMENSION cheb12(13) , cheb24(25) , fval(25) , Rg(25) , Rh(25) ,  &
               & Ri(25) , Rj(25) , x(11)
 !
-      EXTERNAL F , DQWGTS
+      EXTERNAL F
 !
 !           the vector x contains the values cos(k*pi/24)
 !           k = 1, ..., 11, to be used for the computation of the
@@ -5876,7 +5893,7 @@
          Abserr = (Abserr+DABS(res24-res12))*factor
       ELSE
 !
-!           if a.gt.bl and b.lt.br, apply the 15-point gauss-kronrod
+!           if a>bl and b<br, apply the 15-point gauss-kronrod
 !           scheme.
 !
 !
@@ -7884,10 +7901,10 @@
 !
 !        parameters
 !           alfa   - double precision
-!                    parameter in the weight function w(x), alfa.gt.(-1)
+!                    parameter in the weight function w(x), alfa>(-1)
 !
 !           beta   - double precision
-!                    parameter in the weight function w(x), beta.gt.(-1)
+!                    parameter in the weight function w(x), beta>(-1)
 !
 !           ri     - double precision
 !                    vector of dimension 25
@@ -8008,7 +8025,7 @@
 !***purpose  the routine calculates an approximation result to a
 !            given definite integral i = integral of f over (a,b),
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result).le.max(epsabs,epsrel*abs(i)).
+!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
 !***description
 !
 ! non-adaptive integration
@@ -8030,8 +8047,8 @@
 !                    absolute accuracy requested
 !           epsrel - double precision
 !                    relative accuracy requested
-!                    if  epsabs.le.0
-!                    and epsrel.lt.max(50*rel.mach.acc.,0.5d-28),
+!                    if  epsabs<=0
+!                    and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                    the routine will end with ier = 6.
 !
 !         on return
@@ -8056,7 +8073,7 @@
 !           ier    - ier = 0 normal and reliable termination of the
 !                            routine. it is assumed that the requested
 !                            accuracy has been achieved.
-!                    ier.gt.0 abnormal termination of the routine. it is
+!                    ier>0 abnormal termination of the routine. it is
 !                            assumed that the requested accuracy has
 !                            not been achieved.
 !           error messages
@@ -8064,8 +8081,8 @@
 !                            executed. the integral is probably too
 !                            difficult to be calculated by dqng.
 !                        = 6 the input is invalid, because
-!                            epsabs.le.0 and
-!                            epsrel.lt.max(50*rel.mach.acc.,0.5d-28).
+!                            epsabs<=0 and
+!                            epsrel<max(50*rel.mach.acc.,0.5d-28).
 !                            result, abserr and neval are set to zero.
 !
 !***references  (none)
@@ -8426,7 +8443,7 @@
 !                       estimates, such that
 !                       elist(iord(1)),...,  elist(iord(k))
 !                       form a decreasing sequence, with
-!                       k = last if last.le.(limit/2+2), and
+!                       k = last if last<=(limit/2+2), and
 !                       k = limit+1-last otherwise
 !
 !              nrmax  - integer
@@ -8586,3 +8603,5 @@
          DQWGTS = DQWGTS*DLOG(xma)
       END SELECT
       END
+
+end module quadpack

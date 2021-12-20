@@ -1,4 +1,5 @@
 program test_qng
+    use quadpack
 implicit none
 
 double precision a,abserr,b,f,epsabs,epsrel,result
