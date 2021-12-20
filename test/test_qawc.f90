@@ -19,6 +19,7 @@ write(*,*) 'result = ', result
 end program test_qawc
 
 double precision function f(x)
+implicit none
 double precision x
 f = 1.0e0/(x*x+1.0e-4)
 return

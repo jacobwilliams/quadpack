@@ -19,14 +19,15 @@ program test_qagp
     points(2) = 2.0d0/3.0d0
     call dqagp(f,a,b,npts2,points,epsabs,epsrel,result,abserr,&
                neval,ier,leniw,lenw,last,iwork,work)
-    !  include write statements
+
     write(*,*) 'result = ', result
 
 contains
 
     double precision function f(x)
-    double precision x
-    f = 0.0e+00
+    implicit none
+    double precision,intent(in) :: x
+    f = 0.0d+00
     if(x/=1.0d0/7.0d0.and.x/=2.0d0/3.0d0) f = &
         abs(x-1.0d0/7.0d0)**(-0.25d0)* &
         abs(x-2.0d0/3.0d0)**(-0.55d0)

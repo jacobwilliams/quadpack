@@ -18,6 +18,7 @@ write(*,*) 'result = ', result
 end program test_qags
 
 double precision function f(x)
+implicit none
 double precision x
 f = 0.0e0
 if(x>0.0e0) f = 1.0e0/sqrt(x)
