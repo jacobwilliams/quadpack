@@ -1,3 +1,16 @@
+
+!********************************************************************************
+!>
+!  Modernized QUADPACK
+!
+!### References
+!  * Original version on NETLIB: http://www.netlib.org/quadpack/
+!
+!### Keywords
+!  * automatic integrator, general-purpose,
+!    integrand examinator, globally adaptive,
+!    gauss-kronrod
+
 module quadpack
 
     use iso_fortran_env, only: wp => real64
@@ -18,163 +31,121 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  automatic integrator, general-purpose,
-!             integrand examinator, globally adaptive,
-!             gauss-kronrod
-!***author  piessens,robert,appl. math. & progr. div - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
-!***purpose  the routine calculates an approximation result to a given
-!            definite integral i = integral of f over (a,b),
-!            hopefully satisfying following claim for accuracy
-!            abs(i-result)le.max(epsabs,epsrel*abs(i)).
-!***description
+!  computation of a definite integral
 !
-!        computation of a definite integral
-!        standard fortran subroutine
-!        real(wp) version
+!  the routine calculates an approximation result to a given
+!  definite integral i = integral of f over (a,b),
+!  hopefully satisfying following claim for accuracy
+!  abs(i-result)<=max(epsabs,epsrel*abs(i)).
 !
-!            f      - real(wp)
-!                     function subprogam defining the integrand
-!                     function f(x). the actual name for f needs to be
-!                     declared external in the driver program.
-!
-!            a      - real(wp)
-!                     lower limit of integration
-!
-!            b      - real(wp)
-!                     upper limit of integration
-!
-!            epsabs - real(wp)
-!                     absolute accoracy requested
-!            epsrel - real(wp)
-!                     relative accuracy requested
-!                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
-!                     the routine will end with ier = 6.
-!
-!            key    - integer
-!                     key for choice of local integration rule
-!                     a gauss-kronrod pair is used with
-!                       7 - 15 points if key<2,
-!                      10 - 21 points if key = 2,
-!                      15 - 31 points if key = 3,
-!                      20 - 41 points if key = 4,
-!                      25 - 51 points if key = 5,
-!                      30 - 61 points if key>5.
-!
-!         on return
-!            result - real(wp)
-!                     approximation to the integral
-!
-!            abserr - real(wp)
-!                     estimate of the modulus of the absolute error,
-!                     which should equal or exceed abs(i-result)
-!
-!            neval  - integer
-!                     number of integrand evaluations
-!
-!            ier    - integer
-!                     ier = 0 normal and reliable termination of the
-!                             routine. it is assumed that the requested
-!                             accuracy has been achieved.
-!                     ier>0 abnormal termination of the routine
-!                             the estimates for result and error are
-!                             less reliable. it is assumed that the
-!                             requested accuracy has not been achieved.
-!                      error messages
-!                     ier = 1 maximum number of subdivisions allowed
-!                             has been achieved. one can allow more
-!                             subdivisions by increasing the value of
-!                             limit (and taking the according dimension
-!                             adjustments into account). however, if
-!                             this yield no improvement it is advised
-!                             to analyze the integrand in order to
-!                             determine the integration difficulaties.
-!                             if the position of a local difficulty can
-!                             be determined (i.e.singularity,
-!                             discontinuity within the interval) one
-!                             will probably gain from splitting up the
-!                             interval at this point and calling the
-!                             integrator on the subranges. if possible,
-!                             an appropriate special-purpose integrator
-!                             should be used which is designed for
-!                             handling the type of difficulty involved.
-!                         = 2 the occurrence of roundoff error is
-!                             detected, which prevents the requested
-!                             tolerance from being achieved.
-!                         = 3 extremely bad integrand behaviour occurs
-!                             at some points of the integration
-!                             interval.
-!                         = 6 the input is invalid, because
-!                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
-!                             or limit<1 or lenw<limit*4.
-!                             result, abserr, neval, last are set
-!                             to zero.
-!                             except when lenw is invalid, iwork(1),
-!                             work(limit*2+1) and work(limit*3+1) are
-!                             set to zero, work(1) is set to a and
-!                             work(limit+1) to b.
-!
-!         dimensioning parameters
-!            limit - integer
-!                    dimensioning parameter for iwork
-!                    limit determines the maximum number of subintervals
-!                    in the partition of the given integration interval
-!                    (a,b), limit>=1.
-!                    if limit<1, the routine will end with ier = 6.
-!
-!            lenw  - integer
-!                    dimensioning parameter for work
-!                    lenw must be at least limit*4.
-!                    if lenw<limit*4, the routine will end with
-!                    ier = 6.
-!
-!            last  - integer
-!                    on return, last equals the number of subintervals
-!                    produced in the subdiviosion process, which
-!                    determines the number of significant elements
-!                    actually in the work arrays.
-!
-!         work arrays
-!            iwork - integer
-!                    vector of dimension at least limit, the first k
-!                    elements of which contain pointers to the error
-!                    estimates over the subintervals, such that
-!                    work(limit*3+iwork(1)),... , work(limit*3+iwork(k))
-!                    form a decreasing sequence with k = last if
-!                    last<=(limit/2+2), and k = limit+1-last otherwise
-!
-!            work  - real(wp)
-!                    vector of dimension at least lenw
-!                    on return
-!                    work(1), ..., work(last) contain the left end
-!                    points of the subintervals in the partition of
-!                     (a,b),
-!                    work(limit+1), ..., work(limit+last) contain the
-!                     right end points,
-!                    work(limit*2+1), ..., work(limit*2+last) contain
-!                     the integral approximations over the subintervals,
-!                    work(limit*3+1), ..., work(limit*3+last) contain
-!                     the error estimates.
+!### History
+!  * Original authors: piessens,robert,appl. math. & progr. div - k.u.leuven
+!    de doncker,elise,appl. math. & progr. div. - k.u.leuven
+!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
       subroutine dqag(f,a,b,Epsabs,Epsrel,Key,Result,Abserr,Neval,Ier, &
                       Limit,Lenw,Last,Iwork,Work)
+
       implicit none
 
-      real(wp) a , Abserr , b , Epsabs , Epsrel , Result , &
-                       Work
-      integer Ier , Iwork , Key , Last , Lenw , Limit , lvl , l1 , l2 , &
-              l3 , Neval
+      procedure(func) :: f !! function subprogam defining the integrand function f(x).
+      real(wp),intent(in) :: a !! lower limit of integration
+      real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                     !! which should equal or exceed abs(i-result)
+      real(wp),intent(in) :: b !! upper limit of integration
+      real(wp),intent(in) :: Epsabs !! absolute accoracy requested
+      real(wp),intent(in) :: Epsrel !! relative accuracy requested
+                                    !! if epsabs<=0
+                                    !! and epsrel<max(50*rel.mach.acc.,0.5e-28),
+                                    !! the routine will end with ier = 6.
+      real(wp),intent(out) :: Result !! approximation to the integral
+      integer,intent(in) :: Lenw !! dimensioning parameter for work
+                                 !! lenw must be at least limit*4.
+                                 !! if lenw<limit*4, the routine will end with
+                                 !! ier = 6.
+      integer,intent(in) :: Limit !! dimensioning parameter for iwork
+                                  !! limit determines the maximum number of subintervals
+                                  !! in the partition of the given integration interval
+                                  !! (a,b), limit>=1.
+                                  !! if limit<1, the routine will end with ier = 6.
+      real(wp) :: Work(Lenw) !! vector of dimension at least lenw
+                             !! on return
+                             !! work(1), ..., work(last) contain the left end
+                             !! points of the subintervals in the partition of
+                             !!  (a,b),
+                             !! work(limit+1), ..., work(limit+last) contain the
+                             !!  right end points,
+                             !! work(limit*2+1), ..., work(limit*2+last) contain
+                             !!  the integral approximations over the subintervals,
+                             !! work(limit*3+1), ..., work(limit*3+last) contain
+                             !!  the error estimates.
+      integer :: Iwork(Limit) !! vector of dimension at least limit, the first k
+                              !! elements of which contain pointers to the error
+                              !! estimates over the subintervals, such that
+                              !! work(limit*3+iwork(1)),... , work(limit*3+iwork(k))
+                              !! form a decreasing sequence with k = last if
+                              !! last<=(limit/2+2), and k = limit+1-last otherwise
+      integer,intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
+                                 !!         routine. it is assumed that the requested
+                                 !!         accuracy has been achieved.
+                                 !! * ier>0 abnormal termination of the routine
+                                 !!         the estimates for result and error are
+                                 !!         less reliable. it is assumed that the
+                                 !!         requested accuracy has not been achieved.
+                                 !!
+                                 !! error messages:
+                                 !!
+                                 !! * ier = 1 maximum number of subdivisions allowed
+                                 !!         has been achieved. one can allow more
+                                 !!         subdivisions by increasing the value of
+                                 !!         limit (and taking the according dimension
+                                 !!         adjustments into account). however, if
+                                 !!         this yield no improvement it is advised
+                                 !!         to analyze the integrand in order to
+                                 !!         determine the integration difficulaties.
+                                 !!         if the position of a local difficulty can
+                                 !!         be determined (i.e.singularity,
+                                 !!         discontinuity within the interval) one
+                                 !!         will probably gain from splitting up the
+                                 !!         interval at this point and calling the
+                                 !!         integrator on the subranges. if possible,
+                                 !!         an appropriate special-purpose integrator
+                                 !!         should be used which is designed for
+                                 !!         handling the type of difficulty involved.
+                                 !! * ier = 2 the occurrence of roundoff error is
+                                 !!         detected, which prevents the requested
+                                 !!         tolerance from being achieved.
+                                 !! * ier = 3 extremely bad integrand behaviour occurs
+                                 !!         at some points of the integration
+                                 !!         interval.
+                                 !! * ier = 6 the input is invalid, because
+                                 !!         (epsabs<=0 and
+                                 !!          epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
+                                 !!         or limit<1 or lenw<limit*4.
+                                 !!         result, abserr, neval, last are set
+                                 !!         to zero.
+                                 !!         except when lenw is invalid, iwork(1),
+                                 !!         work(limit*2+1) and work(limit*3+1) are
+                                 !!         set to zero, work(1) is set to a and
+                                 !!         work(limit+1) to b.
+      integer,intent(in) :: Key !! key for choice of local integration rule.
+                                !! a gauss-kronrod pair is used with:
+                                !!
+                                !!  *  7 - 15 points if key<2,
+                                !!  * 10 - 21 points if key = 2,
+                                !!  * 15 - 31 points if key = 3,
+                                !!  * 20 - 41 points if key = 4,
+                                !!  * 25 - 51 points if key = 5,
+                                !!  * 30 - 61 points if key>5.
+      integer,intent(out) :: Last !! on return, last equals the number of subintervals
+                                  !! produced in the subdiviosion process, which
+                                  !! determines the number of significant elements
+                                  !! actually in the work arrays.
+      integer,intent(out) :: Neval !! number of integrand evaluations
 
-      dimension Iwork(Limit) , Work(Lenw)
-
-      procedure(func) :: f
+      integer :: lvl , l1 , l2 , l3
 
     ! check validity of lenw.
-
       Ier = 6
       Neval = 0
       Last = 0
@@ -8556,6 +8527,7 @@ module quadpack
       case default
          dqwgts = dqwgts*log(xma)
       end select
+
       end function dqwgts
 !********************************************************************************
 
@@ -8678,16 +8650,17 @@ module quadpack
 
 !********************************************************************************
 !>
-! This function is intended to replace the old D1MACH by using F90
-! intrinsic functions.
+!  Modernized D1MACH machine constants.
 !
-! The traditional D1MACH constants are:
+!  Replaces the old one by using intrinsic functions.
 !
-!  * `D1MACH( 1) = B**(EMIN-1)`, THE SMALLEST POSITIVE MAGNITUDE.
-!  * `D1MACH( 2) = B**EMAX*(1 - B**(-T))`, THE LARGEST MAGNITUDE.
-!  * `D1MACH( 3) = B**(-T)`, THE SMALLEST RELATIVE SPACING.
-!  * `D1MACH( 4) = B**(1-T)`, THE LARGEST RELATIVE SPACING.
-!  * `D1MACH( 5) = LOG10(B)`
+!  The traditional D1MACH constants are:
+!
+!   * `D1MACH( 1) = B**(EMIN-1)`, THE SMALLEST POSITIVE MAGNITUDE.
+!   * `D1MACH( 2) = B**EMAX*(1 - B**(-T))`, THE LARGEST MAGNITUDE.
+!   * `D1MACH( 3) = B**(-T)`, THE SMALLEST RELATIVE SPACING.
+!   * `D1MACH( 4) = B**(1-T)`, THE LARGEST RELATIVE SPACING.
+!   * `D1MACH( 5) = LOG10(B)`
 
     function d1mach(i)
     implicit none
