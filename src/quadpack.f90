@@ -6,10 +6,16 @@
 !### References
 !  * Original version on NETLIB: http://www.netlib.org/quadpack/
 !
+!### Authors
+!  * Piessens, Robert. Applied Mathematics and Programming Division, K. U. Leuven
+!  * de Doncker, Elise. Applied Mathematics and Programming Division, K. U. Leuven
+!  * Kahaner, D. K., (NBS)
+!
 !### Keywords
 !  * automatic integrator, general-purpose,
 !    integrand examinator, globally adaptive,
-!    gauss-kronrod
+!    gauss-kronrod, infinite intervals, transformation,
+!    extrapolation
 
 module quadpack
 
@@ -457,218 +463,169 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  automatic integrator, infinite intervals,
-!             general-purpose, transformation, extrapolation,
-!             globally adaptive
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. -k.u.leuven
-!***purpose  the routine calculates an approximation result to a given
-!            integral   i = integral of f over (bound,+infinity)
-!            or i = integral of f over (-infinity,bound)
-!            or i = integral of f over (-infinity,+infinity)
-!            hopefully satisfying following claim for accuracy
-!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
-!***description
+!  the routine calculates an approximation result to a given
+!  integral with one of the following forms:
 !
-!        integration over infinite intervals
+!  * i = integral of `f` over `(bound, +infinity)`
+!  * i = integral of `f` over `(-infinity, bound)`
+!  * i = integral of `f` over `(-infinity, +infinity)`
 !
-!        parameters
-!         on entry
-!            f      - real(wp)
-!                     function subprogram defining the integrand
-!                     function f(x). the actual name for f needs to be
-!                     declared external in the driver program.
+!  hopefully satisfying following claim for accuracy
+!  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
-!            bound  - real(wp)
-!                     finite bound of integration range
-!                     (has no meaning if interval is doubly-infinite)
-!
-!            inf    - integer
-!                     indicating the kind of integration range involved
-!                     inf = 1 corresponds to  (bound,+infinity),
-!                     inf = -1            to  (-infinity,bound),
-!                     inf = 2             to (-infinity,+infinity).
-!
-!            epsabs - real(wp)
-!                     absolute accuracy requested
-!            epsrel - real(wp)
-!                     relative accuracy requested
-!                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
-!                     the routine will end with ier = 6.
-!
-!
-!         on return
-!            result - real(wp)
-!                     approximation to the integral
-!
-!            abserr - real(wp)
-!                     estimate of the modulus of the absolute error,
-!                     which should equal or exceed abs(i-result)
-!
-!            neval  - integer
-!                     number of integrand evaluations
-!
-!            ier    - integer
-!                     ier = 0 normal and reliable termination of the
-!                             routine. it is assumed that the requested
-!                             accuracy has been achieved.
-!                   - ier>0 abnormal termination of the routine. the
-!                             estimates for result and error are less
-!                             reliable. it is assumed that the requested
-!                             accuracy has not been achieved.
-!            error messages
-!                     ier = 1 maximum number of subdivisions allowed
-!                             has been achieved. one can allow more
-!                             subdivisions by increasing the value of
-!                             limit (and taking the according dimension
-!                             adjustments into account). however, if
-!                             this yields no improvement it is advised
-!                             to analyze the integrand in order to
-!                             determine the integration difficulties. if
-!                             the position of a local difficulty can be
-!                             determined (e.g. singularity,
-!                             discontinuity within the interval) one
-!                             will probably gain from splitting up the
-!                             interval at this point and calling the
-!                             integrator on the subranges. if possible,
-!                             an appropriate special-purpose integrator
-!                             should be used, which is designed for
-!                             handling the type of difficulty involved.
-!                         = 2 the occurrence of roundoff error is
-!                             detected, which prevents the requested
-!                             tolerance from being achieved.
-!                             the error may be under-estimated.
-!                         = 3 extremely bad integrand behaviour occurs
-!                             at some points of the integration
-!                             interval.
-!                         = 4 the algorithm does not converge.
-!                             roundoff error is detected in the
-!                             extrapolation table.
-!                             it is assumed that the requested tolerance
-!                             cannot be achieved, and that the returned
-!                             result is the best which can be obtained.
-!                         = 5 the integral is probably divergent, or
-!                             slowly convergent. it must be noted that
-!                             divergence can occur with any other value
-!                             of ier.
-!                         = 6 the input is invalid, because
-!                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
-!                              or limit<1 or leniw<limit*4.
-!                             result, abserr, neval, last are set to
-!                             zero. exept when limit or leniw is
-!                             invalid, iwork(1), work(limit*2+1) and
-!                             work(limit*3+1) are set to zero, work(1)
-!                             is set to a and work(limit+1) to b.
-!
-!         dimensioning parameters
-!            limit - integer
-!                    dimensioning parameter for iwork
-!                    limit determines the maximum number of subintervals
-!                    in the partition of the given integration interval
-!                    (a,b), limit>=1.
-!                    if limit<1, the routine will end with ier = 6.
-!
-!            lenw  - integer
-!                    dimensioning parameter for work
-!                    lenw must be at least limit*4.
-!                    if lenw<limit*4, the routine will end
-!                    with ier = 6.
-!
-!            last  - integer
-!                    on return, last equals the number of subintervals
-!                    produced in the subdivision process, which
-!                    determines the number of significant elements
-!                    actually in the work arrays.
-!
-!         work arrays
-!            iwork - integer
-!                    vector of dimension at least limit, the first
-!                    k elements of which contain pointers
-!                    to the error estimates over the subintervals,
-!                    such that work(limit*3+iwork(1)),... ,
-!                    work(limit*3+iwork(k)) form a decreasing
-!                    sequence, with k = last if last<=(limit/2+2), and
-!                    k = limit+1-last otherwise
-!
-!            work  - real(wp)
-!                    vector of dimension at least lenw
-!                    on return
-!                    work(1), ..., work(last) contain the left
-!                     end points of the subintervals in the
-!                     partition of (a,b),
-!                    work(limit+1), ..., work(limit+last) contain
-!                     the right end points,
-!                    work(limit*2+1), ...,work(limit*2+last) contain the
-!                     integral approximations over the subintervals,
-!                    work(limit*3+1), ..., work(limit*3)
-!                     contain the error estimates.
+!### History
+!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-      subroutine dqagi(f,Bound,Inf,Epsabs,Epsrel,Result,Abserr,Neval, &
-                       Ier,Limit,Lenw,Last,Iwork,Work)
-      implicit none
+    subroutine dqagi(f,Bound,Inf,Epsabs,Epsrel,Result,Abserr,Neval, &
+                     Ier,Limit,Lenw,Last,Iwork,Work)
+    implicit none
 
-      real(wp) Abserr , Bound , Epsabs , Epsrel , Result , &
-                       Work
-      integer Ier , Inf , Iwork , Last , Lenw , Limit , lvl , l1 , l2 , &
-              l3 , Neval
-!
-      dimension Iwork(Limit) , Work(Lenw)
-!
-      procedure(func) :: f
-!
-!         check validity of limit and lenw.
-!
+    procedure(func) :: f !! function subprogram defining the integrand function f(x).
+    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                   !! which should equal or exceed abs(i-result)
+    real(wp),intent(in) :: Bound !! finite bound of integration range
+                                 !! (has no meaning if interval is doubly-infinite)
+    real(wp),intent(in) :: Epsabs !! absolute accuracy requested
+    real(wp),intent(in) :: Epsrel !! relative accuracy requested
+                                  !! if  `epsabs<=0`
+                                  !! and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
+                                  !! the routine will end with ier = 6.
+    real(wp),intent(out) :: Result !! approximation to the integral
+    integer,intent(in) :: Lenw !! dimensioning parameter for work
+                               !! `lenw` must be at least `limit*4`.
+                               !! if `lenw<limit*4`, the routine will end
+                               !! with ier = 6.
+    integer,intent(in) :: Limit !! dimensioning parameter for iwork
+                                !! limit determines the maximum number of subintervals
+                                !! in the partition of the given integration interval
+                                !! (a,b), `limit>=1`.
+                                !! if `limit<1`, the routine will end with ier = 6.
+    real(wp) :: Work(Lenw) !! vector of dimension at least lenw
+                           !! on return:
+                           !! * `work(1), ..., work(last)` contain the left
+                           !!   end points of the subintervals in the
+                           !!   partition of `(a,b)`,
+                           !! * `work(limit+1), ..., work(limit+last)` contain
+                           !!   the right end points,
+                           !! * `work(limit*2+1), ...,work(limit*2+last)` contain the
+                           !!   integral approximations over the subintervals,
+                           !! * `work(limit*3+1), ..., work(limit*3)`
+                           !!   contain the error estimates.
+    integer,intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
+                               !!           routine. it is assumed that the requested
+                               !!           accuracy has been achieved.
+                               !! * ier>0 abnormal termination of the routine. the
+                               !!           estimates for result and error are less
+                               !!           reliable. it is assumed that the requested
+                               !!           accuracy has not been achieved.
+                               !!
+                               !! error messages:
+                               !!
+                               !! * ier = 1 maximum number of subdivisions allowed
+                               !!         has been achieved. one can allow more
+                               !!         subdivisions by increasing the value of
+                               !!         limit (and taking the according dimension
+                               !!         adjustments into account). however, if
+                               !!         this yields no improvement it is advised
+                               !!         to analyze the integrand in order to
+                               !!         determine the integration difficulties. if
+                               !!         the position of a local difficulty can be
+                               !!         determined (e.g. singularity,
+                               !!         discontinuity within the interval) one
+                               !!         will probably gain from splitting up the
+                               !!         interval at this point and calling the
+                               !!         integrator on the subranges. if possible,
+                               !!         an appropriate special-purpose integrator
+                               !!         should be used, which is designed for
+                               !!         handling the type of difficulty involved.
+                               !! * ier = 2 the occurrence of roundoff error is
+                               !!         detected, which prevents the requested
+                               !!         tolerance from being achieved.
+                               !!         the error may be under-estimated.
+                               !! * ier = 3 extremely bad integrand behaviour occurs
+                               !!         at some points of the integration
+                               !!         interval.
+                               !! * ier = 4 the algorithm does not converge.
+                               !!         roundoff error is detected in the
+                               !!         extrapolation table.
+                               !!         it is assumed that the requested tolerance
+                               !!         cannot be achieved, and that the returned
+                               !!         result is the best which can be obtained.
+                               !! * ier = 5 the integral is probably divergent, or
+                               !!         slowly convergent. it must be noted that
+                               !!         divergence can occur with any other value
+                               !!         of ier.
+                               !! * ier = 6 the input is invalid, because
+                               !!         `(epsabs<=0 and
+                               !!         epsrel<max(50*rel.mach.acc.,0.5e-28))
+                               !!         or limit<1 or leniw<limit*4`.
+                               !!         result, abserr, neval, last are set to
+                               !!         zero. exept when limit or leniw is
+                               !!         invalid, `iwork(1)`, `work(limit*2+1)` and
+                               !!         `work(limit*3+1)` are set to zero, `work(1)`
+                               !!         is set to `a` and `work(limit+1)` to `b`.
+    integer,intent(in) :: Inf !! indicating the kind of integration range involved:
+                              !!
+                              !! * inf = 1 corresponds to `(bound,+infinity)`
+                              !! * inf = -1 corresponds to `(-infinity,bound)`
+                              !! * inf = 2 corresponds to `(-infinity,+infinity)`
+    integer :: Iwork(Limit) !! vector of dimension at least limit, the first
+                            !! `k` elements of which contain pointers
+                            !! to the error estimates over the subintervals,
+                            !! such that `work(limit*3+iwork(1)),...,work(limit*3+iwork(k))`
+                            !! form a decreasing sequence, with `k = last`
+                            !! if `last<=(limit/2+2)`, and `k = limit+1-last` otherwise
+    integer,intent(out) :: Last !! on return, last equals the number of subintervals
+                                !! produced in the subdivision process, which
+                                !! determines the number of significant elements
+                                !! actually in the work arrays.
+    integer,intent(out) :: Neval !! number of integrand evaluations
 
-      Ier = 6
-      Neval = 0
-      Last = 0
-      Result = 0.0_wp
-      Abserr = 0.0_wp
-      if ( Limit>=1 .and. Lenw>=Limit*4 ) then
-!
-!         prepare call for dqagie.
-!
-         l1 = Limit + 1
-         l2 = Limit + l1
-         l3 = Limit + l2
-!
-         call dqagie(f,Bound,Inf,Epsabs,Epsrel,Limit,Result,Abserr, &
-                     Neval,Ier,Work(1),Work(l1),Work(l2),Work(l3),Iwork,&
-                     Last)
-!
-!         call error handler if necessary.
-!
-         lvl = 0
-      endif
-      if ( Ier==6 ) lvl = 1
-      if ( Ier/=0 ) call xerror('abnormal return from dqagi',26,Ier,lvl)
+    integer :: lvl , l1 , l2 , l3
 
-      end subroutine dqagi
+    ! check validity of limit and lenw.
+    Ier = 6
+    Neval = 0
+    Last = 0
+    Result = 0.0_wp
+    Abserr = 0.0_wp
+    if ( Limit>=1 .and. Lenw>=Limit*4 ) then
+
+        ! prepare call for dqagie.
+        l1 = Limit + 1
+        l2 = Limit + l1
+        l3 = Limit + l2
+
+        call dqagie(f,Bound,Inf,Epsabs,Epsrel,Limit,Result,Abserr,&
+                    Neval,Ier,Work(1),Work(l1),Work(l2),Work(l3),Iwork,&
+                    Last)
+
+        ! call error handler if necessary.
+        lvl = 0
+    endif
+    if ( Ier==6 ) lvl = 1
+    if ( Ier/=0 ) call xerror('abnormal return from dqagi',26,Ier,lvl)
+
+    end subroutine dqagi
 !********************************************************************************
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  automatic integrator, infinite intervals,
-!             general-purpose, transformation, extrapolation,
-!             globally adaptive
-!***author  piessens,robert,appl. math & progr. div - k.u.leuven
-!           de doncker,elise,appl. math & progr. div - k.u.leuven
-!***purpose  the routine calculates an approximation result to a given
-!            integral   i = integral of f over (bound,+infinity)
-!            or i = integral of f over (-infinity,bound)
-!            or i = integral of f over (-infinity,+infinity),
-!            hopefully satisfying following claim for accuracy
-!            abs(i-result)<=max(epsabs,epsrel*abs(i))
-!***description
+!  the routine calculates an approximation result to a given
+!  integral with one of the following forms:
 !
+!  * i = integral of `f` over `(bound, +infinity)`
+!  * i = integral of `f` over `(-infinity, bound)`
+!  * i = integral of `f` over `(-infinity, +infinity)`
+!
+!  hopefully satisfying following claim for accuracy
+!  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
+!
+!### History
+!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+
+
 ! integration over infinite intervals
-! standard fortran subroutine
 !
 !            f      - real(wp)
 !                     function subprogram defining the integrand
@@ -1911,8 +1868,6 @@ module quadpack
 !***keywords  automatic integrator, general-purpose,
 !             (end-point) singularities, extrapolation,
 !             globally adaptive
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & prog. div. - k.u.leuven
 !***purpose  the routine calculates an approximation result to a given
 !            definite integral  i = integral of f over (a,b),
 !            hopefully satisfying following claim for accuracy
@@ -3285,8 +3240,6 @@ module quadpack
 !             fourier integrals,
 !             integration between zeros with dqawoe,
 !             convergence acceleration with dqelg
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           dedoncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  the routine calculates an approximation result to a
 !            given fourier integal
 !            i = integral of f(x)*w(x) over (a,infinity)
@@ -5803,8 +5756,6 @@ module quadpack
 !***revision date  830518   (yymmdd)
 !***keywords  epsilon algorithm, convergence acceleration,
 !             extrapolation
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math & progr. div. - k.u.leuven
 !***purpose  the routine determines the limit of a given sequence of
 !            approximations, by means of the epsilon algorithm of
 !            p.wynn. an estimate of the absolute error is also given.
@@ -5997,8 +5948,6 @@ module quadpack
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  15-point gauss-kronrod rules
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div - k.u.leuven
 !***purpose  to compute i = integral of f over (a,b), with error
 !                           estimate
 !                       j = integral of abs(f) over (a,b)
@@ -7087,8 +7036,6 @@ module quadpack
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  51-point gauss-kronrod rules
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math & progr. div. - k.u.leuven
 !***purpose  to compute i = integral of f over (a,b) with error
 !                           estimate
 !                       j = integral of abs(f) over (a,b)
@@ -7644,11 +7591,10 @@ module quadpack
 !>
 !***date written   800101   (yymmdd)
 !***revision date  810101   (yymmdd)
+!                  kahaner,david,nbs - modified (2/82)
+!
 !***keywords  automatic integrator, smooth integrand,
 !             non-adaptive, gauss-kronrod(patterson)
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl math & progr. div. - k.u.leuven
-!           kahaner,david,nbs - modified (2/82)
 !***purpose  the routine calculates an approximation result to a
 !            given definite integral i = integral of f over (a,b),
 !            hopefully satisfying following claim for accuracy
@@ -7656,7 +7602,6 @@ module quadpack
 !***description
 !
 ! non-adaptive integration
-! standard fortran subroutine
 ! real(wp) version
 !
 !           f      - real(wp)
