@@ -8095,76 +8095,87 @@ module quadpack
 
 !********************************************************************************
 !>
+!  this function subprogram is used together with the
+!  routine [[qawc]] and defines the weight function.
+!
 !### See also
-!  * dqk15w
-!***revision date  810101   (yymmdd)
-!***keywords  weight function, cauchy principal value
-!***purpose  this function subprogram is used together with the
-!            routine qawc and defines the weight function.
-      real(wp) function dqwgtc(x,c,p2,p3,p4,Kp)
-      implicit none
+!  * [[dqk15w]]
+!
+!### History
+!  * SLATEC: revision date 810101 (yymmdd)
+!
+!### Keywords
+!  * weight function, cauchy principal value
 
-      real(wp) c , p2 , p3 , p4 , x
-      integer Kp
+   real(wp) function dqwgtc(x,c,p2,p3,p4,Kp)
+   implicit none
 
-      dqwgtc = 1.0_wp/(x-c)
-      end function dqwgtc
+   real(wp) :: c , p2 , p3 , p4 , x
+   integer :: Kp
+
+   dqwgtc = 1.0_wp/(x-c)
+
+   end function dqwgtc
 !********************************************************************************
 
 !********************************************************************************
 !>
+!  cos or sin in weight function
+!
 !### See also
-!  *   dqk15w
-!***revision date 810101   (yymmdd)
-!***keywords  cos or sin in weight function
-!***author  piessens,robert, appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. * progr. div. - k.u.leuven
+!  * [[dqk15w]]
+!
+!### History
+!  * SLATEC: revision date 810101 (yymmdd)
 
-      real(wp) function dqwgtf(x,Omega,p2,p3,p4,Integr)
-      implicit none
+   real(wp) function dqwgtf(x,Omega,p2,p3,p4,Integr)
+   implicit none
 
-      real(wp) Omega , omx , p2 , p3 , p4 , x
-      integer Integr
+   real(wp) :: Omega , omx , p2 , p3 , p4 , x
+   integer :: Integr
 
-      omx = Omega*x
-      if ( Integr==2 ) then
-         dqwgtf = sin(omx)
-      else
-         dqwgtf = cos(omx)
-      endif
-      end function dqwgtf
+   omx = Omega*x
+   if ( Integr==2 ) then
+      dqwgtf = sin(omx)
+   else
+      dqwgtf = cos(omx)
+   endif
+
+   end function dqwgtf
 !********************************************************************************
 
 !********************************************************************************
 !>
+!  this function subprogram is used together with the
+!  routine [[dqaws]] and defines the weight function.
+!
 !### See also
-!  * dqk15w
-!***revision date  810101   (yymmdd)
-!***keywords  weight function, algebraico-logarithmic
-!             end-point singularities
-!***purpose  this function subprogram is used together with the
-!            routine dqaws and defines the weight function.
+!  * [[dqk15w]]
+!
+!### History
+!  * SLATEC: revision date 810101 (yymmdd)
 
-      real(wp) function dqwgts(x,a,b,Alfa,Beta,Integr)
-      implicit none
+   real(wp) function dqwgts(x,a,b,Alfa,Beta,Integr)
+   implicit none
 
-      real(wp) a , Alfa , b , Beta , bmx , x , xma
-      integer Integr
+   real(wp) :: a , Alfa , b , Beta , bmx , x , xma
+   integer :: Integr
 
-      xma = x - a
-      bmx = b - x
-      dqwgts = xma**Alfa*bmx**Beta
-      select case (Integr)
-      case (1)
-      case (3)
-         dqwgts = dqwgts*log(bmx)
-      case (4)
-         dqwgts = dqwgts*log(xma)*log(bmx)
-      case default
-         dqwgts = dqwgts*log(xma)
-      end select
+   xma = x - a
+   bmx = b - x
 
-      end function dqwgts
+   dqwgts = xma**Alfa*bmx**Beta
+   select case (Integr)
+   case (1)
+   case (3)
+      dqwgts = dqwgts*log(bmx)
+   case (4)
+      dqwgts = dqwgts*log(xma)*log(bmx)
+   case default
+      dqwgts = dqwgts*log(xma)
+   end select
+
+   end function dqwgts
 !********************************************************************************
 
    !===================================================================
@@ -8213,11 +8224,11 @@ module quadpack
 
     subroutine dgtsl(n,c,d,e,b,info)
     implicit none
-    integer n,info
-    real(wp) c(*),d(*),e(*),b(*)
+    integer :: n,info
+    real(wp) :: c(*),d(*),e(*),b(*)
 
-    integer k,kb,kp1,nm1,nm2
-    real(wp) t
+    integer :: k,kb,kp1,nm1,nm2
+    real(wp) :: t
 
     info = 0
     c(1) = d(1)
