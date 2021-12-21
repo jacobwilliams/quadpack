@@ -17,10 +17,7 @@ module quadpack
 !********************************************************************************
 
 !********************************************************************************
-      SUBROUTINE DQAG(F,A,B,Epsabs,Epsrel,Key,Result,Abserr,Neval,Ier,  &
-                    & Limit,Lenw,Last,Iwork,Work)
-      IMPLICIT NONE
-!*--DQAG5
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, general-purpose,
@@ -36,22 +33,22 @@ module quadpack
 !
 !        computation of a definite integral
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogam defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accoracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
@@ -68,10 +65,10 @@ module quadpack
 !                      30 - 61 points if key>5.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -150,7 +147,7 @@ module quadpack
 !                    form a decreasing sequence with k = last if
 !                    last<=(limit/2+2), and k = limit+1-last otherwise
 !
-!            work  - double precision
+!            work  - real(wp)
 !                    vector of dimension at least lenw
 !                    on return
 !                    work(1), ..., work(last) contain the left end
@@ -162,50 +159,53 @@ module quadpack
 !                     the integral approximations over the subintervals,
 !                    work(limit*3+1), ..., work(limit*3+last) contain
 !                     the error estimates.
-!
 
-      DOUBLE PRECISION A , Abserr , B , Epsabs , Epsrel , Result ,  &
-                     & Work
+      SUBROUTINE DQAG(F,A,B,Epsabs,Epsrel,Key,Result,Abserr,Neval,Ier,  &
+                      Limit,Lenw,Last,Iwork,Work)
+      IMPLICIT NONE
+
+      real(wp) A , Abserr , B , Epsabs , Epsrel , Result ,  &
+                       Work
       INTEGER Ier , Iwork , Key , Last , Lenw , Limit , lvl , l1 , l2 , &
             & l3 , Neval
-!
+
       DIMENSION Iwork(Limit) , Work(Lenw)
-!
+
       procedure(func) :: f
-!
-!         check validity of lenw.
-!
-!***first executable statement  dqag
+
+    ! check validity of lenw.
+
       Ier = 6
       Neval = 0
       Last = 0
       Result = 0.0D+00
       Abserr = 0.0D+00
       IF ( Limit>=1 .AND. Lenw>=Limit*4 ) THEN
-!
-!         prepare call for dqage.
-!
+
+        ! prepare call for dqage.
+
          l1 = Limit + 1
          l2 = Limit + l1
          l3 = Limit + l2
-!
+
          CALL DQAGE(F,A,B,Epsabs,Epsrel,Key,Limit,Result,Abserr,Neval,  &
-                  & Ier,Work(1),Work(l1),Work(l2),Work(l3),Iwork,Last)
-!
-!         call error handler if necessary.
-!
+                    Ier,Work(1),Work(l1),Work(l2),Work(l3),Iwork,Last)
+
+        ! call error handler if necessary.
+
          lvl = 0
       ENDIF
       IF ( Ier==6 ) lvl = 1
       IF ( Ier/=0 ) CALL XERROR('abnormal return from dqag ',26,Ier,lvl)
-      END
+
+      END SUBROUTINE DQAG
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQAGE(F,A,B,Epsabs,Epsrel,Key,Limit,Result,Abserr,     &
-                     & Neval,Ier,Alist,Blist,Rlist,Elist,Iord,Last)
+                       Neval,Ier,Alist,Blist,Rlist,Elist,Iord,Last)
       IMPLICIT NONE
-!*--DQAGE192
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, general-purpose,
@@ -221,24 +221,24 @@ module quadpack
 !
 !        computation of a definite integral
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
@@ -259,10 +259,10 @@ module quadpack
 !                     in the partition of (a,b), limit>=1.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -309,24 +309,24 @@ module quadpack
 !                             alist(1) and blist(1) are set to a and b
 !                             respectively.
 !
-!            alist   - double precision
+!            alist   - real(wp)
 !                      vector of dimension at least limit, the first
 !                       last  elements of which are the left
 !                      end points of the subintervals in the partition
 !                      of the given integration range (a,b)
 !
-!            blist   - double precision
+!            blist   - real(wp)
 !                      vector of dimension at least limit, the first
 !                       last  elements of which are the right
 !                      end points of the subintervals in the partition
 !                      of the given integration range (a,b)
 !
-!            rlist   - double precision
+!            rlist   - real(wp)
 !                      vector of dimension at least limit, the first
 !                       last  elements of which are the
 !                      integral approximations on the subintervals
 !
-!            elist   - double precision
+!            elist   - real(wp)
 !                      vector of dimension at least limit, the first
 !                       last  elements of which are the moduli of the
 !                      absolute error estimates on the subintervals
@@ -345,12 +345,12 @@ module quadpack
 !                      subdivision process
 !
 
-      DOUBLE PRECISION A , Abserr , Alist , area , area1 , area12 ,     &
-                     & area2 , a1 , a2 , B , Blist , b1 , b2 ,   &
-                     & defabs , defab1 , defab2 , DMAX1 ,      &
-                     & Elist , epmach , Epsabs , Epsrel , errbnd ,      &
-                     & errmax , error1 , error2 , erro12 , errsum , &
-                     & resabs , Result , Rlist , uflow
+      real(wp) A , Abserr , Alist , area , area1 , area12 ,     &
+                       area2 , a1 , a2 , B , Blist , b1 , b2 ,   &
+                       defabs , defab1 , defab2 ,      &
+                       Elist , epmach , Epsabs , Epsrel , errbnd ,      &
+                       errmax , error1 , error2 , erro12 , errsum , &
+                       resabs , Result , Rlist , uflow
       INTEGER Ier , Iord , iroff1 , iroff2 , k , Key , keyf , Last ,    &
             & Limit , maxerr , Neval , nrmax
 !
@@ -387,7 +387,7 @@ module quadpack
 !           epmach  is the largest relative spacing.
 !           uflow  is the smallest positive magnitude.
 !
-!***first executable statement  dqage
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -404,7 +404,7 @@ module quadpack
       Rlist(1) = 0.0D+00
       Elist(1) = 0.0D+00
       Iord(1) = 0
-      IF ( Epsabs<=0.0D+00 .AND. Epsrel<DMAX1(0.5D+02*epmach,0.5D-28) ) &
+      IF ( Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28) ) &
          & Ier = 6
       IF ( Ier/=6 ) THEN
 !
@@ -428,7 +428,7 @@ module quadpack
 !
 !           test on accuracy.
 !
-         errbnd = DMAX1(Epsabs,Epsrel*abs(Result))
+         errbnd = max(Epsabs,Epsrel*abs(Result))
          IF ( Abserr<=0.5D+02*epmach*defabs .AND. Abserr>errbnd )       &
             & Ier = 2
          IF ( Limit==1 ) Ier = 1
@@ -459,29 +459,29 @@ module quadpack
                a2 = b1
                b2 = Blist(maxerr)
                IF ( keyf==1 ) CALL DQK15(F,a1,b1,area1,error1,resabs,   &
-                  & defab1)
+                    defab1)
                IF ( keyf==2 ) CALL DQK21(F,a1,b1,area1,error1,resabs,   &
-                  & defab1)
+                    defab1)
                IF ( keyf==3 ) CALL DQK31(F,a1,b1,area1,error1,resabs,   &
-                  & defab1)
+                    defab1)
                IF ( keyf==4 ) CALL DQK41(F,a1,b1,area1,error1,resabs,   &
-                  & defab1)
+                    defab1)
                IF ( keyf==5 ) CALL DQK51(F,a1,b1,area1,error1,resabs,   &
-                  & defab1)
+                    defab1)
                IF ( keyf==6 ) CALL DQK61(F,a1,b1,area1,error1,resabs,   &
-                  & defab1)
+                    defab1)
                IF ( keyf==1 ) CALL DQK15(F,a2,b2,area2,error2,resabs,   &
-                  & defab2)
+                    defab2)
                IF ( keyf==2 ) CALL DQK21(F,a2,b2,area2,error2,resabs,   &
-                  & defab2)
+                    defab2)
                IF ( keyf==3 ) CALL DQK31(F,a2,b2,area2,error2,resabs,   &
-                  & defab2)
+                    defab2)
                IF ( keyf==4 ) CALL DQK41(F,a2,b2,area2,error2,resabs,   &
-                  & defab2)
+                    defab2)
                IF ( keyf==5 ) CALL DQK51(F,a2,b2,area2,error2,resabs,   &
-                  & defab2)
+                    defab2)
                IF ( keyf==6 ) CALL DQK61(F,a2,b2,area2,error2,resabs,   &
-                  & defab2)
+                    defab2)
 !
 !           improve previous approximations to integral
 !           and error and test for accuracy.
@@ -493,13 +493,13 @@ module quadpack
                area = area + area12 - Rlist(maxerr)
                IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
                   IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) &
-                     & .AND. erro12>=0.99D+00*errmax ) iroff1 = iroff1 +&
-                     & 1
+                       .AND. erro12>=0.99D+00*errmax ) iroff1 = iroff1 +&
+                       1
                   IF ( Last>10 .AND. erro12>errmax ) iroff2 = iroff2 + 1
                ENDIF
                Rlist(maxerr) = area1
                Rlist(Last) = area2
-               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
+               errbnd = max(Epsabs,Epsrel*abs(area))
                IF ( errsum>errbnd ) THEN
 !
 !           test for roundoff error and eventually set error flag.
@@ -514,9 +514,9 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-                  IF ( DMAX1(abs(a1),abs(b2))                         &
-                     & <=(0.1D+01+0.1D+03*epmach)                       &
-                     & *(abs(a2)+0.1D+04*uflow) ) Ier = 3
+                  IF ( max(abs(a1),abs(b2)) &
+                       <=(0.1D+01+0.1D+03*epmach) &
+                       *(abs(a2)+0.1D+04*uflow) ) Ier = 3
                ENDIF
 !
 !           append the newly-created intervals to the list.
@@ -563,9 +563,9 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQAGI(F,Bound,Inf,Epsabs,Epsrel,Result,Abserr,Neval,   &
-                     & Ier,Limit,Lenw,Last,Iwork,Work)
+                       Ier,Limit,Lenw,Last,Iwork,Work)
       IMPLICIT NONE
-!*--DQAGI556
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, infinite intervals,
@@ -586,12 +586,12 @@ module quadpack
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            bound  - double precision
+!            bound  - real(wp)
 !                     finite bound of integration range
 !                     (has no meaning if interval is doubly-infinite)
 !
@@ -601,9 +601,9 @@ module quadpack
 !                     inf = -1            to  (-infinity,bound),
 !                     inf = 2             to (-infinity,+infinity).
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
@@ -611,10 +611,10 @@ module quadpack
 !
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -704,7 +704,7 @@ module quadpack
 !                    sequence, with k = last if last<=(limit/2+2), and
 !                    k = limit+1-last otherwise
 !
-!            work  - double precision
+!            work  - real(wp)
 !                    vector of dimension at least lenw
 !                    on return
 !                    work(1), ..., work(last) contain the left
@@ -718,8 +718,8 @@ module quadpack
 !                     contain the error estimates.
 
 !
-      DOUBLE PRECISION Abserr , Bound , Epsabs , Epsrel , Result ,  &
-                     & Work
+      real(wp) Abserr , Bound , Epsabs , Epsrel , Result ,  &
+                       Work
       INTEGER Ier , Inf , Iwork , Last , Lenw , Limit , lvl , l1 , l2 , &
             & l3 , Neval
 !
@@ -729,7 +729,7 @@ module quadpack
 !
 !         check validity of limit and lenw.
 !
-!***first executable statement  dqagi
+
       Ier = 6
       Neval = 0
       Last = 0
@@ -758,9 +758,9 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQAGIE(F,Bound,Inf,Epsabs,Epsrel,Limit,Result,Abserr,  &
-                      & Neval,Ier,Alist,Blist,Rlist,Elist,Iord,Last)
+                        Neval,Ier,Alist,Blist,Rlist,Elist,Iord,Last)
       IMPLICIT NONE
-!*--DQAGIE753
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, infinite intervals,
@@ -779,24 +779,24 @@ module quadpack
 ! integration over infinite intervals
 ! standard fortran subroutine
 !
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            bound  - double precision
+!            bound  - real(wp)
 !                     finite bound of integration range
 !                     (has no meaning if interval is doubly-infinite)
 !
-!            inf    - double precision
+!            inf    - real(wp)
 !                     indicating the kind of integration range involved
 !                     inf = 1 corresponds to  (bound,+infinity),
 !                     inf = -1            to  (-infinity,bound),
 !                     inf = 2             to (-infinity,+infinity).
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
@@ -807,10 +807,10 @@ module quadpack
 !                     in the partition of (a,b), limit>=1
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -868,24 +868,24 @@ module quadpack
 !                             alist(1) and blist(1) are set to 0
 !                             and 1 respectively.
 !
-!            alist  - double precision
+!            alist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the left
 !                     end points of the subintervals in the partition
 !                     of the transformed integration range (0,1).
 !
-!            blist  - double precision
+!            blist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the right
 !                     end points of the subintervals in the partition
 !                     of the transformed integration range (0,1).
 !
-!            rlist  - double precision
+!            rlist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the integral
 !                     approximations on the subintervals
 !
-!            elist  - double precision
+!            elist  - real(wp)
 !                     vector of dimension at least limit,  the first
 !                     last elements of which are the moduli of the
 !                     absolute error estimates on the subintervals
@@ -904,14 +904,14 @@ module quadpack
 !                     in the subdivision process
 !
 
-      DOUBLE PRECISION abseps , Abserr , Alist , area , area1 , area12 ,&
-                     & area2 , a1 , a2 , Blist , boun , Bound , b1 ,    &
-                     & b2 , correc , defabs , defab1 , defab2 ,  &
-                     & DMAX1 , dres , Elist , epmach , Epsabs ,&
-                     & Epsrel , erlarg , erlast , errbnd , errmax ,     &
-                     & error1 , error2 , erro12 , errsum , ertest , &
-                     & oflow , resabs , reseps , Result , res3la ,      &
-                     & Rlist , rlist2 , small , uflow
+      real(wp) abseps , Abserr , Alist , area , area1 , area12 ,&
+                       area2 , a1 , a2 , Blist , boun , Bound , b1 ,    &
+                       b2 , correc , defabs , defab1 , defab2 ,  &
+                       dres , Elist , epmach , Epsabs ,&
+                       Epsrel , erlarg , erlast , errbnd , errmax ,     &
+                       error1 , error2 , erro12 , errsum , ertest , &
+                       oflow , resabs , reseps , Result , res3la ,      &
+                       Rlist , rlist2 , small , uflow
       INTEGER id , Ier , ierro , Inf , Iord , iroff1 , iroff2 , iroff3 ,&
             & jupbnd , k , ksgn , ktmin , Last , Limit , maxerr ,       &
             & Neval , nres , nrmax , numrl2
@@ -975,7 +975,7 @@ module quadpack
 !           uflow is the smallest positive magnitude.
 !           oflow is the largest positive magnitude.
 !
-!***first executable statement  dqagie
+
       epmach = D1MACH(4)
 !
 !           test on validity of parameters
@@ -991,9 +991,9 @@ module quadpack
       Rlist(1) = 0.0D+00
       Elist(1) = 0.0D+00
       Iord(1) = 0
-      IF ( Epsabs<=0.0D+00 .AND. Epsrel<DMAX1(0.5D+02*epmach,0.5D-28) ) &
+      IF ( Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28) ) &
          & Ier = 6
-      IF ( Ier==6 ) GOTO 99999
+      IF ( Ier==6 ) return
 !
 !
 !           first approximation to the integral
@@ -1006,7 +1006,7 @@ module quadpack
 !
       boun = Bound
       IF ( Inf==2 ) boun = 0.0D+00
-      CALL DQK15I(F,boun,Inf,0.0D+00,0.1D+01,Result,Abserr,defabs,      &
+      CALL DQK15I(F,boun,Inf,0.0D+00,0.1D+01,Result,Abserr,defabs, &
                 & resabs)
 !
 !           test on accuracy
@@ -1016,7 +1016,7 @@ module quadpack
       Elist(1) = Abserr
       Iord(1) = 1
       dres = abs(Result)
-      errbnd = DMAX1(Epsabs,Epsrel*dres)
+      errbnd = max(Epsabs,Epsrel*dres)
       IF ( Abserr<=1.0D+02*epmach*defabs .AND. Abserr>errbnd ) Ier = 2
       IF ( Limit==1 ) Ier = 1
       IF ( Ier/=0 .OR. (Abserr<=errbnd .AND. Abserr/=resabs) .OR.       &
@@ -1078,7 +1078,7 @@ module quadpack
          ENDIF
          Rlist(maxerr) = area1
          Rlist(Last) = area2
-         errbnd = DMAX1(Epsabs,Epsrel*abs(area))
+         errbnd = max(Epsabs,Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
@@ -1093,7 +1093,7 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at some points of the integration range.
 !
-         IF ( DMAX1(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)        &
+         IF ( max(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)        &
             & *(abs(a2)+0.1D+04*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
@@ -1151,7 +1151,7 @@ module quadpack
                   maxerr = Iord(nrmax)
                   errmax = Elist(maxerr)
                   IF ( abs(Blist(maxerr)-Alist(maxerr))>small )        &
-                     & GOTO 100
+                       GOTO 100
                   nrmax = nrmax + 1
                ENDDO
             ENDIF
@@ -1168,7 +1168,7 @@ module quadpack
                Abserr = abseps
                Result = reseps
                correc = erlarg
-               ertest = DMAX1(Epsabs,Epsrel*abs(reseps))
+               ertest = max(Epsabs,Epsrel*abs(reseps))
                IF ( Abserr<=ertest ) GOTO 200
             ENDIF
 !
@@ -1202,7 +1202,7 @@ module quadpack
 !
 !           test on divergence
 !
-         IF ( ksgn/=(-1) .OR. DMAX1(abs(Result),abs(area))            &
+         IF ( ksgn/=(-1) .OR. max(abs(Result),abs(area)) &
             & >defabs*0.1D-01 ) THEN
             IF ( 0.1D-01>(Result/area) .OR. (Result/area)>0.1D+03 .OR.  &
                & errsum>abs(area) ) Ier = 6
@@ -1220,14 +1220,14 @@ module quadpack
  400  Neval = 30*Last - 15
       IF ( Inf==2 ) Neval = 2*Neval
       IF ( Ier>2 ) Ier = Ier - 1
-99999 END
+    end
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQAGP(F,A,B,Npts2,Points,Epsabs,Epsrel,Result,Abserr,  &
-                     & Neval,Ier,Leniw,Lenw,Last,Iwork,Work)
+                       Neval,Ier,Leniw,Lenw,Last,Iwork,Work)
       IMPLICIT NONE
-!*--DQAGP1222
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, general-purpose,
@@ -1245,19 +1245,19 @@ module quadpack
 !
 !        computation of a definite integral
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
 !            npts2  - integer
@@ -1266,26 +1266,26 @@ module quadpack
 !                     range, npts>=2.
 !                     if npts2<2, the routine will end with ier = 6.
 !
-!            points - double precision
+!            points - real(wp)
 !                     vector of dimension npts2, the first (npts2-2)
 !                     elements of which are the user provided break
 !                     points. if these points do not constitute an
 !                     ascending sequence there will be an automatic
 !                     sorting.
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -1390,7 +1390,7 @@ module quadpack
 !                     no significance for the user,
 !                    note that limit = (leniw-npts2)/2.
 !
-!            work  - double precision
+!            work  - real(wp)
 !                    vector of dimension at least lenw
 !                    on return
 !                    work(1), ..., work(last) contain the left
@@ -1409,8 +1409,8 @@ module quadpack
 !
 
 !
-      DOUBLE PRECISION A , Abserr , B , Epsabs , Epsrel , Points ,  &
-                     & Result , Work
+      real(wp) A , Abserr , B , Epsabs , Epsrel , Points ,  &
+                       Result , Work
       INTEGER Ier , Iwork , Last , Leniw , Lenw , limit , lvl , l1 ,    &
             & l2 , l3 , l4 , Neval , Npts2
 !
@@ -1420,13 +1420,13 @@ module quadpack
 !
 !         check validity of limit and lenw.
 !
-!***first executable statement  dqagp
+
       Ier = 6
       Neval = 0
       Last = 0
       Result = 0.0D+00
       Abserr = 0.0D+00
-      IF ( Leniw>=(3*Npts2-2) .AND. Lenw>=(Leniw*2-Npts2) .AND.         &
+      IF ( Leniw>=(3*Npts2-2) .AND. Lenw>=(Leniw*2-Npts2) .AND. &
          & Npts2>=2 ) THEN
 !
 !         prepare call for dqagpe.
@@ -1456,10 +1456,10 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQAGPE(F,A,B,Npts2,Points,Epsabs,Epsrel,Limit,Result,  &
-                      & Abserr,Neval,Ier,Alist,Blist,Rlist,Elist,Pts,   &
-                      & Iord,Level,Ndin,Last)
+                        Abserr,Neval,Ier,Alist,Blist,Rlist,Elist,Pts,   &
+                        Iord,Level,Ndin,Last)
       IMPLICIT NONE
-!*--DQAGPE1452
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, general-purpose,
@@ -1477,19 +1477,19 @@ module quadpack
 !
 !        computation of a definite integral
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
 !            npts2  - integer
@@ -1498,16 +1498,16 @@ module quadpack
 !                     range, npts2>=2.
 !                     if npts2<2, the routine will end with ier = 6.
 !
-!            points - double precision
+!            points - real(wp)
 !                     vector of dimension npts2, the first (npts2-2)
 !                     elements of which are the user provided break
 !                     points. if these points do not constitute an
 !                     ascending sequence there will be an automatic
 !                     sorting.
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
@@ -1520,10 +1520,10 @@ module quadpack
 !                     ier = 6.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -1583,29 +1583,29 @@ module quadpack
 !                             and elist(1) are set to zero. alist(1) and
 !                             blist(1) are set to a and b respectively.
 !
-!            alist  - double precision
+!            alist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the left end points
 !                     of the subintervals in the partition of the given
 !                     integration range (a,b)
 !
-!            blist  - double precision
+!            blist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the right end points
 !                     of the subintervals in the partition of the given
 !                     integration range (a,b)
 !
-!            rlist  - double precision
+!            rlist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the integral
 !                     approximations on the subintervals
 !
-!            elist  - double precision
+!            elist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the moduli of the
 !                     absolute error estimates on the subintervals
 !
-!            pts    - double precision
+!            pts    - real(wp)
 !                     vector of dimension at least npts2, containing the
 !                     integration limits and the break points of the
 !                     interval in ascending sequence.
@@ -1642,15 +1642,15 @@ module quadpack
 !                     subdivisions process
 !
 
-      DOUBLE PRECISION A , abseps , Abserr , Alist , area , area1 ,     &
-                     & area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
-                     & correc , defabs , defab1 , defab2 ,       &
-                     & DMAX1 , DMIN1 , dres , Elist , epmach , &
-                     & Epsabs , Epsrel , erlarg , erlast , errbnd ,     &
-                     & errmax , error1 , erro12 , error2 , errsum ,     &
-                     & ertest , oflow , Points , Pts , resa ,       &
-                     & resabs , reseps , Result , res3la , Rlist ,      &
-                     & rlist2 , sign , temp , uflow
+      real(wp) A , abseps , Abserr , Alist , area , area1 ,     &
+                       area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
+                       correc , defabs , defab1 , defab2 ,       &
+                       DMIN1 , dres , Elist , epmach , &
+                       Epsabs , Epsrel , erlarg , erlast , errbnd ,     &
+                       errmax , error1 , erro12 , error2 , errsum ,     &
+                       ertest , oflow , Points , Pts , resa ,       &
+                       resabs , reseps , Result , res3la , Rlist ,      &
+                       rlist2 , sign , temp , uflow
       INTEGER i , id , Ier , ierro , ind1 , ind2 , Iord , ip1 , iroff1 ,&
             & iroff2 , iroff3 , j , jlow , jupbnd , k , ksgn , ktmin ,  &
             & Last , levcur , Level , levmax , Limit , maxerr , Ndin ,  &
@@ -1716,7 +1716,7 @@ module quadpack
 !           uflow is the smallest positive magnitude.
 !           oflow is the largest positive magnitude.
 !
-!***first executable statement  dqagpe
+
       epmach = D1MACH(4)
 !
 !            test on validity of parameters
@@ -1744,7 +1744,7 @@ module quadpack
             write(*,*) 'oops'
             Ier = 6
       end if
-      IF ( Ier==6 ) GOTO 99999
+      IF ( Ier==6 ) return
 !
 !            if any break points are provided, sort them into an
 !            ascending sequence.
@@ -1757,7 +1757,7 @@ module quadpack
             Pts(i+1) = Points(i)
          ENDDO
       ENDIF
-      Pts(npts+2) = DMAX1(A,B)
+      Pts(npts+2) = max(A,B)
       nint = npts + 1
       a1 = Pts(1)
       IF ( npts/=0 ) THEN
@@ -1772,8 +1772,8 @@ module quadpack
                ENDIF
             ENDDO
          ENDDO
-         IF ( Pts(1)/=DMIN1(A,B) .OR. Pts(nintp1)/=DMAX1(A,B) ) Ier = 6
-         IF ( Ier==6 ) GOTO 99999
+         IF ( Pts(1)/=DMIN1(A,B) .OR. Pts(nintp1)/=max(A,B) ) Ier = 6
+         IF ( Ier==6 ) return
       ENDIF
 !
 !            compute first integral and error approximations.
@@ -1807,7 +1807,7 @@ module quadpack
       Last = nint
       Neval = 21*nint
       dres = abs(Result)
-      errbnd = DMAX1(Epsabs,Epsrel*dres)
+      errbnd = max(Epsabs,Epsrel*dres)
       IF ( Abserr<=0.1D+03*epmach*resabs .AND. Abserr>errbnd ) Ier = 2
       IF ( nint/=1 ) THEN
          DO i = 1 , npts
@@ -1892,7 +1892,7 @@ module quadpack
          Level(Last) = levcur
          Rlist(maxerr) = area1
          Rlist(Last) = area2
-         errbnd = DMAX1(Epsabs,Epsrel*abs(area))
+         errbnd = max(Epsabs,Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
@@ -1907,7 +1907,7 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range
 !
-         IF ( DMAX1(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)        &
+         IF ( max(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)        &
             & *(abs(a2)+0.1D+04*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
@@ -1980,7 +1980,7 @@ module quadpack
                   Abserr = abseps
                   Result = reseps
                   correc = erlarg
-                  ertest = DMAX1(Epsabs,Epsrel*abs(reseps))
+                  ertest = max(Epsabs,Epsrel*abs(reseps))
 ! ***jump out of do-loop
                   IF ( Abserr<ertest ) GOTO 200
                ENDIF
@@ -2017,7 +2017,7 @@ module quadpack
 !
 !           test on divergence.
 !
-         IF ( ksgn/=(-1) .OR. DMAX1(abs(Result),abs(area))            &
+         IF ( ksgn/=(-1) .OR. max(abs(Result),abs(area))            &
             & >resabs*0.1D-01 ) THEN
             IF ( 0.1D-01>(Result/area) .OR. (Result/area)>0.1D+03 .OR.  &
                & errsum>abs(area) ) Ier = 6
@@ -2034,14 +2034,14 @@ module quadpack
       Abserr = errsum
  400  IF ( Ier>2 ) Ier = Ier - 1
       Result = Result*sign
-99999 END
+    end
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQAGS(F,A,B,Epsabs,Epsrel,Result,Abserr,Neval,Ier,     &
-                     & Limit,Lenw,Last,Iwork,Work)
+                       Limit,Lenw,Last,Iwork,Work)
       IMPLICIT NONE
-!*--DQAGS2029
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, general-purpose,
@@ -2057,35 +2057,35 @@ module quadpack
 !
 !        computation of a definite integral
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -2175,7 +2175,7 @@ module quadpack
 !                    sequence, with k = last if last<=(limit/2+2),
 !                    and k = limit+1-last otherwise
 !
-!            work  - double precision
+!            work  - real(wp)
 !                    vector of dimension at least lenw
 !                    on return
 !                    work(1), ..., work(last) contain the left
@@ -2191,8 +2191,8 @@ module quadpack
 
 !
 !
-      DOUBLE PRECISION A , Abserr , B , Epsabs , Epsrel , Result ,  &
-                     & Work
+      real(wp) A , Abserr , B , Epsabs , Epsrel , Result ,  &
+                       Work
       INTEGER Ier , Iwork , Last , Lenw , Limit , lvl , l1 , l2 , l3 ,  &
             & Neval
 !
@@ -2202,7 +2202,7 @@ module quadpack
 !
 !         check validity of limit and lenw.
 !
-!***first executable statement  dqags
+
       Ier = 6
       Neval = 0
       Last = 0
@@ -2230,9 +2230,9 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQAGSE(F,A,B,Epsabs,Epsrel,Limit,Result,Abserr,Neval,  &
-                      & Ier,Alist,Blist,Rlist,Elist,Iord,Last)
+                        Ier,Alist,Blist,Rlist,Elist,Iord,Last)
       IMPLICIT NONE
-!*--DQAGSE2222
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, general-purpose,
@@ -2248,24 +2248,24 @@ module quadpack
 !
 !        computation of a definite integral
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
@@ -2276,10 +2276,10 @@ module quadpack
 !                     in the partition of (a,b)
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -2338,24 +2338,24 @@ module quadpack
 !                             alist(1) and blist(1) are set to a and b
 !                             respectively.
 !
-!            alist  - double precision
+!            alist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the left end points
 !                     of the subintervals in the partition of the
 !                     given integration range (a,b)
 !
-!            blist  - double precision
+!            blist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the right end points
 !                     of the subintervals in the partition of the given
 !                     integration range (a,b)
 !
-!            rlist  - double precision
+!            rlist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the integral
 !                     approximations on the subintervals
 !
-!            elist  - double precision
+!            elist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the moduli of the
 !                     absolute error estimates on the subintervals
@@ -2375,14 +2375,14 @@ module quadpack
 !
 
 !
-      DOUBLE PRECISION A , abseps , Abserr , Alist , area , area1 ,     &
-                     & area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
-                     & correc , defabs , defab1 , defab2 ,       &
-                     & DMAX1 , dres , Elist , epmach , Epsabs ,&
-                     & Epsrel , erlarg , erlast , errbnd , errmax ,     &
-                     & error1 , error2 , erro12 , errsum , ertest , &
-                     & oflow , resabs , reseps , Result , res3la ,      &
-                     & Rlist , rlist2 , small , uflow
+      real(wp) A , abseps , Abserr , Alist , area , area1 ,     &
+                       area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
+                       correc , defabs , defab1 , defab2 ,       &
+                       dres , Elist , epmach , Epsabs ,&
+                       Epsrel , erlarg , erlast , errbnd , errmax ,     &
+                       error1 , error2 , erro12 , errsum , ertest , &
+                       oflow , resabs , reseps , Result , res3la ,      &
+                       Rlist , rlist2 , small , uflow
       INTEGER id , Ier , ierro , Iord , iroff1 , iroff2 , iroff3 ,      &
             & jupbnd , k , ksgn , ktmin , Last , Limit , maxerr ,       &
             & Neval , nres , nrmax , numrl2
@@ -2446,7 +2446,7 @@ module quadpack
 !           uflow is the smallest positive magnitude.
 !           oflow is the largest positive magnitude.
 !
-!***first executable statement  dqagse
+
       epmach = D1MACH(4)
 !
 !            test on validity of parameters
@@ -2460,7 +2460,7 @@ module quadpack
       Blist(1) = B
       Rlist(1) = 0.0D+00
       Elist(1) = 0.0D+00
-      IF ( Epsabs<=0.0D+00 .AND. Epsrel<DMAX1(0.5D+02*epmach,0.5D-28) ) &
+      IF ( Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28) ) &
          & Ier = 6
       IF ( Ier/=6 ) THEN
 !
@@ -2475,7 +2475,7 @@ module quadpack
 !           test on accuracy.
 !
          dres = abs(Result)
-         errbnd = DMAX1(Epsabs,Epsrel*dres)
+         errbnd = max(Epsabs,Epsrel*dres)
          Last = 1
          Rlist(1) = Result
          Elist(1) = Abserr
@@ -2486,7 +2486,7 @@ module quadpack
          IF ( Ier/=0 .OR. (Abserr<=errbnd .AND. Abserr/=resabs) .OR.    &
             & Abserr==0.0D+00 ) THEN
             Neval = 42*Last - 21
-            GOTO 99999
+            return
          ELSE
 !
 !           initialization
@@ -2535,7 +2535,7 @@ module quadpack
                area = area + area12 - Rlist(maxerr)
                IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
                   IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) &
-                     & .AND. erro12>=0.99D+00*errmax ) THEN
+                       .AND. erro12>=0.99D+00*errmax ) THEN
                      IF ( extrap ) iroff2 = iroff2 + 1
                      IF ( .NOT.extrap ) iroff1 = iroff1 + 1
                   ENDIF
@@ -2543,7 +2543,7 @@ module quadpack
                ENDIF
                Rlist(maxerr) = area1
                Rlist(Last) = area2
-               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
+               errbnd = max(Epsabs,Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
@@ -2558,8 +2558,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-               IF ( DMAX1(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)  &
-                  & *(abs(a2)+0.1D+04*uflow) ) Ier = 4
+               IF ( max(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)  &
+                    *(abs(a2)+0.1D+04*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -2637,7 +2637,7 @@ module quadpack
                      Abserr = abseps
                      Result = reseps
                      correc = erlarg
-                     ertest = DMAX1(Epsabs,Epsrel*abs(reseps))
+                     ertest = max(Epsabs,Epsrel*abs(reseps))
 ! ***jump out of do-loop
                      IF ( Abserr<=ertest ) GOTO 40
                   ENDIF
@@ -2667,7 +2667,7 @@ module quadpack
                      IF ( area==0.0D+00 ) THEN
                         IF ( Ier>2 ) Ier = Ier - 1
                         Neval = 42*Last - 21
-                        GOTO 99999
+                        return
                      ENDIF
                   ELSEIF ( Abserr/abs(Result)>errsum/abs(area) ) THEN
                      GOTO 50
@@ -2676,14 +2676,14 @@ module quadpack
 !
 !           test on divergence.
 !
-               IF ( ksgn/=(-1) .OR. DMAX1(abs(Result),abs(area))      &
-                  & >defabs*0.1D-01 ) THEN
+               IF ( ksgn/=(-1) .OR. max(abs(Result),abs(area))      &
+                    >defabs*0.1D-01 ) THEN
                   IF ( 0.1D-01>(Result/area) .OR. (Result/area)         &
-                     & >0.1D+03 .OR. errsum>abs(area) ) Ier = 6
+                       >0.1D+03 .OR. errsum>abs(area) ) Ier = 6
                ENDIF
                IF ( Ier>2 ) Ier = Ier - 1
                Neval = 42*Last - 21
-               GOTO 99999
+               return
             ENDIF
          ENDIF
 !
@@ -2697,14 +2697,14 @@ module quadpack
          IF ( Ier>2 ) Ier = Ier - 1
          Neval = 42*Last - 21
       ENDIF
-99999 END
+    end
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQAWC(F,A,B,C,Epsabs,Epsrel,Result,Abserr,Neval,Ier,   &
-                     & Limit,Lenw,Last,Iwork,Work)
+                       Limit,Lenw,Last,Iwork,Work)
       IMPLICIT NONE
-!*--DQAWC2696
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, special-purpose,
@@ -2721,39 +2721,39 @@ module quadpack
 !
 !        computation of a cauchy principal value
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     under limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
 !            c      - parameter in the weight function, c/=a, c/=b.
 !                     if c = a or c = b, the routine will end with
 !                     ier = 6 .
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate or the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -2830,7 +2830,7 @@ module quadpack
 !                    sequence, with k = last if last<=(limit/2+2),
 !                    and k = limit+1-last otherwise
 !
-!            work  - double precision
+!            work  - real(wp)
 !                    vector of dimension at least lenw
 !                    on return
 !                    work(1), ..., work(last) contain the left
@@ -2845,8 +2845,8 @@ module quadpack
 !
 
 !
-      DOUBLE PRECISION A , Abserr , B , C , Epsabs , Epsrel ,       &
-                     & Result , Work
+      real(wp) A , Abserr , B , C , Epsabs , Epsrel ,       &
+                       Result , Work
       INTEGER Ier , Iwork , Last , Lenw , Limit , lvl , l1 , l2 , l3 ,  &
             & Neval
 !
@@ -2856,7 +2856,7 @@ module quadpack
 !
 !         check validity of limit and lenw.
 !
-!***first executable statement  dqawc
+
       Ier = 6
       Neval = 0
       Last = 0
@@ -2883,9 +2883,9 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQAWCE(F,A,B,C,Epsabs,Epsrel,Limit,Result,Abserr,Neval,&
-                      & Ier,Alist,Blist,Rlist,Elist,Iord,Last)
+                        Ier,Alist,Blist,Rlist,Elist,Iord,Last)
       IMPLICIT NONE
-!*--DQAWCE2879
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, special-purpose,
@@ -2901,29 +2901,29 @@ module quadpack
 !
 !        computation of a cauchy principal value
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
-!            c      - double precision
+!            c      - real(wp)
 !                     parameter in the weight function, c/=a, c/=b
 !                     if c = a or c = b, the routine will end with
 !                     ier = 6.
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
@@ -2934,10 +2934,10 @@ module quadpack
 !                     in the partition of (a,b), limit>=1
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -2982,24 +2982,24 @@ module quadpack
 !                             and blist(1) are set to a and b
 !                             respectively.
 !
-!            alist   - double precision
+!            alist   - real(wp)
 !                      vector of dimension at least limit, the first
 !                       last  elements of which are the left
 !                      end points of the subintervals in the partition
 !                      of the given integration range (a,b)
 !
-!            blist   - double precision
+!            blist   - real(wp)
 !                      vector of dimension at least limit, the first
 !                       last  elements of which are the right
 !                      end points of the subintervals in the partition
 !                      of the given integration range (a,b)
 !
-!            rlist   - double precision
+!            rlist   - real(wp)
 !                      vector of dimension at least limit, the first
 !                       last  elements of which are the integral
 !                      approximations on the subintervals
 !
-!            elist   - double precision
+!            elist   - real(wp)
 !                      vector of dimension limit, the first  last
 !                      elements of which are the moduli of the absolute
 !                      error estimates on the subintervals
@@ -3018,11 +3018,11 @@ module quadpack
 !
 
 !
-      DOUBLE PRECISION A , aa , Abserr , Alist , area , area1 , area12 ,&
-                     & area2 , a1 , a2 , B , bb , Blist , b1 , b2 , C , &
-                     & abs , DMAX1 , Elist , epmach , Epsabs ,&
-                     & Epsrel , errbnd , errmax , error1 , erro12 ,     &
-                     & error2 , errsum , Result , Rlist , uflow
+      real(wp) A , aa , Abserr , Alist , area , area1 , area12 ,&
+                       area2 , a1 , a2 , B , bb , Blist , b1 , b2 , C , &
+                       abs , Elist , epmach , Epsabs ,&
+                       Epsrel , errbnd , errmax , error1 , erro12 ,     &
+                       error2 , errsum , Result , Rlist , uflow
       INTEGER Ier , Iord , iroff1 , iroff2 , k , krule , Last , Limit , &
             & maxerr , nev , Neval , nrmax
 !
@@ -3059,7 +3059,7 @@ module quadpack
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
 !
-!***first executable statement  dqawce
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -3077,7 +3077,7 @@ module quadpack
       Iord(1) = 0
       Result = 0.0D+00
       Abserr = 0.0D+00
-      IF ( .NOT.(C==A .OR. C==B .OR. (Epsabs<=0.0D+00 .AND. Epsrel<DMAX1&
+      IF ( .NOT.(C==A .OR. C==B .OR. (Epsabs<=0.0D+00 .AND. Epsrel<max&
          & (0.5D+02*epmach,0.5D-28))) ) THEN
 !
 !           first approximation to the integral
@@ -3101,7 +3101,7 @@ module quadpack
 !
 !           test on accuracy
 !
-         errbnd = DMAX1(Epsabs,Epsrel*abs(Result))
+         errbnd = max(Epsabs,Epsrel*abs(Result))
          IF ( Limit==1 ) Ier = 1
          IF ( Abserr>=DMIN1(0.1D-01*abs(Result),errbnd) .AND. Ier/=1 ) &
             & THEN
@@ -3148,13 +3148,13 @@ module quadpack
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
                IF ( abs(Rlist(maxerr)-area12)<0.1D-04*abs(area12)     &
-                  & .AND. erro12>=0.99D+00*errmax .AND. krule==0 )      &
-                  & iroff1 = iroff1 + 1
+                    .AND. erro12>=0.99D+00*errmax .AND. krule==0 )      &
+                    iroff1 = iroff1 + 1
                IF ( Last>10 .AND. erro12>errmax .AND. krule==0 )        &
-                  & iroff2 = iroff2 + 1
+                    iroff2 = iroff2 + 1
                Rlist(maxerr) = area1
                Rlist(Last) = area2
-               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
+               errbnd = max(Epsabs,Epsrel*abs(area))
                IF ( errsum>errbnd ) THEN
 !
 !           test for roundoff error and eventually set error flag.
@@ -3169,9 +3169,9 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-                  IF ( DMAX1(abs(a1),abs(b2))                         &
-                     & <=(0.1D+01+0.1D+03*epmach)                       &
-                     & *(abs(a2)+0.1D+04*uflow) ) Ier = 3
+                  IF ( max(abs(a1),abs(b2))                         &
+                       <=(0.1D+01+0.1D+03*epmach)                       &
+                       *(abs(a2)+0.1D+04*uflow) ) Ier = 3
                ENDIF
 !
 !           append the newly-created intervals to the list.
@@ -3217,9 +3217,9 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQAWF(F,A,Omega,Integr,Epsabs,Result,Abserr,Neval,Ier, &
-                     & Limlst,Lst,Leniw,Maxp1,Lenw,Iwork,Work)
+                       Limlst,Lst,Leniw,Maxp1,Lenw,Iwork,Work)
       IMPLICIT NONE
-!*--DQAWF3215
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, special-purpose,fourier
@@ -3236,20 +3236,20 @@ module quadpack
 !
 !        computation of fourier integrals
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            omega  - double precision
+!            omega  - real(wp)
 !                     parameter in the integrand weight function
 !
 !            integr - integer
@@ -3259,15 +3259,15 @@ module quadpack
 !                     if integr/=1.and.integr/=2, the routine
 !                     will end with ier = 6.
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested, epsabs>0.
 !                     if epsabs<=0, the routine will end with ier = 6.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -3393,7 +3393,7 @@ module quadpack
 !                     on return, iwork(k) for k = 1, 2, ..., lst
 !                     contain the error flags on the cycles.
 !
-!            work   - double precision
+!            work   - real(wp)
 !                     vector of dimension at least
 !                     on return,
 !                     work(1), ..., work(lst) contain the integral
@@ -3405,7 +3405,7 @@ module quadpack
 !
 
 !
-      DOUBLE PRECISION A , Abserr , Epsabs , Omega , Result , Work
+      real(wp) A , Abserr , Epsabs , Omega , Result , Work
       INTEGER Ier , Integr , Iwork , last , Leniw , Lenw , limit ,      &
             & Limlst , ll2 , lvl , Lst , l1 , l2 , l3 , l4 , l5 , l6 ,  &
             & Maxp1 , Neval
@@ -3416,7 +3416,7 @@ module quadpack
 !
 !         check validity of limlst, leniw, maxp1 and lenw.
 !
-!***first executable statement  dqawf
+
       Ier = 6
       Neval = 0
       last = 0
@@ -3451,10 +3451,10 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQAWFE(F,A,Omega,Integr,Epsabs,Limlst,Limit,Maxp1,     &
-                      & Result,Abserr,Neval,Ier,Rslst,Erlst,Ierlst,Lst, &
-                      & Alist,Blist,Rlist,Elist,Iord,Nnlog,Chebmo)
+                        Result,Abserr,Neval,Ier,Rslst,Erlst,Ierlst,Lst, &
+                        Alist,Blist,Rlist,Elist,Iord,Nnlog,Chebmo)
       IMPLICIT NONE
-!*--DQAWFE3452
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, special-purpose,
@@ -3473,19 +3473,19 @@ module quadpack
 !
 !        computation of fourier integrals
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to
 !                     be declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            omega  - double precision
+!            omega  - real(wp)
 !                     parameter in the weight function
 !
 !            integr - integer
@@ -3495,7 +3495,7 @@ module quadpack
 !                     if integr/=1.and.integr/=2, the routine will
 !                     end with ier = 6.
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested, epsabs>0
 !                     if epsabs<=0, the routine will end with ier = 6.
 !
@@ -3516,10 +3516,10 @@ module quadpack
 !                     l=0,1, ..., maxp1-2, maxp1>=1
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral x
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -3607,7 +3607,7 @@ module quadpack
 !                    and ier = ierlst(1) (with meaning as described
 !                    for ierlst(k), k = 1).
 !
-!            rslst  - double precision
+!            rslst  - real(wp)
 !                     vector of dimension at least limlst
 !                     rslst(k) contains the integral contribution
 !                     over the interval (a+(k-1)c,a+kc) where
@@ -3616,7 +3616,7 @@ module quadpack
 !                     note that, if omega = 0, rslst(1) contains
 !                     the value of the integral over (a,infinity).
 !
-!            erlst  - double precision
+!            erlst  - real(wp)
 !                     vector of dimension at least limlst
 !                     erlst(k) contains the error estimate corresponding
 !                     with rslst(k).
@@ -3631,7 +3631,7 @@ module quadpack
 !                     number of subintervals needed for the integration
 !                     if omega = 0 then lst is set to 1.
 !
-!            alist, blist, rlist, elist - double precision
+!            alist, blist, rlist, elist - real(wp)
 !                     vector of dimension at least limit,
 !
 !            iord, nnlog - integer
@@ -3639,19 +3639,19 @@ module quadpack
 !                     space for the quantities needed in the subdivision
 !                     process of each cycle
 !
-!            chebmo - double precision
+!            chebmo - real(wp)
 !                     array of dimension at least (maxp1,25), providing
 !                     space for the chebyshev moments needed within the
 !                     cycles
 !
 
 !
-      DOUBLE PRECISION A , abseps , Abserr , Alist , Blist , Chebmo ,   &
-                     & correc , cycle , c1 , c2 , dl , dla ,     &
-                     & DMAX1 , drl , Elist , Erlst , ep , eps ,&
-                     & epsa , Epsabs , errsum , fact , Omega , p ,  &
-                     & pi , p1 , psum , reseps , Result , res3la ,      &
-                     & Rlist , Rslst , uflow
+      real(wp) A , abseps , Abserr , Alist , Blist , Chebmo ,   &
+                       correc , cycle , c1 , c2 , dl , dla ,     &
+                       drl , Elist , Erlst , ep , eps ,&
+                       epsa , Epsabs , errsum , fact , Omega , p ,  &
+                       pi , p1 , psum , reseps , Result , res3la ,      &
+                       Rlist , Rslst , uflow
       INTEGER Ier , Ierlst , Integr , Iord , ktmin , l , last , Lst ,   &
             & Limit , Limlst , ll , Maxp1 , momcom , nev , Neval ,      &
             & Nnlog , nres , numrl2
@@ -3693,7 +3693,7 @@ module quadpack
 !           test on validity of parameters
 !           ------------------------------
 !
-!***first executable statement  dqawfe
+
       Result = 0.0D+00
       Abserr = 0.0D+00
       Neval = 0
@@ -3748,11 +3748,11 @@ module quadpack
 !           test on accuracy with partial sum
 !
                IF ( (errsum+drl)<=Epsabs .AND. Lst>=6 ) GOTO 50
-               correc = DMAX1(correc,Erlst(Lst))
-               IF ( Ierlst(Lst)/=0 ) eps = DMAX1(ep,correc*p1)
+               correc = max(correc,Erlst(Lst))
+               IF ( Ierlst(Lst)/=0 ) eps = max(ep,correc*p1)
                IF ( Ierlst(Lst)/=0 ) Ier = 7
                IF ( Ier==7 .AND. (errsum+drl)<=correc*0.1D+02 .AND.     &
-                  & Lst>5 ) GOTO 50
+                    Lst>5 ) GOTO 50
                numrl2 = numrl2 + 1
                IF ( Lst>1 ) THEN
                   psum(numrl2) = psum(ll) + Rslst(Lst)
@@ -3798,15 +3798,15 @@ module quadpack
 !         -----------------------------------
 !
  20         Abserr = Abserr + 0.1D+02*correc
-            IF ( Ier==0 ) GOTO 99999
+            IF ( Ier==0 ) return
             IF ( Result==0.0D+00 .OR. psum(numrl2)==0.0D+00 ) THEN
                IF ( Abserr>errsum ) GOTO 50
-               IF ( psum(numrl2)==0.0D+00 ) GOTO 99999
+               IF ( psum(numrl2)==0.0D+00 ) return
             ENDIF
             IF ( Abserr/abs(Result)<=(errsum+drl)/abs(psum(numrl2)) ) &
                & THEN
                IF ( Ier>=1 .AND. Ier/=7 ) Abserr = Abserr + drl
-               GOTO 99999
+               return
             ENDIF
          ELSE
 !
@@ -3820,19 +3820,19 @@ module quadpack
             Erlst(1) = Abserr
             Ierlst(1) = Ier
             Lst = 1
-            GOTO 99999
+            return
          ENDIF
  50      Result = psum(numrl2)
          Abserr = errsum + drl
       ENDIF
-99999 END
+    end
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQAWO(F,A,B,Omega,Integr,Epsabs,Epsrel,Result,Abserr,  &
-                     & Neval,Ier,Leniw,Maxp1,Lenw,Last,Iwork,Work)
+                       Neval,Ier,Leniw,Maxp1,Lenw,Last,Iwork,Work)
       IMPLICIT NONE
-!*--DQAWO3832
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, special-purpose,
@@ -3851,22 +3851,22 @@ module quadpack
 !
 !        computation of oscillatory integrals
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the function
 !                     f(x).  the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
-!            omega  - double precision
+!            omega  - real(wp)
 !                     parameter in the integrand weight function
 !
 !            integr - integer
@@ -3876,19 +3876,19 @@ module quadpack
 !                     if integr/=1.and.integr/=2, the routine will
 !                     end with ier = 6.
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if epsabs<=0 and
 !                     epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                     the routine will end with ier = 6.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -3996,7 +3996,7 @@ module quadpack
 !                     that the subinterval numbered i is of length
 !                     abs(b-a)*2**(1-l).
 !
-!            work   - double precision
+!            work   - real(wp)
 !                     vector of dimension at least lenw
 !                     on return
 !                     work(1), ..., work(last) contain the left
@@ -4015,8 +4015,8 @@ module quadpack
 !
 
 !
-      DOUBLE PRECISION A , Abserr , B , Epsabs , Epsrel , Omega ,   &
-                     & Result , Work
+      real(wp) A , Abserr , B , Epsabs , Epsrel , Omega ,   &
+                       Result , Work
       INTEGER Ier , Integr , Iwork , Last , limit , Lenw , Leniw , lvl ,&
             & l1 , l2 , l3 , l4 , Maxp1 , momcom , Neval
 !
@@ -4026,7 +4026,7 @@ module quadpack
 !
 !         check validity of leniw, maxp1 and lenw.
 !
-!***first executable statement  dqawo
+
       Ier = 6
       Neval = 0
       Last = 0
@@ -4057,10 +4057,10 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQAWOE(F,A,B,Omega,Integr,Epsabs,Epsrel,Limit,Icall,   &
-                      & Maxp1,Result,Abserr,Neval,Ier,Last,Alist,Blist, &
-                      & Rlist,Elist,Iord,Nnlog,Momcom,Chebmo)
+                        Maxp1,Result,Abserr,Neval,Ier,Last,Alist,Blist, &
+                        Rlist,Elist,Iord,Nnlog,Momcom,Chebmo)
       IMPLICIT NONE
-!*--DQAWOE4062
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, special-purpose,
@@ -4079,22 +4079,22 @@ module quadpack
 !
 !        computation of oscillatory integrals
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration
 !
-!            omega  - double precision
+!            omega  - real(wp)
 !                     parameter in the integrand weight function
 !
 !            integr - integer
@@ -4105,9 +4105,9 @@ module quadpack
 !                     if integr/=1 and integr/=2, the routine
 !                     will end with ier = 6.
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
@@ -4137,10 +4137,10 @@ module quadpack
 !                     if maxp1<1, the routine will end with ier = 6.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -4208,24 +4208,24 @@ module quadpack
 !                     process, which determines the number of
 !                     significant elements actually in the
 !                     work arrays.
-!            alist  - double precision
+!            alist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the left
 !                     end points of the subintervals in the partition
 !                     of the given integration range (a,b)
 !
-!            blist  - double precision
+!            blist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the right
 !                     end points of the subintervals in the partition
 !                     of the given integration range (a,b)
 !
-!            rlist  - double precision
+!            rlist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the integral
 !                     approximations on the subintervals
 !
-!            elist  - double precision
+!            elist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the moduli of the
 !                     absolute error estimates on the subintervals
@@ -4252,21 +4252,21 @@ module quadpack
 !                     (abs(b-a))*2**(-l), l=0,1,2, ..., momcom-1,
 !                     momcom<maxp1
 !
-!            chebmo - double precision
+!            chebmo - real(wp)
 !                     array of dimension (maxp1,25) containing the
 !                     chebyshev moments
 !
 
 !
-      DOUBLE PRECISION A , abseps , Abserr , Alist , area , area1 ,     &
-                     & area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
-                     & Chebmo , correc , defab1 , defab2 ,       &
-                     & defabs , DMAX1 , domega , dres , Elist ,&
-                     & epmach , Epsabs , Epsrel , erlarg , erlast ,     &
-                     & errbnd , errmax , error1 , erro12 , error2 ,     &
-                     & errsum , ertest , oflow , Omega , resabs ,   &
-                     & reseps , Result , res3la , Rlist , rlist2 ,      &
-                     & small , uflow , width
+      real(wp) A , abseps , Abserr , Alist , area , area1 ,     &
+                       area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
+                       Chebmo , correc , defab1 , defab2 ,       &
+                       defabs , domega , dres , Elist ,&
+                       epmach , Epsabs , Epsrel , erlarg , erlast ,     &
+                       errbnd , errmax , error1 , erro12 , error2 ,     &
+                       errsum , ertest , oflow , Omega , resabs ,   &
+                       reseps , Result , res3la , Rlist , rlist2 ,      &
+                       small , uflow , width
       INTEGER Icall , id , Ier , ierro , Integr , Iord , iroff1 ,       &
             & iroff2 , iroff3 , jupbnd , k , ksgn , ktmin , Last ,      &
             & Limit , maxerr , Maxp1 , Momcom , nev , Neval , Nnlog ,   &
@@ -4330,7 +4330,7 @@ module quadpack
 !           uflow is the smallest positive magnitude.
 !           oflow is the largest positive magnitude.
 !
-!***first executable statement  dqawoe
+
       epmach = D1MACH(4)
 !
 !         test on validity of parameters
@@ -4348,7 +4348,7 @@ module quadpack
       Iord(1) = 0
       Nnlog(1) = 0
       IF ( (Integr/=1 .AND. Integr/=2) .OR.                             &
-         & (Epsabs<=0.0D+00 .AND. Epsrel<DMAX1(0.5D+02*epmach,0.5D-28)) &
+         & (Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28)) &
          & .OR. Icall<1 .OR. Maxp1<1 ) Ier = 6
       IF ( Ier/=6 ) THEN
 !
@@ -4364,7 +4364,7 @@ module quadpack
 !           test on accuracy.
 !
          dres = abs(Result)
-         errbnd = DMAX1(Epsabs,Epsrel*dres)
+         errbnd = max(Epsabs,Epsrel*dres)
          Rlist(1) = Result
          Elist(1) = Abserr
          Iord(1) = 1
@@ -4373,7 +4373,7 @@ module quadpack
          IF ( Limit==1 ) Ier = 1
          IF ( Ier/=0 .OR. Abserr<=errbnd ) THEN
             IF ( Integr==2 .AND. Omega<0.0D+00 ) Result = -Result
-            GOTO 99999
+            return
          ELSE
 !
 !           initializations
@@ -4437,7 +4437,7 @@ module quadpack
                area = area + area12 - Rlist(maxerr)
                IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
                   IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) &
-                     & .AND. erro12>=0.99D+00*errmax ) THEN
+                       .AND. erro12>=0.99D+00*errmax ) THEN
                      IF ( extrap ) iroff2 = iroff2 + 1
                      IF ( .NOT.extrap ) iroff1 = iroff1 + 1
                   ENDIF
@@ -4447,7 +4447,7 @@ module quadpack
                Rlist(Last) = area2
                Nnlog(maxerr) = nrmom
                Nnlog(Last) = nrmom
-               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
+               errbnd = max(Epsabs,Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
@@ -4462,8 +4462,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-               IF ( DMAX1(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)  &
-                  & *(abs(a2)+0.1D+04*uflow) ) Ier = 4
+               IF ( max(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach)  &
+                    *(abs(a2)+0.1D+04*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -4553,7 +4553,7 @@ module quadpack
                         Abserr = abseps
                         Result = reseps
                         correc = erlarg
-                        ertest = DMAX1(Epsabs,Epsrel*abs(reseps))
+                        ertest = max(Epsabs,Epsrel*abs(reseps))
 ! ***jump out of do-loop
                         IF ( Abserr<=ertest ) GOTO 40
                      ENDIF
@@ -4588,7 +4588,7 @@ module quadpack
                         IF ( Ier>2 ) Ier = Ier - 1
                         IF ( Integr==2 .AND. Omega<0.0D+00 ) Result = - &
                            & Result
-                        GOTO 99999
+                        return
                      ENDIF
                   ELSEIF ( Abserr/abs(Result)>errsum/abs(area) ) THEN
                      GOTO 50
@@ -4597,14 +4597,14 @@ module quadpack
 !
 !           test on divergence.
 !
-               IF ( ksgn/=(-1) .OR. DMAX1(abs(Result),abs(area))      &
-                  & >defabs*0.1D-01 ) THEN
+               IF ( ksgn/=(-1) .OR. max(abs(Result),abs(area))      &
+                    >defabs*0.1D-01 ) THEN
                   IF ( 0.1D-01>(Result/area) .OR. (Result/area)         &
-                     & >0.1D+03 .OR. errsum>=abs(area) ) Ier = 6
+                       >0.1D+03 .OR. errsum>=abs(area) ) Ier = 6
                ENDIF
                IF ( Ier>2 ) Ier = Ier - 1
                IF ( Integr==2 .AND. Omega<0.0D+00 ) Result = -Result
-               GOTO 99999
+               return
             ENDIF
          ENDIF
 !
@@ -4618,15 +4618,15 @@ module quadpack
          IF ( Ier>2 ) Ier = Ier - 1
          IF ( Integr==2 .AND. Omega<0.0D+00 ) Result = -Result
       ENDIF
-99999 END
+    end
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQAWSE(F,A,B,Alfa,Beta,Integr,Epsabs,Epsrel,Limit,     &
-                      & Result,Abserr,Neval,Ier,Alist,Blist,Rlist,Elist,&
-                      & Iord,Last)
+                        Result,Abserr,Neval,Ier,Alist,Blist,Rlist,Elist,&
+                        Iord,Last)
       IMPLICIT NONE
-!*--DQAWSE4630
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, special-purpose,
@@ -4645,28 +4645,28 @@ module quadpack
 !        integration of functions having algebraico-logarithmic
 !        end point singularities
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!            f      - double precision
+!            f      - real(wp)
 !                     function subprogram defining the integrand
 !                     function f(x). the actual name for f needs to be
 !                     declared external in the driver program.
 !
-!            a      - double precision
+!            a      - real(wp)
 !                     lower limit of integration
 !
-!            b      - double precision
+!            b      - real(wp)
 !                     upper limit of integration, b>a
 !                     if b<=a, the routine will end with ier = 6.
 !
-!            alfa   - double precision
+!            alfa   - real(wp)
 !                     parameter in the weight function, alfa>(-1)
 !                     if alfa<=(-1), the routine will end with
 !                     ier = 6.
 !
-!            beta   - double precision
+!            beta   - real(wp)
 !                     parameter in the weight function, beta>(-1)
 !                     if beta<=(-1), the routine will end with
 !                     ier = 6.
@@ -4680,9 +4680,9 @@ module quadpack
 !                     if integr<1 or integr>4, the routine
 !                     will end with ier = 6.
 !
-!            epsabs - double precision
+!            epsabs - real(wp)
 !                     absolute accuracy requested
-!            epsrel - double precision
+!            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
 !                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
@@ -4694,10 +4694,10 @@ module quadpack
 !                     if limit<2, the routine will end with ier = 6.
 !
 !         on return
-!            result - double precision
+!            result - real(wp)
 !                     approximation to the integral
 !
-!            abserr - double precision
+!            abserr - real(wp)
 !                     estimate of the modulus of the absolute error,
 !                     which should equal or exceed abs(i-result)
 !
@@ -4745,24 +4745,24 @@ module quadpack
 !                             and blist(1) are set to a and b
 !                             respectively.
 !
-!            alist  - double precision
+!            alist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the left
 !                     end points of the subintervals in the partition
 !                     of the given integration range (a,b)
 !
-!            blist  - double precision
+!            blist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the right
 !                     end points of the subintervals in the partition
 !                     of the given integration range (a,b)
 !
-!            rlist  - double precision
+!            rlist  - real(wp)
 !                     vector of dimension at least limit,the first
 !                      last  elements of which are the integral
 !                     approximations on the subintervals
 !
-!            elist  - double precision
+!            elist  - real(wp)
 !                     vector of dimension at least limit, the first
 !                      last  elements of which are the moduli of the
 !                     absolute error estimates on the subintervals
@@ -4781,13 +4781,13 @@ module quadpack
 !
 
 !
-      DOUBLE PRECISION A , Abserr , Alfa , Alist , area , area1 ,       &
-                     & area12 , area2 , a1 , a2 , B , Beta , Blist ,    &
-                     & b1 , b2 , centre , DMAX1 ,       &
-                     & Elist , epmach , Epsabs , Epsrel , errbnd ,      &
-                     & errmax , error1 , erro12 , error2 , errsum , &
-                     & resas1 , resas2 , Result , rg , rh , ri , rj ,   &
-                     & Rlist , uflow
+      real(wp) A , Abserr , Alfa , Alist , area , area1 ,       &
+                       area12 , area2 , a1 , a2 , B , Beta , Blist ,    &
+                       b1 , b2 , centre ,       &
+                       Elist , epmach , Epsabs , Epsrel , errbnd ,      &
+                       errmax , error1 , erro12 , error2 , errsum , &
+                       resas1 , resas2 , Result , rg , rh , ri , rj ,   &
+                       Rlist , uflow
       INTEGER Ier , Integr , Iord , iroff1 , iroff2 , k , Last , Limit ,&
             & maxerr , nev , Neval , nrmax
 !
@@ -4825,7 +4825,7 @@ module quadpack
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
 !
-!***first executable statement  dqawse
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -4840,7 +4840,7 @@ module quadpack
       Iord(1) = 0
       Result = 0.0D+00
       Abserr = 0.0D+00
-      IF ( .NOT.(B<=A .OR. (Epsabs==0.0D+00 .AND. Epsrel<DMAX1(0.5D+02* &
+      IF ( .NOT.(B<=A .OR. (Epsabs==0.0D+00 .AND. Epsrel<max(0.5D+02* &
          & epmach,0.5D-28)) .OR. Alfa<=(-0.1D+01) .OR. Beta<=(-0.1D+01) &
          & .OR. Integr<1 .OR. Integr>4 .OR. Limit<2) ) THEN
          Ier = 0
@@ -4864,7 +4864,7 @@ module quadpack
 !
 !           test on accuracy.
 !
-         errbnd = DMAX1(Epsabs,Epsrel*abs(Result))
+         errbnd = max(Epsabs,Epsrel*abs(Result))
 !
 !           initialization
 !           --------------
@@ -4943,7 +4943,7 @@ module quadpack
 !
 !           test on accuracy.
 !
-               errbnd = DMAX1(Epsabs,Epsrel*abs(area))
+               errbnd = max(Epsabs,Epsrel*abs(area))
                IF ( errsum>errbnd ) THEN
 !
 !           set error flag in the case that the number of interval
@@ -4959,9 +4959,9 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at interior points of integration range.
 !
-                  IF ( DMAX1(abs(a1),abs(b2))                         &
-                     & <=(0.1D+01+0.1D+03*epmach)                       &
-                     & *(abs(a2)+0.1D+04*uflow) ) Ier = 3
+                  IF ( max(abs(a1),abs(b2))                         &
+                       <=(0.1D+01+0.1D+03*epmach)                       &
+                       *(abs(a2)+0.1D+04*uflow) ) Ier = 3
                ENDIF
 !
 !           append the newly-created intervals to the list.
@@ -5007,7 +5007,7 @@ module quadpack
 !********************************************************************************
       SUBROUTINE DQC25C(F,A,B,C,Result,Abserr,Krul,Neval)
       IMPLICIT NONE
-!*--DQC25C5013
+
 !***date written   810101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  25-point clenshaw-curtis integration
@@ -5020,24 +5020,24 @@ module quadpack
 !        integration rules for the computation of cauchy
 !        principal value integrals
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
-!           f      - double precision
+!           f      - real(wp)
 !                    function subprogram defining the integrand function
 !                    f(x). the actual name for f needs to be declared
 !                    external  in the driver program.
 !
-!           a      - double precision
+!           a      - real(wp)
 !                    left end point of the integration interval
 !
-!           b      - double precision
+!           b      - real(wp)
 !                    right end point of the integration interval, b>a
 !
-!           c      - double precision
+!           c      - real(wp)
 !                    parameter in the weight function
 !
-!           result - double precision
+!           result - real(wp)
 !                    approximation to the integral
 !                    result is computed by using a generalized
 !                    clenshaw-curtis method if c lies within ten percent
@@ -5045,7 +5045,7 @@ module quadpack
 !                    15-point kronrod rule obtained by optimal addition
 !                    of abscissae to the 7-point gauss rule, is applied.
 !
-!           abserr - double precision
+!           abserr - real(wp)
 !                    estimate of the modulus of the absolute error,
 !                    which should equal or exceed abs(i-result)
 !
@@ -5059,10 +5059,10 @@ module quadpack
 !.......................................................................
 
 !
-      DOUBLE PRECISION A , Abserr , ak22 , amom0 , amom1 , amom2 , B ,  &
-                     & C , cc , centr , cheb12 , cheb24 , &
-                     & fval , hlgth , p2 , p3 , p4 ,       &
-                     & resabs , resasc , Result , res12 , res24 , u , x
+      real(wp) A , Abserr , ak22 , amom0 , amom1 , amom2 , B ,  &
+                       C , cc , centr , cheb12 , cheb24 , &
+                       fval , hlgth , p2 , p3 , p4 ,       &
+                       resabs , resasc , Result , res12 , res24 , u , x
       INTEGER i , isym , k , kp , Krul , Neval
 !
       DIMENSION x(11) , fval(25) , cheb12(13) , cheb24(25)
@@ -5105,7 +5105,7 @@ module quadpack
 !
 !           check the position of c.
 !
-!***first executable statement  dqc25c
+
       cc = (0.2D+01*C-B-A)/(B-A)
       IF ( abs(cc)<0.11D+01 ) THEN
 !
@@ -5169,9 +5169,9 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQC25F(F,A,B,Omega,Integr,Nrmom,Maxp1,Ksave,Result,    &
-                      & Abserr,Neval,Resabs,Resasc,Momcom,Chebmo)
+                        Abserr,Neval,Resabs,Resasc,Momcom,Chebmo)
       IMPLICIT NONE
-!*--DQC25F5179
+
 !***date written   810101   (yymmdd)
 !***revision date  211011   (yymmdd)
 !***keywords  integration rules for functions with cos or sin
@@ -5188,22 +5188,22 @@ module quadpack
 !
 !        integration rules for functions with cos or sin factor
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !         on entry
-!           f      - double precision
+!           f      - real(wp)
 !                    function subprogram defining the integrand
 !                    function f(x). the actual name for f needs to
 !                    be declared external in the calling program.
 !
-!           a      - double precision
+!           a      - real(wp)
 !                    lower limit of integration
 !
-!           b      - double precision
+!           b      - real(wp)
 !                    upper limit of integration
 !
-!           omega  - double precision
+!           omega  - real(wp)
 !                    parameter in the weight function
 !
 !           integr - integer
@@ -5229,20 +5229,20 @@ module quadpack
 !                    current interval have been computed
 !
 !         on return
-!           result - double precision
+!           result - real(wp)
 !                    approximation to the integral i
 !
-!           abserr - double precision
+!           abserr - real(wp)
 !                    estimate of the modulus of the absolute
 !                    error, which should equal or exceed abs(i-result)
 !
 !           neval  - integer
 !                    number of integrand evaluations
 !
-!           resabs - double precision
+!           resabs - real(wp)
 !                    approximation to the integral j
 !
-!           resasc - double precision
+!           resasc - real(wp)
 !                    approximation to the integral of abs(f-i/(b-a))
 !
 !         on entry and return
@@ -5255,7 +5255,7 @@ module quadpack
 !                    already been computed and stored, otherwise we
 !                    compute them and we increase momcom.
 !
-!           chebmo - double precision
+!           chebmo - real(wp)
 !                    array of dimension at least (maxp1,25) containing
 !                    the modified chebyshev moments for the first momcom
 !                    momcom interval lengths
@@ -5263,14 +5263,14 @@ module quadpack
 ! ......................................................................
 
 !
-      DOUBLE PRECISION A , Abserr , ac , an , an2 , as , asap , ass ,   &
-                     & B , centr , Chebmo , cheb12 , cheb24 , conc ,    &
-                     & cons , cospar , d ,&
-                     & d1 , d2 , estc , ests , fval ,      &
-                     & hlgth , oflow , Omega , parint , par2 , par22 ,  &
-                     & p2 , p3 , p4 , Resabs , Resasc , resc12 ,        &
-                     & resc24 , ress12 , ress24 , Result , sinpar , v , &
-                     & x
+      real(wp) A , Abserr , ac , an , an2 , as , asap , ass ,   &
+                       B , centr , Chebmo , cheb12 , cheb24 , conc ,    &
+                       cons , cospar , d ,&
+                       d1 , d2 , estc , ests , fval ,      &
+                       hlgth , oflow , Omega , parint , par2 , par22 ,  &
+                       p2 , p3 , p4 , Resabs , Resasc , resc12 ,        &
+                       resc24 , ress12 , ress24 , Result , sinpar , v , &
+                       x
       INTEGER i , iers , Integr , isym , j , k , Ksave , m , Momcom ,   &
             & Neval , Maxp1 , noequ , noeq1 , Nrmom
 !
@@ -5322,7 +5322,7 @@ module quadpack
 !
 !           oflow is the largest positive magnitude.
 !
-!***first executable statement  dqc25f
+
       oflow = D1MACH(2)
 !
       centr = 0.5D+00*(B+A)
@@ -5401,9 +5401,9 @@ module quadpack
                v(4) = v(4) - 0.56D+02*par2*v(3)
                ass = parint*sinpar
                asap = (((((0.210D+03*par2-0.1D+01)*cospar-(0.105D+03*   &
-                    & par2-0.63D+02)*ass)/an2-(0.1D+01-0.15D+02*par2)   &
-                    & *cospar+0.15D+02*ass)/an2-cospar+0.3D+01*ass)     &
-                    & /an2-cospar)/an2
+                      par2-0.63D+02)*ass)/an2-(0.1D+01-0.15D+02*par2)   &
+                      *cospar+0.15D+02*ass)/an2-cospar+0.3D+01*ass)     &
+                      /an2-cospar)/an2
                v(noequ+3) = v(noequ+3) - 0.2D+01*asap*par2*(an-0.1D+01) &
                           & *(an-0.2D+01)
 !
@@ -5411,7 +5411,7 @@ module quadpack
 !           elimination with partial pivoting.
 !
 !***        call to dgtsl must be replaced by call to
-!***        double precision version of linpack routine sgtsl
+!***        real(wp) version of linpack routine sgtsl
 !
                CALL DGTSL(noequ,d1,d,d2,v(4),iers)
             ENDIF
@@ -5459,9 +5459,9 @@ module quadpack
                v(3) = v(3) - 0.42D+02*par2*v(2)
                ass = parint*cospar
                asap = (((((0.105D+03*par2-0.63D+02)*ass+(0.210D+03*par2-&
-                    & 0.1D+01)*sinpar)/an2+(0.15D+02*par2-0.1D+01)      &
-                    & *sinpar-0.15D+02*ass)/an2-0.3D+01*ass-sinpar)     &
-                    & /an2-sinpar)/an2
+                      0.1D+01)*sinpar)/an2+(0.15D+02*par2-0.1D+01)      &
+                      *sinpar-0.15D+02*ass)/an2-0.3D+01*ass-sinpar)     &
+                      /an2-sinpar)/an2
                v(noequ+2) = v(noequ+2) - 0.2D+01*asap*par2*(an-0.1D+01) &
                           & *(an-0.2D+01)
 !
@@ -5469,7 +5469,7 @@ module quadpack
 !           elimination with partial pivoting.
 !
 !***        call to dgtsl must be replaced by call to
-!***        double precision version of linpack routine sgtsl
+!***        real(wp) version of linpack routine sgtsl
 !
                CALL DGTSL(noequ,d1,d,d2,v(3),iers)
             ENDIF
@@ -5533,9 +5533,9 @@ module quadpack
 
 !********************************************************************************
       SUBROUTINE DQC25S(F,A,B,Bl,Br,Alfa,Beta,Ri,Rj,Rg,Rh,Result,Abserr,&
-                      & Resasc,Integr,Nev)
+                        Resasc,Integr,Nev)
       IMPLICIT NONE
-!*--DQC25S5545
+
 !***date written   810101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  25-point clenshaw-curtis integration
@@ -5550,38 +5550,38 @@ module quadpack
 !        integration rules for integrands having algebraico-logarithmic
 !        end point singularities
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
-!           f      - double precision
+!           f      - real(wp)
 !                    function subprogram defining the integrand
 !                    f(x). the actual name for f needs to be declared
 !                    external  in the driver program.
 !
-!           a      - double precision
+!           a      - real(wp)
 !                    left end point of the original interval
 !
-!           b      - double precision
+!           b      - real(wp)
 !                    right end point of the original interval, b>a
 !
-!           bl     - double precision
+!           bl     - real(wp)
 !                    lower limit of integration, bl>=a
 !
-!           br     - double precision
+!           br     - real(wp)
 !                    upper limit of integration, br<=b
 !
-!           alfa   - double precision
+!           alfa   - real(wp)
 !                    parameter in the weight function
 !
-!           beta   - double precision
+!           beta   - real(wp)
 !                    parameter in the weight function
 !
-!           ri,rj,rg,rh - double precision
+!           ri,rj,rg,rh - real(wp)
 !                    modified chebyshev moments for the application
 !                    of the generalized clenshaw-curtis
 !                    method (computed in subroutine dqmomo)
 !
-!           result - double precision
+!           result - real(wp)
 !                    approximation to the integral
 !                    result is computed by using a generalized
 !                    clenshaw-curtis method if b1 = a or br = b.
@@ -5589,11 +5589,11 @@ module quadpack
 !                    rule is applied, obtained by optimal addition of
 !                    abscissae to the 7-point gauss rule.
 !
-!           abserr - double precision
+!           abserr - real(wp)
 !                    estimate of the modulus of the absolute error,
 !                    which should equal or exceed abs(i-result)
 !
-!           resasc - double precision
+!           resasc - real(wp)
 !                    approximation to the integral of abs(f*w-i/(b-a))
 !
 !           integr - integer
@@ -5608,11 +5608,11 @@ module quadpack
 !                    number of integrand evaluations
 
 !
-      DOUBLE PRECISION A , Abserr , Alfa , B , Beta , Bl , Br , centr , &
-                     & cheb12 , cheb24 , dc , factor ,&
-                     & fix , fval , hlgth , resabs , Resasc , Result ,  &
-                     & res12 , res24 , Rg , Rh , Ri , Rj , u , &
-                     & x
+      real(wp) A , Abserr , Alfa , B , Beta , Bl , Br , centr , &
+                       cheb12 , cheb24 , dc , factor ,&
+                       fix , fval , hlgth , resabs , Resasc , Result ,  &
+                       res12 , res24 , Rg , Rh , Ri , Rj , u , &
+                       x
       INTEGER i , Integr , isym , Nev
 !
       DIMENSION cheb12(13) , cheb24(25) , fval(25) , Rg(25) , Rh(25) ,  &
@@ -5655,7 +5655,7 @@ module quadpack
 !           hlgth  - half-length of the interval (bl,br)
 !           centr  - mid point of the interval (bl,br)
 !
-!***first executable statement  dqc25s
+
       Nev = 25
       IF ( Bl==A .AND. (Alfa/=0.0D+00 .OR. Integr==2 .OR. Integr==4) )  &
          & THEN
@@ -5879,8 +5879,9 @@ module quadpack
 !********************************************************************************
       SUBROUTINE DQCHEB(X,Fval,Cheb12,Cheb24)
       IMPLICIT NONE
-!*--DQCHEB5891
-!***refer to  dqc25c,dqc25f,dqc25s
+
+!### See also
+!  *  dqc25c,dqc25f,dqc25s
 !***revision date  830518   (yymmdd)
 !***keywords  chebyshev series expansion, fast fourier transform
 !***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
@@ -5895,15 +5896,15 @@ module quadpack
 !
 !        chebyshev series expansion
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
 !          on entry
-!           x      - double precision
+!           x      - real(wp)
 !                    vector of dimension 11 containing the
 !                    values cos(k*pi/24), k = 1, ..., 11
 !
-!           fval   - double precision
+!           fval   - real(wp)
 !                    vector of dimension 25 containing the
 !                    function values at the points
 !                    (b+a+(b-a)*cos(k*pi/24))/2, k = 0, ...,24,
@@ -5912,22 +5913,22 @@ module quadpack
 !                    (these values are destroyed at output).
 !
 !          on return
-!           cheb12 - double precision
+!           cheb12 - real(wp)
 !                    vector of dimension 13 containing the
 !                    chebyshev coefficients for degree 12
 !
-!           cheb24 - double precision
+!           cheb24 - real(wp)
 !                    vector of dimension 25 containing the
 !                    chebyshev coefficients for degree 24
 !
 !
-      DOUBLE PRECISION alam , alam1 , alam2 , Cheb12 , Cheb24 , Fval ,  &
-                     & part1 , part2 , part3 , v , X
+      real(wp) alam , alam1 , alam2 , Cheb12 , Cheb24 , Fval ,  &
+                       part1 , part2 , part3 , v , X
       INTEGER i , j
 !
       DIMENSION Cheb12(13) , Cheb24(25) , Fval(25) , v(12) , X(11)
 !
-!***first executable statement  dqcheb
+
       DO i = 1 , 12
          j = 26 - i
          v(i) = Fval(i) - Fval(j)
@@ -6028,8 +6029,9 @@ module quadpack
 !********************************************************************************
       SUBROUTINE DQELG(N,Epstab,Result,Abserr,Res3la,Nres)
       IMPLICIT NONE
-!*--DQELG6041
-!***refer to  dqagie,dqagoe,dqagpe,dqagse
+
+!### See also
+!  *  dqagie,dqagoe,dqagpe,dqagse
 !***revision date  830518   (yymmdd)
 !***keywords  epsilon algorithm, convergence acceleration,
 !             extrapolation
@@ -6045,28 +6047,28 @@ module quadpack
 !
 !           epsilon algorithm
 !           standard fortran subroutine
-!           double precision version
+!           real(wp) version
 !
 !           parameters
 !              n      - integer
 !                       epstab(n) contains the new element in the
 !                       first column of the epsilon table.
 !
-!              epstab - double precision
+!              epstab - real(wp)
 !                       vector of dimension 52 containing the elements
 !                       of the two lower diagonals of the triangular
 !                       epsilon table. the elements are numbered
 !                       starting at the right-hand corner of the
 !                       triangle.
 !
-!              result - double precision
+!              result - real(wp)
 !                       resulting approximation to the integral
 !
-!              abserr - double precision
+!              abserr - real(wp)
 !                       estimate of the absolute error computed from
 !                       result and the 3 previous results
 !
-!              res3la - double precision
+!              res3la - real(wp)
 !                       vector of dimension 3 containing the last 3
 !                       results
 !
@@ -6075,11 +6077,11 @@ module quadpack
 !                       (should be zero at first call)
 !
 !
-      DOUBLE PRECISION Abserr , delta1 , delta2 , delta3 ,       &
-                     & DMAX1 , epmach , epsinf , Epstab ,      &
-                     & error , err1 , err2 , err3 , e0 , e1 , e1abs ,   &
-                     & e2 , e3 , oflow , res , Result , Res3la , ss ,   &
-                     & tol1 , tol2 , tol3
+      real(wp) Abserr , delta1 , delta2 , delta3 ,       &
+                       epmach , epsinf , Epstab ,      &
+                       error , err1 , err2 , err3 , e0 , e1 , e1abs ,   &
+                       e2 , e3 , oflow , res , Result , Res3la , ss ,   &
+                       tol1 , tol2 , tol3
       INTEGER i , ib , ib2 , ie , indx , k1 , k2 , k3 , limexp , N ,    &
             & newelm , Nres , num
       DIMENSION Epstab(52) , Res3la(3)
@@ -6108,7 +6110,7 @@ module quadpack
 !           table can contain. if this number is reached, the upper
 !           diagonal of the epsilon table is deleted.
 !
-!***first executable statement  dqelg
+
       epmach = D1MACH(4)
       oflow = D1MACH(2)
       Nres = Nres + 1
@@ -6131,16 +6133,16 @@ module quadpack
             e1abs = abs(e1)
             delta2 = e2 - e1
             err2 = abs(delta2)
-            tol2 = DMAX1(abs(e2),e1abs)*epmach
+            tol2 = max(abs(e2),e1abs)*epmach
             delta3 = e1 - e0
             err3 = abs(delta3)
-            tol3 = DMAX1(e1abs,abs(e0))*epmach
+            tol3 = max(e1abs,abs(e0))*epmach
             IF ( err2>tol2 .OR. err3>tol3 ) THEN
                e3 = Epstab(k1)
                Epstab(k1) = e1
                delta1 = e1 - e3
                err1 = abs(delta1)
-               tol1 = DMAX1(e1abs,abs(e3))*epmach
+               tol1 = max(e1abs,abs(e3))*epmach
 !
 !           if two elements are very close to each other, omit
 !           a part of the table by adjusting the value of n
@@ -6218,14 +6220,14 @@ module quadpack
             Abserr = oflow
          ENDIF
       ENDIF
- 200  Abserr = DMAX1(Abserr,0.5D+01*epmach*abs(Result))
+ 200  Abserr = max(Abserr,0.5D+01*epmach*abs(Result))
       END
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQK15(F,A,B,Result,Abserr,Resabs,Resasc)
       IMPLICIT NONE
-!*--DQK156239
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  15-point gauss-kronrod rules
@@ -6238,46 +6240,46 @@ module quadpack
 !
 !           integration rules
 !           standard fortran subroutine
-!           double precision version
+!           real(wp) version
 !
 !           parameters
 !            on entry
-!              f      - double precision
+!              f      - real(wp)
 !                       function subprogram defining the integrand
 !                       function f(x). the actual name for f needs to be
 !                       declared external in the calling program.
 !
-!              a      - double precision
+!              a      - real(wp)
 !                       lower limit of integration
 !
-!              b      - double precision
+!              b      - real(wp)
 !                       upper limit of integration
 !
 !            on return
-!              result - double precision
+!              result - real(wp)
 !                       approximation to the integral i
 !                       result is computed by applying the 15-point
 !                       kronrod rule (resk) obtained by optimal addition
 !                       of abscissae to the7-point gauss rule(resg).
 !
-!              abserr - double precision
+!              abserr - real(wp)
 !                       estimate of the modulus of the absolute error,
 !                       which should not exceed abs(i-result)
 !
-!              resabs - double precision
+!              resabs - real(wp)
 !                       approximation to the integral j
 !
-!              resasc - double precision
+!              resasc - real(wp)
 !                       approximation to the integral of abs(f-i/(b-a))
 !                       over (a,b)
 !
 
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , dhlgth ,  &
-                     & DMAX1 , DMIN1 , epmach , fc , fsum ,&
-                     & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
-                     & Resasc , resg , resk , reskh , Result , uflow ,  &
-                     & wg , wgk , xgk
+      real(wp) A , absc , Abserr , B , centr , dhlgth ,  &
+                       DMIN1 , epmach , fc , fsum ,&
+                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
+                       Resasc , resg , resk , reskh , Result , uflow ,  &
+                       wg , wgk , xgk
       INTEGER j , jtw , jtwm1
       procedure(func) :: f
 !
@@ -6344,7 +6346,7 @@ module quadpack
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
 !
-!***first executable statement  dqk15
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -6396,14 +6398,14 @@ module quadpack
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
       IF ( Resabs>uflow/(0.5D+02*epmach) )                              &
-         & Abserr = DMAX1((epmach*0.5D+02)*Resabs,Abserr)
+         & Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
       END
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQK15I(F,Boun,Inf,A,B,Result,Abserr,Resabs,Resasc)
       IMPLICIT NONE
-!*--DQK15I6419
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  15-point transformed gauss-kronrod rules
@@ -6418,16 +6420,16 @@ module quadpack
 !
 !           integration rule
 !           standard fortran subroutine
-!           double precision version
+!           real(wp) version
 !
 !           parameters
 !            on entry
-!              f      - double precision
+!              f      - real(wp)
 !                       fuction subprogram defining the integrand
 !                       function f(x). the actual name for f needs to be
 !                       declared external in the calling program.
 !
-!              boun   - double precision
+!              boun   - real(wp)
 !                       finite bound of original integration
 !                       range (set to zero if inf = +2)
 !
@@ -6442,40 +6444,40 @@ module quadpack
 !                       integrals, one over (-infinity,0) and one over
 !                       (0,+infinity).
 !
-!              a      - double precision
+!              a      - real(wp)
 !                       lower limit for integration over subrange
 !                       of (0,1)
 !
-!              b      - double precision
+!              b      - real(wp)
 !                       upper limit for integration over subrange
 !                       of (0,1)
 !
 !            on return
-!              result - double precision
+!              result - real(wp)
 !                       approximation to the integral i
 !                       result is computed by applying the 15-point
 !                       kronrod rule(resk) obtained by optimal addition
 !                       of abscissae to the 7-point gauss rule(resg).
 !
-!              abserr - double precision
+!              abserr - real(wp)
 !                       estimate of the modulus of the absolute error,
 !                       which should equal or exceed abs(i-result)
 !
-!              resabs - double precision
+!              resabs - real(wp)
 !                       approximation to the integral j
 !
-!              resasc - double precision
+!              resasc - real(wp)
 !                       approximation to the integral of
 !                       abs((transformed integrand)-i/(b-a)) over (a,b)
 !
 
 !
-      DOUBLE PRECISION A , absc , absc1 , absc2 , Abserr , B , Boun ,   &
-                     & centr , dinf , DMAX1 , DMIN1 ,   &
-                     & epmach , fc , fsum , fval1 , fval2 , fv1 ,   &
-                     & fv2 , hlgth , Resabs , Resasc , resg , resk ,    &
-                     & reskh , Result , tabsc1 , tabsc2 , uflow , wg ,  &
-                     & wgk , xgk
+      real(wp) A , absc , absc1 , absc2 , Abserr , B , Boun ,   &
+                       centr , dinf , DMIN1 ,   &
+                       epmach , fc , fsum , fval1 , fval2 , fv1 ,   &
+                       fv2 , hlgth , Resabs , Resasc , resg , resk ,    &
+                       reskh , Result , tabsc1 , tabsc2 , uflow , wg ,  &
+                       wgk , xgk
       INTEGER Inf , j
       procedure(func) :: f
 !
@@ -6544,7 +6546,7 @@ module quadpack
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
 !
-!***first executable statement  dqk15i
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
       dinf = MIN0(1,Inf)
@@ -6595,15 +6597,15 @@ module quadpack
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
       IF ( Resabs>uflow/(0.5D+02*epmach) )                              &
-         & Abserr = DMAX1((epmach*0.5D+02)*Resabs,Abserr)
+         & Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
       END
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQK15W(F,W,P1,P2,P3,P4,Kp,A,B,Result,Abserr,Resabs,    &
-                      & Resasc)
+                        Resasc)
       IMPLICIT NONE
-!*--DQK15W6621
+
 !***date written   810101   (yymmdd)
 !***revision date  830518   (mmddyy)
 !***keywords  15-point gauss-kronrod rules
@@ -6616,59 +6618,59 @@ module quadpack
 !
 !           integration rules
 !           standard fortran subroutine
-!           double precision version
+!           real(wp) version
 !
 !           parameters
 !             on entry
-!              f      - double precision
+!              f      - real(wp)
 !                       function subprogram defining the integrand
 !                       function f(x). the actual name for f needs to be
 !                       declared external in the driver program.
 !
-!              w      - double precision
+!              w      - real(wp)
 !                       function subprogram defining the integrand
 !                       weight function w(x). the actual name for w
 !                       needs to be declared external in the
 !                       calling program.
 !
-!              p1, p2, p3, p4 - double precision
+!              p1, p2, p3, p4 - real(wp)
 !                       parameters in the weight function
 !
 !              kp     - integer
 !                       key for indicating the type of weight function
 !
-!              a      - double precision
+!              a      - real(wp)
 !                       lower limit of integration
 !
-!              b      - double precision
+!              b      - real(wp)
 !                       upper limit of integration
 !
 !            on return
-!              result - double precision
+!              result - real(wp)
 !                       approximation to the integral i
 !                       result is computed by applying the 15-point
 !                       kronrod rule (resk) obtained by optimal addition
 !                       of abscissae to the 7-point gauss rule (resg).
 !
-!              abserr - double precision
+!              abserr - real(wp)
 !                       estimate of the modulus of the absolute error,
 !                       which should equal or exceed abs(i-result)
 !
-!              resabs - double precision
+!              resabs - real(wp)
 !                       approximation to the integral of abs(f)
 !
-!              resasc - double precision
+!              resasc - real(wp)
 !                       approximation to the integral of abs(f-i/(b-a))
 !
 !
 
 !
-      DOUBLE PRECISION A , absc , absc1 , absc2 , Abserr , B , centr ,  &
-                     & abs , dhlgth , DMAX1 , DMIN1 , epmach ,&
-                     & fc , fsum , fval1 , fval2 , fv1 , fv2 ,      &
-                     & hlgth , P1 , P2 , P3 , P4 , Resabs , Resasc ,    &
-                     & resg , resk , reskh , Result , uflow , W , wg ,  &
-                     & wgk , xgk
+      real(wp) A , absc , absc1 , absc2 , Abserr , B , centr ,  &
+                       abs , dhlgth , DMIN1 , epmach ,&
+                       fc , fsum , fval1 , fval2 , fv1 , fv2 ,      &
+                       hlgth , P1 , P2 , P3 , P4 , Resabs , Resasc ,    &
+                       resg , resk , reskh , Result , uflow , W , wg ,  &
+                       wgk , xgk
       INTEGER j , jtw , jtwm1 , Kp
       procedure(func) :: f
       external :: W
@@ -6724,7 +6726,7 @@ module quadpack
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
 !
-!***first executable statement  dqk15w
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -6780,14 +6782,14 @@ module quadpack
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
       IF ( Resabs>uflow/(0.5D+02*epmach) )                              &
-         & Abserr = DMAX1((epmach*0.5D+02)*Resabs,Abserr)
+         & Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
       END
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQK21(F,A,B,Result,Abserr,Resabs,Resasc)
       IMPLICIT NONE
-!*--DQK216806
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  21-point gauss-kronrod rules
@@ -6800,46 +6802,46 @@ module quadpack
 !
 !           integration rules
 !           standard fortran subroutine
-!           double precision version
+!           real(wp) version
 !
 !           parameters
 !            on entry
-!              f      - double precision
+!              f      - real(wp)
 !                       function subprogram defining the integrand
 !                       function f(x). the actual name for f needs to be
 !                       declared external in the driver program.
 !
-!              a      - double precision
+!              a      - real(wp)
 !                       lower limit of integration
 !
-!              b      - double precision
+!              b      - real(wp)
 !                       upper limit of integration
 !
 !            on return
-!              result - double precision
+!              result - real(wp)
 !                       approximation to the integral i
 !                       result is computed by applying the 21-point
 !                       kronrod rule (resk) obtained by optimal addition
 !                       of abscissae to the 10-point gauss rule (resg).
 !
-!              abserr - double precision
+!              abserr - real(wp)
 !                       estimate of the modulus of the absolute error,
 !                       which should not exceed abs(i-result)
 !
-!              resabs - double precision
+!              resabs - real(wp)
 !                       approximation to the integral j
 !
-!              resasc - double precision
+!              resasc - real(wp)
 !                       approximation to the integral of abs(f-i/(b-a))
 !                       over (a,b)
 !
 
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , dhlgth ,  &
-                     & DMAX1 , DMIN1 , epmach , fc , fsum ,&
-                     & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
-                     & Resasc , resg , resk , reskh , Result , uflow ,  &
-                     & wg , wgk , xgk
+      real(wp) A , absc , Abserr , B , centr , dhlgth ,  &
+                       DMIN1 , epmach , fc , fsum ,&
+                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
+                       Resasc , resg , resk , reskh , Result , uflow ,  &
+                       wg , wgk , xgk
       INTEGER j , jtw , jtwm1
       procedure(func) :: f
 !
@@ -6914,7 +6916,7 @@ module quadpack
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
 !
-!***first executable statement  dqk21
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -6966,14 +6968,14 @@ module quadpack
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
       IF ( Resabs>uflow/(0.5D+02*epmach) )                              &
-         & Abserr = DMAX1((epmach*0.5D+02)*Resabs,Abserr)
+         & Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
       END
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQK31(F,A,B,Result,Abserr,Resabs,Resasc)
       IMPLICIT NONE
-!*--DQK316994
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  31-point gauss-kronrod rules
@@ -6986,23 +6988,23 @@ module quadpack
 !
 !           integration rules
 !           standard fortran subroutine
-!           double precision version
+!           real(wp) version
 !
 !           parameters
 !            on entry
-!              f      - double precision
+!              f      - real(wp)
 !                       function subprogram defining the integrand
 !                       function f(x). the actual name for f needs to be
 !                       declared external in the calling program.
 !
-!              a      - double precision
+!              a      - real(wp)
 !                       lower limit of integration
 !
-!              b      - double precision
+!              b      - real(wp)
 !                       upper limit of integration
 !
 !            on return
-!              result - double precision
+!              result - real(wp)
 !                       approximation to the integral i
 !                       result is computed by applying the 31-point
 !                       gauss-kronrod rule (resk), obtained by optimal
@@ -7013,19 +7015,19 @@ module quadpack
 !                       estimate of the modulus of the modulus,
 !                       which should not exceed abs(i-result)
 !
-!              resabs - double precision
+!              resabs - real(wp)
 !                       approximation to the integral j
 !
-!              resasc - double precision
+!              resasc - real(wp)
 !                       approximation to the integral of abs(f-i/(b-a))
 !                       over (a,b)
 !
 
-      DOUBLE PRECISION A , absc , Abserr , B , centr , dhlgth ,  &
-                     & DMAX1 , DMIN1 , epmach , fc , fsum ,&
-                     & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
-                     & Resasc , resg , resk , reskh , Result , uflow ,  &
-                     & wg , wgk , xgk
+      real(wp) A , absc , Abserr , B , centr , dhlgth ,  &
+                       DMIN1 , epmach , fc , fsum ,&
+                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
+                       Resasc , resg , resk , reskh , Result , uflow ,  &
+                       wg , wgk , xgk
       INTEGER j , jtw , jtwm1
       procedure(func) :: f
 !
@@ -7109,7 +7111,7 @@ module quadpack
 !           ---------------------------
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
-!***first executable statement  dqk31
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -7161,14 +7163,14 @@ module quadpack
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
       IF ( Resabs>uflow/(0.5D+02*epmach) )                              &
-         & Abserr = DMAX1((epmach*0.5D+02)*Resabs,Abserr)
+         & Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
       END
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQK41(F,A,B,Result,Abserr,Resabs,Resasc)
       IMPLICIT NONE
-!*--DQK417191
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  41-point gauss-kronrod rules
@@ -7181,47 +7183,47 @@ module quadpack
 !
 !           integration rules
 !           standard fortran subroutine
-!           double precision version
+!           real(wp) version
 !
 !           parameters
 !            on entry
-!              f      - double precision
+!              f      - real(wp)
 !                       function subprogram defining the integrand
 !                       function f(x). the actual name for f needs to be
 !                       declared external in the calling program.
 !
-!              a      - double precision
+!              a      - real(wp)
 !                       lower limit of integration
 !
-!              b      - double precision
+!              b      - real(wp)
 !                       upper limit of integration
 !
 !            on return
-!              result - double precision
+!              result - real(wp)
 !                       approximation to the integral i
 !                       result is computed by applying the 41-point
 !                       gauss-kronrod rule (resk) obtained by optimal
 !                       addition of abscissae to the 20-point gauss
 !                       rule (resg).
 !
-!              abserr - double precision
+!              abserr - real(wp)
 !                       estimate of the modulus of the absolute error,
 !                       which should not exceed abs(i-result)
 !
-!              resabs - double precision
+!              resabs - real(wp)
 !                       approximation to the integral j
 !
-!              resasc - double precision
+!              resasc - real(wp)
 !                       approximation to the integal of abs(f-i/(b-a))
 !                       over (a,b)
 !
 
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , dhlgth ,  &
-                     & DMAX1 , DMIN1 , epmach , fc , fsum ,&
-                     & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
-                     & Resasc , resg , resk , reskh , Result , uflow ,  &
-                     & wg , wgk , xgk
+      real(wp) A , absc , Abserr , B , centr , dhlgth ,  &
+                       DMIN1 , epmach , fc , fsum ,&
+                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
+                       Resasc , resg , resk , reskh , Result , uflow ,  &
+                       wg , wgk , xgk
       INTEGER j , jtw , jtwm1
       procedure(func) :: f
 !
@@ -7320,7 +7322,7 @@ module quadpack
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
 !
-!***first executable statement  dqk41
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -7372,14 +7374,14 @@ module quadpack
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
       IF ( Resabs>uflow/(0.5D+02*epmach) )                              &
-         & Abserr = DMAX1((epmach*0.5D+02)*Resabs,Abserr)
+         & Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
       END
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQK51(F,A,B,Result,Abserr,Resabs,Resasc)
       IMPLICIT NONE
-!*--DQK517404
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  51-point gauss-kronrod rules
@@ -7392,46 +7394,46 @@ module quadpack
 !
 !           integration rules
 !           standard fortran subroutine
-!           double precision version
+!           real(wp) version
 !
 !           parameters
 !            on entry
-!              f      - double precision
+!              f      - real(wp)
 !                       function subroutine defining the integrand
 !                       function f(x). the actual name for f needs to be
 !                       declared external in the calling program.
 !
-!              a      - double precision
+!              a      - real(wp)
 !                       lower limit of integration
 !
-!              b      - double precision
+!              b      - real(wp)
 !                       upper limit of integration
 !
 !            on return
-!              result - double precision
+!              result - real(wp)
 !                       approximation to the integral i
 !                       result is computed by applying the 51-point
 !                       kronrod rule (resk) obtained by optimal addition
 !                       of abscissae to the 25-point gauss rule (resg).
 !
-!              abserr - double precision
+!              abserr - real(wp)
 !                       estimate of the modulus of the absolute error,
 !                       which should not exceed abs(i-result)
 !
-!              resabs - double precision
+!              resabs - real(wp)
 !                       approximation to the integral j
 !
-!              resasc - double precision
+!              resasc - real(wp)
 !                       approximation to the integral of abs(f-i/(b-a))
 !                       over (a,b)
 !
 
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , dhlgth ,  &
-                     & DMAX1 , DMIN1 , epmach , fc , fsum ,&
-                     & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
-                     & Resasc , resg , resk , reskh , Result , uflow ,  &
-                     & wg , wgk , xgk
+      real(wp) A , absc , Abserr , B , centr , dhlgth ,  &
+                       DMIN1 , epmach , fc , fsum ,&
+                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
+                       Resasc , resg , resk , reskh , Result , uflow ,  &
+                       wg , wgk , xgk
       INTEGER j , jtw , jtwm1
       procedure(func) :: f
 !
@@ -7544,7 +7546,7 @@ module quadpack
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
 !
-!***first executable statement  dqk51
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -7596,14 +7598,14 @@ module quadpack
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
       IF ( Resabs>uflow/(0.5D+02*epmach) )                              &
-         & Abserr = DMAX1((epmach*0.5D+02)*Resabs,Abserr)
+         & Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
       END
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQK61(F,A,B,Result,Abserr,Resabs,Resasc)
       IMPLICIT NONE
-!*--DQK617630
+
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  61-point gauss-kronrod rules
@@ -7616,47 +7618,47 @@ module quadpack
 !
 !        integration rule
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !
 !        parameters
 !         on entry
-!           f      - double precision
+!           f      - real(wp)
 !                    function subprogram defining the integrand
 !                    function f(x). the actual name for f needs to be
 !                    declared external in the calling program.
 !
-!           a      - double precision
+!           a      - real(wp)
 !                    lower limit of integration
 !
-!           b      - double precision
+!           b      - real(wp)
 !                    upper limit of integration
 !
 !         on return
-!           result - double precision
+!           result - real(wp)
 !                    approximation to the integral i
 !                    result is computed by applying the 61-point
 !                    kronrod rule (resk) obtained by optimal addition of
 !                    abscissae to the 30-point gauss rule (resg).
 !
-!           abserr - double precision
+!           abserr - real(wp)
 !                    estimate of the modulus of the absolute error,
 !                    which should equal or exceed abs(i-result)
 !
-!           resabs - double precision
+!           resabs - real(wp)
 !                    approximation to the integral j
 !
-!           resasc - double precision
+!           resasc - real(wp)
 !                    approximation to the integral of abs(f-i/(b-a))
 !
 !
 
 !
-      DOUBLE PRECISION A , dabsc , Abserr , B , centr , dhlgth , &
-                     & DMAX1 , DMIN1 , epmach , fc , fsum ,&
-                     & fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
-                     & Resasc , resg , resk , reskh , Result , uflow ,  &
-                     & wg , wgk , xgk
+      real(wp) A , dabsc , Abserr , B , centr , dhlgth , &
+                       DMIN1 , epmach , fc , fsum ,&
+                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs ,     &
+                       Resasc , resg , resk , reskh , Result , uflow ,  &
+                       wg , wgk , xgk
       INTEGER j , jtw , jtwm1
       procedure(func) :: f
 !
@@ -7789,7 +7791,7 @@ module quadpack
 !           compute the 61-point kronrod approximation to the
 !           integral, and estimate the absolute error.
 !
-!***first executable statement  dqk61
+
       resg = 0.0D+00
       fc = F(centr)
       resk = wgk(31)*fc
@@ -7831,14 +7833,14 @@ module quadpack
          & Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc)        &
          & **1.5D+00)
       IF ( Resabs>uflow/(0.5D+02*epmach) )                              &
-         & Abserr = DMAX1((epmach*0.5D+02)*Resabs,Abserr)
+         & Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
       END
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQMOMO(Alfa,Beta,Ri,Rj,Rg,Rh,Integr)
       IMPLICIT NONE
-!*--DQMOMO7867
+
 !***date written   820101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  modified chebyshev moments
@@ -7852,31 +7854,31 @@ module quadpack
 !
 !        modified chebyshev moments
 !        standard fortran subroutine
-!        double precision version
+!        real(wp) version
 !
 !        parameters
-!           alfa   - double precision
+!           alfa   - real(wp)
 !                    parameter in the weight function w(x), alfa>(-1)
 !
-!           beta   - double precision
+!           beta   - real(wp)
 !                    parameter in the weight function w(x), beta>(-1)
 !
-!           ri     - double precision
+!           ri     - real(wp)
 !                    vector of dimension 25
 !                    ri(k) is the integral over (-1,1) of
 !                    (1+x)**alfa*t(k-1,x), k = 1, ..., 25.
 !
-!           rj     - double precision
+!           rj     - real(wp)
 !                    vector of dimension 25
 !                    rj(k) is the integral over (-1,1) of
 !                    (1-x)**beta*t(k-1,x), k = 1, ..., 25.
 !
-!           rg     - double precision
+!           rg     - real(wp)
 !                    vector of dimension 25
 !                    rg(k) is the integral over (-1,1) of
 !                    (1+x)**alfa*log((1+x)/2)*t(k-1,x), k = 1, ..., 25.
 !
-!           rh     - double precision
+!           rh     - real(wp)
 !                    vector of dimension 25
 !                    rh(k) is the integral over (-1,1) of
 !                    (1-x)**beta*log((1-x)/2)*t(k-1,x), k = 1, ..., 25.
@@ -7891,14 +7893,14 @@ module quadpack
 !
 
 !
-      DOUBLE PRECISION Alfa , alfp1 , alfp2 , an , anm1 , Beta , betp1 ,&
-                     & betp2 , ralf , rbet , Rg , Rh , Ri , Rj
+      real(wp) Alfa , alfp1 , alfp2 , an , anm1 , Beta , betp1 ,&
+                       betp2 , ralf , rbet , Rg , Rh , Ri , Rj
       INTEGER i , im1 , Integr
 !
       DIMENSION Rg(25) , Rh(25) , Ri(25) , Rj(25)
 !
 !
-!***first executable statement  dqmomo
+
       alfp1 = Alfa + 0.1D+01
       betp1 = Beta + 0.1D+01
       alfp2 = Alfa + 0.2D+01
@@ -7932,7 +7934,7 @@ module quadpack
             im1 = 2
             DO i = 3 , 25
                Rg(i) = -(an*(an-alfp2)*Rg(im1)-an*Ri(im1)+anm1*Ri(i))   &
-                     & /(anm1*(an+alfp1))
+                       /(anm1*(an+alfp1))
                anm1 = an
                an = an + 0.1D+01
                im1 = i
@@ -7949,7 +7951,7 @@ module quadpack
          im1 = 2
          DO i = 3 , 25
             Rh(i) = -(an*(an-betp2)*Rh(im1)-an*Rj(im1)+anm1*Rj(i))      &
-                  & /(anm1*(an+betp1))
+                    /(anm1*(an+betp1))
             anm1 = an
             an = an + 0.1D+01
             im1 = i
@@ -7967,7 +7969,7 @@ module quadpack
 !********************************************************************************
       SUBROUTINE DQNG(F,A,B,Epsabs,Epsrel,Result,Abserr,Neval,Ier)
       IMPLICIT NONE
-!*--DQNG7998
+
 !***date written   800101   (yymmdd)
 !***revision date  810101   (yymmdd)
 !***keywords  automatic integrator, smooth integrand,
@@ -7983,29 +7985,29 @@ module quadpack
 !
 ! non-adaptive integration
 ! standard fortran subroutine
-! double precision version
+! real(wp) version
 !
-!           f      - double precision
+!           f      - real(wp)
 !                    function subprogram defining the integrand function
 !                    f(x). the actual name for f needs to be declared
 !                    external in the driver program.
 !
-!           a      - double precision
+!           a      - real(wp)
 !                    lower limit of integration
 !
-!           b      - double precision
+!           b      - real(wp)
 !                    upper limit of integration
 !
-!           epsabs - double precision
+!           epsabs - real(wp)
 !                    absolute accuracy requested
-!           epsrel - double precision
+!           epsrel - real(wp)
 !                    relative accuracy requested
 !                    if  epsabs<=0
 !                    and epsrel<max(50*rel.mach.acc.,0.5d-28),
 !                    the routine will end with ier = 6.
 !
 !         on return
-!           result - double precision
+!           result - real(wp)
 !                    approximation to the integral i
 !                    result is obtained by applying the 21-point
 !                    gauss-kronrod rule (res21) obtained by optimal
@@ -8016,7 +8018,7 @@ module quadpack
 !                    87-point rule (res87) obtained by optimal addition
 !                    of abscissae to the 43-point rule.
 !
-!           abserr - double precision
+!           abserr - real(wp)
 !                    estimate of the modulus of the absolute error,
 !                    which should equal or exceed abs(i-result)
 !
@@ -8040,13 +8042,13 @@ module quadpack
 !
 
 !
-      DOUBLE PRECISION A , absc , Abserr , B , centr , dhlgth ,  &
-                     & DMAX1 , DMIN1 , epmach , Epsabs ,       &
-                     & Epsrel , fcentr , fval , fval1 , fval2 ,     &
-                     & fv1 , fv2 , fv3 , fv4 , hlgth , Result , res10 , &
-                     & res21 , res43 , res87 , resabs , resasc , reskh ,&
-                     & savfun , uflow , w10 , w21a , w21b , w43a ,      &
-                     & w43b , w87a , w87b , x1 , x2 , x3 , x4
+      real(wp) A , absc , Abserr , B , centr , dhlgth ,  &
+                       DMIN1 , epmach , Epsabs ,       &
+                       Epsrel , fcentr , fval , fval1 , fval2 ,     &
+                       fv1 , fv2 , fv3 , fv4 , hlgth , Result , res10 , &
+                       res21 , res43 , res87 , resabs , resasc , reskh ,&
+                       savfun , uflow , w10 , w21a , w21b , w43a ,      &
+                       w43b , w87a , w87b , x1 , x2 , x3 , x4
       INTEGER Ier , ipx , k , l , Neval
       procedure(func) :: f
 !
@@ -8228,7 +8230,7 @@ module quadpack
 !           epmach is the largest relative spacing.
 !           uflow is the smallest positive magnitude.
 !
-!***first executable statement  dqng
+
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
@@ -8239,7 +8241,7 @@ module quadpack
       Abserr = 0.0D+00
       Neval = 0
       Ier = 6
-      IF ( Epsabs>0.0D+00 .OR. Epsrel>=DMAX1(0.5D+02*epmach,0.5D-28) )  &
+      IF ( Epsabs>0.0D+00 .OR. Epsrel>=max(0.5D+02*epmach,0.5D-28) )  &
          & THEN
          hlgth = 0.5D+00*(B-A)
          dhlgth = abs(hlgth)
@@ -8337,21 +8339,22 @@ module quadpack
                & Abserr = resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/resasc)  &
                & **1.5D+00)
             IF ( resabs>uflow/(0.5D+02*epmach) )                        &
-               & Abserr = DMAX1((epmach*0.5D+02)*resabs,Abserr)
-            IF ( Abserr<=DMAX1(Epsabs,Epsrel*abs(Result)) ) Ier = 0
+               & Abserr = max((epmach*0.5D+02)*resabs,Abserr)
+            IF ( Abserr<=max(Epsabs,Epsrel*abs(Result)) ) Ier = 0
 ! ***jump out of do-loop
-            IF ( Ier==0 ) GOTO 99999
+            IF ( Ier==0 ) return
          ENDDO
       ENDIF
       CALL XERROR('abnormal return from dqng ',26,Ier,0)
-99999 END
+    end
 !********************************************************************************
 
 !********************************************************************************
       SUBROUTINE DQPSRT(Limit,Last,Maxerr,Ermax,Elist,Iord,Nrmax)
       IMPLICIT NONE
-!*--DQPSRT8383
-!***refer to  dqage,dqagie,dqagpe,dqawse
+
+!### See also
+!  *  dqage,dqagie,dqagpe,dqawse
 !***revision date  810101   (yymmdd)
 !***keywords  sequential sorting
 !***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
@@ -8366,7 +8369,7 @@ module quadpack
 !
 !           ordering routine
 !           standard fortran subroutine
-!           double precision version
+!           real(wp) version
 !
 !           parameters (meaning at output)
 !              limit  - integer
@@ -8380,11 +8383,11 @@ module quadpack
 !                       maxerr points to the nrmax-th largest error
 !                       estimate currently in the list
 !
-!              ermax  - double precision
+!              ermax  - real(wp)
 !                       nrmax-th largest error estimate
 !                       ermax = elist(maxerr)
 !
-!              elist  - double precision
+!              elist  - real(wp)
 !                       vector of dimension last containing
 !                       the error estimates
 !
@@ -8401,7 +8404,7 @@ module quadpack
 !                       maxerr = iord(nrmax)
 !
 !
-      DOUBLE PRECISION Elist , Ermax , errmax , errmin
+      real(wp) Elist , Ermax , errmax , errmin
       INTEGER i , ibeg , ido , Iord , isucc , j , jbnd , jupbn , k ,    &
             & Last , Limit , Maxerr , Nrmax
       DIMENSION Elist(Last) , Iord(Last)
@@ -8409,7 +8412,7 @@ module quadpack
 !           check whether the list contains more than
 !           two error estimates.
 !
-!***first executable statement  dqpsrt
+
       IF ( Last>2 ) THEN
 !
 !           this part of the routine is only executed if, due to a
@@ -8481,10 +8484,11 @@ module quadpack
 !********************************************************************************
 
 !********************************************************************************
-      DOUBLE PRECISION FUNCTION DQWGTC(X,C,P2,P3,P4,Kp)
+      real(wp) FUNCTION DQWGTC(X,C,P2,P3,P4,Kp)
       IMPLICIT NONE
-!*--DQWGTC8517
-!***refer to dqk15w
+
+!### See also
+!  * dqk15w
 !***revision date  810101   (yymmdd)
 !***keywords  weight function, cauchy principal value
 !***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
@@ -8492,26 +8496,27 @@ module quadpack
 !***purpose  this function subprogram is used together with the
 !            routine qawc and defines the weight function.
 !
-      DOUBLE PRECISION C , P2 , P3 , P4 , X
+      real(wp) C , P2 , P3 , P4 , X
       INTEGER Kp
-!***first executable statement  dqwgtc
+
       DQWGTC = 0.1D+01/(X-C)
       END
 !********************************************************************************
 
 !********************************************************************************
-      DOUBLE PRECISION FUNCTION DQWGTF(X,Omega,P2,P3,P4,Integr)
+      real(wp) FUNCTION DQWGTF(X,Omega,P2,P3,P4,Integr)
       IMPLICIT NONE
-!*--DQWGTF8537
-!***refer to   dqk15w
+
+!### See also
+!  *   dqk15w
 !***revision date 810101   (yymmdd)
 !***keywords  cos or sin in weight function
 !***author  piessens,robert, appl. math. & progr. div. - k.u.leuven
 !           de doncker,elise,appl. math. * progr. div. - k.u.leuven
 !
-      DOUBLE PRECISION Omega , omx , P2 , P3 , P4 , X
+      real(wp) Omega , omx , P2 , P3 , P4 , X
       INTEGER Integr
-!***first executable statement  dqwgtf
+
       omx = Omega*X
       IF ( Integr==2 ) THEN
          DQWGTF = sin(omx)
@@ -8522,10 +8527,11 @@ module quadpack
 !********************************************************************************
 
 !********************************************************************************
-      DOUBLE PRECISION FUNCTION DQWGTS(X,A,B,Alfa,Beta,Integr)
+      real(wp) FUNCTION DQWGTS(X,A,B,Alfa,Beta,Integr)
       IMPLICIT NONE
-!*--DQWGTS8560
-!***refer to dqk15w
+
+!### See also
+!  * dqk15w
 !***revision date  810101   (yymmdd)
 !***keywords  weight function, algebraico-logarithmic
 !             end-point singularities
@@ -8534,9 +8540,9 @@ module quadpack
 !***purpose  this function subprogram is used together with the
 !            routine dqaws and defines the weight function.
 !
-      DOUBLE PRECISION A , Alfa , B , Beta , bmx , X , xma
+      real(wp) A , Alfa , B , Beta , bmx , X , xma
       INTEGER Integr
-!***first executable statement  dqwgts
+
       xma = X - A
       bmx = B - X
       DQWGTS = xma**Alfa*bmx**Beta
@@ -8565,21 +8571,21 @@ module quadpack
    !        n       integer
    !                is the order of the tridiagonal matrix.
    !
-   !        c       double precision(n)
+   !        c       real(wp)(n)
    !                is the subdiagonal of the tridiagonal matrix.
    !                c(2) through c(n) should contain the subdiagonal.
    !                on output c is destroyed.
    !
-   !        d       double precision(n)
+   !        d       real(wp)(n)
    !                is the diagonal of the tridiagonal matrix.
    !                on output d is destroyed.
    !
-   !        e       double precision(n)
+   !        e       real(wp)(n)
    !                is the superdiagonal of the tridiagonal matrix.
    !                e(1) through e(n-1) should contain the superdiagonal.
    !                on output e is destroyed.
    !
-   !        b       double precision(n)
+   !        b       real(wp)(n)
    !                is the right hand side vector.
    !
    !     on return
@@ -8598,10 +8604,10 @@ module quadpack
     subroutine dgtsl(n,c,d,e,b,info)
     implicit none
     integer n,info
-    double precision c(*),d(*),e(*),b(*)
+    real(wp) c(*),d(*),e(*),b(*)
 
     integer k,kb,kp1,nm1,nm2
-    double precision t
+    real(wp) t
 
     info = 0
     c(1) = d(1)
@@ -8688,9 +8694,9 @@ module quadpack
     implicit none
 
     integer,intent(in) :: i
-    double precision :: d1mach
+    real(wp) :: d1mach
 
-    double precision, dimension(5), parameter :: d1mach_values = [ tiny(1.0d0), &
+    real(wp), dimension(5), parameter :: d1mach_values = [ tiny(1.0d0), &
                                                                     huge(1.0d0), &
                                                                     real(radix(1.0d0),&
                                                                     kind(1.0d0))**(-digits(1.0d0)), &

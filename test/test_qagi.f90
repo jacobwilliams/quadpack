@@ -1,11 +1,10 @@
 program test_qagi
-    use quadpack
+use quadpack
 implicit none
 
-double precision abserr,boun,epsabs,epsrel,f,result,work
+double precision abserr,boun,epsabs,epsrel,result,work
 integer ier,inf,iwork,last,lenw,limit,neval
 dimension iwork(100),work(400)
-external f
 
 double precision,parameter :: pi = acos(-1.0d0)
 
@@ -18,13 +17,15 @@ lenw = limit*4
 call dqagi(f,boun,inf,epsabs,epsrel,result,abserr,neval,&
           ier,limit,lenw,last,iwork,work)
 
-write(*,*) 'result, error = ', result, result - sqrt(2.0d0)*pi*log(2.0d0)
+write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqagi: result, error = ', result, result - sqrt(2.0d0)*pi*log(2.0d0)
 
-end program test_qagi
+contains
 
 double precision function f(x)
 implicit none
-double precision x
+double precision,intent(in) :: x
 f = 0.0d0
 if(x>0.0d0) f = sqrt(x)*log(x)/((x+1.0d0)*(x+2.0d0))
 end function f
+
+end program test_qagi

@@ -7,7 +7,7 @@ program test_qagp
     integer,parameter :: leniw = limit*2 + npts2
     integer,parameter :: lenw = limit*4 + npts2
     double precision,parameter :: epsabs = 0.0d0
-    double precision,parameter :: epsrel = 1.0d-3
+    double precision,parameter :: epsrel = 1.0d-9
 
     double precision a,abserr,b,points,result,work
     integer ier,iwork,last,neval
@@ -20,7 +20,8 @@ program test_qagp
     call dqagp(f,a,b,npts2,points,epsabs,epsrel,result,abserr,&
                neval,ier,leniw,lenw,last,iwork,work)
 
-    write(*,*) 'result = ', result
+    ! answer from maxima: quad_qags(abs(x-1/7)^(-0.25)*abs(x-2/3)^(-0.55), x, 0, 1);
+    write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqagp: result, error = ', result, result - 4.253687688108305D0
 
 contains
 
