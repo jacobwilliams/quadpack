@@ -5356,13 +5356,13 @@ module quadpack
 !           compute the chebyshev moments with respect to cosine.
 !
             v(1) = 2.0_wp*sinpar/parint
-            v(2) = (0.8D+01*cospar+(par2+par2-0.8D+01)*sinpar/parint) &
+            v(2) = (8.0_wp*cospar+(par2+par2-8.0_wp)*sinpar/parint) &
                    /par2
-            v(3) = (0.32D+02*(par2-0.12D+02)*cospar+(2.0_wp*((par2- &
-                   0.80D+02)*par2+0.192D+03)*sinpar)/parint)/(par2*par2)
-            ac = 0.8D+01*cospar
-            as = 0.24D+02*parint*sinpar
-            IF ( abs(parint)>0.24D+02 ) THEN
+            v(3) = (32.0_wp*(par2-12.0_wp)*cospar+(2.0_wp*((par2- &
+                   80.0_wp)*par2+192.0_wp)*sinpar)/parint)/(par2*par2)
+            ac = 8.0_wp*cospar
+            as = 24.0_wp*parint*sinpar
+            IF ( abs(parint)>24.0_wp ) THEN
 !
 !           compute the chebyshev moments by means of forward
 !           recursion.
@@ -5383,23 +5383,23 @@ module quadpack
 !
                noequ = 25
                noeq1 = noequ - 1
-               an = 0.6D+01
+               an = 6.0_wp
                DO k = 1 , noeq1
                   an2 = an*an
                   d(k) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
                   d2(k) = (an-1.0_wp)*(an-2.0_wp)*par2
-                  d1(k+1) = (an+0.3D+01)*(an+4.0_wp)*par2
+                  d1(k+1) = (an+3.0_wp)*(an+4.0_wp)*par2
                   v(k+3) = as - (an2-4.0_wp)*ac
                   an = an + 2.0_wp
                ENDDO
                an2 = an*an
                d(noequ) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
                v(noequ+3) = as - (an2-4.0_wp)*ac
-               v(4) = v(4) - 0.56D+02*par2*v(3)
+               v(4) = v(4) - 56.0_wp*par2*v(3)
                ass = parint*sinpar
-               asap = (((((0.210D+03*par2-1.0_wp)*cospar-(0.105D+03* &
-                      par2-0.63D+02)*ass)/an2-(1.0_wp-0.15D+02*par2) &
-                      *cospar+0.15D+02*ass)/an2-cospar+0.3D+01*ass) &
+               asap = (((((210.0_wp*par2-1.0_wp)*cospar-(105.0_wp* &
+                      par2-63.0_wp)*ass)/an2-(1.0_wp-15.0_wp*par2) &
+                      *cospar+15.0_wp*ass)/an2-cospar+3.0_wp*ass) &
                       /an2-cospar)/an2
                v(noequ+3) = v(noequ+3) - 2.0_wp*asap*par2*(an-1.0_wp) &
                             *(an-2.0_wp)
@@ -5419,15 +5419,15 @@ module quadpack
 !           compute the chebyshev moments with respect to sine.
 !
             v(1) = 2.0_wp*(sinpar-parint*cospar)/par2
-            v(2) = (0.18D+02-0.48D+02/par2)*sinpar/par2 + &
-                   (-2.0_wp+0.48D+02/par2)*cospar/parint
-            ac = -0.24D+02*parint*cospar
-            as = -0.8D+01*sinpar
-            IF ( abs(parint)>0.24D+02 ) THEN
+            v(2) = (18.0_wp-48.0_wp/par2)*sinpar/par2 + &
+                   (-2.0_wp+48.0_wp/par2)*cospar/parint
+            ac = -24.0_wp*parint*cospar
+            as = -8.0_wp*sinpar
+            IF ( abs(parint)>24.0_wp ) THEN
 !
 !           compute the chebyshev moments by means of forward recursion.
 !
-               an = 0.3D+01
+               an = 3.0_wp
                DO i = 3 , 12
                   an2 = an*an
                   v(i) = ((an2-4.0_wp)*(2.0_wp*(par22-an2-an2)*v(i-1)+&
@@ -5446,7 +5446,7 @@ module quadpack
                   an2 = an*an
                   d(k) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
                   d2(k) = (an-1.0_wp)*(an-2.0_wp)*par2
-                  d1(k+1) = (an+0.3D+01)*(an+4.0_wp)*par2
+                  d1(k+1) = (an+3.0_wp)*(an+4.0_wp)*par2
                   v(k+2) = ac + (an2-4.0_wp)*as
                   an = an + 2.0_wp
                ENDDO
@@ -5455,9 +5455,9 @@ module quadpack
                v(noequ+2) = ac + (an2-4.0_wp)*as
                v(3) = v(3) - 0.42D+02*par2*v(2)
                ass = parint*cospar
-               asap = (((((0.105D+03*par2-0.63D+02)*ass+(0.210D+03*par2-&
-                      1.0_wp)*sinpar)/an2+(0.15D+02*par2-1.0_wp) &
-                      *sinpar-0.15D+02*ass)/an2-0.3D+01*ass-sinpar) &
+               asap = (((((105.0_wp*par2-63.0_wp)*ass+(210.0_wp*par2-&
+                      1.0_wp)*sinpar)/an2+(15.0_wp*par2-1.0_wp) &
+                      *sinpar-15.0_wp*ass)/an2-3.0_wp*ass-sinpar) &
                       /an2-sinpar)/an2
                v(noequ+2) = v(noequ+2) - 2.0_wp*asap*par2*(an-1.0_wp) &
                             *(an-2.0_wp)
@@ -6007,7 +6007,7 @@ module quadpack
       Cheb24(25) = Cheb12(1) - alam
       Cheb12(13) = v(1) - v(3)
       Cheb24(13) = Cheb12(13)
-      alam = 1.0_wp/0.6D+01
+      alam = 1.0_wp/6.0_wp
       DO i = 2 , 12
          Cheb12(i) = Cheb12(i)*alam
       ENDDO
@@ -6391,7 +6391,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
            **1.5_wp)
       IF ( Resabs>uflow/(50.0_wp*epmach) )  &
            Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
@@ -6589,8 +6589,8 @@ module quadpack
       Resasc = Resasc*hlgth
       Resabs = Resabs*hlgth
       Abserr = abs((resk-resg)*hlgth)
-      IF ( Resasc/=0.0_wp .AND. Abserr/=0.D0 )    &
-           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+      IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp )    &
+           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
            **1.5_wp)
       IF ( Resabs>uflow/(50.0_wp*epmach) )  &
            Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
@@ -6775,7 +6775,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
            **1.5_wp)
       IF ( Resabs>uflow/(50.0_wp*epmach) )  &
            Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
@@ -6961,7 +6961,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
            **1.5_wp)
       IF ( Resabs>uflow/(50.0_wp*epmach) )  &
            Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
@@ -7156,7 +7156,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
            **1.5_wp)
       IF ( Resabs>uflow/(50.0_wp*epmach) )  &
            Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
@@ -7367,7 +7367,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0_wp .AND. Abserr/=0._wp )  &
-           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
            **1.5_wp)
       IF ( Resabs>uflow/(50.0_wp*epmach) )  &
            Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
@@ -7591,7 +7591,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
            **1.5_wp)
       IF ( Resabs>uflow/(50.0_wp*epmach) )  &
            Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
@@ -7826,7 +7826,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
       IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
            **1.5_wp)
       IF ( Resabs>uflow/(50.0_wp*epmach) )  &
            Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
@@ -8332,7 +8332,7 @@ module quadpack
                resasc = resasc*dhlgth
             END SELECT
             IF ( resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
-                 Abserr = resasc*min(1.0_wp,(0.2D+03*Abserr/resasc) &
+                 Abserr = resasc*min(1.0_wp,(200.0_wp*Abserr/resasc) &
                  **1.5_wp)
             IF ( resabs>uflow/(50.0_wp*epmach) )   &
                  Abserr = max((epmach*50.0_wp)*resabs,Abserr)
@@ -8611,8 +8611,8 @@ module quadpack
 
     if (nm1 >= 1) then
         d(1) = e(1)
-        e(1) = 0.0d0
-        e(n) = 0.0d0
+        e(1) = 0.0_wp
+        e(n) = 0.0_wp
 
         do k = 1, nm1
             kp1 = k + 1
@@ -8636,7 +8636,7 @@ module quadpack
             end if
 
             ! zero elements
-            if (c(k) == 0.0d0) then
+            if (c(k) == 0.0_wp) then
                 info = k
                 return
             end if
@@ -8644,13 +8644,13 @@ module quadpack
             t = -c(kp1)/c(k)
             c(kp1) = d(kp1) + t*d(k)
             d(kp1) = e(kp1) + t*e(k)
-            e(kp1) = 0.0d0
+            e(kp1) = 0.0_wp
             b(kp1) = b(kp1) + t*b(k)
         end do
 
     end if
 
-    if (c(n) == 0.0d0) then
+    if (c(n) == 0.0_wp) then
         info = n
         return
     end if
@@ -8693,12 +8693,12 @@ module quadpack
     real(wp) :: d1mach
 
     real(wp), dimension(5), parameter :: d1mach_values = [ tiny(1.0d0), &
-                                                                    huge(1.0d0), &
-                                                                    real(radix(1.0d0),&
-                                                                    kind(1.0d0))**(-digits(1.0d0)), &
-                                                                    epsilon(1.0d0), &
-                                                                    log10(real(radix(1.0d0),&
-                                                                    kind(1.0d0))) ]
+                                                           huge(1.0d0), &
+                                                           real(radix(1.0d0),&
+                                                           kind(1.0d0))**(-digits(1.0d0)), &
+                                                           epsilon(1.0d0), &
+                                                           log10(real(radix(1.0d0),&
+                                                           kind(1.0d0))) ]
 
     if (i<1 .or. i>5) then
         write (*,'(1x,''d1mach(i) - i out of bounds, i ='',i10)') i
