@@ -31,8 +31,6 @@ module quadpack
 
 !********************************************************************************
 !>
-!  computation of a definite integral
-!
 !  the routine calculates an approximation result to a given
 !  definite integral i = integral of f over (a,b),
 !  hopefully satisfying following claim for accuracy
@@ -174,197 +172,125 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  automatic integrator, general-purpose,
-!             integrand examinator, globally adaptive,
-!             gauss-kronrod
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
-!***purpose  the routine calculates an approximation result to a given
-!            definite integral   i = integral of f over (a,b),
-!            hopefully satisfying following claim for accuracy
-!            abs(i-reslt)<=max(epsabs,epsrel*abs(i)).
-!***description
+!  the routine calculates an approximation result to a given
+!  definite integral i = integral of f over (a,b),
+!  hopefully satisfying following claim for accuracy
+!  abs(i-reslt)<=max(epsabs,epsrel*abs(i)).
 !
-!        computation of a definite integral
-!        standard fortran subroutine
-!        real(wp) version
-!
-!        parameters
-!         on entry
-!            f      - real(wp)
-!                     function subprogram defining the integrand
-!                     function f(x). the actual name for f needs to be
-!                     declared external in the driver program.
-!
-!            a      - real(wp)
-!                     lower limit of integration
-!
-!            b      - real(wp)
-!                     upper limit of integration
-!
-!            epsabs - real(wp)
-!                     absolute accuracy requested
-!            epsrel - real(wp)
-!                     relative accuracy requested
-!                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
-!                     the routine will end with ier = 6.
-!
-!            key    - integer
-!                     key for choice of local integration rule
-!                     a gauss-kronrod pair is used with
-!                          7 - 15 points if key<2,
-!                         10 - 21 points if key = 2,
-!                         15 - 31 points if key = 3,
-!                         20 - 41 points if key = 4,
-!                         25 - 51 points if key = 5,
-!                         30 - 61 points if key>5.
-!
-!            limit  - integer
-!                     gives an upperbound on the number of subintervals
-!                     in the partition of (a,b), limit>=1.
-!
-!         on return
-!            result - real(wp)
-!                     approximation to the integral
-!
-!            abserr - real(wp)
-!                     estimate of the modulus of the absolute error,
-!                     which should equal or exceed abs(i-result)
-!
-!            neval  - integer
-!                     number of integrand evaluations
-!
-!            ier    - integer
-!                     ier = 0 normal and reliable termination of the
-!                             routine. it is assumed that the requested
-!                             accuracy has been achieved.
-!                     ier>0 abnormal termination of the routine
-!                             the estimates for result and error are
-!                             less reliable. it is assumed that the
-!                             requested accuracy has not been achieved.
-!            error messages
-!                     ier = 1 maximum number of subdivisions allowed
-!                             has been achieved. one can allow more
-!                             subdivisions by increasing the value
-!                             of limit.
-!                             however, if this yields no improvement it
-!                             is rather advised to analyze the integrand
-!                             in order to determine the integration
-!                             difficulties. if the position of a local
-!                             difficulty can be determined(e.g.
-!                             singularity, discontinuity within the
-!                             interval) one will probably gain from
-!                             splitting up the interval at this point
-!                             and calling the integrator on the
-!                             subranges. if possible, an appropriate
-!                             special-purpose integrator should be used
-!                             which is designed for handling the type of
-!                             difficulty involved.
-!                         = 2 the occurrence of roundoff error is
-!                             detected, which prevents the requested
-!                             tolerance from being achieved.
-!                         = 3 extremely bad integrand behaviour occurs
-!                             at some points of the integration
-!                             interval.
-!                         = 6 the input is invalid, because
-!                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
-!                             result, abserr, neval, last, rlist(1) ,
-!                             elist(1) and iord(1) are set to zero.
-!                             alist(1) and blist(1) are set to a and b
-!                             respectively.
-!
-!            alist   - real(wp)
-!                      vector of dimension at least limit, the first
-!                       last  elements of which are the left
-!                      end points of the subintervals in the partition
-!                      of the given integration range (a,b)
-!
-!            blist   - real(wp)
-!                      vector of dimension at least limit, the first
-!                       last  elements of which are the right
-!                      end points of the subintervals in the partition
-!                      of the given integration range (a,b)
-!
-!            rlist   - real(wp)
-!                      vector of dimension at least limit, the first
-!                       last  elements of which are the
-!                      integral approximations on the subintervals
-!
-!            elist   - real(wp)
-!                      vector of dimension at least limit, the first
-!                       last  elements of which are the moduli of the
-!                      absolute error estimates on the subintervals
-!
-!            iord    - integer
-!                      vector of dimension at least limit, the first k
-!                      elements of which are pointers to the
-!                      error estimates over the subintervals,
-!                      such that elist(iord(1)), ...,
-!                      elist(iord(k)) form a decreasing sequence,
-!                      with k = last if last<=(limit/2+2), and
-!                      k = limit+1-last otherwise
-!
-!            last    - integer
-!                      number of subintervals actually produced in the
-!                      subdivision process
+!### History
+!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-      subroutine dqage(f,a,b,Epsabs,Epsrel,Key,Limit,Result,Abserr, &
-                       Neval,Ier,Alist,Blist,Rlist,Elist,Iord,Last)
-      implicit none
+    subroutine dqage(f,a,b,Epsabs,Epsrel,Key,Limit,Result,Abserr, &
+                     Neval,Ier,Alist,Blist,Rlist,Elist,Iord,Last)
+    implicit none
 
-      real(wp) a , Abserr , Alist , area , area1 , area12 , &
-                       area2 , a1 , a2 , b , Blist , b1 , b2 , &
-                       defabs , defab1 , defab2 , &
-                       Elist , epmach , Epsabs , Epsrel , errbnd , &
-                       errmax , error1 , error2 , erro12 , errsum , &
-                       resabs , Result , Rlist , uflow
-      integer Ier , Iord , iroff1 , iroff2 , k , Key , keyf , Last , &
-              Limit , maxerr , Neval , nrmax
-!
-      dimension Alist(Limit) , Blist(Limit) , Elist(Limit) , Iord(Limit)&
-                , Rlist(Limit)
-!
-      procedure(func) :: f
-!
-!            list of major variables
-!            -----------------------
-!
-!           alist     - list of left end points of all subintervals
-!                       considered up to now
-!           blist     - list of right end points of all subintervals
-!                       considered up to now
-!           rlist(i)  - approximation to the integral over
-!                      (alist(i),blist(i))
-!           elist(i)  - error estimate applying to rlist(i)
-!           maxerr    - pointer to the interval with largest
-!                       error estimate
-!           errmax    - elist(maxerr)
-!           area      - sum of the integrals over the subintervals
-!           errsum    - sum of the errors over the subintervals
-!           errbnd    - requested accuracy max(epsabs,epsrel*
-!                       abs(result))
-!           *****1    - variable for the left subinterval
-!           *****2    - variable for the right subinterval
-!           last      - index for subdivision
-!
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           epmach  is the largest relative spacing.
-!           uflow  is the smallest positive magnitude.
-!
+    procedure(func) :: f !! function subprogram defining the integrand function f(x).
+    real(wp),intent(in) :: a !! lower limit of integration
+    real(wp),intent(in) :: b !! uppwer limit of integration
+    real(wp),intent(in) :: Epsabs !! absolute accuracy requested
+    real(wp),intent(in) :: Epsrel !! relative accuracy requested
+                                  !! if  epsabs<=0
+                                  !! and epsrel<max(50*rel.mach.acc.,0.5e-28),
+                                  !! the routine will end with ier = 6.
+    integer,intent(in) :: Key !! key for choice of local integration rule
+                              !!  a gauss-kronrod pair is used with
+                              !!
+                              !!  * 7 - 15 points if key<2,
+                              !!  * 10 - 21 points if key = 2,
+                              !!  * 15 - 31 points if key = 3,
+                              !!  * 20 - 41 points if key = 4,
+                              !!  * 25 - 51 points if key = 5,
+                              !!  * 30 - 61 points if key>5.
+    integer,intent(in) :: Limit !! gives an upperbound on the number of subintervals
+                                !! in the partition of (a,b), limit>=1.
+    real(wp),intent(out) :: Result !! approximation to the integral
+    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                   !! which should equal or exceed abs(i-result)
+    integer,intent(out) :: Neval !! number of integrand evaluations
+    integer,intent(out) :: Ier !!  * ier = 0 normal and reliable termination of the
+                               !!    routine. it is assumed that the requested
+                               !!    accuracy has been achieved.
+                               !!  * ier>0 abnormal termination of the routine
+                               !!    the estimates for result and error are
+                               !!    less reliable. it is assumed that the
+                               !!    requested accuracy has not been achieved.
+                               !!
+                               !! error messages:
+                               !!
+                               !!  * ier = 1 maximum number of subdivisions allowed
+                               !!          has been achieved. one can allow more
+                               !!          subdivisions by increasing the value
+                               !!          of limit.
+                               !!          however, if this yields no improvement it
+                               !!          is rather advised to analyze the integrand
+                               !!          in order to determine the integration
+                               !!          difficulties. if the position of a local
+                               !!          difficulty can be determined(e.g.
+                               !!          singularity, discontinuity within the
+                               !!          interval) one will probably gain from
+                               !!          splitting up the interval at this point
+                               !!          and calling the integrator on the
+                               !!          subranges. if possible, an appropriate
+                               !!          special-purpose integrator should be used
+                               !!          which is designed for handling the type of
+                               !!          difficulty involved.
+                               !!  * ier = 2 the occurrence of roundoff error is
+                               !!          detected, which prevents the requested
+                               !!          tolerance from being achieved.
+                               !!  * ier = 3 extremely bad integrand behaviour occurs
+                               !!          at some points of the integration
+                               !!          interval.
+                               !!  * ier = 6 the input is invalid, because
+                               !!          (epsabs<=0 and
+                               !!           epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
+                               !!          result, abserr, neval, last, rlist(1) ,
+                               !!          elist(1) and iord(1) are set to zero.
+                               !!          alist(1) and blist(1) are set to a and b
+                               !!          respectively.
+    real(wp),intent(out) :: Alist(Limit) !! vector of dimension at least limit, the first
+                                         !! `last` elements of which are the left
+                                         !! end points of the subintervals in the partition
+                                         !! of the given integration range (a,b)
+    real(wp),intent(out) :: Blist(Limit) !! vector of dimension at least limit, the first
+                                         !! `last` elements of which are the right
+                                         !! end points of the subintervals in the partition
+                                         !! of the given integration range (a,b)
+    real(wp),intent(out) :: Elist(Limit) !! vector of dimension at least limit, the first
+                                         !! `last` elements of which are the moduli of the
+                                         !! absolute error estimates on the subintervals
+    real(wp),intent(out) :: Rlist(Limit) !! vector of dimension at least limit, the first
+                                         !! `last` elements of which are the
+                                         !! integral approximations on the subintervals
+    integer,intent(out) :: Iord(Limit) !! vector of dimension at least limit, the first k
+                                       !! elements of which are pointers to the
+                                       !! error estimates over the subintervals,
+                                       !! such that elist(iord(1)), ...,
+                                       !! elist(iord(k)) form a decreasing sequence,
+                                       !! with k = last if last<=(limit/2+2), and
+                                       !! k = limit+1-last otherwise
+    integer,intent(out) :: Last !! number of subintervals actually produced in the
+                                !! subdivision process
+
+    real(wp) :: area1 , a1 , b1, defab1, error1 !! variable for the left subinterval
+    real(wp) :: area2 , a2 , b2 , defab2, error2 !! variable for the right subinterval
+    real(wp) :: area !! sum of the integrals over the subintervals
+    real(wp) :: epmach !! the largest relative spacing.
+    real(wp) :: uflow !! the smallest positive magnitude.
+    real(wp) :: area12 !! area1 + area2
+    real(wp) :: erro12 !! error1 + error2
+    real(wp) :: errsum !! sum of the errors over the subintervals
+    real(wp) :: errmax !! elist(maxerr)
+    real(wp) :: errbnd !! requested accuracy max(epsabs,epsrel*abs(result))
+    real(wp) :: resabs
+    real(wp) :: defabs
+    integer :: maxerr !! pointer to the interval with largest error estimate
+    integer :: iroff1 , iroff2 , k , keyf , nrmax
 
       epmach = d1mach(4)
       uflow = d1mach(1)
-!
-!           test on validity of parameters
-!           ------------------------------
-!
+
+    ! test on validity of parameters
+
       Ier = 0
       Neval = 0
       Last = 0
@@ -375,41 +301,38 @@ module quadpack
       Rlist(1) = 0.0_wp
       Elist(1) = 0.0_wp
       Iord(1) = 0
-      if ( Epsabs<=0.0_wp .and. Epsrel<max(50.0_wp*epmach,0.5e-28_wp) ) &
-           Ier = 6
+      if ( Epsabs<=0.0_wp .and. Epsrel<max(50.0_wp*epmach,0.5e-28_wp) ) Ier = 6
       if ( Ier/=6 ) then
-!
-!           first approximation to the integral
-!           -----------------------------------
-!
+
+        ! first approximation to the integral
+
          keyf = Key
          if ( Key<=0 ) keyf = 1
          if ( Key>=7 ) keyf = 6
          Neval = 0
-         if ( keyf==1 ) call dqk15(f,a,b,Result,Abserr,defabs,resabs)
-         if ( keyf==2 ) call dqk21(f,a,b,Result,Abserr,defabs,resabs)
-         if ( keyf==3 ) call dqk31(f,a,b,Result,Abserr,defabs,resabs)
-         if ( keyf==4 ) call dqk41(f,a,b,Result,Abserr,defabs,resabs)
-         if ( keyf==5 ) call dqk51(f,a,b,Result,Abserr,defabs,resabs)
-         if ( keyf==6 ) call dqk61(f,a,b,Result,Abserr,defabs,resabs)
+         select case (keyf)
+         case ( 1 ); call dqk15(f,a,b,Result,Abserr,defabs,resabs)
+         case ( 2 ); call dqk21(f,a,b,Result,Abserr,defabs,resabs)
+         case ( 3 ); call dqk31(f,a,b,Result,Abserr,defabs,resabs)
+         case ( 4 ); call dqk41(f,a,b,Result,Abserr,defabs,resabs)
+         case ( 5 ); call dqk51(f,a,b,Result,Abserr,defabs,resabs)
+         case ( 6 ); call dqk61(f,a,b,Result,Abserr,defabs,resabs)
+         end select
          Last = 1
          Rlist(1) = Result
          Elist(1) = Abserr
          Iord(1) = 1
-!
-!           test on accuracy.
-!
+
+         ! test on accuracy.
+
          errbnd = max(Epsabs,Epsrel*abs(Result))
-         if ( Abserr<=50.0_wp*epmach*defabs .and. Abserr>errbnd ) &
-              Ier = 2
+         if ( Abserr<=50.0_wp*epmach*defabs .and. Abserr>errbnd ) Ier = 2
          if ( Limit==1 ) Ier = 1
+
          if ( .not.(Ier/=0 .or. (Abserr<=errbnd .and. Abserr/=resabs) &
               .or. Abserr==0.0_wp) ) then
-!
-!           initialization
-!           --------------
-!
-!
+
+            ! initialization
             errmax = Abserr
             maxerr = 1
             area = Result
@@ -417,46 +340,41 @@ module quadpack
             nrmax = 1
             iroff1 = 0
             iroff2 = 0
-!
-!           main do-loop
-!           ------------
-!
+
+            ! main do-loop
+
             do Last = 2 , Limit
-!
-!           bisect the subinterval with the largest error estimate.
-!
+
+               ! bisect the subinterval with the largest error estimate.
+
                a1 = Alist(maxerr)
                b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
                a2 = b1
                b2 = Blist(maxerr)
-               if ( keyf==1 ) call dqk15(f,a1,b1,area1,error1,resabs, &
-                    defab1)
-               if ( keyf==2 ) call dqk21(f,a1,b1,area1,error1,resabs, &
-                    defab1)
-               if ( keyf==3 ) call dqk31(f,a1,b1,area1,error1,resabs, &
-                    defab1)
-               if ( keyf==4 ) call dqk41(f,a1,b1,area1,error1,resabs, &
-                    defab1)
-               if ( keyf==5 ) call dqk51(f,a1,b1,area1,error1,resabs, &
-                    defab1)
-               if ( keyf==6 ) call dqk61(f,a1,b1,area1,error1,resabs, &
-                    defab1)
-               if ( keyf==1 ) call dqk15(f,a2,b2,area2,error2,resabs, &
-                    defab2)
-               if ( keyf==2 ) call dqk21(f,a2,b2,area2,error2,resabs, &
-                    defab2)
-               if ( keyf==3 ) call dqk31(f,a2,b2,area2,error2,resabs, &
-                    defab2)
-               if ( keyf==4 ) call dqk41(f,a2,b2,area2,error2,resabs, &
-                    defab2)
-               if ( keyf==5 ) call dqk51(f,a2,b2,area2,error2,resabs, &
-                    defab2)
-               if ( keyf==6 ) call dqk61(f,a2,b2,area2,error2,resabs, &
-                    defab2)
-!
-!           improve previous approximations to integral
-!           and error and test for accuracy.
-!
+               select case (keyf)
+               case( 1 )
+                call dqk15(f,a1,b1,area1,error1,resabs,defab1)
+                call dqk15(f,a2,b2,area2,error2,resabs,defab2)
+               case( 2 )
+                call dqk21(f,a1,b1,area1,error1,resabs,defab1)
+                call dqk21(f,a2,b2,area2,error2,resabs,defab2)
+               case( 3 )
+                call dqk31(f,a1,b1,area1,error1,resabs,defab1)
+                call dqk31(f,a2,b2,area2,error2,resabs,defab2)
+               case( 4 )
+                call dqk41(f,a1,b1,area1,error1,resabs,defab1)
+                call dqk41(f,a2,b2,area2,error2,resabs,defab2)
+               case( 5 )
+                call dqk51(f,a1,b1,area1,error1,resabs,defab1)
+                call dqk51(f,a2,b2,area2,error2,resabs,defab2)
+               case( 6 )
+                call dqk61(f,a1,b1,area1,error1,resabs,defab1)
+                call dqk61(f,a2,b2,area2,error2,resabs,defab2)
+               end select
+
+            ! improve previous approximations to integral
+            ! and error and test for accuracy.
+
                Neval = Neval + 1
                area12 = area1 + area2
                erro12 = error1 + error2
@@ -464,34 +382,33 @@ module quadpack
                area = area + area12 - Rlist(maxerr)
                if ( defab1/=error1 .and. defab2/=error2 ) then
                   if ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) &
-                       .and. erro12>=0.99_wp*errmax ) iroff1 = iroff1 +&
-                       1
+                       .and. erro12>=0.99_wp*errmax ) iroff1 = iroff1 + 1
                   if ( Last>10 .and. erro12>errmax ) iroff2 = iroff2 + 1
                endif
                Rlist(maxerr) = area1
                Rlist(Last) = area2
                errbnd = max(Epsabs,Epsrel*abs(area))
                if ( errsum>errbnd ) then
-!
-!           test for roundoff error and eventually set error flag.
-!
+
+                  ! test for roundoff error and eventually set error flag.
+
                   if ( iroff1>=6 .or. iroff2>=20 ) Ier = 2
-!
-!           set error flag in the case that the number of subintervals
-!           equals limit.
-!
+
+                ! set error flag in the case that the number of subintervals
+                ! equals limit.
+
                   if ( Last==Limit ) Ier = 1
-!
-!           set error flag in the case of bad integrand behaviour
-!           at a point of the integration range.
-!
+
+                ! set error flag in the case of bad integrand behaviour
+                ! at a point of the integration range.
+
                   if ( max(abs(a1),abs(b2)) &
                        <=(1.0_wp+100.0_wp*epmach) &
                        *(abs(a2)+1000.0_wp*uflow) ) Ier = 3
                endif
-!
-!           append the newly-created intervals to the list.
-!
+
+                ! append the newly-created intervals to the list.
+
                if ( error2>error1 ) then
                   Alist(maxerr) = a2
                   Alist(Last) = a1
@@ -507,20 +424,18 @@ module quadpack
                   Elist(maxerr) = error1
                   Elist(Last) = error2
                endif
-!
-!           call subroutine dqpsrt to maintain the descending ordering
-!           in the list of error estimates and select the subinterval
-!           with the largest error estimate (to be bisected next).
-!
+
+                ! call subroutine dqpsrt to maintain the descending ordering
+                ! in the list of error estimates and select the subinterval
+                ! with the largest error estimate (to be bisected next).
+
                call dqpsrt(Limit,Last,maxerr,errmax,Elist,Iord,nrmax)
-! ***jump out of do-loop
-               if ( Ier/=0 .or. errsum<=errbnd ) goto 20
+               if ( Ier/=0 .or. errsum<=errbnd ) exit  ! jump out of do-loop
             enddo
-!
-!           compute final result.
-!           ---------------------
-!
- 20         Result = 0.0_wp
+
+            ! compute final result.
+
+            Result = 0.0_wp
             do k = 1 , Last
                Result = Result + Rlist(k)
             enddo
@@ -551,7 +466,6 @@ module quadpack
 !***description
 !
 !        integration over infinite intervals
-!        standard fortran subroutine
 !
 !        parameters
 !         on entry
@@ -1215,8 +1129,6 @@ module quadpack
 !***description
 !
 !        computation of a definite integral
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !         on entry
@@ -1446,8 +1358,6 @@ module quadpack
 !***description
 !
 !        computation of a definite integral
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !         on entry
@@ -2028,8 +1938,6 @@ module quadpack
 !***description
 !
 !        computation of a definite integral
-!        standard fortran subroutine
-!        real(wp) version
 !
 !
 !        parameters
@@ -2209,8 +2117,6 @@ module quadpack
 !***keywords  automatic integrator, general-purpose,
 !             (end point) singularities, extrapolation,
 !             globally adaptive
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  the routine calculates an approximation result to a given
 !            definite integral i = integral of f over (a,b),
 !            hopefully satisfying following claim for accuracy
@@ -2218,8 +2124,6 @@ module quadpack
 !***description
 !
 !        computation of a definite integral
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !         on entry
@@ -2689,8 +2593,6 @@ module quadpack
 !***description
 !
 !        computation of a cauchy principal value
-!        standard fortran subroutine
-!        real(wp) version
 !
 !
 !        parameters
@@ -2859,8 +2761,6 @@ module quadpack
 !***revision date  830518   (yymmdd)
 !***keywords  automatic integrator, special-purpose,
 !             cauchy principal value, clenshaw-curtis method
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***  purpose  the routine calculates an approximation result to a
 !              cauchy principal value i = integral of f*w over (a,b)
 !              (w(x) = 1/(x-c), (c/=a, c/=b), hopefully satisfying
@@ -2869,8 +2769,6 @@ module quadpack
 !***description
 !
 !        computation of a cauchy principal value
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !         on entry
@@ -3203,8 +3101,6 @@ module quadpack
 !***description
 !
 !        computation of fourier integrals
-!        standard fortran subroutine
-!        real(wp) version
 !
 !
 !        parameters
@@ -3439,8 +3335,6 @@ module quadpack
 !***description
 !
 !        computation of fourier integrals
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !         on entry
@@ -3808,8 +3702,6 @@ module quadpack
 !             integrand with oscillatory cos or sin factor,
 !             clenshaw-curtis method, (end point) singularities,
 !             extrapolation, globally adaptive
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  the routine calculates an approximation result to a given
 !            definite integral i=integral of f(x)*w(x) over (a,b)
 !            where w(x) = cos(omega*x)
@@ -3819,8 +3711,6 @@ module quadpack
 !***description
 !
 !        computation of oscillatory integrals
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !         on entry
@@ -4035,8 +3925,6 @@ module quadpack
 !             integrand with oscillatory cos or sin factor,
 !             clenshaw-curtis method, (end point) singularities,
 !             extrapolation, globally adaptive
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  the routine calculates an approximation result to a given
 !            definite integral
 !            i = integral of f(x)*w(x) over (a,b)
@@ -4046,8 +3934,6 @@ module quadpack
 !***description
 !
 !        computation of oscillatory integrals
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !         on entry
@@ -4599,8 +4485,6 @@ module quadpack
 !***keywords  automatic integrator, special-purpose,
 !             algebraico-logarithmic end point singularities,
 !             clenshaw-curtis method
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  the routine calculates an approximation result to a given
 !            definite integral i = integral of f*w over (a,b),
 !            (where w shows a singular behaviour at the end points,
@@ -4611,8 +4495,6 @@ module quadpack
 !
 !        integration of functions having algebraico-logarithmic
 !        end point singularities
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !         on entry
@@ -4980,16 +4862,12 @@ module quadpack
 !***date written   810101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  25-point clenshaw-curtis integration
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  to compute i = integral of f*w over (a,b) with
 !            error estimate, where w(x) = 1/(x-c)
 !***description
 !
 !        integration rules for the computation of cauchy
 !        principal value integrals
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !           f      - real(wp)
@@ -5143,8 +5021,6 @@ module quadpack
 !***revision date  211011   (yymmdd)
 !***keywords  integration rules for functions with cos or sin
 !             factor, clenshaw-curtis, gauss-kronrod
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  to compute the integral i=integral of f(x) over (a,b)
 !            where w(x) = cos(omega*x) or w(x)=sin(omega*x) and to
 !            compute j = integral of abs(f) over (a,b). for small value
@@ -5154,8 +5030,6 @@ module quadpack
 !***description
 !
 !        integration rules for functions with cos or sin factor
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !         on entry
@@ -5505,8 +5379,6 @@ module quadpack
 !***date written   810101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  25-point clenshaw-curtis integration
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  to compute i = integral of f*w over (bl,br), with error
 !            estimate, where the weight function w has a singular
 !            behaviour of algebraico-logarithmic type at the points
@@ -5515,8 +5387,6 @@ module quadpack
 !
 !        integration rules for integrands having algebraico-logarithmic
 !        end point singularities
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !           f      - real(wp)
@@ -5851,8 +5721,6 @@ module quadpack
 !  *  dqc25c,dqc25f,dqc25s
 !***revision date  830518   (yymmdd)
 !***keywords  chebyshev series expansion, fast fourier transform
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  this routine computes the chebyshev series expansion
 !            of degrees 12 and 24 of a function using a
 !            fast fourier transform method
@@ -5862,8 +5730,6 @@ module quadpack
 !***description
 !
 !        chebyshev series expansion
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !          on entry
@@ -6378,8 +6244,6 @@ module quadpack
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  15-point transformed gauss-kronrod rules
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  the original (infinite integration range is mapped
 !            onto the interval (0,1) and (a,b) is a part of (0,1).
 !            it is the purpose to compute
@@ -6577,8 +6441,6 @@ module quadpack
 !***date written   810101   (yymmdd)
 !***revision date  830518   (mmddyy)
 !***keywords  15-point gauss-kronrod rules
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  to compute i = integral of f*w over (a,b), with error
 !                           estimate
 !                       j = integral of abs(f*w) over (a,b)
@@ -6761,8 +6623,6 @@ module quadpack
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  21-point gauss-kronrod rules
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  to compute i = integral of f over (a,b), with error
 !                           estimate
 !                       j = integral of abs(f) over (a,b)
@@ -6947,8 +6807,6 @@ module quadpack
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  31-point gauss-kronrod rules
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  to compute i = integral of f over (a,b) with error
 !                           estimate
 !                       j = integral of abs(f) over (a,b)
@@ -7143,8 +7001,6 @@ module quadpack
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  41-point gauss-kronrod rules
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  to compute i = integral of f over (a,b), with error
 !                           estimate
 !                       j = integral of abs(f) over (a,b)
@@ -7578,16 +7434,12 @@ module quadpack
 !***date written   800101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  61-point gauss-kronrod rules
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  to compute i = integral of f over (a,b) with error
 !                           estimate
 !                       j = integral of abs(f) over (a,b)
 !***description
 !
 !        integration rule
-!        standard fortran subroutine
-!        real(wp) version
 !
 !
 !        parameters
@@ -7812,8 +7664,6 @@ module quadpack
 !***date written   820101   (yymmdd)
 !***revision date  830518   (yymmdd)
 !***keywords  modified chebyshev moments
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  this routine computes modified chebsyshev moments. the k-th
 !            modified chebyshev moment is defined as the integral over
 !            (-1,1) of w(x)*t(k,x), where t(k,x) is the chebyshev
@@ -7821,8 +7671,6 @@ module quadpack
 !***description
 !
 !        modified chebyshev moments
-!        standard fortran subroutine
-!        real(wp) version
 !
 !        parameters
 !           alfa   - real(wp)
@@ -8324,8 +8172,6 @@ module quadpack
 !  *  dqage,dqagie,dqagpe,dqawse
 !***revision date  810101   (yymmdd)
 !***keywords  sequential sorting
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  this routine maintains the descending ordering in the
 !            list of the local error estimated resulting from the
 !            interval subdivision process. at each call two error
@@ -8459,8 +8305,6 @@ module quadpack
 !  * dqk15w
 !***revision date  810101   (yymmdd)
 !***keywords  weight function, cauchy principal value
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  this function subprogram is used together with the
 !            routine qawc and defines the weight function.
       real(wp) function dqwgtc(x,c,p2,p3,p4,Kp)
@@ -8504,8 +8348,6 @@ module quadpack
 !***revision date  810101   (yymmdd)
 !***keywords  weight function, algebraico-logarithmic
 !             end-point singularities
-!***author  piessens,robert,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  this function subprogram is used together with the
 !            routine dqaws and defines the weight function.
 
