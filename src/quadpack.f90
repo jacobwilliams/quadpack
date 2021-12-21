@@ -51,7 +51,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !            key    - integer
@@ -109,7 +109,7 @@ module quadpack
 !                             interval.
 !                         = 6 the input is invalid, because
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
 !                             or limit<1 or lenw<limit*4.
 !                             result, abserr, neval, last are set
 !                             to zero.
@@ -178,8 +178,8 @@ module quadpack
       Ier = 6
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       IF ( Limit>=1 .AND. Lenw>=Limit*4 ) THEN
 
         ! prepare call for dqage.
@@ -241,7 +241,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !            key    - integer
@@ -303,7 +303,7 @@ module quadpack
 !                             interval.
 !                         = 6 the input is invalid, because
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                             result, abserr, neval, last, rlist(1) ,
 !                             elist(1) and iord(1) are set to zero.
 !                             alist(1) and blist(1) are set to a and b
@@ -355,7 +355,7 @@ module quadpack
               Limit , maxerr , Neval , nrmax
 !
       DIMENSION Alist(Limit) , Blist(Limit) , Elist(Limit) , Iord(Limit)&
-              & , Rlist(Limit)
+                , Rlist(Limit)
 !
       procedure(func) :: f
 !
@@ -397,14 +397,14 @@ module quadpack
       Ier = 0
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       Alist(1) = A
       Blist(1) = B
-      Rlist(1) = 0.0D+00
-      Elist(1) = 0.0D+00
+      Rlist(1) = 0.0_wp
+      Elist(1) = 0.0_wp
       Iord(1) = 0
-      IF ( Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28) ) &
+      IF ( Epsabs<=0.0_wp .AND. Epsrel<max(50.0_wp*epmach,0.5e-28_wp) ) &
            Ier = 6
       IF ( Ier/=6 ) THEN
 !
@@ -429,11 +429,11 @@ module quadpack
 !           test on accuracy.
 !
          errbnd = max(Epsabs,Epsrel*abs(Result))
-         IF ( Abserr<=0.5D+02*epmach*defabs .AND. Abserr>errbnd ) &
+         IF ( Abserr<=50.0_wp*epmach*defabs .AND. Abserr>errbnd ) &
               Ier = 2
          IF ( Limit==1 ) Ier = 1
          IF ( .NOT.(Ier/=0 .OR. (Abserr<=errbnd .AND. Abserr/=resabs) &
-              .OR. Abserr==0.0D+00) ) THEN
+              .OR. Abserr==0.0_wp) ) THEN
 !
 !           initialization
 !           --------------
@@ -455,7 +455,7 @@ module quadpack
 !           bisect the subinterval with the largest error estimate.
 !
                a1 = Alist(maxerr)
-               b1 = 0.5D+00*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
                a2 = b1
                b2 = Blist(maxerr)
                IF ( keyf==1 ) CALL DQK15(F,a1,b1,area1,error1,resabs, &
@@ -492,8 +492,8 @@ module quadpack
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
                IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-                  IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) &
-                       .AND. erro12>=0.99D+00*errmax ) iroff1 = iroff1 +&
+                  IF ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) &
+                       .AND. erro12>=0.99_wp*errmax ) iroff1 = iroff1 +&
                        1
                   IF ( Last>10 .AND. erro12>errmax ) iroff2 = iroff2 + 1
                ENDIF
@@ -515,8 +515,8 @@ module quadpack
 !           at a point of the integration range.
 !
                   IF ( max(abs(a1),abs(b2)) &
-                       <=(0.1D+01+0.1D+03*epmach) &
-                       *(abs(a2)+0.1D+04*uflow) ) Ier = 3
+                       <=(1.0_wp+100.0_wp*epmach) &
+                       *(abs(a2)+1000.0_wp*uflow) ) Ier = 3
                ENDIF
 !
 !           append the newly-created intervals to the list.
@@ -549,7 +549,7 @@ module quadpack
 !           compute final result.
 !           ---------------------
 !
- 20         Result = 0.0D+00
+ 20         Result = 0.0_wp
             DO k = 1 , Last
                Result = Result + Rlist(k)
             ENDDO
@@ -606,7 +606,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !
@@ -666,7 +666,7 @@ module quadpack
 !                             of ier.
 !                         = 6 the input is invalid, because
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
 !                              or limit<1 or leniw<limit*4.
 !                             result, abserr, neval, last are set to
 !                             zero. exept when limit or leniw is
@@ -733,8 +733,8 @@ module quadpack
       Ier = 6
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       IF ( Limit>=1 .AND. Lenw>=Limit*4 ) THEN
 !
 !         prepare call for dqagie.
@@ -799,7 +799,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
@@ -862,7 +862,7 @@ module quadpack
 !                             of ier.
 !                         = 6 the input is invalid, because
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                             result, abserr, neval, last, rlist(1),
 !                             elist(1) and iord(1) are set to zero.
 !                             alist(1) and blist(1) are set to 0
@@ -918,7 +918,7 @@ module quadpack
       LOGICAL extrap , noext
 !
       DIMENSION Alist(Limit) , Blist(Limit) , Elist(Limit) , Iord(Limit)&
-              & , res3la(3) , Rlist(Limit) , rlist2(52)
+                , res3la(3) , Rlist(Limit) , rlist2(52)
 !
       procedure(func) :: f
 !
@@ -984,14 +984,14 @@ module quadpack
       Ier = 0
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
-      Alist(1) = 0.0D+00
-      Blist(1) = 0.1D+01
-      Rlist(1) = 0.0D+00
-      Elist(1) = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
+      Alist(1) = 0.0_wp
+      Blist(1) = 1.0_wp
+      Rlist(1) = 0.0_wp
+      Elist(1) = 0.0_wp
       Iord(1) = 0
-      IF ( Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28) ) &
+      IF ( Epsabs<=0.0_wp .AND. Epsrel<max(50.0_wp*epmach,0.5e-28_wp) ) &
            Ier = 6
       IF ( Ier==6 ) return
 !
@@ -1005,8 +1005,8 @@ module quadpack
 !           i2 = integral of f over (0,+infinity).
 !
       boun = Bound
-      IF ( Inf==2 ) boun = 0.0D+00
-      CALL DQK15I(F,boun,Inf,0.0D+00,0.1D+01,Result,Abserr,defabs, &
+      IF ( Inf==2 ) boun = 0.0_wp
+      CALL DQK15I(F,boun,Inf,0.0_wp,1.0_wp,Result,Abserr,defabs, &
                   resabs)
 !
 !           test on accuracy
@@ -1017,10 +1017,10 @@ module quadpack
       Iord(1) = 1
       dres = abs(Result)
       errbnd = max(Epsabs,Epsrel*dres)
-      IF ( Abserr<=1.0D+02*epmach*defabs .AND. Abserr>errbnd ) Ier = 2
+      IF ( Abserr<=100.0_wp*epmach*defabs .AND. Abserr>errbnd ) Ier = 2
       IF ( Limit==1 ) Ier = 1
       IF ( Ier/=0 .OR. (Abserr<=errbnd .AND. Abserr/=resabs) .OR. &
-           Abserr==0.0D+00 ) GOTO 400
+           Abserr==0.0_wp ) GOTO 400
 !
 !           initialization
 !           --------------
@@ -1044,7 +1044,7 @@ module quadpack
       iroff2 = 0
       iroff3 = 0
       ksgn = -1
-      IF ( dres>=(0.1D+01-0.5D+02*epmach)*defabs ) ksgn = 1
+      IF ( dres>=(1.0_wp-50.0_wp*epmach)*defabs ) ksgn = 1
 !
 !           main do-loop
 !           ------------
@@ -1054,7 +1054,7 @@ module quadpack
 !           bisect the subinterval with nrmax-th largest error estimate.
 !
          a1 = Alist(maxerr)
-         b1 = 0.5D+00*(Alist(maxerr)+Blist(maxerr))
+         b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
          a2 = b1
          b2 = Blist(maxerr)
          erlast = errmax
@@ -1069,8 +1069,8 @@ module quadpack
          errsum = errsum + erro12 - errmax
          area = area + area12 - Rlist(maxerr)
          IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-            IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) .AND. &
-               & erro12>=0.99D+00*errmax ) THEN
+            IF ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) .AND. &
+                 erro12>=0.99_wp*errmax ) THEN
                IF ( extrap ) iroff2 = iroff2 + 1
                IF ( .NOT.extrap ) iroff1 = iroff1 + 1
             ENDIF
@@ -1093,8 +1093,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at some points of the integration range.
 !
-         IF ( max(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach) &
-              *(abs(a2)+0.1D+04*uflow) ) Ier = 4
+         IF ( max(abs(a1),abs(b2))<=(1.0_wp+100.0_wp*epmach) &
+              *(abs(a2)+1000.0_wp*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -1122,7 +1122,7 @@ module quadpack
          IF ( errsum<=errbnd ) GOTO 300
          IF ( Ier/=0 ) GOTO 200
          IF ( Last==2 ) THEN
-            small = 0.375D+00
+            small = 0.375_wp
             erlarg = errsum
             ertest = errbnd
             rlist2(2) = area
@@ -1162,7 +1162,7 @@ module quadpack
             rlist2(numrl2) = area
             CALL DQELG(numrl2,rlist2,reseps,abseps,res3la,nres)
             ktmin = ktmin + 1
-            IF ( ktmin>5 .AND. Abserr<0.1D-02*errsum ) Ier = 5
+            IF ( ktmin>5 .AND. Abserr<0.1e-02_wp*errsum ) Ier = 5
             IF ( abseps<Abserr ) THEN
                ktmin = 0
                Abserr = abseps
@@ -1180,7 +1180,7 @@ module quadpack
             errmax = Elist(maxerr)
             nrmax = 1
             extrap = .FALSE.
-            small = small*0.5D+00
+            small = small*0.5_wp
             erlarg = errsum
          ENDIF
  100  ENDDO
@@ -1192,9 +1192,9 @@ module quadpack
          IF ( (Ier+ierro)/=0 ) THEN
             IF ( ierro==3 ) Abserr = Abserr + correc
             IF ( Ier==0 ) Ier = 3
-            IF ( Result==0.0D+00 .OR. area==0.0D+00 ) THEN
+            IF ( Result==0.0_wp .OR. area==0.0_wp ) THEN
                IF ( Abserr>errsum ) GOTO 300
-               IF ( area==0.0D+00 ) GOTO 400
+               IF ( area==0.0_wp ) GOTO 400
             ELSEIF ( Abserr/abs(Result)>errsum/abs(area) ) THEN
                GOTO 300
             ENDIF
@@ -1203,16 +1203,16 @@ module quadpack
 !           test on divergence
 !
          IF ( ksgn/=(-1) .OR. max(abs(Result),abs(area)) &
-              >defabs*0.1D-01 ) THEN
-            IF ( 0.1D-01>(Result/area) .OR. (Result/area)>0.1D+03 .OR. &
-               & errsum>abs(area) ) Ier = 6
+              >defabs*0.01_wp ) THEN
+            IF ( 0.01_wp>(Result/area) .OR. (Result/area)>100.0_wp .OR. &
+                 errsum>abs(area) ) Ier = 6
          ENDIF
          GOTO 400
       ENDIF
 !
 !           compute global integral sum.
 !
- 300  Result = 0.0D+00
+ 300  Result = 0.0_wp
       DO k = 1 , Last
          Result = Result + Rlist(k)
       ENDDO
@@ -1278,7 +1278,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !         on return
@@ -1340,7 +1340,7 @@ module quadpack
 !                             break points are specified outside
 !                             the integration range or
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
 !                             result, abserr, neval, last are set to
 !                             zero. exept when leniw or lenw or npts2 is
 !                             invalid, iwork(1), iwork(limit+1),
@@ -1424,8 +1424,8 @@ module quadpack
       Ier = 6
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       IF ( Leniw>=(3*Npts2-2) .AND. Lenw>=(Leniw*2-Npts2) .AND. &
            Npts2>=2 ) THEN
 !
@@ -1510,7 +1510,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
@@ -1577,7 +1577,7 @@ module quadpack
 !                             break points are specified outside
 !                             the integration range or
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
 !                             or limit<npts2.
 !                             result, abserr, neval, last, rlist(1),
 !                             and elist(1) are set to zero. alist(1) and
@@ -1645,7 +1645,7 @@ module quadpack
       real(wp) A , abseps , Abserr , Alist , area , area1 , &
                        area12 , area2 , a1 , a2 , B , Blist , b1 , b2 , &
                        correc , defabs , defab1 , defab2 , &
-                       DMIN1 , dres , Elist , epmach , &
+                       min , dres , Elist , epmach , &
                        Epsabs , Epsrel , erlarg , erlast , errbnd , &
                        errmax , error1 , erro12 , error2 , errsum , &
                        ertest , oflow , Points , Pts , resa , &
@@ -1660,8 +1660,8 @@ module quadpack
 !
 !
       DIMENSION Alist(Limit) , Blist(Limit) , Elist(Limit) , Iord(Limit)&
-              & , Level(Limit) , Ndin(Npts2) , Points(Npts2) , &
-              & Pts(Npts2) , res3la(3) , Rlist(Limit) , rlist2(52)
+                , Level(Limit) , Ndin(Npts2) , Points(Npts2) , &
+                Pts(Npts2) , res3la(3) , Rlist(Limit) , rlist2(52)
 !
       procedure(func) :: f
 !
@@ -1725,22 +1725,22 @@ module quadpack
       Ier = 0
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       Alist(1) = A
       Blist(1) = B
-      Rlist(1) = 0.0D+00
-      Elist(1) = 0.0D+00
+      Rlist(1) = 0.0_wp
+      Elist(1) = 0.0_wp
       Iord(1) = 0
       Level(1) = 0
       npts = Npts2 - 2
       IF ( Npts2<2 .OR. Limit<=npts .OR.  &
-           (Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28)) &
+           (Epsabs<=0.0_wp .AND. Epsrel<max(50.0_wp*epmach,0.5e-28_wp)) &
            ) then
             write(*,*) 'Npts2=',Npts2
             write(*,*) 'Epsabs=',Epsabs
             write(*,*) 'Epsrel=',Epsabs
-            write(*,*) 'max(0.5D+02*epmach,0.5D-28)=',max(0.5D+02*epmach,0.5D-28)
+            write(*,*) 'max(50.0_wp*epmach,0.5e-28_wp)=',max(50.0_wp*epmach,0.5e-28_wp)
             write(*,*) 'oops'
             Ier = 6
       end if
@@ -1749,9 +1749,9 @@ module quadpack
 !            if any break points are provided, sort them into an
 !            ascending sequence.
 !
-      sign = 1.0D+00
-      IF ( A>B ) sign = -1.0D+00
-      Pts(1) = DMIN1(A,B)
+      sign = 1.0_wp
+      IF ( A>B ) sign = -1.0_wp
+      Pts(1) = min(A,B)
       IF ( npts/=0 ) THEN
          DO i = 1 , npts
             Pts(i+1) = Points(i)
@@ -1772,21 +1772,21 @@ module quadpack
                ENDIF
             ENDDO
          ENDDO
-         IF ( Pts(1)/=DMIN1(A,B) .OR. Pts(nintp1)/=max(A,B) ) Ier = 6
+         IF ( Pts(1)/=min(A,B) .OR. Pts(nintp1)/=max(A,B) ) Ier = 6
          IF ( Ier==6 ) return
       ENDIF
 !
 !            compute first integral and error approximations.
 !            ------------------------------------------------
 !
-      resabs = 0.0D+00
+      resabs = 0.0_wp
       DO i = 1 , nint
          b1 = Pts(i+1)
          CALL DQK21(F,a1,b1,area1,error1,defabs,resa)
          Abserr = Abserr + error1
          Result = Result + area1
          Ndin(i) = 0
-         IF ( error1==resa .AND. error1/=0.0D+00 ) Ndin(i) = 1
+         IF ( error1==resa .AND. error1/=0.0_wp ) Ndin(i) = 1
          resabs = resabs + defabs
          Level(i) = 0
          Elist(i) = error1
@@ -1796,7 +1796,7 @@ module quadpack
          Iord(i) = i
          a1 = b1
       ENDDO
-      errsum = 0.0D+00
+      errsum = 0.0_wp
       DO i = 1 , nint
          IF ( Ndin(i)==1 ) Elist(i) = Abserr
          errsum = errsum + Elist(i)
@@ -1808,7 +1808,7 @@ module quadpack
       Neval = 21*nint
       dres = abs(Result)
       errbnd = max(Epsabs,Epsrel*dres)
-      IF ( Abserr<=0.1D+03*epmach*resabs .AND. Abserr>errbnd ) Ier = 2
+      IF ( Abserr<=100.0_wp*epmach*resabs .AND. Abserr>errbnd ) Ier = 2
       IF ( nint/=1 ) THEN
          DO i = 1 , npts
             jlow = i + 1
@@ -1853,7 +1853,7 @@ module quadpack
       oflow = D1MACH(2)
       Abserr = oflow
       ksgn = -1
-      IF ( dres>=(0.1D+01-0.5D+02*epmach)*resabs ) ksgn = 1
+      IF ( dres>=(1.0_wp-50.0_wp*epmach)*resabs ) ksgn = 1
 !
 !           main do-loop
 !           ------------
@@ -1865,7 +1865,7 @@ module quadpack
 !
          levcur = Level(maxerr) + 1
          a1 = Alist(maxerr)
-         b1 = 0.5D+00*(Alist(maxerr)+Blist(maxerr))
+         b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
          a2 = b1
          b2 = Blist(maxerr)
          erlast = errmax
@@ -1881,8 +1881,8 @@ module quadpack
          errsum = errsum + erro12 - errmax
          area = area + area12 - Rlist(maxerr)
          IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-            IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) .AND. &
-               & erro12>=0.99D+00*errmax ) THEN
+            IF ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) .AND. &
+                 erro12>=0.99_wp*errmax ) THEN
                IF ( extrap ) iroff2 = iroff2 + 1
                IF ( .NOT.extrap ) iroff1 = iroff1 + 1
             ENDIF
@@ -1907,8 +1907,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range
 !
-         IF ( max(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach) &
-              *(abs(a2)+0.1D+04*uflow) ) Ier = 4
+         IF ( max(abs(a1),abs(b2))<=(1.0_wp+100.0_wp*epmach) &
+              *(abs(a2)+1000.0_wp*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -1974,7 +1974,7 @@ module quadpack
             IF ( numrl2>2 ) THEN
                CALL DQELG(numrl2,rlist2,reseps,abseps,res3la,nres)
                ktmin = ktmin + 1
-               IF ( ktmin>5 .AND. Abserr<0.1D-02*errsum ) Ier = 5
+               IF ( ktmin>5 .AND. Abserr<0.1e-02_wp*errsum ) Ier = 5
                IF ( abseps<Abserr ) THEN
                   ktmin = 0
                   Abserr = abseps
@@ -2007,9 +2007,9 @@ module quadpack
          IF ( (Ier+ierro)/=0 ) THEN
             IF ( ierro==3 ) Abserr = Abserr + correc
             IF ( Ier==0 ) Ier = 3
-            IF ( Result==0.0D+00 .OR. area==0.0D+00 ) THEN
+            IF ( Result==0.0_wp .OR. area==0.0_wp ) THEN
                IF ( Abserr>errsum ) GOTO 300
-               IF ( area==0.0D+00 ) GOTO 400
+               IF ( area==0.0_wp ) GOTO 400
             ELSEIF ( Abserr/abs(Result)>errsum/abs(area) ) THEN
                GOTO 300
             ENDIF
@@ -2018,16 +2018,16 @@ module quadpack
 !           test on divergence.
 !
          IF ( ksgn/=(-1) .OR. max(abs(Result),abs(area)) &
-              >resabs*0.1D-01 ) THEN
-            IF ( 0.1D-01>(Result/area) .OR. (Result/area)>0.1D+03 .OR. &
-               & errsum>abs(area) ) Ier = 6
+              >resabs*0.01_wp ) THEN
+            IF ( 0.01_wp>(Result/area) .OR. (Result/area)>100.0_wp .OR. &
+                 errsum>abs(area) ) Ier = 6
          ENDIF
          GOTO 400
       ENDIF
 !
 !           compute global integral sum.
 !
- 300  Result = 0.0D+00
+ 300  Result = 0.0_wp
       DO k = 1 , Last
          Result = Result + Rlist(k)
       ENDDO
@@ -2078,7 +2078,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !         on return
@@ -2137,7 +2137,7 @@ module quadpack
 !                             of ier.
 !                         = 6 the input is invalid, because
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28)
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp)
 !                             or limit<1 or lenw<limit*4.
 !                             result, abserr, neval, last are set to
 !                             zero.except when limit or lenw is invalid,
@@ -2206,8 +2206,8 @@ module quadpack
       Ier = 6
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       IF ( Limit>=1 .AND. Lenw>=Limit*4 ) THEN
 !
 !         prepare call for dqagse.
@@ -2268,7 +2268,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
@@ -2332,7 +2332,7 @@ module quadpack
 !                             of ier.
 !                         = 6 the input is invalid, because
 !                             epsabs<=0 and
-!                             epsrel<max(50*rel.mach.acc.,0.5d-28).
+!                             epsrel<max(50*rel.mach.acc.,0.5e-28_wp).
 !                             result, abserr, neval, last, rlist(1),
 !                             iord(1) and elist(1) are set to zero.
 !                             alist(1) and blist(1) are set to a and b
@@ -2389,7 +2389,7 @@ module quadpack
       LOGICAL extrap , noext
 !
       DIMENSION Alist(Limit) , Blist(Limit) , Elist(Limit) , Iord(Limit)&
-              & , res3la(3) , Rlist(Limit) , rlist2(52)
+                , res3la(3) , Rlist(Limit) , rlist2(52)
 !
       procedure(func) :: f
 !
@@ -2454,13 +2454,13 @@ module quadpack
       Ier = 0
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       Alist(1) = A
       Blist(1) = B
-      Rlist(1) = 0.0D+00
-      Elist(1) = 0.0D+00
-      IF ( Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28) ) &
+      Rlist(1) = 0.0_wp
+      Elist(1) = 0.0_wp
+      IF ( Epsabs<=0.0_wp .AND. Epsrel<max(50.0_wp*epmach,0.5e-28_wp) ) &
            Ier = 6
       IF ( Ier/=6 ) THEN
 !
@@ -2480,11 +2480,11 @@ module quadpack
          Rlist(1) = Result
          Elist(1) = Abserr
          Iord(1) = 1
-         IF ( Abserr<=1.0D+02*epmach*defabs .AND. Abserr>errbnd ) &
+         IF ( Abserr<=100.0_wp*epmach*defabs .AND. Abserr>errbnd ) &
               Ier = 2
          IF ( Limit==1 ) Ier = 1
          IF ( Ier/=0 .OR. (Abserr<=errbnd .AND. Abserr/=resabs) .OR. &
-              Abserr==0.0D+00 ) THEN
+              Abserr==0.0_wp ) THEN
             Neval = 42*Last - 21
             return
          ELSE
@@ -2508,7 +2508,7 @@ module quadpack
             iroff2 = 0
             iroff3 = 0
             ksgn = -1
-            IF ( dres>=(0.1D+01-0.5D+02*epmach)*defabs ) ksgn = 1
+            IF ( dres>=(1.0_wp-50.0_wp*epmach)*defabs ) ksgn = 1
 !
 !           main do-loop
 !           ------------
@@ -2519,7 +2519,7 @@ module quadpack
 !           estimate.
 !
                a1 = Alist(maxerr)
-               b1 = 0.5D+00*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
                a2 = b1
                b2 = Blist(maxerr)
                erlast = errmax
@@ -2534,8 +2534,8 @@ module quadpack
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
                IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-                  IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) &
-                       .AND. erro12>=0.99D+00*errmax ) THEN
+                  IF ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) &
+                       .AND. erro12>=0.99_wp*errmax ) THEN
                      IF ( extrap ) iroff2 = iroff2 + 1
                      IF ( .NOT.extrap ) iroff1 = iroff1 + 1
                   ENDIF
@@ -2558,8 +2558,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-               IF ( max(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach) &
-                    *(abs(a2)+0.1D+04*uflow) ) Ier = 4
+               IF ( max(abs(a1),abs(b2))<=(1.0_wp+100.0_wp*epmach) &
+                    *(abs(a2)+1000.0_wp*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -2589,7 +2589,7 @@ module quadpack
 ! ***jump out of do-loop
                IF ( Ier/=0 ) GOTO 40
                IF ( Last==2 ) THEN
-                  small = abs(B-A)*0.375D+00
+                  small = abs(B-A)*0.375_wp
                   erlarg = errsum
                   ertest = errbnd
                   rlist2(2) = area
@@ -2601,8 +2601,7 @@ module quadpack
 !           test whether the interval to be bisected next is the
 !           smallest interval.
 !
-                     IF ( abs(Blist(maxerr)-Alist(maxerr))>small ) &
-                        & GOTO 20
+                     IF ( abs(Blist(maxerr)-Alist(maxerr))>small ) GOTO 20
                      extrap = .TRUE.
                      nrmax = 2
                   ENDIF
@@ -2619,8 +2618,7 @@ module quadpack
                         maxerr = Iord(nrmax)
                         errmax = Elist(maxerr)
 ! ***jump out of do-loop
-                        IF ( abs(Blist(maxerr)-Alist(maxerr))>small ) &
-                           & GOTO 20
+                        IF ( abs(Blist(maxerr)-Alist(maxerr))>small ) GOTO 20
                         nrmax = nrmax + 1
                      ENDDO
                   ENDIF
@@ -2631,7 +2629,7 @@ module quadpack
                   rlist2(numrl2) = area
                   CALL DQELG(numrl2,rlist2,reseps,abseps,res3la,nres)
                   ktmin = ktmin + 1
-                  IF ( ktmin>5 .AND. Abserr<0.1D-02*errsum ) Ier = 5
+                  IF ( ktmin>5 .AND. Abserr<0.1e-02_wp*errsum ) Ier = 5
                   IF ( abseps<Abserr ) THEN
                      ktmin = 0
                      Abserr = abseps
@@ -2650,7 +2648,7 @@ module quadpack
                   errmax = Elist(maxerr)
                   nrmax = 1
                   extrap = .FALSE.
-                  small = small*0.5D+00
+                  small = small*0.5_wp
                   erlarg = errsum
                ENDIF
  20         ENDDO
@@ -2662,9 +2660,9 @@ module quadpack
                IF ( Ier+ierro/=0 ) THEN
                   IF ( ierro==3 ) Abserr = Abserr + correc
                   IF ( Ier==0 ) Ier = 3
-                  IF ( Result==0.0D+00 .OR. area==0.0D+00 ) THEN
+                  IF ( Result==0.0_wp .OR. area==0.0_wp ) THEN
                      IF ( Abserr>errsum ) GOTO 50
-                     IF ( area==0.0D+00 ) THEN
+                     IF ( area==0.0_wp ) THEN
                         IF ( Ier>2 ) Ier = Ier - 1
                         Neval = 42*Last - 21
                         return
@@ -2677,9 +2675,9 @@ module quadpack
 !           test on divergence.
 !
                IF ( ksgn/=(-1) .OR. max(abs(Result),abs(area)) &
-                    >defabs*0.1D-01 ) THEN
-                  IF ( 0.1D-01>(Result/area) .OR. (Result/area) &
-                       >0.1D+03 .OR. errsum>abs(area) ) Ier = 6
+                    >defabs*0.01_wp ) THEN
+                  IF ( 0.01_wp>(Result/area) .OR. (Result/area) &
+                       >100.0_wp .OR. errsum>abs(area) ) Ier = 6
                ENDIF
                IF ( Ier>2 ) Ier = Ier - 1
                Neval = 42*Last - 21
@@ -2689,7 +2687,7 @@ module quadpack
 !
 !           compute global integral sum.
 !
- 50      Result = 0.0D+00
+ 50      Result = 0.0_wp
          DO k = 1 , Last
             Result = Result + Rlist(k)
          ENDDO
@@ -2746,7 +2744,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !         on return
@@ -2792,7 +2790,7 @@ module quadpack
 !                         = 6 the input is invalid, because
 !                             c = a or c = b or
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
 !                             or limit<1 or lenw<limit*4.
 !                             result, abserr, neval, last are set to
 !                             zero. exept when lenw or limit is invalid,
@@ -2860,8 +2858,8 @@ module quadpack
       Ier = 6
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       IF ( Limit>=1 .AND. Lenw>=Limit*4 ) THEN
 !
 !         prepare call for dqawce.
@@ -2926,7 +2924,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
@@ -2975,7 +2973,7 @@ module quadpack
 !                         = 6 the input is invalid, because
 !                             c = a or c = b or
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
 !                             or limit<1.
 !                             result, abserr, neval, rlist(1), elist(1),
 !                             iord(1) and last are set to zero. alist(1)
@@ -3027,7 +3025,7 @@ module quadpack
               maxerr , nev , Neval , nrmax
 !
       DIMENSION Alist(Limit) , Blist(Limit) , Rlist(Limit) , &
-              & Elist(Limit) , Iord(Limit)
+                Elist(Limit) , Iord(Limit)
 !
       procedure(func) :: f
 !
@@ -3072,13 +3070,13 @@ module quadpack
       Last = 0
       Alist(1) = A
       Blist(1) = B
-      Rlist(1) = 0.0D+00
-      Elist(1) = 0.0D+00
+      Rlist(1) = 0.0_wp
+      Elist(1) = 0.0_wp
       Iord(1) = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
-      IF ( .NOT.(C==A .OR. C==B .OR. (Epsabs<=0.0D+00 .AND. Epsrel<max&
-           (0.5D+02*epmach,0.5D-28))) ) THEN
+      Result = 0.0_wp
+      Abserr = 0.0_wp
+      IF ( .NOT.(C==A .OR. C==B .OR. (Epsabs<=0.0_wp .AND. Epsrel<max &
+           (50.0_wp*epmach,0.5e-28_wp))) ) THEN
 !
 !           first approximation to the integral
 !           -----------------------------------
@@ -3103,8 +3101,7 @@ module quadpack
 !
          errbnd = max(Epsabs,Epsrel*abs(Result))
          IF ( Limit==1 ) Ier = 1
-         IF ( Abserr>=DMIN1(0.1D-01*abs(Result),errbnd) .AND. Ier/=1 ) &
-              THEN
+         IF ( Abserr>=min(0.01_wp*abs(Result),errbnd) .AND. Ier/=1 ) THEN
 !
 !           initialization
 !           --------------
@@ -3129,10 +3126,10 @@ module quadpack
 !           error estimate.
 !
                a1 = Alist(maxerr)
-               b1 = 0.5D+00*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
                b2 = Blist(maxerr)
-               IF ( C<=b1 .AND. C>a1 ) b1 = 0.5D+00*(C+b2)
-               IF ( C>b1 .AND. C<b2 ) b1 = 0.5D+00*(a1+C)
+               IF ( C<=b1 .AND. C>a1 ) b1 = 0.5_wp*(C+b2)
+               IF ( C>b1 .AND. C<b2 ) b1 = 0.5_wp*(a1+C)
                a2 = b1
                krule = 2
                CALL DQC25C(F,a1,b1,C,area1,error1,krule,nev)
@@ -3147,8 +3144,8 @@ module quadpack
                erro12 = error1 + error2
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
-               IF ( abs(Rlist(maxerr)-area12)<0.1D-04*abs(area12) &
-                    .AND. erro12>=0.99D+00*errmax .AND. krule==0 ) &
+               IF ( abs(Rlist(maxerr)-area12)<0.1e-4_wp*abs(area12) &
+                    .AND. erro12>=0.99_wp*errmax .AND. krule==0 ) &
                     iroff1 = iroff1 + 1
                IF ( Last>10 .AND. erro12>errmax .AND. krule==0 ) &
                     iroff2 = iroff2 + 1
@@ -3170,8 +3167,8 @@ module quadpack
 !           at a point of the integration range.
 !
                   IF ( max(abs(a1),abs(b2))    &
-                       <=(0.1D+01+0.1D+03*epmach)  &
-                       *(abs(a2)+0.1D+04*uflow) ) Ier = 3
+                       <=(1.0_wp+100.0_wp*epmach)  &
+                       *(abs(a2)+1000.0_wp*uflow) ) Ier = 3
                ENDIF
 !
 !           append the newly-created intervals to the list.
@@ -3204,7 +3201,7 @@ module quadpack
 !           compute final result.
 !           ---------------------
 !
- 20         Result = 0.0D+00
+ 20         Result = 0.0_wp
             DO k = 1 , Last
                Result = Result + Rlist(k)
             ENDDO
@@ -3420,8 +3417,8 @@ module quadpack
       Ier = 6
       Neval = 0
       last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       IF ( Limlst>=3 .AND. Leniw>=(Limlst+2) .AND. Maxp1>=1 .AND. &
            Lenw>=(Leniw*2+Maxp1*25) ) THEN
 !
@@ -3649,17 +3646,17 @@ module quadpack
       real(wp) A , abseps , Abserr , Alist , Blist , Chebmo , &
                        correc , cycle , c1 , c2 , dl , dla , &
                        drl , Elist , Erlst , ep , eps ,&
-                       epsa , Epsabs , errsum , fact , Omega , p , &
-                       pi , p1 , psum , reseps , Result , res3la , &
+                       epsa , Epsabs , errsum , fact , Omega , &
+                       p1 , psum , reseps , Result , res3la , &
                        Rlist , Rslst , uflow
       INTEGER Ier , Ierlst , Integr , Iord , ktmin , l , last , Lst , &
               Limit , Limlst , ll , Maxp1 , momcom , nev , Neval , &
               Nnlog , nres , numrl2
 !
       DIMENSION Alist(Limit) , Blist(Limit) , Chebmo(Maxp1,25) , &
-              & Elist(Limit) , Erlst(Limlst) , Ierlst(Limlst) , &
-              & Iord(Limit) , Nnlog(Limit) , psum(52) , res3la(3) , &
-              & Rlist(Limit) , Rslst(Limlst)
+                Elist(Limit) , Erlst(Limlst) , Ierlst(Limlst) , &
+                Iord(Limit) , Nnlog(Limit) , psum(52) , res3la(3) , &
+                Rlist(Limit) , Rslst(Limlst)
 !
       procedure(func) :: f
 !
@@ -3686,23 +3683,24 @@ module quadpack
 !                       subinterval
 !           chebmo    - array containing the modified chebyshev
 !                       moments (see also routine dqc25f)
-!
-      DATA p/0.9D+00/
-      DATA pi/3.14159265358979323846264338327950D0/
+
+    real(wp),parameter :: p = 0.9_wp
+    real(wp),parameter :: pi = acos(-1.0_wp)
+
 !
 !           test on validity of parameters
 !           ------------------------------
 !
 
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       Neval = 0
       Lst = 0
       Ier = 0
-      IF ( (Integr/=1 .AND. Integr/=2) .OR. Epsabs<=0.0D+00 .OR. &
+      IF ( (Integr/=1 .AND. Integr/=2) .OR. Epsabs<=0.0_wp .OR. &
            Limlst<3 ) Ier = 6
       IF ( Ier/=6 ) THEN
-         IF ( Omega/=0.0D+00 ) THEN
+         IF ( Omega/=0.0_wp ) THEN
 !
 !           initializations
 !           ---------------
@@ -3717,15 +3715,15 @@ module quadpack
             nres = 0
             c1 = A
             c2 = cycle + A
-            p1 = 0.1D+01 - p
+            p1 = 1.0_wp - p
             uflow = D1MACH(1)
             eps = Epsabs
             IF ( Epsabs>uflow/p1 ) eps = Epsabs*p1
             ep = eps
-            fact = 0.1D+01
-            correc = 0.0D+00
-            Abserr = 0.0D+00
-            errsum = 0.0D+00
+            fact = 1.0_wp
+            correc = 0.0_wp
+            Abserr = 0.0_wp
+            errsum = 0.0_wp
 !
 !           main do-loop
 !           ------------
@@ -3736,14 +3734,14 @@ module quadpack
 !
                dla = Lst
                epsa = eps*fact
-               CALL DQAWOE(F,c1,c2,Omega,Integr,epsa,0.0D+00,Limit,Lst, &
-                         & Maxp1,Rslst(Lst),Erlst(Lst),nev,Ierlst(Lst), &
-                         & last,Alist,Blist,Rlist,Elist,Iord,Nnlog, &
-                         & momcom,Chebmo)
+               CALL DQAWOE(F,c1,c2,Omega,Integr,epsa,0.0_wp,Limit,Lst, &
+                           Maxp1,Rslst(Lst),Erlst(Lst),nev,Ierlst(Lst), &
+                           last,Alist,Blist,Rlist,Elist,Iord,Nnlog, &
+                           momcom,Chebmo)
                Neval = Neval + nev
                fact = fact*p
                errsum = errsum + Erlst(Lst)
-               drl = 0.5D+02*abs(Rslst(Lst))
+               drl = 50.0_wp*abs(Rslst(Lst))
 !
 !           test on accuracy with partial sum
 !
@@ -3751,7 +3749,7 @@ module quadpack
                correc = max(correc,Erlst(Lst))
                IF ( Ierlst(Lst)/=0 ) eps = max(ep,correc*p1)
                IF ( Ierlst(Lst)/=0 ) Ier = 7
-               IF ( Ier==7 .AND. (errsum+drl)<=correc*0.1D+02 .AND. &
+               IF ( Ier==7 .AND. (errsum+drl)<=correc*10.0_wp .AND. &
                     Lst>5 ) GOTO 50
                numrl2 = numrl2 + 1
                IF ( Lst>1 ) THEN
@@ -3769,8 +3767,8 @@ module quadpack
 !           test whether extrapolated result is influenced by roundoff
 !
                      ktmin = ktmin + 1
-                     IF ( ktmin>=15 .AND. Abserr<=0.1D-02*(errsum+drl) )&
-                        & Ier = 4
+                     IF ( ktmin>=15 .AND. Abserr<=0.1e-02_wp*(errsum+drl) ) &
+                          Ier = 4
                      IF ( abseps<=Abserr .OR. Lst==3 ) THEN
                         Abserr = abseps
                         Result = reseps
@@ -3780,9 +3778,9 @@ module quadpack
 !           or extrapolated result yields the best integral
 !           approximation
 !
-                        IF ( (Abserr+0.1D+02*correc)<=Epsabs .OR. &
-                           & (Abserr<=Epsabs .AND. &
-                           & 0.1D+02*correc>=Epsabs) ) GOTO 20
+                        IF ( (Abserr+10.0_wp*correc)<=Epsabs .OR. &
+                             (Abserr<=Epsabs .AND. &
+                             10.0_wp*correc>=Epsabs) ) GOTO 20
                      ENDIF
                      IF ( Ier/=0 .AND. Ier/=7 ) GOTO 20
                   ENDIF
@@ -3797,14 +3795,14 @@ module quadpack
 !         set final result and error estimate
 !         -----------------------------------
 !
- 20         Abserr = Abserr + 0.1D+02*correc
+ 20         Abserr = Abserr + 10.0_wp*correc
             IF ( Ier==0 ) return
-            IF ( Result==0.0D+00 .OR. psum(numrl2)==0.0D+00 ) THEN
+            IF ( Result==0.0_wp .OR. psum(numrl2)==0.0_wp ) THEN
                IF ( Abserr>errsum ) GOTO 50
-               IF ( psum(numrl2)==0.0D+00 ) return
+               IF ( psum(numrl2)==0.0_wp ) return
             ENDIF
             IF ( Abserr/abs(Result)<=(errsum+drl)/abs(psum(numrl2)) ) &
-               & THEN
+                 THEN
                IF ( Ier>=1 .AND. Ier/=7 ) Abserr = Abserr + drl
                return
             ENDIF
@@ -3813,9 +3811,9 @@ module quadpack
 !           integration by dqagie if omega is zero
 !           --------------------------------------
 !
-            IF ( Integr==1 ) CALL DQAGIE(F,0.0D+00,1,Epsabs,0.0D+00, &
-               & Limit,Result,Abserr,Neval,Ier,Alist,Blist,Rlist,Elist, &
-               & Iord,last)
+            IF ( Integr==1 ) CALL DQAGIE(F,0.0_wp,1,Epsabs,0.0_wp, &
+                 Limit,Result,Abserr,Neval,Ier,Alist,Blist,Rlist,Elist, &
+                 Iord,last)
             Rslst(1) = Result
             Erlst(1) = Abserr
             Ierlst(1) = Ier
@@ -3881,7 +3879,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if epsabs<=0 and
-!                     epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !         on return
@@ -3942,7 +3940,7 @@ module quadpack
 !                             of ier.
 !                         = 6 the input is invalid, because
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
 !                             or (integr/=1 and integr/=2),
 !                             or leniw<2 or maxp1<1 or
 !                             lenw<leniw*2+maxp1*25.
@@ -4030,8 +4028,8 @@ module quadpack
       Ier = 6
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       IF ( Leniw>=2 .AND. Maxp1>=1 .AND. Lenw>=(Leniw*2+Maxp1*25) ) THEN
 !
 !         prepare call for dqawoe
@@ -4110,7 +4108,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
@@ -4194,7 +4192,7 @@ module quadpack
 !                             of ier>0.
 !                         = 6 the input is invalid, because
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28))
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
 !                             or (integr/=1 and integr/=2) or
 !                             icall<1 or maxp1<1.
 !                             result, abserr, neval, last, rlist(1),
@@ -4274,8 +4272,8 @@ module quadpack
       LOGICAL extrap , noext , extall
 !
       DIMENSION Alist(Limit) , Blist(Limit) , Rlist(Limit) , &
-              & Elist(Limit) , Iord(Limit) , rlist2(52) , res3la(3) , &
-              & Chebmo(Maxp1,25) , Nnlog(Limit)
+                Elist(Limit) , Iord(Limit) , rlist2(52) , res3la(3) , &
+                Chebmo(Maxp1,25) , Nnlog(Limit)
 !
       procedure(func) :: f
 !
@@ -4339,16 +4337,16 @@ module quadpack
       Ier = 0
       Neval = 0
       Last = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       Alist(1) = A
       Blist(1) = B
-      Rlist(1) = 0.0D+00
-      Elist(1) = 0.0D+00
+      Rlist(1) = 0.0_wp
+      Elist(1) = 0.0_wp
       Iord(1) = 0
       Nnlog(1) = 0
       IF ( (Integr/=1 .AND. Integr/=2) .OR. &
-           (Epsabs<=0.0D+00 .AND. Epsrel<max(0.5D+02*epmach,0.5D-28)) &
+           (Epsabs<=0.0_wp .AND. Epsrel<max(50.0_wp*epmach,0.5e-28_wp)) &
            .OR. Icall<1 .OR. Maxp1<1 ) Ier = 6
       IF ( Ier/=6 ) THEN
 !
@@ -4368,11 +4366,11 @@ module quadpack
          Rlist(1) = Result
          Elist(1) = Abserr
          Iord(1) = 1
-         IF ( Abserr<=0.1D+03*epmach*defabs .AND. Abserr>errbnd ) &
+         IF ( Abserr<=100.0_wp*epmach*defabs .AND. Abserr>errbnd ) &
               Ier = 2
          IF ( Limit==1 ) Ier = 1
          IF ( Ier/=0 .OR. Abserr<=errbnd ) THEN
-            IF ( Integr==2 .AND. Omega<0.0D+00 ) Result = -Result
+            IF ( Integr==2 .AND. Omega<0.0_wp ) Result = -Result
             return
          ELSE
 !
@@ -4394,18 +4392,18 @@ module quadpack
             iroff2 = 0
             iroff3 = 0
             ktmin = 0
-            small = abs(B-A)*0.75D+00
+            small = abs(B-A)*0.75_wp
             nres = 0
             numrl2 = 0
             extall = .FALSE.
-            IF ( 0.5D+00*abs(B-A)*domega<=0.2D+01 ) THEN
+            IF ( 0.5_wp*abs(B-A)*domega<=2.0_wp ) THEN
                numrl2 = 1
                extall = .TRUE.
                rlist2(1) = Result
             ENDIF
-            IF ( 0.25D+00*abs(B-A)*domega<=0.2D+01 ) extall = .TRUE.
+            IF ( 0.25_wp*abs(B-A)*domega<=2.0_wp ) extall = .TRUE.
             ksgn = -1
-            IF ( dres>=(0.1D+01-0.5D+02*epmach)*defabs ) ksgn = 1
+            IF ( dres>=(1.0_wp-50.0_wp*epmach)*defabs ) ksgn = 1
 !
 !           main do-loop
 !           ------------
@@ -4417,15 +4415,15 @@ module quadpack
 !
                nrmom = Nnlog(maxerr) + 1
                a1 = Alist(maxerr)
-               b1 = 0.5D+00*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
                a2 = b1
                b2 = Blist(maxerr)
                erlast = errmax
                CALL DQC25F(F,a1,b1,domega,Integr,nrmom,Maxp1,0,area1, &
-                         & error1,nev,resabs,defab1,Momcom,Chebmo)
+                           error1,nev,resabs,defab1,Momcom,Chebmo)
                Neval = Neval + nev
                CALL DQC25F(F,a2,b2,domega,Integr,nrmom,Maxp1,1,area2, &
-                         & error2,nev,resabs,defab2,Momcom,Chebmo)
+                           error2,nev,resabs,defab2,Momcom,Chebmo)
                Neval = Neval + nev
 !
 !           improve previous approximations to integral
@@ -4436,8 +4434,8 @@ module quadpack
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
                IF ( defab1/=error1 .AND. defab2/=error2 ) THEN
-                  IF ( abs(Rlist(maxerr)-area12)<=0.1D-04*abs(area12) &
-                       .AND. erro12>=0.99D+00*errmax ) THEN
+                  IF ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) &
+                       .AND. erro12>=0.99_wp*errmax ) THEN
                      IF ( extrap ) iroff2 = iroff2 + 1
                      IF ( .NOT.extrap ) iroff1 = iroff1 + 1
                   ENDIF
@@ -4462,8 +4460,8 @@ module quadpack
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-               IF ( max(abs(a1),abs(b2))<=(0.1D+01+0.1D+03*epmach) &
-                    *(abs(a2)+0.1D+04*uflow) ) Ier = 4
+               IF ( max(abs(a1),abs(b2))<=(1.0_wp+100.0_wp*epmach) &
+                    *(abs(a2)+1000.0_wp*uflow) ) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
@@ -4492,7 +4490,7 @@ module quadpack
                IF ( errsum<=errbnd ) GOTO 50
                IF ( Ier/=0 ) GOTO 40
                IF ( Last==2 .AND. extall ) THEN
-                  small = small*0.5D+00
+                  small = small*0.5_wp
                   numrl2 = numrl2 + 1
                   rlist2(numrl2) = area
                ELSE
@@ -4517,8 +4515,8 @@ module quadpack
 !           (we do this if we integrate over the next interval with
 !           use of a gauss-kronrod rule - see subroutine dqc25f).
 !
-                     small = small*0.5D+00
-                     IF ( 0.25D+00*width*domega>0.2D+01 ) GOTO 20
+                     small = small*0.5_wp
+                     IF ( 0.25_wp*width*domega>2.0_wp ) GOTO 20
                      extall = .TRUE.
                      GOTO 10
                   ENDIF
@@ -4535,7 +4533,7 @@ module quadpack
                         maxerr = Iord(nrmax)
                         errmax = Elist(maxerr)
                         IF ( abs(Blist(maxerr)-Alist(maxerr))>small ) &
-                           & GOTO 20
+                             GOTO 20
                         nrmax = nrmax + 1
                      ENDDO
                   ENDIF
@@ -4547,7 +4545,7 @@ module quadpack
                   IF ( numrl2>=3 ) THEN
                      CALL DQELG(numrl2,rlist2,reseps,abseps,res3la,nres)
                      ktmin = ktmin + 1
-                     IF ( ktmin>5 .AND. Abserr<0.1D-02*errsum ) Ier = 5
+                     IF ( ktmin>5 .AND. Abserr<0.1e-02_wp*errsum ) Ier = 5
                      IF ( abseps<Abserr ) THEN
                         ktmin = 0
                         Abserr = abseps
@@ -4567,7 +4565,7 @@ module quadpack
                   errmax = Elist(maxerr)
                   nrmax = 1
                   extrap = .FALSE.
-                  small = small*0.5D+00
+                  small = small*0.5_wp
                   erlarg = errsum
                   GOTO 20
                ENDIF
@@ -4582,12 +4580,11 @@ module quadpack
                IF ( Ier+ierro/=0 ) THEN
                   IF ( ierro==3 ) Abserr = Abserr + correc
                   IF ( Ier==0 ) Ier = 3
-                  IF ( Result==0.0D+00 .OR. area==0.0D+00 ) THEN
+                  IF ( Result==0.0_wp .OR. area==0.0_wp ) THEN
                      IF ( Abserr>errsum ) GOTO 50
-                     IF ( area==0.0D+00 ) THEN
+                     IF ( area==0.0_wp ) THEN
                         IF ( Ier>2 ) Ier = Ier - 1
-                        IF ( Integr==2 .AND. Omega<0.0D+00 ) Result = - &
-                           & Result
+                        IF ( Integr==2 .AND. Omega<0.0_wp ) Result = -Result
                         return
                      ENDIF
                   ELSEIF ( Abserr/abs(Result)>errsum/abs(area) ) THEN
@@ -4598,25 +4595,25 @@ module quadpack
 !           test on divergence.
 !
                IF ( ksgn/=(-1) .OR. max(abs(Result),abs(area)) &
-                    >defabs*0.1D-01 ) THEN
-                  IF ( 0.1D-01>(Result/area) .OR. (Result/area) &
-                       >0.1D+03 .OR. errsum>=abs(area) ) Ier = 6
+                    >defabs*0.01_wp ) THEN
+                  IF ( 0.01_wp>(Result/area) .OR. (Result/area) &
+                       >100.0_wp .OR. errsum>=abs(area) ) Ier = 6
                ENDIF
                IF ( Ier>2 ) Ier = Ier - 1
-               IF ( Integr==2 .AND. Omega<0.0D+00 ) Result = -Result
+               IF ( Integr==2 .AND. Omega<0.0_wp ) Result = -Result
                return
             ENDIF
          ENDIF
 !
 !           compute global integral sum.
 !
- 50      Result = 0.0D+00
+ 50      Result = 0.0_wp
          DO k = 1 , Last
             Result = Result + Rlist(k)
          ENDDO
          Abserr = errsum
          IF ( Ier>2 ) Ier = Ier - 1
-         IF ( Integr==2 .AND. Omega<0.0D+00 ) Result = -Result
+         IF ( Integr==2 .AND. Omega<0.0_wp ) Result = -Result
       ENDIF
     end
 !********************************************************************************
@@ -4685,7 +4682,7 @@ module quadpack
 !            epsrel - real(wp)
 !                     relative accuracy requested
 !                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                     the routine will end with ier = 6.
 !
 !            limit  - integer
@@ -4738,7 +4735,7 @@ module quadpack
 !                             b<=a or alfa<=(-1) or beta<=(-1), or
 !                             integr<1 or integr>4, or
 !                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                             or limit<2.
 !                             result, abserr, neval, rlist(1), elist(1),
 !                             iord(1) and last are set to zero. alist(1)
@@ -4794,8 +4791,8 @@ module quadpack
       procedure(func) :: f
 !
       DIMENSION Alist(Limit) , Blist(Limit) , Rlist(Limit) , &
-              & Elist(Limit) , Iord(Limit) , ri(25) , rj(25) , rh(25) , &
-              & rg(25)
+                Elist(Limit) , Iord(Limit) , ri(25) , rj(25) , rh(25) , &
+                rg(25)
 !
 !            list of major variables
 !            -----------------------
@@ -4835,13 +4832,13 @@ module quadpack
       Ier = 6
       Neval = 0
       Last = 0
-      Rlist(1) = 0.0D+00
-      Elist(1) = 0.0D+00
+      Rlist(1) = 0.0_wp
+      Elist(1) = 0.0_wp
       Iord(1) = 0
-      Result = 0.0D+00
-      Abserr = 0.0D+00
-      IF ( .NOT.(B<=A .OR. (Epsabs==0.0D+00 .AND. Epsrel<max(0.5D+02* &
-           epmach,0.5D-28)) .OR. Alfa<=(-0.1D+01) .OR. Beta<=(-0.1D+01) &
+      Result = 0.0_wp
+      Abserr = 0.0_wp
+      IF ( .NOT.(B<=A .OR. (Epsabs==0.0_wp .AND. Epsrel<max(50.0_wp* &
+           epmach,0.5e-28_wp)) .OR. Alfa<=(-1.0_wp) .OR. Beta<=(-1.0_wp) &
            .OR. Integr<1 .OR. Integr>4 .OR. Limit<2) ) THEN
          Ier = 0
 !
@@ -4851,7 +4848,7 @@ module quadpack
 !
 !           integrate over the intervals (a,(a+b)/2) and ((a+b)/2,b).
 !
-         centre = 0.5D+00*(B+A)
+         centre = 0.5_wp*(B+A)
          CALL DQC25S(F,A,B,A,centre,Alfa,Beta,ri,rj,rg,rh,area1,error1, &
                      resas1,Integr,nev)
          Neval = nev
@@ -4908,15 +4905,15 @@ module quadpack
 !           bisect the subinterval with largest error estimate.
 !
                a1 = Alist(maxerr)
-               b1 = 0.5D+00*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
                a2 = b1
                b2 = Blist(maxerr)
 !
                CALL DQC25S(F,A,B,a1,b1,Alfa,Beta,ri,rj,rg,rh,area1, &
-                         & error1,resas1,Integr,nev)
+                           error1,resas1,Integr,nev)
                Neval = Neval + nev
                CALL DQC25S(F,A,B,a2,b2,Alfa,Beta,ri,rj,rg,rh,area2, &
-                         & error2,resas2,Integr,nev)
+                           error2,resas2,Integr,nev)
                Neval = Neval + nev
 !
 !           improve previous approximations integral and error
@@ -4932,10 +4929,10 @@ module quadpack
 !           test for roundoff error.
 !
                      IF ( abs(Rlist(maxerr)-area12) &
-                        & <0.1D-04*abs(area12) .AND. &
-                        & erro12>=0.99D+00*errmax ) iroff1 = iroff1 + 1
+                          <0.1e-4_wp*abs(area12) .AND. &
+                          erro12>=0.99_wp*errmax ) iroff1 = iroff1 + 1
                      IF ( Last>10 .AND. erro12>errmax ) &
-                        & iroff2 = iroff2 + 1
+                          iroff2 = iroff2 + 1
                   ENDIF
                ENDIF
                Rlist(maxerr) = area1
@@ -4960,8 +4957,8 @@ module quadpack
 !           at interior points of integration range.
 !
                   IF ( max(abs(a1),abs(b2))    &
-                       <=(0.1D+01+0.1D+03*epmach)  &
-                       *(abs(a2)+0.1D+04*uflow) ) Ier = 3
+                       <=(1.0_wp+100.0_wp*epmach)  &
+                       *(abs(a2)+1000.0_wp*uflow) ) Ier = 3
                ENDIF
 !
 !           append the newly-created intervals to the list.
@@ -4994,7 +4991,7 @@ module quadpack
 !           compute final result.
 !           ---------------------
 !
- 20         Result = 0.0D+00
+ 20         Result = 0.0_wp
             DO k = 1 , Last
                Result = Result + Rlist(k)
             ENDDO
@@ -5073,17 +5070,17 @@ module quadpack
 !           k = 1, ..., 11, to be used for the chebyshev series
 !           expansion of f
 !
-      DATA x(1)/0.991444861373810411144557526928563D0/
-      DATA x(2)/0.965925826289068286749743199728897D0/
-      DATA x(3)/0.923879532511286756128183189396788D0/
-      DATA x(4)/0.866025403784438646763723170752936D0/
-      DATA x(5)/0.793353340291235164579776961501299D0/
-      DATA x(6)/0.707106781186547524400844362104849D0/
-      DATA x(7)/0.608761429008720639416097542898164D0/
-      DATA x(8)/0.500000000000000000000000000000000D0/
-      DATA x(9)/0.382683432365089771728459984030399D0/
-      DATA x(10)/0.258819045102520762348898837624048D0/
-      DATA x(11)/0.130526192220051591548406227895489D0/
+      DATA x(1)/0.991444861373810411144557526928563_wp/
+      DATA x(2)/0.965925826289068286749743199728897_wp/
+      DATA x(3)/0.923879532511286756128183189396788_wp/
+      DATA x(4)/0.866025403784438646763723170752936_wp/
+      DATA x(5)/0.793353340291235164579776961501299_wp/
+      DATA x(6)/0.707106781186547524400844362104849_wp/
+      DATA x(7)/0.608761429008720639416097542898164_wp/
+      DATA x(8)/0.500000000000000000000000000000000_wp/
+      DATA x(9)/0.382683432365089771728459984030399_wp/
+      DATA x(10)/0.258819045102520762348898837624048_wp/
+      DATA x(11)/0.130526192220051591548406227895489_wp/
 !
 !           list of major variables
 !           ----------------------
@@ -5106,17 +5103,17 @@ module quadpack
 !           check the position of c.
 !
 
-      cc = (0.2D+01*C-B-A)/(B-A)
-      IF ( abs(cc)<0.11D+01 ) THEN
+      cc = (2.0_wp*C-B-A)/(B-A)
+      IF ( abs(cc)<1.1_wp ) THEN
 !
 !           use the generalized clenshaw-curtis method.
 !
-         hlgth = 0.5D+00*(B-A)
-         centr = 0.5D+00*(B+A)
+         hlgth = 0.5_wp*(B-A)
+         centr = 0.5_wp*(B+A)
          Neval = 25
-         fval(1) = 0.5D+00*F(hlgth+centr)
+         fval(1) = 0.5_wp*F(hlgth+centr)
          fval(13) = F(centr)
-         fval(25) = 0.5D+00*F(centr-hlgth)
+         fval(25) = 0.5_wp*F(centr-hlgth)
          DO i = 2 , 12
             u = hlgth*x(i-1)
             isym = 26 - i
@@ -5131,23 +5128,23 @@ module quadpack
 !           the modified chebyshev moments are computed by forward
 !           recursion, using amom0 and amom1 as starting values.
 !
-         amom0 = log(abs((0.1D+01-cc)/(0.1D+01+cc)))
-         amom1 = 0.2D+01 + cc*amom0
+         amom0 = log(abs((1.0_wp-cc)/(1.0_wp+cc)))
+         amom1 = 2.0_wp + cc*amom0
          res12 = cheb12(1)*amom0 + cheb12(2)*amom1
          res24 = cheb24(1)*amom0 + cheb24(2)*amom1
          DO k = 3 , 13
-            amom2 = 0.2D+01*cc*amom1 - amom0
+            amom2 = 2.0_wp*cc*amom1 - amom0
             ak22 = (k-2)*(k-2)
-            IF ( (k/2)*2==k ) amom2 = amom2 - 0.4D+01/(ak22-0.1D+01)
+            IF ( (k/2)*2==k ) amom2 = amom2 - 4.0_wp/(ak22-1.0_wp)
             res12 = res12 + cheb12(k)*amom2
             res24 = res24 + cheb24(k)*amom2
             amom0 = amom1
             amom1 = amom2
          ENDDO
          DO k = 14 , 25
-            amom2 = 0.2D+01*cc*amom1 - amom0
+            amom2 = 2.0_wp*cc*amom1 - amom0
             ak22 = (k-2)*(k-2)
-            IF ( (k/2)*2==k ) amom2 = amom2 - 0.4D+01/(ak22-0.1D+01)
+            IF ( (k/2)*2==k ) amom2 = amom2 - 4.0_wp/(ak22-1.0_wp)
             res24 = res24 + cheb24(k)*amom2
             amom0 = amom1
             amom1 = amom2
@@ -5275,24 +5272,24 @@ module quadpack
               Neval , Maxp1 , noequ , noeq1 , Nrmom
 !
       DIMENSION Chebmo(Maxp1,25) , cheb12(13) , cheb24(25) , d(25) , &
-              & d1(25) , d2(25) , fval(25) , v(28) , x(11)
+                d1(25) , d2(25) , fval(25) , v(28) , x(11)
 !
       procedure(func) :: f
 !
 !           the vector x contains the values cos(k*pi/24)
 !           k = 1, ...,11, to be used for the chebyshev expansion of f
 !
-      DATA x(1)/0.991444861373810411144557526928563D0/
-      DATA x(2)/0.965925826289068286749743199728897D0/
-      DATA x(3)/0.923879532511286756128183189396788D0/
-      DATA x(4)/0.866025403784438646763723170752936D0/
-      DATA x(5)/0.793353340291235164579776961501299D0/
-      DATA x(6)/0.707106781186547524400844362104849D0/
-      DATA x(7)/0.608761429008720639416097542898164D0/
-      DATA x(8)/0.500000000000000000000000000000000D0/
-      DATA x(9)/0.382683432365089771728459984030399D0/
-      DATA x(10)/0.258819045102520762348898837624048D0/
-      DATA x(11)/0.130526192220051591548406227895489D0/
+      DATA x(1)/0.991444861373810411144557526928563_wp/
+      DATA x(2)/0.965925826289068286749743199728897_wp/
+      DATA x(3)/0.923879532511286756128183189396788_wp/
+      DATA x(4)/0.866025403784438646763723170752936_wp/
+      DATA x(5)/0.793353340291235164579776961501299_wp/
+      DATA x(6)/0.707106781186547524400844362104849_wp/
+      DATA x(7)/0.608761429008720639416097542898164_wp/
+      DATA x(8)/0.500000000000000000000000000000000_wp/
+      DATA x(9)/0.382683432365089771728459984030399_wp/
+      DATA x(10)/0.258819045102520762348898837624048_wp/
+      DATA x(11)/0.130526192220051591548406227895489_wp/
 !
 !           list of major variables
 !           -----------------------
@@ -5325,15 +5322,15 @@ module quadpack
 
       oflow = D1MACH(2)
 !
-      centr = 0.5D+00*(B+A)
-      hlgth = 0.5D+00*(B-A)
+      centr = 0.5_wp*(B+A)
+      hlgth = 0.5_wp*(B-A)
       parint = Omega*hlgth
 !
 !           compute the integral using the 15-point gauss-kronrod
 !           formula if the value of the parameter in the integrand
 !           is small.
 !
-      IF ( abs(parint)>0.2D+01 ) THEN
+      IF ( abs(parint)>2.0_wp ) THEN
 !
 !           compute the integral using the generalized clenshaw-
 !           curtis method.
@@ -5352,16 +5349,16 @@ module quadpack
 !
             m = Momcom + 1
             par2 = parint*parint
-            par22 = par2 + 0.2D+01
+            par22 = par2 + 2.0_wp
             sinpar = sin(parint)
             cospar = cos(parint)
 !
 !           compute the chebyshev moments with respect to cosine.
 !
-            v(1) = 0.2D+01*sinpar/parint
+            v(1) = 2.0_wp*sinpar/parint
             v(2) = (0.8D+01*cospar+(par2+par2-0.8D+01)*sinpar/parint) &
                    /par2
-            v(3) = (0.32D+02*(par2-0.12D+02)*cospar+(0.2D+01*((par2- &
+            v(3) = (0.32D+02*(par2-0.12D+02)*cospar+(2.0_wp*((par2- &
                    0.80D+02)*par2+0.192D+03)*sinpar)/parint)/(par2*par2)
             ac = 0.8D+01*cospar
             as = 0.24D+02*parint*sinpar
@@ -5370,13 +5367,13 @@ module quadpack
 !           compute the chebyshev moments by means of forward
 !           recursion.
 !
-               an = 0.4D+01
+               an = 4.0_wp
                DO i = 4 , 13
                   an2 = an*an
-                  v(i) = ((an2-0.4D+01)*(0.2D+01*(par22-an2-an2)*v(i-1)-&
-                         ac)+as-par2*(an+0.1D+01)*(an+0.2D+01)*v(i-2)) &
-                         /(par2*(an-0.1D+01)*(an-0.2D+01))
-                  an = an + 0.2D+01
+                  v(i) = ((an2-4.0_wp)*(2.0_wp*(par22-an2-an2)*v(i-1)-&
+                         ac)+as-par2*(an+1.0_wp)*(an+2.0_wp)*v(i-2)) &
+                         /(par2*(an-1.0_wp)*(an-2.0_wp))
+                  an = an + 2.0_wp
                ENDDO
             ELSE
 !
@@ -5389,23 +5386,23 @@ module quadpack
                an = 0.6D+01
                DO k = 1 , noeq1
                   an2 = an*an
-                  d(k) = -0.2D+01*(an2-0.4D+01)*(par22-an2-an2)
-                  d2(k) = (an-0.1D+01)*(an-0.2D+01)*par2
-                  d1(k+1) = (an+0.3D+01)*(an+0.4D+01)*par2
-                  v(k+3) = as - (an2-0.4D+01)*ac
-                  an = an + 0.2D+01
+                  d(k) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
+                  d2(k) = (an-1.0_wp)*(an-2.0_wp)*par2
+                  d1(k+1) = (an+0.3D+01)*(an+4.0_wp)*par2
+                  v(k+3) = as - (an2-4.0_wp)*ac
+                  an = an + 2.0_wp
                ENDDO
                an2 = an*an
-               d(noequ) = -0.2D+01*(an2-0.4D+01)*(par22-an2-an2)
-               v(noequ+3) = as - (an2-0.4D+01)*ac
+               d(noequ) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
+               v(noequ+3) = as - (an2-4.0_wp)*ac
                v(4) = v(4) - 0.56D+02*par2*v(3)
                ass = parint*sinpar
-               asap = (((((0.210D+03*par2-0.1D+01)*cospar-(0.105D+03* &
-                      par2-0.63D+02)*ass)/an2-(0.1D+01-0.15D+02*par2) &
+               asap = (((((0.210D+03*par2-1.0_wp)*cospar-(0.105D+03* &
+                      par2-0.63D+02)*ass)/an2-(1.0_wp-0.15D+02*par2) &
                       *cospar+0.15D+02*ass)/an2-cospar+0.3D+01*ass) &
                       /an2-cospar)/an2
-               v(noequ+3) = v(noequ+3) - 0.2D+01*asap*par2*(an-0.1D+01) &
-                            *(an-0.2D+01)
+               v(noequ+3) = v(noequ+3) - 2.0_wp*asap*par2*(an-1.0_wp) &
+                            *(an-2.0_wp)
 !
 !           solve the tridiagonal system by means of gaussian
 !           elimination with partial pivoting.
@@ -5421,9 +5418,9 @@ module quadpack
 !
 !           compute the chebyshev moments with respect to sine.
 !
-            v(1) = 0.2D+01*(sinpar-parint*cospar)/par2
+            v(1) = 2.0_wp*(sinpar-parint*cospar)/par2
             v(2) = (0.18D+02-0.48D+02/par2)*sinpar/par2 + &
-                   (-0.2D+01+0.48D+02/par2)*cospar/parint
+                   (-2.0_wp+0.48D+02/par2)*cospar/parint
             ac = -0.24D+02*parint*cospar
             as = -0.8D+01*sinpar
             IF ( abs(parint)>0.24D+02 ) THEN
@@ -5433,10 +5430,10 @@ module quadpack
                an = 0.3D+01
                DO i = 3 , 12
                   an2 = an*an
-                  v(i) = ((an2-0.4D+01)*(0.2D+01*(par22-an2-an2)*v(i-1)+&
-                         as)+ac-par2*(an+0.1D+01)*(an+0.2D+01)*v(i-2)) &
-                         /(par2*(an-0.1D+01)*(an-0.2D+01))
-                  an = an + 0.2D+01
+                  v(i) = ((an2-4.0_wp)*(2.0_wp*(par22-an2-an2)*v(i-1)+&
+                         as)+ac-par2*(an+1.0_wp)*(an+2.0_wp)*v(i-2)) &
+                         /(par2*(an-1.0_wp)*(an-2.0_wp))
+                  an = an + 2.0_wp
                ENDDO
             ELSE
 !
@@ -5447,23 +5444,23 @@ module quadpack
                an = 0.5D+01
                DO k = 1 , noeq1
                   an2 = an*an
-                  d(k) = -0.2D+01*(an2-0.4D+01)*(par22-an2-an2)
-                  d2(k) = (an-0.1D+01)*(an-0.2D+01)*par2
-                  d1(k+1) = (an+0.3D+01)*(an+0.4D+01)*par2
-                  v(k+2) = ac + (an2-0.4D+01)*as
-                  an = an + 0.2D+01
+                  d(k) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
+                  d2(k) = (an-1.0_wp)*(an-2.0_wp)*par2
+                  d1(k+1) = (an+0.3D+01)*(an+4.0_wp)*par2
+                  v(k+2) = ac + (an2-4.0_wp)*as
+                  an = an + 2.0_wp
                ENDDO
                an2 = an*an
-               d(noequ) = -0.2D+01*(an2-0.4D+01)*(par22-an2-an2)
-               v(noequ+2) = ac + (an2-0.4D+01)*as
+               d(noequ) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
+               v(noequ+2) = ac + (an2-4.0_wp)*as
                v(3) = v(3) - 0.42D+02*par2*v(2)
                ass = parint*cospar
                asap = (((((0.105D+03*par2-0.63D+02)*ass+(0.210D+03*par2-&
-                      0.1D+01)*sinpar)/an2+(0.15D+02*par2-0.1D+01) &
+                      1.0_wp)*sinpar)/an2+(0.15D+02*par2-1.0_wp) &
                       *sinpar-0.15D+02*ass)/an2-0.3D+01*ass-sinpar) &
                       /an2-sinpar)/an2
-               v(noequ+2) = v(noequ+2) - 0.2D+01*asap*par2*(an-0.1D+01) &
-                            *(an-0.2D+01)
+               v(noequ+2) = v(noequ+2) - 2.0_wp*asap*par2*(an-1.0_wp) &
+                            *(an-2.0_wp)
 !
 !           solve the tridiagonal system by means of gaussian
 !           elimination with partial pivoting.
@@ -5483,9 +5480,9 @@ module quadpack
 !           compute the coefficients of the chebyshev expansions
 !           of degrees 12 and 24 of the function f.
 !
-         fval(1) = 0.5D+00*F(centr+hlgth)
+         fval(1) = 0.5_wp*F(centr+hlgth)
          fval(13) = F(centr)
-         fval(25) = 0.5D+00*F(centr-hlgth)
+         fval(25) = 0.5_wp*F(centr-hlgth)
          DO i = 2 , 12
             isym = 26 - i
             fval(i) = F(hlgth*x(i-1)+centr)
@@ -5496,7 +5493,7 @@ module quadpack
 !           compute the integral and error estimates.
 !
          resc12 = cheb12(13)*Chebmo(m,13)
-         ress12 = 0.0D+00
+         ress12 = 0.0_wp
          k = 11
          DO j = 1 , 6
             resc12 = resc12 + cheb12(k)*Chebmo(m,k)
@@ -5504,7 +5501,7 @@ module quadpack
             k = k - 2
          ENDDO
          resc24 = cheb24(25)*Chebmo(m,25)
-         ress24 = 0.0D+00
+         ress24 = 0.0_wp
          Resabs = abs(cheb24(25))
          k = 23
          DO j = 1 , 12
@@ -5616,7 +5613,7 @@ module quadpack
       INTEGER i , Integr , isym , Nev
 !
       DIMENSION cheb12(13) , cheb24(25) , fval(25) , Rg(25) , Rh(25) , &
-              & Ri(25) , Rj(25) , x(11)
+                Ri(25) , Rj(25) , x(11)
 !
       procedure(func) :: f
 !
@@ -5624,17 +5621,17 @@ module quadpack
 !           k = 1, ..., 11, to be used for the computation of the
 !           chebyshev series expansion of f.
 !
-      DATA x(1)/0.991444861373810411144557526928563D0/
-      DATA x(2)/0.965925826289068286749743199728897D0/
-      DATA x(3)/0.923879532511286756128183189396788D0/
-      DATA x(4)/0.866025403784438646763723170752936D0/
-      DATA x(5)/0.793353340291235164579776961501299D0/
-      DATA x(6)/0.707106781186547524400844362104849D0/
-      DATA x(7)/0.608761429008720639416097542898164D0/
-      DATA x(8)/0.500000000000000000000000000000000D0/
-      DATA x(9)/0.382683432365089771728459984030399D0/
-      DATA x(10)/0.258819045102520762348898837624048D0/
-      DATA x(11)/0.130526192220051591548406227895489D0/
+      DATA x(1)/0.991444861373810411144557526928563_wp/
+      DATA x(2)/0.965925826289068286749743199728897_wp/
+      DATA x(3)/0.923879532511286756128183189396788_wp/
+      DATA x(4)/0.866025403784438646763723170752936_wp/
+      DATA x(5)/0.793353340291235164579776961501299_wp/
+      DATA x(6)/0.707106781186547524400844362104849_wp/
+      DATA x(7)/0.608761429008720639416097542898164_wp/
+      DATA x(8)/0.500000000000000000000000000000000_wp/
+      DATA x(9)/0.382683432365089771728459984030399_wp/
+      DATA x(10)/0.258819045102520762348898837624048_wp/
+      DATA x(11)/0.130526192220051591548406227895489_wp/
 !
 !           list of major variables
 !           -----------------------
@@ -5657,7 +5654,7 @@ module quadpack
 !
 
       Nev = 25
-      IF ( Bl==A .AND. (Alfa/=0.0D+00 .OR. Integr==2 .OR. Integr==4) ) &
+      IF ( Bl==A .AND. (Alfa/=0.0_wp .OR. Integr==2 .OR. Integr==4) ) &
            THEN
 !
 !           this part of the program is executed only if a = bl.
@@ -5668,23 +5665,23 @@ module quadpack
 !           f1 = (0.5*(b+b-br-a)-0.5*(br-a)*x)**beta
 !                  *f(0.5*(br-a)*x+0.5*(br+a))
 !
-         hlgth = 0.5D+00*(Br-Bl)
-         centr = 0.5D+00*(Br+Bl)
+         hlgth = 0.5_wp*(Br-Bl)
+         centr = 0.5_wp*(Br+Bl)
          fix = B - centr
-         fval(1) = 0.5D+00*F(hlgth+centr)*(fix-hlgth)**Beta
+         fval(1) = 0.5_wp*F(hlgth+centr)*(fix-hlgth)**Beta
          fval(13) = F(centr)*(fix**Beta)
-         fval(25) = 0.5D+00*F(centr-hlgth)*(fix+hlgth)**Beta
+         fval(25) = 0.5_wp*F(centr-hlgth)*(fix+hlgth)**Beta
          DO i = 2 , 12
             u = hlgth*x(i-1)
             isym = 26 - i
             fval(i) = F(u+centr)*(fix-u)**Beta
             fval(isym) = F(centr-u)*(fix+u)**Beta
          ENDDO
-         factor = hlgth**(Alfa+0.1D+01)
-         Result = 0.0D+00
-         Abserr = 0.0D+00
-         res12 = 0.0D+00
-         res24 = 0.0D+00
+         factor = hlgth**(Alfa+1.0_wp)
+         Result = 0.0_wp
+         Abserr = 0.0_wp
+         res12 = 0.0_wp
+         res24 = 0.0_wp
          IF ( Integr>2 ) THEN
 !
 !           compute the chebyshev series expansion of the
@@ -5718,8 +5715,8 @@ module quadpack
                dc = log(Br-Bl)
                Result = res24*dc
                Abserr = abs((res24-res12)*dc)
-               res12 = 0.0D+00
-               res24 = 0.0D+00
+               res12 = 0.0_wp
+               res24 = 0.0_wp
                DO i = 1 , 13
                   res12 = res12 + cheb12(i)*Rg(i)
                   res24 = res24 + cheb24(i)*Rg(i)
@@ -5747,8 +5744,8 @@ module quadpack
                dc = log(Br-Bl)
                Result = res24*dc
                Abserr = abs((res24-res12)*dc)
-               res12 = 0.0D+00
-               res24 = 0.0D+00
+               res12 = 0.0_wp
+               res24 = 0.0_wp
                DO i = 1 , 13
                   res12 = res12 + cheb12(i)*Rg(i)
                   res24 = res12 + cheb24(i)*Rg(i)
@@ -5760,7 +5757,7 @@ module quadpack
          ENDIF
          Result = (Result+res24)*factor
          Abserr = (Abserr+abs(res24-res12))*factor
-      ELSEIF ( Br==B .AND. (Beta/=0.0D+00 .OR. Integr==3 .OR. Integr==4) ) THEN
+      ELSEIF ( Br==B .AND. (Beta/=0.0_wp .OR. Integr==3 .OR. Integr==4) ) THEN
 !
 !           this part of the program is executed only if b = br.
 !           ----------------------------------------------------
@@ -5770,23 +5767,23 @@ module quadpack
 !           f2 = (0.5*(b+bl-a-a)+0.5*(b-bl)*x)**alfa
 !                *f(0.5*(b-bl)*x+0.5*(b+bl))
 !
-         hlgth = 0.5D+00*(Br-Bl)
-         centr = 0.5D+00*(Br+Bl)
+         hlgth = 0.5_wp*(Br-Bl)
+         centr = 0.5_wp*(Br+Bl)
          fix = centr - A
-         fval(1) = 0.5D+00*F(hlgth+centr)*(fix+hlgth)**Alfa
+         fval(1) = 0.5_wp*F(hlgth+centr)*(fix+hlgth)**Alfa
          fval(13) = F(centr)*(fix**Alfa)
-         fval(25) = 0.5D+00*F(centr-hlgth)*(fix-hlgth)**Alfa
+         fval(25) = 0.5_wp*F(centr-hlgth)*(fix-hlgth)**Alfa
          DO i = 2 , 12
             u = hlgth*x(i-1)
             isym = 26 - i
             fval(i) = F(u+centr)*(fix+u)**Alfa
             fval(isym) = F(centr-u)*(fix-u)**Alfa
          ENDDO
-         factor = hlgth**(Beta+0.1D+01)
-         Result = 0.0D+00
-         Abserr = 0.0D+00
-         res12 = 0.0D+00
-         res24 = 0.0D+00
+         factor = hlgth**(Beta+1.0_wp)
+         Result = 0.0_wp
+         Abserr = 0.0_wp
+         res12 = 0.0_wp
+         res24 = 0.0_wp
          IF ( Integr==2 .OR. Integr==4 ) THEN
 !
 !           compute the chebyshev series expansion of the
@@ -5817,8 +5814,8 @@ module quadpack
                dc = log(Br-Bl)
                Result = res24*dc
                Abserr = abs((res24-res12)*dc)
-               res12 = 0.0D+00
-               res24 = 0.0D+00
+               res12 = 0.0_wp
+               res24 = 0.0_wp
 !
 !           integr = 4
 !
@@ -5849,8 +5846,8 @@ module quadpack
                dc = log(Br-Bl)
                Result = res24*dc
                Abserr = abs((res24-res12)*dc)
-               res12 = 0.0D+00
-               res24 = 0.0D+00
+               res12 = 0.0_wp
+               res24 = 0.0_wp
                DO i = 1 , 13
                   res12 = res12 + cheb12(i)*Rh(i)
                   res24 = res24 + cheb24(i)*Rh(i)
@@ -6010,18 +6007,18 @@ module quadpack
       Cheb24(25) = Cheb12(1) - alam
       Cheb12(13) = v(1) - v(3)
       Cheb24(13) = Cheb12(13)
-      alam = 0.1D+01/0.6D+01
+      alam = 1.0_wp/0.6D+01
       DO i = 2 , 12
          Cheb12(i) = Cheb12(i)*alam
       ENDDO
-      alam = 0.5D+00*alam
+      alam = 0.5_wp*alam
       Cheb12(1) = Cheb12(1)*alam
       Cheb12(13) = Cheb12(13)*alam
       DO i = 2 , 24
          Cheb24(i) = Cheb24(i)*alam
       ENDDO
-      Cheb24(1) = 0.5D+00*alam*Cheb24(1)
-      Cheb24(25) = 0.5D+00*alam*Cheb24(25)
+      Cheb24(1) = 0.5_wp*alam*Cheb24(1)
+      Cheb24(25) = 0.5_wp*alam*Cheb24(25)
       END
 !********************************************************************************
 
@@ -6147,7 +6144,7 @@ module quadpack
 !           a part of the table by adjusting the value of n
 !
                IF ( err1>tol1 .AND. err2>tol2 .AND. err3>tol3 ) THEN
-                  ss = 0.1D+01/delta1 + 0.1D+01/delta2 - 0.1D+01/delta3
+                  ss = 1.0_wp/delta1 + 1.0_wp/delta2 - 1.0_wp/delta3
                   epsinf = abs(ss*e1)
 !
 !           test to detect irregular behaviour in the table, and
@@ -6159,7 +6156,7 @@ module quadpack
 !           compute a new element and eventually adjust
 !           the value of result.
 !
-                     res = e1 + 0.1D+01/ss
+                     res = e1 + 1.0_wp/ss
                      Epstab(k1) = res
                      k1 = k1 - 2
                      error = err2 + abs(res-e2) + err3
@@ -6275,7 +6272,7 @@ module quadpack
 
 !
       real(wp) A , absc , Abserr , B , centr , dhlgth , &
-                       DMIN1 , epmach , fc , fsum ,&
+                       min , epmach , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
                        Resasc , resg , resk , reskh , Result , uflow , &
                        wg , wgk , xgk
@@ -6303,28 +6300,28 @@ module quadpack
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
-      DATA wg(1)/0.129484966168869693270611432679082D0/
-      DATA wg(2)/0.279705391489276667901467771423780D0/
-      DATA wg(3)/0.381830050505118944950369775488975D0/
-      DATA wg(4)/0.417959183673469387755102040816327D0/
+      DATA wg(1)/0.129484966168869693270611432679082_wp/
+      DATA wg(2)/0.279705391489276667901467771423780_wp/
+      DATA wg(3)/0.381830050505118944950369775488975_wp/
+      DATA wg(4)/0.417959183673469387755102040816327_wp/
 !
-      DATA xgk(1)/0.991455371120812639206854697526329D0/
-      DATA xgk(2)/0.949107912342758524526189684047851D0/
-      DATA xgk(3)/0.864864423359769072789712788640926D0/
-      DATA xgk(4)/0.741531185599394439863864773280788D0/
-      DATA xgk(5)/0.586087235467691130294144838258730D0/
-      DATA xgk(6)/0.405845151377397166906606412076961D0/
-      DATA xgk(7)/0.207784955007898467600689403773245D0/
-      DATA xgk(8)/0.000000000000000000000000000000000D0/
+      DATA xgk(1)/0.991455371120812639206854697526329_wp/
+      DATA xgk(2)/0.949107912342758524526189684047851_wp/
+      DATA xgk(3)/0.864864423359769072789712788640926_wp/
+      DATA xgk(4)/0.741531185599394439863864773280788_wp/
+      DATA xgk(5)/0.586087235467691130294144838258730_wp/
+      DATA xgk(6)/0.405845151377397166906606412076961_wp/
+      DATA xgk(7)/0.207784955007898467600689403773245_wp/
+      DATA xgk(8)/0.000000000000000000000000000000000_wp/
 !
-      DATA wgk(1)/0.022935322010529224963732008058970D0/
-      DATA wgk(2)/0.063092092629978553290700663189204D0/
-      DATA wgk(3)/0.104790010322250183839876322541518D0/
-      DATA wgk(4)/0.140653259715525918745189590510238D0/
-      DATA wgk(5)/0.169004726639267902826583426598550D0/
-      DATA wgk(6)/0.190350578064785409913256402421014D0/
-      DATA wgk(7)/0.204432940075298892414161999234649D0/
-      DATA wgk(8)/0.209482141084727828012999174891714D0/
+      DATA wgk(1)/0.022935322010529224963732008058970_wp/
+      DATA wgk(2)/0.063092092629978553290700663189204_wp/
+      DATA wgk(3)/0.104790010322250183839876322541518_wp/
+      DATA wgk(4)/0.140653259715525918745189590510238_wp/
+      DATA wgk(5)/0.169004726639267902826583426598550_wp/
+      DATA wgk(6)/0.190350578064785409913256402421014_wp/
+      DATA wgk(7)/0.204432940075298892414161999234649_wp/
+      DATA wgk(8)/0.209482141084727828012999174891714_wp/
 !
 !
 !           list of major variables
@@ -6349,8 +6346,8 @@ module quadpack
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
-      centr = 0.5D+00*(A+B)
-      hlgth = 0.5D+00*(B-A)
+      centr = 0.5_wp*(A+B)
+      hlgth = 0.5_wp*(B-A)
       dhlgth = abs(hlgth)
 !
 !           compute the 15-point kronrod approximation to
@@ -6383,7 +6380,7 @@ module quadpack
          resk = resk + wgk(jtwm1)*fsum
          Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
-      reskh = resk*0.5D+00
+      reskh = resk*0.5_wp
       Resasc = wgk(8)*abs(fc-reskh)
       DO j = 1 , 7
          Resasc = Resasc + wgk(j) &
@@ -6393,11 +6390,11 @@ module quadpack
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
-      IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 ) &
-           Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc) &
-           **1.5D+00)
-      IF ( Resabs>uflow/(0.5D+02*epmach) )  &
-           Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
+      IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
+           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           **1.5_wp)
+      IF ( Resabs>uflow/(50.0_wp*epmach) )  &
+           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
       END
 !********************************************************************************
 
@@ -6472,7 +6469,7 @@ module quadpack
 
 !
       real(wp) A , absc , absc1 , absc2 , Abserr , B , Boun , &
-                       centr , dinf , DMIN1 , &
+                       centr , dinf , min , &
                        epmach , fc , fsum , fval1 , fval2 , fv1 , &
                        fv2 , hlgth , Resabs , Resasc , resg , resk , &
                        reskh , Result , tabsc1 , tabsc2 , uflow , wg , &
@@ -6498,32 +6495,32 @@ module quadpack
 !                    to the abscissae xgk(2), xgk(4), ...
 !                    wg(1), wg(3), ... are set to zero.
 !
-      DATA wg(1)/0.0D0/
-      DATA wg(2)/0.129484966168869693270611432679082D0/
-      DATA wg(3)/0.0D0/
-      DATA wg(4)/0.279705391489276667901467771423780D0/
-      DATA wg(5)/0.0D0/
-      DATA wg(6)/0.381830050505118944950369775488975D0/
-      DATA wg(7)/0.0D0/
-      DATA wg(8)/0.417959183673469387755102040816327D0/
+      DATA wg(1)/0.0_wp/
+      DATA wg(2)/0.129484966168869693270611432679082_wp/
+      DATA wg(3)/0.0_wp/
+      DATA wg(4)/0.279705391489276667901467771423780_wp/
+      DATA wg(5)/0.0_wp/
+      DATA wg(6)/0.381830050505118944950369775488975_wp/
+      DATA wg(7)/0.0_wp/
+      DATA wg(8)/0.417959183673469387755102040816327_wp/
 !
-      DATA xgk(1)/0.991455371120812639206854697526329D0/
-      DATA xgk(2)/0.949107912342758524526189684047851D0/
-      DATA xgk(3)/0.864864423359769072789712788640926D0/
-      DATA xgk(4)/0.741531185599394439863864773280788D0/
-      DATA xgk(5)/0.586087235467691130294144838258730D0/
-      DATA xgk(6)/0.405845151377397166906606412076961D0/
-      DATA xgk(7)/0.207784955007898467600689403773245D0/
-      DATA xgk(8)/0.000000000000000000000000000000000D0/
+      DATA xgk(1)/0.991455371120812639206854697526329_wp/
+      DATA xgk(2)/0.949107912342758524526189684047851_wp/
+      DATA xgk(3)/0.864864423359769072789712788640926_wp/
+      DATA xgk(4)/0.741531185599394439863864773280788_wp/
+      DATA xgk(5)/0.586087235467691130294144838258730_wp/
+      DATA xgk(6)/0.405845151377397166906606412076961_wp/
+      DATA xgk(7)/0.207784955007898467600689403773245_wp/
+      DATA xgk(8)/0.000000000000000000000000000000000_wp/
 !
-      DATA wgk(1)/0.022935322010529224963732008058970D0/
-      DATA wgk(2)/0.063092092629978553290700663189204D0/
-      DATA wgk(3)/0.104790010322250183839876322541518D0/
-      DATA wgk(4)/0.140653259715525918745189590510238D0/
-      DATA wgk(5)/0.169004726639267902826583426598550D0/
-      DATA wgk(6)/0.190350578064785409913256402421014D0/
-      DATA wgk(7)/0.204432940075298892414161999234649D0/
-      DATA wgk(8)/0.209482141084727828012999174891714D0/
+      DATA wgk(1)/0.022935322010529224963732008058970_wp/
+      DATA wgk(2)/0.063092092629978553290700663189204_wp/
+      DATA wgk(3)/0.104790010322250183839876322541518_wp/
+      DATA wgk(4)/0.140653259715525918745189590510238_wp/
+      DATA wgk(5)/0.169004726639267902826583426598550_wp/
+      DATA wgk(6)/0.190350578064785409913256402421014_wp/
+      DATA wgk(7)/0.204432940075298892414161999234649_wp/
+      DATA wgk(8)/0.209482141084727828012999174891714_wp/
 !
 !
 !           list of major variables
@@ -6550,9 +6547,9 @@ module quadpack
       uflow = D1MACH(1)
       dinf = MIN0(1,Inf)
 !
-      centr = 0.5D+00*(A+B)
-      hlgth = 0.5D+00*(B-A)
-      tabsc1 = Boun + dinf*(0.1D+01-centr)/centr
+      centr = 0.5_wp*(A+B)
+      hlgth = 0.5_wp*(B-A)
+      tabsc1 = Boun + dinf*(1.0_wp-centr)/centr
       fval1 = F(tabsc1)
       IF ( Inf==2 ) fval1 = fval1 + F(-tabsc1)
       fc = (fval1/centr)/centr
@@ -6567,8 +6564,8 @@ module quadpack
          absc = hlgth*xgk(j)
          absc1 = centr - absc
          absc2 = centr + absc
-         tabsc1 = Boun + dinf*(0.1D+01-absc1)/absc1
-         tabsc2 = Boun + dinf*(0.1D+01-absc2)/absc2
+         tabsc1 = Boun + dinf*(1.0_wp-absc1)/absc1
+         tabsc2 = Boun + dinf*(1.0_wp-absc2)/absc2
          fval1 = F(tabsc1)
          fval2 = F(tabsc2)
          IF ( Inf==2 ) fval1 = fval1 + F(-tabsc1)
@@ -6582,7 +6579,7 @@ module quadpack
          resk = resk + wgk(j)*fsum
          Resabs = Resabs + wgk(j)*(abs(fval1)+abs(fval2))
       ENDDO
-      reskh = resk*0.5D+00
+      reskh = resk*0.5_wp
       Resasc = wgk(8)*abs(fc-reskh)
       DO j = 1 , 7
          Resasc = Resasc + wgk(j)           &
@@ -6592,11 +6589,11 @@ module quadpack
       Resasc = Resasc*hlgth
       Resabs = Resabs*hlgth
       Abserr = abs((resk-resg)*hlgth)
-      IF ( Resasc/=0.0D+00 .AND. Abserr/=0.D0 )    &
-           Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc) &
-           **1.5D+00)
-      IF ( Resabs>uflow/(0.5D+02*epmach) )  &
-           Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
+      IF ( Resasc/=0.0_wp .AND. Abserr/=0.D0 )    &
+           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           **1.5_wp)
+      IF ( Resabs>uflow/(50.0_wp*epmach) )  &
+           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
       END
 !********************************************************************************
 
@@ -6665,7 +6662,7 @@ module quadpack
 
 !
       real(wp) A , absc , absc1 , absc2 , Abserr , B , centr , &
-                       abs , dhlgth , DMIN1 , epmach ,&
+                       abs , dhlgth , min , epmach ,&
                        fc , fsum , fval1 , fval2 , fv1 , fv2 , &
                        hlgth , P1 , P2 , P3 , P4 , Resabs , Resasc , &
                        resg , resk , reskh , Result , uflow , W , wg , &
@@ -6691,20 +6688,20 @@ module quadpack
 !           wg     - weights of the 7-point gauss rule
 !
       DATA xgk(1) , xgk(2) , xgk(3) , xgk(4) , xgk(5) , xgk(6) , xgk(7) &
-           , xgk(8)/0.9914553711208126D+00 , 0.9491079123427585D+00 , &
-           0.8648644233597691D+00 , 0.7415311855993944D+00 , &
-           0.5860872354676911D+00 , 0.4058451513773972D+00 , &
-           0.2077849550078985D+00 , 0.0000000000000000D+00/
+           , xgk(8)/0.9914553711208126_wp , 0.9491079123427585_wp , &
+           0.8648644233597691_wp , 0.7415311855993944_wp , &
+           0.5860872354676911_wp , 0.4058451513773972_wp , &
+           0.2077849550078985_wp , 0.0000000000000000_wp/
 !
       DATA wgk(1) , wgk(2) , wgk(3) , wgk(4) , wgk(5) , wgk(6) , wgk(7) &
            , wgk(8)/0.2293532201052922D-01 , 0.6309209262997855D-01 , &
-           0.1047900103222502D+00 , 0.1406532597155259D+00 , &
-           0.1690047266392679D+00 , 0.1903505780647854D+00 , &
-           0.2044329400752989D+00 , 0.2094821410847278D+00/
+           0.1047900103222502_wp , 0.1406532597155259_wp , &
+           0.1690047266392679_wp , 0.1903505780647854_wp , &
+           0.2044329400752989_wp , 0.2094821410847278_wp/
 !
-      DATA wg(1) , wg(2) , wg(3) , wg(4)/0.1294849661688697D+00 , &
-           0.2797053914892767D+00 , 0.3818300505051189D+00 , &
-           0.4179591836734694D+00/
+      DATA wg(1) , wg(2) , wg(3) , wg(4)/0.1294849661688697_wp , &
+           0.2797053914892767_wp , 0.3818300505051189_wp , &
+           0.4179591836734694_wp/
 !
 !
 !           list of major variables
@@ -6729,8 +6726,8 @@ module quadpack
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
-      centr = 0.5D+00*(A+B)
-      hlgth = 0.5D+00*(B-A)
+      centr = 0.5_wp*(A+B)
+      hlgth = 0.5_wp*(B-A)
       dhlgth = abs(hlgth)
 !
 !           compute the 15-point kronrod approximation to the
@@ -6767,7 +6764,7 @@ module quadpack
          resk = resk + wgk(jtwm1)*fsum
          Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
-      reskh = resk*0.5D+00
+      reskh = resk*0.5_wp
       Resasc = wgk(8)*abs(fc-reskh)
       DO j = 1 , 7
          Resasc = Resasc + wgk(j)           &
@@ -6777,11 +6774,11 @@ module quadpack
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
-      IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 ) &
-           Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc) &
-           **1.5D+00)
-      IF ( Resabs>uflow/(0.5D+02*epmach) )  &
-           Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
+      IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
+           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           **1.5_wp)
+      IF ( Resabs>uflow/(50.0_wp*epmach) )  &
+           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
       END
 !********************************************************************************
 
@@ -6837,7 +6834,7 @@ module quadpack
 
 !
       real(wp) A , absc , Abserr , B , centr , dhlgth , &
-                       DMIN1 , epmach , fc , fsum ,&
+                       min , epmach , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
                        Resasc , resg , resk , reskh , Result , uflow , &
                        wg , wgk , xgk
@@ -6865,35 +6862,35 @@ module quadpack
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
-      DATA wg(1)/0.066671344308688137593568809893332D0/
-      DATA wg(2)/0.149451349150580593145776339657697D0/
-      DATA wg(3)/0.219086362515982043995534934228163D0/
-      DATA wg(4)/0.269266719309996355091226921569469D0/
-      DATA wg(5)/0.295524224714752870173892994651338D0/
+      DATA wg(1)/0.066671344308688137593568809893332_wp/
+      DATA wg(2)/0.149451349150580593145776339657697_wp/
+      DATA wg(3)/0.219086362515982043995534934228163_wp/
+      DATA wg(4)/0.269266719309996355091226921569469_wp/
+      DATA wg(5)/0.295524224714752870173892994651338_wp/
 !
-      DATA xgk(1)/0.995657163025808080735527280689003D0/
-      DATA xgk(2)/0.973906528517171720077964012084452D0/
-      DATA xgk(3)/0.930157491355708226001207180059508D0/
-      DATA xgk(4)/0.865063366688984510732096688423493D0/
-      DATA xgk(5)/0.780817726586416897063717578345042D0/
-      DATA xgk(6)/0.679409568299024406234327365114874D0/
-      DATA xgk(7)/0.562757134668604683339000099272694D0/
-      DATA xgk(8)/0.433395394129247190799265943165784D0/
-      DATA xgk(9)/0.294392862701460198131126603103866D0/
-      DATA xgk(10)/0.148874338981631210884826001129720D0/
-      DATA xgk(11)/0.000000000000000000000000000000000D0/
+      DATA xgk(1)/0.995657163025808080735527280689003_wp/
+      DATA xgk(2)/0.973906528517171720077964012084452_wp/
+      DATA xgk(3)/0.930157491355708226001207180059508_wp/
+      DATA xgk(4)/0.865063366688984510732096688423493_wp/
+      DATA xgk(5)/0.780817726586416897063717578345042_wp/
+      DATA xgk(6)/0.679409568299024406234327365114874_wp/
+      DATA xgk(7)/0.562757134668604683339000099272694_wp/
+      DATA xgk(8)/0.433395394129247190799265943165784_wp/
+      DATA xgk(9)/0.294392862701460198131126603103866_wp/
+      DATA xgk(10)/0.148874338981631210884826001129720_wp/
+      DATA xgk(11)/0.000000000000000000000000000000000_wp/
 !
-      DATA wgk(1)/0.011694638867371874278064396062192D0/
-      DATA wgk(2)/0.032558162307964727478818972459390D0/
-      DATA wgk(3)/0.054755896574351996031381300244580D0/
-      DATA wgk(4)/0.075039674810919952767043140916190D0/
-      DATA wgk(5)/0.093125454583697605535065465083366D0/
-      DATA wgk(6)/0.109387158802297641899210590325805D0/
-      DATA wgk(7)/0.123491976262065851077958109831074D0/
-      DATA wgk(8)/0.134709217311473325928054001771707D0/
-      DATA wgk(9)/0.142775938577060080797094273138717D0/
-      DATA wgk(10)/0.147739104901338491374841515972068D0/
-      DATA wgk(11)/0.149445554002916905664936468389821D0/
+      DATA wgk(1)/0.011694638867371874278064396062192_wp/
+      DATA wgk(2)/0.032558162307964727478818972459390_wp/
+      DATA wgk(3)/0.054755896574351996031381300244580_wp/
+      DATA wgk(4)/0.075039674810919952767043140916190_wp/
+      DATA wgk(5)/0.093125454583697605535065465083366_wp/
+      DATA wgk(6)/0.109387158802297641899210590325805_wp/
+      DATA wgk(7)/0.123491976262065851077958109831074_wp/
+      DATA wgk(8)/0.134709217311473325928054001771707_wp/
+      DATA wgk(9)/0.142775938577060080797094273138717_wp/
+      DATA wgk(10)/0.147739104901338491374841515972068_wp/
+      DATA wgk(11)/0.149445554002916905664936468389821_wp/
 !
 !
 !           list of major variables
@@ -6919,14 +6916,14 @@ module quadpack
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
-      centr = 0.5D+00*(A+B)
-      hlgth = 0.5D+00*(B-A)
+      centr = 0.5_wp*(A+B)
+      hlgth = 0.5_wp*(B-A)
       dhlgth = abs(hlgth)
 !
 !           compute the 21-point kronrod approximation to
 !           the integral, and estimate the absolute error.
 !
-      resg = 0.0D+00
+      resg = 0.0_wp
       fc = F(centr)
       resk = wgk(11)*fc
       Resabs = abs(resk)
@@ -6953,7 +6950,7 @@ module quadpack
          resk = resk + wgk(jtwm1)*fsum
          Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
-      reskh = resk*0.5D+00
+      reskh = resk*0.5_wp
       Resasc = wgk(11)*abs(fc-reskh)
       DO j = 1 , 10
          Resasc = Resasc + wgk(j)           &
@@ -6963,11 +6960,11 @@ module quadpack
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
-      IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 ) &
-           Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc) &
-           **1.5D+00)
-      IF ( Resabs>uflow/(0.5D+02*epmach) )  &
-           Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
+      IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
+           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           **1.5_wp)
+      IF ( Resabs>uflow/(50.0_wp*epmach) )  &
+           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
       END
 !********************************************************************************
 
@@ -7023,7 +7020,7 @@ module quadpack
 !
 
       real(wp) A , absc , Abserr , B , centr , dhlgth , &
-                       DMIN1 , epmach , fc , fsum ,&
+                       min , epmach , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
                        Resasc , resg , resk , reskh , Result , uflow , &
                        wg , wgk , xgk
@@ -7051,48 +7048,48 @@ module quadpack
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
-      DATA wg(1)/0.030753241996117268354628393577204D0/
-      DATA wg(2)/0.070366047488108124709267416450667D0/
-      DATA wg(3)/0.107159220467171935011869546685869D0/
-      DATA wg(4)/0.139570677926154314447804794511028D0/
-      DATA wg(5)/0.166269205816993933553200860481209D0/
-      DATA wg(6)/0.186161000015562211026800561866423D0/
-      DATA wg(7)/0.198431485327111576456118326443839D0/
-      DATA wg(8)/0.202578241925561272880620199967519D0/
+      DATA wg(1)/0.030753241996117268354628393577204_wp/
+      DATA wg(2)/0.070366047488108124709267416450667_wp/
+      DATA wg(3)/0.107159220467171935011869546685869_wp/
+      DATA wg(4)/0.139570677926154314447804794511028_wp/
+      DATA wg(5)/0.166269205816993933553200860481209_wp/
+      DATA wg(6)/0.186161000015562211026800561866423_wp/
+      DATA wg(7)/0.198431485327111576456118326443839_wp/
+      DATA wg(8)/0.202578241925561272880620199967519_wp/
 !
-      DATA xgk(1)/0.998002298693397060285172840152271D0/
-      DATA xgk(2)/0.987992518020485428489565718586613D0/
-      DATA xgk(3)/0.967739075679139134257347978784337D0/
-      DATA xgk(4)/0.937273392400705904307758947710209D0/
-      DATA xgk(5)/0.897264532344081900882509656454496D0/
-      DATA xgk(6)/0.848206583410427216200648320774217D0/
-      DATA xgk(7)/0.790418501442465932967649294817947D0/
-      DATA xgk(8)/0.724417731360170047416186054613938D0/
-      DATA xgk(9)/0.650996741297416970533735895313275D0/
-      DATA xgk(10)/0.570972172608538847537226737253911D0/
-      DATA xgk(11)/0.485081863640239680693655740232351D0/
-      DATA xgk(12)/0.394151347077563369897207370981045D0/
-      DATA xgk(13)/0.299180007153168812166780024266389D0/
-      DATA xgk(14)/0.201194093997434522300628303394596D0/
-      DATA xgk(15)/0.101142066918717499027074231447392D0/
-      DATA xgk(16)/0.000000000000000000000000000000000D0/
+      DATA xgk(1)/0.998002298693397060285172840152271_wp/
+      DATA xgk(2)/0.987992518020485428489565718586613_wp/
+      DATA xgk(3)/0.967739075679139134257347978784337_wp/
+      DATA xgk(4)/0.937273392400705904307758947710209_wp/
+      DATA xgk(5)/0.897264532344081900882509656454496_wp/
+      DATA xgk(6)/0.848206583410427216200648320774217_wp/
+      DATA xgk(7)/0.790418501442465932967649294817947_wp/
+      DATA xgk(8)/0.724417731360170047416186054613938_wp/
+      DATA xgk(9)/0.650996741297416970533735895313275_wp/
+      DATA xgk(10)/0.570972172608538847537226737253911_wp/
+      DATA xgk(11)/0.485081863640239680693655740232351_wp/
+      DATA xgk(12)/0.394151347077563369897207370981045_wp/
+      DATA xgk(13)/0.299180007153168812166780024266389_wp/
+      DATA xgk(14)/0.201194093997434522300628303394596_wp/
+      DATA xgk(15)/0.101142066918717499027074231447392_wp/
+      DATA xgk(16)/0.000000000000000000000000000000000_wp/
 !
-      DATA wgk(1)/0.005377479872923348987792051430128D0/
-      DATA wgk(2)/0.015007947329316122538374763075807D0/
-      DATA wgk(3)/0.025460847326715320186874001019653D0/
-      DATA wgk(4)/0.035346360791375846222037948478360D0/
-      DATA wgk(5)/0.044589751324764876608227299373280D0/
-      DATA wgk(6)/0.053481524690928087265343147239430D0/
-      DATA wgk(7)/0.062009567800670640285139230960803D0/
-      DATA wgk(8)/0.069854121318728258709520077099147D0/
-      DATA wgk(9)/0.076849680757720378894432777482659D0/
-      DATA wgk(10)/0.083080502823133021038289247286104D0/
-      DATA wgk(11)/0.088564443056211770647275443693774D0/
-      DATA wgk(12)/0.093126598170825321225486872747346D0/
-      DATA wgk(13)/0.096642726983623678505179907627589D0/
-      DATA wgk(14)/0.099173598721791959332393173484603D0/
-      DATA wgk(15)/0.100769845523875595044946662617570D0/
-      DATA wgk(16)/0.101330007014791549017374792767493D0/
+      DATA wgk(1)/0.005377479872923348987792051430128_wp/
+      DATA wgk(2)/0.015007947329316122538374763075807_wp/
+      DATA wgk(3)/0.025460847326715320186874001019653_wp/
+      DATA wgk(4)/0.035346360791375846222037948478360_wp/
+      DATA wgk(5)/0.044589751324764876608227299373280_wp/
+      DATA wgk(6)/0.053481524690928087265343147239430_wp/
+      DATA wgk(7)/0.062009567800670640285139230960803_wp/
+      DATA wgk(8)/0.069854121318728258709520077099147_wp/
+      DATA wgk(9)/0.076849680757720378894432777482659_wp/
+      DATA wgk(10)/0.083080502823133021038289247286104_wp/
+      DATA wgk(11)/0.088564443056211770647275443693774_wp/
+      DATA wgk(12)/0.093126598170825321225486872747346_wp/
+      DATA wgk(13)/0.096642726983623678505179907627589_wp/
+      DATA wgk(14)/0.099173598721791959332393173484603_wp/
+      DATA wgk(15)/0.100769845523875595044946662617570_wp/
+      DATA wgk(16)/0.101330007014791549017374792767493_wp/
 !
 !
 !           list of major variables
@@ -7114,8 +7111,8 @@ module quadpack
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
-      centr = 0.5D+00*(A+B)
-      hlgth = 0.5D+00*(B-A)
+      centr = 0.5_wp*(A+B)
+      hlgth = 0.5_wp*(B-A)
       dhlgth = abs(hlgth)
 !
 !           compute the 31-point kronrod approximation to
@@ -7148,7 +7145,7 @@ module quadpack
          resk = resk + wgk(jtwm1)*fsum
          Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
-      reskh = resk*0.5D+00
+      reskh = resk*0.5_wp
       Resasc = wgk(16)*abs(fc-reskh)
       DO j = 1 , 15
          Resasc = Resasc + wgk(j)           &
@@ -7158,11 +7155,11 @@ module quadpack
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
-      IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 ) &
-           Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc) &
-           **1.5D+00)
-      IF ( Resabs>uflow/(0.5D+02*epmach) )  &
-           Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
+      IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
+           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           **1.5_wp)
+      IF ( Resabs>uflow/(50.0_wp*epmach) )  &
+           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
       END
 !********************************************************************************
 
@@ -7219,7 +7216,7 @@ module quadpack
 
 !
       real(wp) A , absc , Abserr , B , centr , dhlgth , &
-                       DMIN1 , epmach , fc , fsum ,&
+                       min , epmach , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
                        Resasc , resg , resk , reskh , Result , uflow , &
                        wg , wgk , xgk
@@ -7247,60 +7244,60 @@ module quadpack
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
-      DATA wg(1)/0.017614007139152118311861962351853D0/
-      DATA wg(2)/0.040601429800386941331039952274932D0/
-      DATA wg(3)/0.062672048334109063569506535187042D0/
-      DATA wg(4)/0.083276741576704748724758143222046D0/
-      DATA wg(5)/0.101930119817240435036750135480350D0/
-      DATA wg(6)/0.118194531961518417312377377711382D0/
-      DATA wg(7)/0.131688638449176626898494499748163D0/
-      DATA wg(8)/0.142096109318382051329298325067165D0/
-      DATA wg(9)/0.149172986472603746787828737001969D0/
-      DATA wg(10)/0.152753387130725850698084331955098D0/
+      DATA wg(1)/0.017614007139152118311861962351853_wp/
+      DATA wg(2)/0.040601429800386941331039952274932_wp/
+      DATA wg(3)/0.062672048334109063569506535187042_wp/
+      DATA wg(4)/0.083276741576704748724758143222046_wp/
+      DATA wg(5)/0.101930119817240435036750135480350_wp/
+      DATA wg(6)/0.118194531961518417312377377711382_wp/
+      DATA wg(7)/0.131688638449176626898494499748163_wp/
+      DATA wg(8)/0.142096109318382051329298325067165_wp/
+      DATA wg(9)/0.149172986472603746787828737001969_wp/
+      DATA wg(10)/0.152753387130725850698084331955098_wp/
 !
-      DATA xgk(1)/0.998859031588277663838315576545863D0/
-      DATA xgk(2)/0.993128599185094924786122388471320D0/
-      DATA xgk(3)/0.981507877450250259193342994720217D0/
-      DATA xgk(4)/0.963971927277913791267666131197277D0/
-      DATA xgk(5)/0.940822633831754753519982722212443D0/
-      DATA xgk(6)/0.912234428251325905867752441203298D0/
-      DATA xgk(7)/0.878276811252281976077442995113078D0/
-      DATA xgk(8)/0.839116971822218823394529061701521D0/
-      DATA xgk(9)/0.795041428837551198350638833272788D0/
-      DATA xgk(10)/0.746331906460150792614305070355642D0/
-      DATA xgk(11)/0.693237656334751384805490711845932D0/
-      DATA xgk(12)/0.636053680726515025452836696226286D0/
-      DATA xgk(13)/0.575140446819710315342946036586425D0/
-      DATA xgk(14)/0.510867001950827098004364050955251D0/
-      DATA xgk(15)/0.443593175238725103199992213492640D0/
-      DATA xgk(16)/0.373706088715419560672548177024927D0/
-      DATA xgk(17)/0.301627868114913004320555356858592D0/
-      DATA xgk(18)/0.227785851141645078080496195368575D0/
-      DATA xgk(19)/0.152605465240922675505220241022678D0/
-      DATA xgk(20)/0.076526521133497333754640409398838D0/
-      DATA xgk(21)/0.000000000000000000000000000000000D0/
+      DATA xgk(1)/0.998859031588277663838315576545863_wp/
+      DATA xgk(2)/0.993128599185094924786122388471320_wp/
+      DATA xgk(3)/0.981507877450250259193342994720217_wp/
+      DATA xgk(4)/0.963971927277913791267666131197277_wp/
+      DATA xgk(5)/0.940822633831754753519982722212443_wp/
+      DATA xgk(6)/0.912234428251325905867752441203298_wp/
+      DATA xgk(7)/0.878276811252281976077442995113078_wp/
+      DATA xgk(8)/0.839116971822218823394529061701521_wp/
+      DATA xgk(9)/0.795041428837551198350638833272788_wp/
+      DATA xgk(10)/0.746331906460150792614305070355642_wp/
+      DATA xgk(11)/0.693237656334751384805490711845932_wp/
+      DATA xgk(12)/0.636053680726515025452836696226286_wp/
+      DATA xgk(13)/0.575140446819710315342946036586425_wp/
+      DATA xgk(14)/0.510867001950827098004364050955251_wp/
+      DATA xgk(15)/0.443593175238725103199992213492640_wp/
+      DATA xgk(16)/0.373706088715419560672548177024927_wp/
+      DATA xgk(17)/0.301627868114913004320555356858592_wp/
+      DATA xgk(18)/0.227785851141645078080496195368575_wp/
+      DATA xgk(19)/0.152605465240922675505220241022678_wp/
+      DATA xgk(20)/0.076526521133497333754640409398838_wp/
+      DATA xgk(21)/0.000000000000000000000000000000000_wp/
 !
-      DATA wgk(1)/0.003073583718520531501218293246031D0/
-      DATA wgk(2)/0.008600269855642942198661787950102D0/
-      DATA wgk(3)/0.014626169256971252983787960308868D0/
-      DATA wgk(4)/0.020388373461266523598010231432755D0/
-      DATA wgk(5)/0.025882133604951158834505067096153D0/
-      DATA wgk(6)/0.031287306777032798958543119323801D0/
-      DATA wgk(7)/0.036600169758200798030557240707211D0/
-      DATA wgk(8)/0.041668873327973686263788305936895D0/
-      DATA wgk(9)/0.046434821867497674720231880926108D0/
-      DATA wgk(10)/0.050944573923728691932707670050345D0/
-      DATA wgk(11)/0.055195105348285994744832372419777D0/
-      DATA wgk(12)/0.059111400880639572374967220648594D0/
-      DATA wgk(13)/0.062653237554781168025870122174255D0/
-      DATA wgk(14)/0.065834597133618422111563556969398D0/
-      DATA wgk(15)/0.068648672928521619345623411885368D0/
-      DATA wgk(16)/0.071054423553444068305790361723210D0/
-      DATA wgk(17)/0.073030690332786667495189417658913D0/
-      DATA wgk(18)/0.074582875400499188986581418362488D0/
-      DATA wgk(19)/0.075704497684556674659542775376617D0/
-      DATA wgk(20)/0.076377867672080736705502835038061D0/
-      DATA wgk(21)/0.076600711917999656445049901530102D0/
+      DATA wgk(1)/0.003073583718520531501218293246031_wp/
+      DATA wgk(2)/0.008600269855642942198661787950102_wp/
+      DATA wgk(3)/0.014626169256971252983787960308868_wp/
+      DATA wgk(4)/0.020388373461266523598010231432755_wp/
+      DATA wgk(5)/0.025882133604951158834505067096153_wp/
+      DATA wgk(6)/0.031287306777032798958543119323801_wp/
+      DATA wgk(7)/0.036600169758200798030557240707211_wp/
+      DATA wgk(8)/0.041668873327973686263788305936895_wp/
+      DATA wgk(9)/0.046434821867497674720231880926108_wp/
+      DATA wgk(10)/0.050944573923728691932707670050345_wp/
+      DATA wgk(11)/0.055195105348285994744832372419777_wp/
+      DATA wgk(12)/0.059111400880639572374967220648594_wp/
+      DATA wgk(13)/0.062653237554781168025870122174255_wp/
+      DATA wgk(14)/0.065834597133618422111563556969398_wp/
+      DATA wgk(15)/0.068648672928521619345623411885368_wp/
+      DATA wgk(16)/0.071054423553444068305790361723210_wp/
+      DATA wgk(17)/0.073030690332786667495189417658913_wp/
+      DATA wgk(18)/0.074582875400499188986581418362488_wp/
+      DATA wgk(19)/0.075704497684556674659542775376617_wp/
+      DATA wgk(20)/0.076377867672080736705502835038061_wp/
+      DATA wgk(21)/0.076600711917999656445049901530102_wp/
 !
 !
 !           list of major variables
@@ -7325,14 +7322,14 @@ module quadpack
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
-      centr = 0.5D+00*(A+B)
-      hlgth = 0.5D+00*(B-A)
+      centr = 0.5_wp*(A+B)
+      hlgth = 0.5_wp*(B-A)
       dhlgth = abs(hlgth)
 !
 !           compute the 41-point gauss-kronrod approximation to
 !           the integral, and estimate the absolute error.
 !
-      resg = 0.0D+00
+      resg = 0.0_wp
       fc = F(centr)
       resk = wgk(21)*fc
       Resabs = abs(resk)
@@ -7359,7 +7356,7 @@ module quadpack
          resk = resk + wgk(jtwm1)*fsum
          Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
-      reskh = resk*0.5D+00
+      reskh = resk*0.5_wp
       Resasc = wgk(21)*abs(fc-reskh)
       DO j = 1 , 20
          Resasc = Resasc + wgk(j)           &
@@ -7369,11 +7366,11 @@ module quadpack
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
-      IF ( Resasc/=0.0D+00 .AND. Abserr/=0.D+00 )  &
-           Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc) &
-           **1.5D+00)
-      IF ( Resabs>uflow/(0.5D+02*epmach) )  &
-           Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
+      IF ( Resasc/=0.0_wp .AND. Abserr/=0._wp )  &
+           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           **1.5_wp)
+      IF ( Resabs>uflow/(50.0_wp*epmach) )  &
+           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
       END
 !********************************************************************************
 
@@ -7429,7 +7426,7 @@ module quadpack
 
 !
       real(wp) A , absc , Abserr , B , centr , dhlgth , &
-                       DMIN1 , epmach , fc , fsum ,&
+                       min , epmach , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
                        Resasc , resg , resk , reskh , Result , uflow , &
                        wg , wgk , xgk
@@ -7457,74 +7454,74 @@ module quadpack
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
-      DATA wg(1)/0.011393798501026287947902964113235D0/
-      DATA wg(2)/0.026354986615032137261901815295299D0/
-      DATA wg(3)/0.040939156701306312655623487711646D0/
-      DATA wg(4)/0.054904695975835191925936891540473D0/
-      DATA wg(5)/0.068038333812356917207187185656708D0/
-      DATA wg(6)/0.080140700335001018013234959669111D0/
-      DATA wg(7)/0.091028261982963649811497220702892D0/
-      DATA wg(8)/0.100535949067050644202206890392686D0/
-      DATA wg(9)/0.108519624474263653116093957050117D0/
-      DATA wg(10)/0.114858259145711648339325545869556D0/
-      DATA wg(11)/0.119455763535784772228178126512901D0/
-      DATA wg(12)/0.122242442990310041688959518945852D0/
-      DATA wg(13)/0.123176053726715451203902873079050D0/
+      DATA wg(1)/0.011393798501026287947902964113235_wp/
+      DATA wg(2)/0.026354986615032137261901815295299_wp/
+      DATA wg(3)/0.040939156701306312655623487711646_wp/
+      DATA wg(4)/0.054904695975835191925936891540473_wp/
+      DATA wg(5)/0.068038333812356917207187185656708_wp/
+      DATA wg(6)/0.080140700335001018013234959669111_wp/
+      DATA wg(7)/0.091028261982963649811497220702892_wp/
+      DATA wg(8)/0.100535949067050644202206890392686_wp/
+      DATA wg(9)/0.108519624474263653116093957050117_wp/
+      DATA wg(10)/0.114858259145711648339325545869556_wp/
+      DATA wg(11)/0.119455763535784772228178126512901_wp/
+      DATA wg(12)/0.122242442990310041688959518945852_wp/
+      DATA wg(13)/0.123176053726715451203902873079050_wp/
 !
-      DATA xgk(1)/0.999262104992609834193457486540341D0/
-      DATA xgk(2)/0.995556969790498097908784946893902D0/
-      DATA xgk(3)/0.988035794534077247637331014577406D0/
-      DATA xgk(4)/0.976663921459517511498315386479594D0/
-      DATA xgk(5)/0.961614986425842512418130033660167D0/
-      DATA xgk(6)/0.942974571228974339414011169658471D0/
-      DATA xgk(7)/0.920747115281701561746346084546331D0/
-      DATA xgk(8)/0.894991997878275368851042006782805D0/
-      DATA xgk(9)/0.865847065293275595448996969588340D0/
-      DATA xgk(10)/0.833442628760834001421021108693570D0/
-      DATA xgk(11)/0.797873797998500059410410904994307D0/
-      DATA xgk(12)/0.759259263037357630577282865204361D0/
-      DATA xgk(13)/0.717766406813084388186654079773298D0/
-      DATA xgk(14)/0.673566368473468364485120633247622D0/
-      DATA xgk(15)/0.626810099010317412788122681624518D0/
-      DATA xgk(16)/0.577662930241222967723689841612654D0/
-      DATA xgk(17)/0.526325284334719182599623778158010D0/
-      DATA xgk(18)/0.473002731445714960522182115009192D0/
-      DATA xgk(19)/0.417885382193037748851814394594572D0/
-      DATA xgk(20)/0.361172305809387837735821730127641D0/
-      DATA xgk(21)/0.303089538931107830167478909980339D0/
-      DATA xgk(22)/0.243866883720988432045190362797452D0/
-      DATA xgk(23)/0.183718939421048892015969888759528D0/
-      DATA xgk(24)/0.122864692610710396387359818808037D0/
-      DATA xgk(25)/0.061544483005685078886546392366797D0/
-      DATA xgk(26)/0.000000000000000000000000000000000D0/
+      DATA xgk(1)/0.999262104992609834193457486540341_wp/
+      DATA xgk(2)/0.995556969790498097908784946893902_wp/
+      DATA xgk(3)/0.988035794534077247637331014577406_wp/
+      DATA xgk(4)/0.976663921459517511498315386479594_wp/
+      DATA xgk(5)/0.961614986425842512418130033660167_wp/
+      DATA xgk(6)/0.942974571228974339414011169658471_wp/
+      DATA xgk(7)/0.920747115281701561746346084546331_wp/
+      DATA xgk(8)/0.894991997878275368851042006782805_wp/
+      DATA xgk(9)/0.865847065293275595448996969588340_wp/
+      DATA xgk(10)/0.833442628760834001421021108693570_wp/
+      DATA xgk(11)/0.797873797998500059410410904994307_wp/
+      DATA xgk(12)/0.759259263037357630577282865204361_wp/
+      DATA xgk(13)/0.717766406813084388186654079773298_wp/
+      DATA xgk(14)/0.673566368473468364485120633247622_wp/
+      DATA xgk(15)/0.626810099010317412788122681624518_wp/
+      DATA xgk(16)/0.577662930241222967723689841612654_wp/
+      DATA xgk(17)/0.526325284334719182599623778158010_wp/
+      DATA xgk(18)/0.473002731445714960522182115009192_wp/
+      DATA xgk(19)/0.417885382193037748851814394594572_wp/
+      DATA xgk(20)/0.361172305809387837735821730127641_wp/
+      DATA xgk(21)/0.303089538931107830167478909980339_wp/
+      DATA xgk(22)/0.243866883720988432045190362797452_wp/
+      DATA xgk(23)/0.183718939421048892015969888759528_wp/
+      DATA xgk(24)/0.122864692610710396387359818808037_wp/
+      DATA xgk(25)/0.061544483005685078886546392366797_wp/
+      DATA xgk(26)/0.000000000000000000000000000000000_wp/
 !
-      DATA wgk(1)/0.001987383892330315926507851882843D0/
-      DATA wgk(2)/0.005561932135356713758040236901066D0/
-      DATA wgk(3)/0.009473973386174151607207710523655D0/
-      DATA wgk(4)/0.013236229195571674813656405846976D0/
-      DATA wgk(5)/0.016847817709128298231516667536336D0/
-      DATA wgk(6)/0.020435371145882835456568292235939D0/
-      DATA wgk(7)/0.024009945606953216220092489164881D0/
-      DATA wgk(8)/0.027475317587851737802948455517811D0/
-      DATA wgk(9)/0.030792300167387488891109020215229D0/
-      DATA wgk(10)/0.034002130274329337836748795229551D0/
-      DATA wgk(11)/0.037116271483415543560330625367620D0/
-      DATA wgk(12)/0.040083825504032382074839284467076D0/
-      DATA wgk(13)/0.042872845020170049476895792439495D0/
-      DATA wgk(14)/0.045502913049921788909870584752660D0/
-      DATA wgk(15)/0.047982537138836713906392255756915D0/
-      DATA wgk(16)/0.050277679080715671963325259433440D0/
-      DATA wgk(17)/0.052362885806407475864366712137873D0/
-      DATA wgk(18)/0.054251129888545490144543370459876D0/
-      DATA wgk(19)/0.055950811220412317308240686382747D0/
-      DATA wgk(20)/0.057437116361567832853582693939506D0/
-      DATA wgk(21)/0.058689680022394207961974175856788D0/
-      DATA wgk(22)/0.059720340324174059979099291932562D0/
-      DATA wgk(23)/0.060539455376045862945360267517565D0/
-      DATA wgk(24)/0.061128509717053048305859030416293D0/
-      DATA wgk(25)/0.061471189871425316661544131965264D0/
+      DATA wgk(1)/0.001987383892330315926507851882843_wp/
+      DATA wgk(2)/0.005561932135356713758040236901066_wp/
+      DATA wgk(3)/0.009473973386174151607207710523655_wp/
+      DATA wgk(4)/0.013236229195571674813656405846976_wp/
+      DATA wgk(5)/0.016847817709128298231516667536336_wp/
+      DATA wgk(6)/0.020435371145882835456568292235939_wp/
+      DATA wgk(7)/0.024009945606953216220092489164881_wp/
+      DATA wgk(8)/0.027475317587851737802948455517811_wp/
+      DATA wgk(9)/0.030792300167387488891109020215229_wp/
+      DATA wgk(10)/0.034002130274329337836748795229551_wp/
+      DATA wgk(11)/0.037116271483415543560330625367620_wp/
+      DATA wgk(12)/0.040083825504032382074839284467076_wp/
+      DATA wgk(13)/0.042872845020170049476895792439495_wp/
+      DATA wgk(14)/0.045502913049921788909870584752660_wp/
+      DATA wgk(15)/0.047982537138836713906392255756915_wp/
+      DATA wgk(16)/0.050277679080715671963325259433440_wp/
+      DATA wgk(17)/0.052362885806407475864366712137873_wp/
+      DATA wgk(18)/0.054251129888545490144543370459876_wp/
+      DATA wgk(19)/0.055950811220412317308240686382747_wp/
+      DATA wgk(20)/0.057437116361567832853582693939506_wp/
+      DATA wgk(21)/0.058689680022394207961974175856788_wp/
+      DATA wgk(22)/0.059720340324174059979099291932562_wp/
+      DATA wgk(23)/0.060539455376045862945360267517565_wp/
+      DATA wgk(24)/0.061128509717053048305859030416293_wp/
+      DATA wgk(25)/0.061471189871425316661544131965264_wp/
 !       note: wgk (26) was calculated from the values of wgk(1..25)
-      DATA wgk(26)/0.061580818067832935078759824240066D0/
+      DATA wgk(26)/0.061580818067832935078759824240066_wp/
 !
 !
 !           list of major variables
@@ -7549,8 +7546,8 @@ module quadpack
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
-      centr = 0.5D+00*(A+B)
-      hlgth = 0.5D+00*(B-A)
+      centr = 0.5_wp*(A+B)
+      hlgth = 0.5_wp*(B-A)
       dhlgth = abs(hlgth)
 !
 !           compute the 51-point kronrod approximation to
@@ -7583,7 +7580,7 @@ module quadpack
          resk = resk + wgk(jtwm1)*fsum
          Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
-      reskh = resk*0.5D+00
+      reskh = resk*0.5_wp
       Resasc = wgk(26)*abs(fc-reskh)
       DO j = 1 , 25
          Resasc = Resasc + wgk(j)           &
@@ -7593,11 +7590,11 @@ module quadpack
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
-      IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 ) &
-           Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc) &
-           **1.5D+00)
-      IF ( Resabs>uflow/(0.5D+02*epmach) )  &
-           Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
+      IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
+           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           **1.5_wp)
+      IF ( Resabs>uflow/(50.0_wp*epmach) )  &
+           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
       END
 !********************************************************************************
 
@@ -7654,7 +7651,7 @@ module quadpack
 
 !
       real(wp) A , dabsc , Abserr , B , centr , dhlgth , &
-                       DMIN1 , epmach , fc , fsum ,&
+                       min , epmach , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
                        Resasc , resg , resk , reskh , Result , uflow , &
                        wg , wgk , xgk
@@ -7682,85 +7679,85 @@ module quadpack
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
-      DATA wg(1)/0.007968192496166605615465883474674D0/
-      DATA wg(2)/0.018466468311090959142302131912047D0/
-      DATA wg(3)/0.028784707883323369349719179611292D0/
-      DATA wg(4)/0.038799192569627049596801936446348D0/
-      DATA wg(5)/0.048402672830594052902938140422808D0/
-      DATA wg(6)/0.057493156217619066481721689402056D0/
-      DATA wg(7)/0.065974229882180495128128515115962D0/
-      DATA wg(8)/0.073755974737705206268243850022191D0/
-      DATA wg(9)/0.080755895229420215354694938460530D0/
-      DATA wg(10)/0.086899787201082979802387530715126D0/
-      DATA wg(11)/0.092122522237786128717632707087619D0/
-      DATA wg(12)/0.096368737174644259639468626351810D0/
-      DATA wg(13)/0.099593420586795267062780282103569D0/
-      DATA wg(14)/0.101762389748405504596428952168554D0/
-      DATA wg(15)/0.102852652893558840341285636705415D0/
+      DATA wg(1)/0.007968192496166605615465883474674_wp/
+      DATA wg(2)/0.018466468311090959142302131912047_wp/
+      DATA wg(3)/0.028784707883323369349719179611292_wp/
+      DATA wg(4)/0.038799192569627049596801936446348_wp/
+      DATA wg(5)/0.048402672830594052902938140422808_wp/
+      DATA wg(6)/0.057493156217619066481721689402056_wp/
+      DATA wg(7)/0.065974229882180495128128515115962_wp/
+      DATA wg(8)/0.073755974737705206268243850022191_wp/
+      DATA wg(9)/0.080755895229420215354694938460530_wp/
+      DATA wg(10)/0.086899787201082979802387530715126_wp/
+      DATA wg(11)/0.092122522237786128717632707087619_wp/
+      DATA wg(12)/0.096368737174644259639468626351810_wp/
+      DATA wg(13)/0.099593420586795267062780282103569_wp/
+      DATA wg(14)/0.101762389748405504596428952168554_wp/
+      DATA wg(15)/0.102852652893558840341285636705415_wp/
 !
-      DATA xgk(1)/0.999484410050490637571325895705811D0/
-      DATA xgk(2)/0.996893484074649540271630050918695D0/
-      DATA xgk(3)/0.991630996870404594858628366109486D0/
-      DATA xgk(4)/0.983668123279747209970032581605663D0/
-      DATA xgk(5)/0.973116322501126268374693868423707D0/
-      DATA xgk(6)/0.960021864968307512216871025581798D0/
-      DATA xgk(7)/0.944374444748559979415831324037439D0/
-      DATA xgk(8)/0.926200047429274325879324277080474D0/
-      DATA xgk(9)/0.905573307699907798546522558925958D0/
-      DATA xgk(10)/0.882560535792052681543116462530226D0/
-      DATA xgk(11)/0.857205233546061098958658510658944D0/
-      DATA xgk(12)/0.829565762382768397442898119732502D0/
-      DATA xgk(13)/0.799727835821839083013668942322683D0/
-      DATA xgk(14)/0.767777432104826194917977340974503D0/
-      DATA xgk(15)/0.733790062453226804726171131369528D0/
-      DATA xgk(16)/0.697850494793315796932292388026640D0/
-      DATA xgk(17)/0.660061064126626961370053668149271D0/
-      DATA xgk(18)/0.620526182989242861140477556431189D0/
-      DATA xgk(19)/0.579345235826361691756024932172540D0/
-      DATA xgk(20)/0.536624148142019899264169793311073D0/
-      DATA xgk(21)/0.492480467861778574993693061207709D0/
-      DATA xgk(22)/0.447033769538089176780609900322854D0/
-      DATA xgk(23)/0.400401254830394392535476211542661D0/
-      DATA xgk(24)/0.352704725530878113471037207089374D0/
-      DATA xgk(25)/0.304073202273625077372677107199257D0/
-      DATA xgk(26)/0.254636926167889846439805129817805D0/
-      DATA xgk(27)/0.204525116682309891438957671002025D0/
-      DATA xgk(28)/0.153869913608583546963794672743256D0/
-      DATA xgk(29)/0.102806937966737030147096751318001D0/
-      DATA xgk(30)/0.051471842555317695833025213166723D0/
-      DATA xgk(31)/0.000000000000000000000000000000000D0/
+      DATA xgk(1)/0.999484410050490637571325895705811_wp/
+      DATA xgk(2)/0.996893484074649540271630050918695_wp/
+      DATA xgk(3)/0.991630996870404594858628366109486_wp/
+      DATA xgk(4)/0.983668123279747209970032581605663_wp/
+      DATA xgk(5)/0.973116322501126268374693868423707_wp/
+      DATA xgk(6)/0.960021864968307512216871025581798_wp/
+      DATA xgk(7)/0.944374444748559979415831324037439_wp/
+      DATA xgk(8)/0.926200047429274325879324277080474_wp/
+      DATA xgk(9)/0.905573307699907798546522558925958_wp/
+      DATA xgk(10)/0.882560535792052681543116462530226_wp/
+      DATA xgk(11)/0.857205233546061098958658510658944_wp/
+      DATA xgk(12)/0.829565762382768397442898119732502_wp/
+      DATA xgk(13)/0.799727835821839083013668942322683_wp/
+      DATA xgk(14)/0.767777432104826194917977340974503_wp/
+      DATA xgk(15)/0.733790062453226804726171131369528_wp/
+      DATA xgk(16)/0.697850494793315796932292388026640_wp/
+      DATA xgk(17)/0.660061064126626961370053668149271_wp/
+      DATA xgk(18)/0.620526182989242861140477556431189_wp/
+      DATA xgk(19)/0.579345235826361691756024932172540_wp/
+      DATA xgk(20)/0.536624148142019899264169793311073_wp/
+      DATA xgk(21)/0.492480467861778574993693061207709_wp/
+      DATA xgk(22)/0.447033769538089176780609900322854_wp/
+      DATA xgk(23)/0.400401254830394392535476211542661_wp/
+      DATA xgk(24)/0.352704725530878113471037207089374_wp/
+      DATA xgk(25)/0.304073202273625077372677107199257_wp/
+      DATA xgk(26)/0.254636926167889846439805129817805_wp/
+      DATA xgk(27)/0.204525116682309891438957671002025_wp/
+      DATA xgk(28)/0.153869913608583546963794672743256_wp/
+      DATA xgk(29)/0.102806937966737030147096751318001_wp/
+      DATA xgk(30)/0.051471842555317695833025213166723_wp/
+      DATA xgk(31)/0.000000000000000000000000000000000_wp/
 !
-      DATA wgk(1)/0.001389013698677007624551591226760D0/
-      DATA wgk(2)/0.003890461127099884051267201844516D0/
-      DATA wgk(3)/0.006630703915931292173319826369750D0/
-      DATA wgk(4)/0.009273279659517763428441146892024D0/
-      DATA wgk(5)/0.011823015253496341742232898853251D0/
-      DATA wgk(6)/0.014369729507045804812451432443580D0/
-      DATA wgk(7)/0.016920889189053272627572289420322D0/
-      DATA wgk(8)/0.019414141193942381173408951050128D0/
-      DATA wgk(9)/0.021828035821609192297167485738339D0/
-      DATA wgk(10)/0.024191162078080601365686370725232D0/
-      DATA wgk(11)/0.026509954882333101610601709335075D0/
-      DATA wgk(12)/0.028754048765041292843978785354334D0/
-      DATA wgk(13)/0.030907257562387762472884252943092D0/
-      DATA wgk(14)/0.032981447057483726031814191016854D0/
-      DATA wgk(15)/0.034979338028060024137499670731468D0/
-      DATA wgk(16)/0.036882364651821229223911065617136D0/
-      DATA wgk(17)/0.038678945624727592950348651532281D0/
-      DATA wgk(18)/0.040374538951535959111995279752468D0/
-      DATA wgk(19)/0.041969810215164246147147541285970D0/
-      DATA wgk(20)/0.043452539701356069316831728117073D0/
-      DATA wgk(21)/0.044814800133162663192355551616723D0/
-      DATA wgk(22)/0.046059238271006988116271735559374D0/
-      DATA wgk(23)/0.047185546569299153945261478181099D0/
-      DATA wgk(24)/0.048185861757087129140779492298305D0/
-      DATA wgk(25)/0.049055434555029778887528165367238D0/
-      DATA wgk(26)/0.049795683427074206357811569379942D0/
-      DATA wgk(27)/0.050405921402782346840893085653585D0/
-      DATA wgk(28)/0.050881795898749606492297473049805D0/
-      DATA wgk(29)/0.051221547849258772170656282604944D0/
-      DATA wgk(30)/0.051426128537459025933862879215781D0/
-      DATA wgk(31)/0.051494729429451567558340433647099D0/
+      DATA wgk(1)/0.001389013698677007624551591226760_wp/
+      DATA wgk(2)/0.003890461127099884051267201844516_wp/
+      DATA wgk(3)/0.006630703915931292173319826369750_wp/
+      DATA wgk(4)/0.009273279659517763428441146892024_wp/
+      DATA wgk(5)/0.011823015253496341742232898853251_wp/
+      DATA wgk(6)/0.014369729507045804812451432443580_wp/
+      DATA wgk(7)/0.016920889189053272627572289420322_wp/
+      DATA wgk(8)/0.019414141193942381173408951050128_wp/
+      DATA wgk(9)/0.021828035821609192297167485738339_wp/
+      DATA wgk(10)/0.024191162078080601365686370725232_wp/
+      DATA wgk(11)/0.026509954882333101610601709335075_wp/
+      DATA wgk(12)/0.028754048765041292843978785354334_wp/
+      DATA wgk(13)/0.030907257562387762472884252943092_wp/
+      DATA wgk(14)/0.032981447057483726031814191016854_wp/
+      DATA wgk(15)/0.034979338028060024137499670731468_wp/
+      DATA wgk(16)/0.036882364651821229223911065617136_wp/
+      DATA wgk(17)/0.038678945624727592950348651532281_wp/
+      DATA wgk(18)/0.040374538951535959111995279752468_wp/
+      DATA wgk(19)/0.041969810215164246147147541285970_wp/
+      DATA wgk(20)/0.043452539701356069316831728117073_wp/
+      DATA wgk(21)/0.044814800133162663192355551616723_wp/
+      DATA wgk(22)/0.046059238271006988116271735559374_wp/
+      DATA wgk(23)/0.047185546569299153945261478181099_wp/
+      DATA wgk(24)/0.048185861757087129140779492298305_wp/
+      DATA wgk(25)/0.049055434555029778887528165367238_wp/
+      DATA wgk(26)/0.049795683427074206357811569379942_wp/
+      DATA wgk(27)/0.050405921402782346840893085653585_wp/
+      DATA wgk(28)/0.050881795898749606492297473049805_wp/
+      DATA wgk(29)/0.051221547849258772170656282604944_wp/
+      DATA wgk(30)/0.051426128537459025933862879215781_wp/
+      DATA wgk(31)/0.051494729429451567558340433647099_wp/
 !
 !           list of major variables
 !           -----------------------
@@ -7783,15 +7780,15 @@ module quadpack
       epmach = D1MACH(4)
       uflow = D1MACH(1)
 !
-      centr = 0.5D+00*(B+A)
-      hlgth = 0.5D+00*(B-A)
+      centr = 0.5_wp*(B+A)
+      hlgth = 0.5_wp*(B-A)
       dhlgth = abs(hlgth)
 !
 !           compute the 61-point kronrod approximation to the
 !           integral, and estimate the absolute error.
 !
 
-      resg = 0.0D+00
+      resg = 0.0_wp
       fc = F(centr)
       resk = wgk(31)*fc
       Resabs = abs(resk)
@@ -7818,7 +7815,7 @@ module quadpack
          resk = resk + wgk(jtwm1)*fsum
          Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
       ENDDO
-      reskh = resk*0.5D+00
+      reskh = resk*0.5_wp
       Resasc = wgk(31)*abs(fc-reskh)
       DO j = 1 , 30
          Resasc = Resasc + wgk(j)           &
@@ -7828,11 +7825,11 @@ module quadpack
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
       Abserr = abs((resk-resg)*hlgth)
-      IF ( Resasc/=0.0D+00 .AND. Abserr/=0.0D+00 ) &
-           Abserr = Resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/Resasc) &
-           **1.5D+00)
-      IF ( Resabs>uflow/(0.5D+02*epmach) )  &
-           Abserr = max((epmach*0.5D+02)*Resabs,Abserr)
+      IF ( Resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
+           Abserr = Resasc*min(1.0_wp,(0.2D+03*Abserr/Resasc) &
+           **1.5_wp)
+      IF ( Resabs>uflow/(50.0_wp*epmach) )  &
+           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
       END
 !********************************************************************************
 
@@ -7900,12 +7897,12 @@ module quadpack
 !
 !
 
-      alfp1 = Alfa + 0.1D+01
-      betp1 = Beta + 0.1D+01
-      alfp2 = Alfa + 0.2D+01
-      betp2 = Beta + 0.2D+01
-      ralf = 0.2D+01**alfp1
-      rbet = 0.2D+01**betp1
+      alfp1 = Alfa + 1.0_wp
+      betp1 = Beta + 1.0_wp
+      alfp2 = Alfa + 2.0_wp
+      betp2 = Beta + 2.0_wp
+      ralf = 2.0_wp**alfp1
+      rbet = 2.0_wp**betp1
 !
 !           compute ri, rj using a forward recurrence relation.
 !
@@ -7913,13 +7910,13 @@ module quadpack
       Rj(1) = rbet/betp1
       Ri(2) = Ri(1)*Alfa/alfp2
       Rj(2) = Rj(1)*Beta/betp2
-      an = 0.2D+01
-      anm1 = 0.1D+01
+      an = 2.0_wp
+      anm1 = 1.0_wp
       DO i = 3 , 25
          Ri(i) = -(ralf+an*(an-alfp2)*Ri(i-1))/(anm1*(an+alfp1))
          Rj(i) = -(rbet+an*(an-betp2)*Rj(i-1))/(anm1*(an+betp1))
          anm1 = an
-         an = an + 0.1D+01
+         an = an + 1.0_wp
       ENDDO
       IF ( Integr/=1 ) THEN
          IF ( Integr/=3 ) THEN
@@ -7928,14 +7925,14 @@ module quadpack
 !
             Rg(1) = -Ri(1)/alfp1
             Rg(2) = -(ralf+ralf)/(alfp2*alfp2) - Rg(1)
-            an = 0.2D+01
-            anm1 = 0.1D+01
+            an = 2.0_wp
+            anm1 = 1.0_wp
             im1 = 2
             DO i = 3 , 25
                Rg(i) = -(an*(an-alfp2)*Rg(im1)-an*Ri(im1)+anm1*Ri(i)) &
                        /(anm1*(an+alfp1))
                anm1 = an
-               an = an + 0.1D+01
+               an = an + 1.0_wp
                im1 = i
             ENDDO
             IF ( Integr==2 ) GOTO 100
@@ -7945,14 +7942,14 @@ module quadpack
 !
          Rh(1) = -Rj(1)/betp1
          Rh(2) = -(rbet+rbet)/(betp2*betp2) - Rh(1)
-         an = 0.2D+01
-         anm1 = 0.1D+01
+         an = 2.0_wp
+         anm1 = 1.0_wp
          im1 = 2
          DO i = 3 , 25
             Rh(i) = -(an*(an-betp2)*Rh(im1)-an*Rj(im1)+anm1*Rj(i)) &
                     /(anm1*(an+betp1))
             anm1 = an
-            an = an + 0.1D+01
+            an = an + 1.0_wp
             im1 = i
          ENDDO
          DO i = 2 , 25 , 2
@@ -8002,7 +7999,7 @@ module quadpack
 !           epsrel - real(wp)
 !                    relative accuracy requested
 !                    if  epsabs<=0
-!                    and epsrel<max(50*rel.mach.acc.,0.5d-28),
+!                    and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
 !                    the routine will end with ier = 6.
 !
 !         on return
@@ -8036,13 +8033,13 @@ module quadpack
 !                            difficult to be calculated by dqng.
 !                        = 6 the input is invalid, because
 !                            epsabs<=0 and
-!                            epsrel<max(50*rel.mach.acc.,0.5d-28).
+!                            epsrel<max(50*rel.mach.acc.,0.5e-28_wp).
 !                            result, abserr and neval are set to zero.
 !
 
 !
       real(wp) A , absc , Abserr , B , centr , dhlgth , &
-                       DMIN1 , epmach , Epsabs , &
+                       min , epmach , Epsabs , &
                        Epsrel , fcentr , fval , fval1 , fval2 , &
                        fv1 , fv2 , fv3 , fv4 , hlgth , Result , res10 , &
                        res21 , res43 , res87 , resabs , resasc , reskh ,&
@@ -8052,8 +8049,8 @@ module quadpack
       procedure(func) :: f
 !
       DIMENSION fv1(5) , fv2(5) , fv3(5) , fv4(5) , x1(5) , x2(5) , &
-              & x3(11) , x4(22) , w10(5) , w21a(5) , w21b(6) , w43a(10) &
-              & , w43b(12) , w87a(21) , w87b(23) , savfun(21)
+                x3(11) , x4(22) , w10(5) , w21a(5) , w21b(6) , w43a(10) &
+                , w43b(12) , w87a(21) , w87b(23) , savfun(21)
 !
 !           the following data statements contain the
 !           abscissae and weights of the integration rules used.
@@ -8077,134 +8074,134 @@ module quadpack
 ! quadpack routine qng.  these coefficients were calculated with
 ! 101 decimal digit arithmetic by l. w. fullerton, bell labs, nov 1981.
 !
-      DATA x1(1)/0.973906528517171720077964012084452D0/
-      DATA x1(2)/0.865063366688984510732096688423493D0/
-      DATA x1(3)/0.679409568299024406234327365114874D0/
-      DATA x1(4)/0.433395394129247190799265943165784D0/
-      DATA x1(5)/0.148874338981631210884826001129720D0/
-      DATA w10(1)/0.066671344308688137593568809893332D0/
-      DATA w10(2)/0.149451349150580593145776339657697D0/
-      DATA w10(3)/0.219086362515982043995534934228163D0/
-      DATA w10(4)/0.269266719309996355091226921569469D0/
-      DATA w10(5)/0.295524224714752870173892994651338D0/
+      DATA x1(1)/0.973906528517171720077964012084452_wp/
+      DATA x1(2)/0.865063366688984510732096688423493_wp/
+      DATA x1(3)/0.679409568299024406234327365114874_wp/
+      DATA x1(4)/0.433395394129247190799265943165784_wp/
+      DATA x1(5)/0.148874338981631210884826001129720_wp/
+      DATA w10(1)/0.066671344308688137593568809893332_wp/
+      DATA w10(2)/0.149451349150580593145776339657697_wp/
+      DATA w10(3)/0.219086362515982043995534934228163_wp/
+      DATA w10(4)/0.269266719309996355091226921569469_wp/
+      DATA w10(5)/0.295524224714752870173892994651338_wp/
 !
-      DATA x2(1)/0.995657163025808080735527280689003D0/
-      DATA x2(2)/0.930157491355708226001207180059508D0/
-      DATA x2(3)/0.780817726586416897063717578345042D0/
-      DATA x2(4)/0.562757134668604683339000099272694D0/
-      DATA x2(5)/0.294392862701460198131126603103866D0/
-      DATA w21a(1)/0.032558162307964727478818972459390D0/
-      DATA w21a(2)/0.075039674810919952767043140916190D0/
-      DATA w21a(3)/0.109387158802297641899210590325805D0/
-      DATA w21a(4)/0.134709217311473325928054001771707D0/
-      DATA w21a(5)/0.147739104901338491374841515972068D0/
-      DATA w21b(1)/0.011694638867371874278064396062192D0/
-      DATA w21b(2)/0.054755896574351996031381300244580D0/
-      DATA w21b(3)/0.093125454583697605535065465083366D0/
-      DATA w21b(4)/0.123491976262065851077958109831074D0/
-      DATA w21b(5)/0.142775938577060080797094273138717D0/
-      DATA w21b(6)/0.149445554002916905664936468389821D0/
+      DATA x2(1)/0.995657163025808080735527280689003_wp/
+      DATA x2(2)/0.930157491355708226001207180059508_wp/
+      DATA x2(3)/0.780817726586416897063717578345042_wp/
+      DATA x2(4)/0.562757134668604683339000099272694_wp/
+      DATA x2(5)/0.294392862701460198131126603103866_wp/
+      DATA w21a(1)/0.032558162307964727478818972459390_wp/
+      DATA w21a(2)/0.075039674810919952767043140916190_wp/
+      DATA w21a(3)/0.109387158802297641899210590325805_wp/
+      DATA w21a(4)/0.134709217311473325928054001771707_wp/
+      DATA w21a(5)/0.147739104901338491374841515972068_wp/
+      DATA w21b(1)/0.011694638867371874278064396062192_wp/
+      DATA w21b(2)/0.054755896574351996031381300244580_wp/
+      DATA w21b(3)/0.093125454583697605535065465083366_wp/
+      DATA w21b(4)/0.123491976262065851077958109831074_wp/
+      DATA w21b(5)/0.142775938577060080797094273138717_wp/
+      DATA w21b(6)/0.149445554002916905664936468389821_wp/
 !
-      DATA x3(1)/0.999333360901932081394099323919911D0/
-      DATA x3(2)/0.987433402908088869795961478381209D0/
-      DATA x3(3)/0.954807934814266299257919200290473D0/
-      DATA x3(4)/0.900148695748328293625099494069092D0/
-      DATA x3(5)/0.825198314983114150847066732588520D0/
-      DATA x3(6)/0.732148388989304982612354848755461D0/
-      DATA x3(7)/0.622847970537725238641159120344323D0/
-      DATA x3(8)/0.499479574071056499952214885499755D0/
-      DATA x3(9)/0.364901661346580768043989548502644D0/
-      DATA x3(10)/0.222254919776601296498260928066212D0/
-      DATA x3(11)/0.074650617461383322043914435796506D0/
-      DATA w43a(1)/0.016296734289666564924281974617663D0/
-      DATA w43a(2)/0.037522876120869501461613795898115D0/
-      DATA w43a(3)/0.054694902058255442147212685465005D0/
-      DATA w43a(4)/0.067355414609478086075553166302174D0/
-      DATA w43a(5)/0.073870199632393953432140695251367D0/
-      DATA w43a(6)/0.005768556059769796184184327908655D0/
-      DATA w43a(7)/0.027371890593248842081276069289151D0/
-      DATA w43a(8)/0.046560826910428830743339154433824D0/
-      DATA w43a(9)/0.061744995201442564496240336030883D0/
-      DATA w43a(10)/0.071387267268693397768559114425516D0/
-      DATA w43b(1)/0.001844477640212414100389106552965D0/
-      DATA w43b(2)/0.010798689585891651740465406741293D0/
-      DATA w43b(3)/0.021895363867795428102523123075149D0/
-      DATA w43b(4)/0.032597463975345689443882222526137D0/
-      DATA w43b(5)/0.042163137935191811847627924327955D0/
-      DATA w43b(6)/0.050741939600184577780189020092084D0/
-      DATA w43b(7)/0.058379395542619248375475369330206D0/
-      DATA w43b(8)/0.064746404951445885544689259517511D0/
-      DATA w43b(9)/0.069566197912356484528633315038405D0/
-      DATA w43b(10)/0.072824441471833208150939535192842D0/
-      DATA w43b(11)/0.074507751014175118273571813842889D0/
-      DATA w43b(12)/0.074722147517403005594425168280423D0/
+      DATA x3(1)/0.999333360901932081394099323919911_wp/
+      DATA x3(2)/0.987433402908088869795961478381209_wp/
+      DATA x3(3)/0.954807934814266299257919200290473_wp/
+      DATA x3(4)/0.900148695748328293625099494069092_wp/
+      DATA x3(5)/0.825198314983114150847066732588520_wp/
+      DATA x3(6)/0.732148388989304982612354848755461_wp/
+      DATA x3(7)/0.622847970537725238641159120344323_wp/
+      DATA x3(8)/0.499479574071056499952214885499755_wp/
+      DATA x3(9)/0.364901661346580768043989548502644_wp/
+      DATA x3(10)/0.222254919776601296498260928066212_wp/
+      DATA x3(11)/0.074650617461383322043914435796506_wp/
+      DATA w43a(1)/0.016296734289666564924281974617663_wp/
+      DATA w43a(2)/0.037522876120869501461613795898115_wp/
+      DATA w43a(3)/0.054694902058255442147212685465005_wp/
+      DATA w43a(4)/0.067355414609478086075553166302174_wp/
+      DATA w43a(5)/0.073870199632393953432140695251367_wp/
+      DATA w43a(6)/0.005768556059769796184184327908655_wp/
+      DATA w43a(7)/0.027371890593248842081276069289151_wp/
+      DATA w43a(8)/0.046560826910428830743339154433824_wp/
+      DATA w43a(9)/0.061744995201442564496240336030883_wp/
+      DATA w43a(10)/0.071387267268693397768559114425516_wp/
+      DATA w43b(1)/0.001844477640212414100389106552965_wp/
+      DATA w43b(2)/0.010798689585891651740465406741293_wp/
+      DATA w43b(3)/0.021895363867795428102523123075149_wp/
+      DATA w43b(4)/0.032597463975345689443882222526137_wp/
+      DATA w43b(5)/0.042163137935191811847627924327955_wp/
+      DATA w43b(6)/0.050741939600184577780189020092084_wp/
+      DATA w43b(7)/0.058379395542619248375475369330206_wp/
+      DATA w43b(8)/0.064746404951445885544689259517511_wp/
+      DATA w43b(9)/0.069566197912356484528633315038405_wp/
+      DATA w43b(10)/0.072824441471833208150939535192842_wp/
+      DATA w43b(11)/0.074507751014175118273571813842889_wp/
+      DATA w43b(12)/0.074722147517403005594425168280423_wp/
 !
-      DATA x4(1)/0.999902977262729234490529830591582D0/
-      DATA x4(2)/0.997989895986678745427496322365960D0/
-      DATA x4(3)/0.992175497860687222808523352251425D0/
-      DATA x4(4)/0.981358163572712773571916941623894D0/
-      DATA x4(5)/0.965057623858384619128284110607926D0/
-      DATA x4(6)/0.943167613133670596816416634507426D0/
-      DATA x4(7)/0.915806414685507209591826430720050D0/
-      DATA x4(8)/0.883221657771316501372117548744163D0/
-      DATA x4(9)/0.845710748462415666605902011504855D0/
-      DATA x4(10)/0.803557658035230982788739474980964D0/
-      DATA x4(11)/0.757005730685495558328942793432020D0/
-      DATA x4(12)/0.706273209787321819824094274740840D0/
-      DATA x4(13)/0.651589466501177922534422205016736D0/
-      DATA x4(14)/0.593223374057961088875273770349144D0/
-      DATA x4(15)/0.531493605970831932285268948562671D0/
-      DATA x4(16)/0.466763623042022844871966781659270D0/
-      DATA x4(17)/0.399424847859218804732101665817923D0/
-      DATA x4(18)/0.329874877106188288265053371824597D0/
-      DATA x4(19)/0.258503559202161551802280975429025D0/
-      DATA x4(20)/0.185695396568346652015917141167606D0/
-      DATA x4(21)/0.111842213179907468172398359241362D0/
-      DATA x4(22)/0.037352123394619870814998165437704D0/
-      DATA w87a(1)/0.008148377384149172900002878448190D0/
-      DATA w87a(2)/0.018761438201562822243935059003794D0/
-      DATA w87a(3)/0.027347451050052286161582829741283D0/
-      DATA w87a(4)/0.033677707311637930046581056957588D0/
-      DATA w87a(5)/0.036935099820427907614589586742499D0/
-      DATA w87a(6)/0.002884872430211530501334156248695D0/
-      DATA w87a(7)/0.013685946022712701888950035273128D0/
-      DATA w87a(8)/0.023280413502888311123409291030404D0/
-      DATA w87a(9)/0.030872497611713358675466394126442D0/
-      DATA w87a(10)/0.035693633639418770719351355457044D0/
-      DATA w87a(11)/0.000915283345202241360843392549948D0/
-      DATA w87a(12)/0.005399280219300471367738743391053D0/
-      DATA w87a(13)/0.010947679601118931134327826856808D0/
-      DATA w87a(14)/0.016298731696787335262665703223280D0/
-      DATA w87a(15)/0.021081568889203835112433060188190D0/
-      DATA w87a(16)/0.025370969769253827243467999831710D0/
-      DATA w87a(17)/0.029189697756475752501446154084920D0/
-      DATA w87a(18)/0.032373202467202789685788194889595D0/
-      DATA w87a(19)/0.034783098950365142750781997949596D0/
-      DATA w87a(20)/0.036412220731351787562801163687577D0/
-      DATA w87a(21)/0.037253875503047708539592001191226D0/
-      DATA w87b(1)/0.000274145563762072350016527092881D0/
-      DATA w87b(2)/0.001807124155057942948341311753254D0/
-      DATA w87b(3)/0.004096869282759164864458070683480D0/
-      DATA w87b(4)/0.006758290051847378699816577897424D0/
-      DATA w87b(5)/0.009549957672201646536053581325377D0/
-      DATA w87b(6)/0.012329447652244853694626639963780D0/
-      DATA w87b(7)/0.015010447346388952376697286041943D0/
-      DATA w87b(8)/0.017548967986243191099665352925900D0/
-      DATA w87b(9)/0.019938037786440888202278192730714D0/
-      DATA w87b(10)/0.022194935961012286796332102959499D0/
-      DATA w87b(11)/0.024339147126000805470360647041454D0/
-      DATA w87b(12)/0.026374505414839207241503786552615D0/
-      DATA w87b(13)/0.028286910788771200659968002987960D0/
-      DATA w87b(14)/0.030052581128092695322521110347341D0/
-      DATA w87b(15)/0.031646751371439929404586051078883D0/
-      DATA w87b(16)/0.033050413419978503290785944862689D0/
-      DATA w87b(17)/0.034255099704226061787082821046821D0/
-      DATA w87b(18)/0.035262412660156681033782717998428D0/
-      DATA w87b(19)/0.036076989622888701185500318003895D0/
-      DATA w87b(20)/0.036698604498456094498018047441094D0/
-      DATA w87b(21)/0.037120549269832576114119958413599D0/
-      DATA w87b(22)/0.037334228751935040321235449094698D0/
-      DATA w87b(23)/0.037361073762679023410321241766599D0/
+      DATA x4(1)/0.999902977262729234490529830591582_wp/
+      DATA x4(2)/0.997989895986678745427496322365960_wp/
+      DATA x4(3)/0.992175497860687222808523352251425_wp/
+      DATA x4(4)/0.981358163572712773571916941623894_wp/
+      DATA x4(5)/0.965057623858384619128284110607926_wp/
+      DATA x4(6)/0.943167613133670596816416634507426_wp/
+      DATA x4(7)/0.915806414685507209591826430720050_wp/
+      DATA x4(8)/0.883221657771316501372117548744163_wp/
+      DATA x4(9)/0.845710748462415666605902011504855_wp/
+      DATA x4(10)/0.803557658035230982788739474980964_wp/
+      DATA x4(11)/0.757005730685495558328942793432020_wp/
+      DATA x4(12)/0.706273209787321819824094274740840_wp/
+      DATA x4(13)/0.651589466501177922534422205016736_wp/
+      DATA x4(14)/0.593223374057961088875273770349144_wp/
+      DATA x4(15)/0.531493605970831932285268948562671_wp/
+      DATA x4(16)/0.466763623042022844871966781659270_wp/
+      DATA x4(17)/0.399424847859218804732101665817923_wp/
+      DATA x4(18)/0.329874877106188288265053371824597_wp/
+      DATA x4(19)/0.258503559202161551802280975429025_wp/
+      DATA x4(20)/0.185695396568346652015917141167606_wp/
+      DATA x4(21)/0.111842213179907468172398359241362_wp/
+      DATA x4(22)/0.037352123394619870814998165437704_wp/
+      DATA w87a(1)/0.008148377384149172900002878448190_wp/
+      DATA w87a(2)/0.018761438201562822243935059003794_wp/
+      DATA w87a(3)/0.027347451050052286161582829741283_wp/
+      DATA w87a(4)/0.033677707311637930046581056957588_wp/
+      DATA w87a(5)/0.036935099820427907614589586742499_wp/
+      DATA w87a(6)/0.002884872430211530501334156248695_wp/
+      DATA w87a(7)/0.013685946022712701888950035273128_wp/
+      DATA w87a(8)/0.023280413502888311123409291030404_wp/
+      DATA w87a(9)/0.030872497611713358675466394126442_wp/
+      DATA w87a(10)/0.035693633639418770719351355457044_wp/
+      DATA w87a(11)/0.000915283345202241360843392549948_wp/
+      DATA w87a(12)/0.005399280219300471367738743391053_wp/
+      DATA w87a(13)/0.010947679601118931134327826856808_wp/
+      DATA w87a(14)/0.016298731696787335262665703223280_wp/
+      DATA w87a(15)/0.021081568889203835112433060188190_wp/
+      DATA w87a(16)/0.025370969769253827243467999831710_wp/
+      DATA w87a(17)/0.029189697756475752501446154084920_wp/
+      DATA w87a(18)/0.032373202467202789685788194889595_wp/
+      DATA w87a(19)/0.034783098950365142750781997949596_wp/
+      DATA w87a(20)/0.036412220731351787562801163687577_wp/
+      DATA w87a(21)/0.037253875503047708539592001191226_wp/
+      DATA w87b(1)/0.000274145563762072350016527092881_wp/
+      DATA w87b(2)/0.001807124155057942948341311753254_wp/
+      DATA w87b(3)/0.004096869282759164864458070683480_wp/
+      DATA w87b(4)/0.006758290051847378699816577897424_wp/
+      DATA w87b(5)/0.009549957672201646536053581325377_wp/
+      DATA w87b(6)/0.012329447652244853694626639963780_wp/
+      DATA w87b(7)/0.015010447346388952376697286041943_wp/
+      DATA w87b(8)/0.017548967986243191099665352925900_wp/
+      DATA w87b(9)/0.019938037786440888202278192730714_wp/
+      DATA w87b(10)/0.022194935961012286796332102959499_wp/
+      DATA w87b(11)/0.024339147126000805470360647041454_wp/
+      DATA w87b(12)/0.026374505414839207241503786552615_wp/
+      DATA w87b(13)/0.028286910788771200659968002987960_wp/
+      DATA w87b(14)/0.030052581128092695322521110347341_wp/
+      DATA w87b(15)/0.031646751371439929404586051078883_wp/
+      DATA w87b(16)/0.033050413419978503290785944862689_wp/
+      DATA w87b(17)/0.034255099704226061787082821046821_wp/
+      DATA w87b(18)/0.035262412660156681033782717998428_wp/
+      DATA w87b(19)/0.036076989622888701185500318003895_wp/
+      DATA w87b(20)/0.036698604498456094498018047441094_wp/
+      DATA w87b(21)/0.037120549269832576114119958413599_wp/
+      DATA w87b(22)/0.037334228751935040321235449094698_wp/
+      DATA w87b(23)/0.037361073762679023410321241766599_wp/
 !
 !           list of major variables
 !           -----------------------
@@ -8236,15 +8233,15 @@ module quadpack
 !           test on validity of parameters
 !           ------------------------------
 !
-      Result = 0.0D+00
-      Abserr = 0.0D+00
+      Result = 0.0_wp
+      Abserr = 0.0_wp
       Neval = 0
       Ier = 6
-      IF ( Epsabs>0.0D+00 .OR. Epsrel>=max(0.5D+02*epmach,0.5D-28) ) &
+      IF ( Epsabs>0.0_wp .OR. Epsrel>=max(50.0_wp*epmach,0.5e-28_wp) ) &
            THEN
-         hlgth = 0.5D+00*(B-A)
+         hlgth = 0.5_wp*(B-A)
          dhlgth = abs(hlgth)
-         centr = 0.5D+00*(B+A)
+         centr = 0.5_wp*(B+A)
          fcentr = F(centr)
          Neval = 21
          Ier = 1
@@ -8290,7 +8287,7 @@ module quadpack
                Result = res87*hlgth
                Abserr = abs((res87-res43)*hlgth)
             CASE DEFAULT
-               res10 = 0.0D+00
+               res10 = 0.0_wp
                res21 = w21b(6)*fcentr
                resabs = w21b(6)*abs(fcentr)
                DO k = 1 , 5
@@ -8323,22 +8320,22 @@ module quadpack
 !
                Result = res21*hlgth
                resabs = resabs*dhlgth
-               reskh = 0.5D+00*res21
+               reskh = 0.5_wp*res21
                resasc = w21b(6)*abs(fcentr-reskh)
                DO k = 1 , 5
                   resasc = resasc + w21a(k) &
-                         & *(abs(fv1(k)-reskh)+abs(fv2(k)-reskh)) &
-                         & + w21b(k)        &
-                         & *(abs(fv3(k)-reskh)+abs(fv4(k)-reskh))
+                           *(abs(fv1(k)-reskh)+abs(fv2(k)-reskh)) &
+                           + w21b(k)        &
+                           *(abs(fv3(k)-reskh)+abs(fv4(k)-reskh))
                ENDDO
                Abserr = abs((res21-res10)*hlgth)
                resasc = resasc*dhlgth
             END SELECT
-            IF ( resasc/=0.0D+00 .AND. Abserr/=0.0D+00 ) &
-               & Abserr = resasc*DMIN1(0.1D+01,(0.2D+03*Abserr/resasc) &
-               & **1.5D+00)
-            IF ( resabs>uflow/(0.5D+02*epmach) )   &
-               & Abserr = max((epmach*0.5D+02)*resabs,Abserr)
+            IF ( resasc/=0.0_wp .AND. Abserr/=0.0_wp ) &
+                 Abserr = resasc*min(1.0_wp,(0.2D+03*Abserr/resasc) &
+                 **1.5_wp)
+            IF ( resabs>uflow/(50.0_wp*epmach) )   &
+                 Abserr = max((epmach*50.0_wp)*resabs,Abserr)
             IF ( Abserr<=max(Epsabs,Epsrel*abs(Result)) ) Ier = 0
 ! ***jump out of do-loop
             IF ( Ier==0 ) return
@@ -8498,7 +8495,7 @@ module quadpack
       real(wp) C , P2 , P3 , P4 , X
       INTEGER Kp
 
-      DQWGTC = 0.1D+01/(X-C)
+      DQWGTC = 1.0_wp/(X-C)
       END
 !********************************************************************************
 
