@@ -17,6 +17,18 @@ module quadpack
 
     implicit none
 
+    real(wp), dimension(5), parameter :: d1mach = [ tiny(1.0_wp), &
+                                                    huge(1.0_wp), &
+                                                    real(radix(1.0_wp),&
+                                                    kind(1.0_wp))**(-digits(1.0_wp)), &
+                                                    epsilon(1.0_wp), &
+                                                    log10(real(radix(1.0_wp),&
+                                                    kind(1.0_wp))) ] !! machine constants
+
+    real(wp), parameter :: uflow = d1mach(1) !! the smallest positive magnitude.
+    real(wp), parameter :: oflow = d1mach(2) !! the largest positive magnitude.
+    real(wp), parameter :: epmach = d1mach(4) !! the largest relative spacing.
+
     abstract interface
         real(wp) function func(x)
         !! interface for user-supplied function.
@@ -274,8 +286,6 @@ module quadpack
     real(wp) :: area1 , a1 , b1, defab1, error1 !! variable for the left subinterval
     real(wp) :: area2 , a2 , b2 , defab2, error2 !! variable for the right subinterval
     real(wp) :: area !! sum of the integrals over the subintervals
-    real(wp) :: epmach !! the largest relative spacing.
-    real(wp) :: uflow !! the smallest positive magnitude.
     real(wp) :: area12 !! area1 + area2
     real(wp) :: erro12 !! error1 + error2
     real(wp) :: errsum !! sum of the errors over the subintervals
@@ -285,9 +295,6 @@ module quadpack
     real(wp) :: defabs
     integer :: maxerr !! pointer to the interval with largest error estimate
     integer :: iroff1 , iroff2 , k , keyf , nrmax
-
-      epmach = d1mach(4)
-      uflow = d1mach(1)
 
     ! test on validity of parameters
 
@@ -794,11 +801,11 @@ module quadpack
       real(wp) abseps , Abserr , Alist , area , area1 , area12 ,&
                        area2 , a1 , a2 , Blist , boun , Bound , b1 , &
                        b2 , correc , defabs , defab1 , defab2 , &
-                       dres , Elist , epmach , Epsabs ,&
+                       dres , Elist , Epsabs ,&
                        Epsrel , erlarg , erlast , errbnd , errmax , &
                        error1 , error2 , erro12 , errsum , ertest , &
-                       oflow , resabs , reseps , Result , res3la , &
-                       Rlist , rlist2 , small , uflow
+                       resabs , reseps , Result , res3la , &
+                       Rlist , rlist2 , small
       integer id , Ier , ierro , Inf , Iord , iroff1 , iroff2 , iroff3 ,&
               jupbnd , k , ksgn , ktmin , Last , Limit , maxerr , &
               Neval , nres , nrmax , numrl2
@@ -854,20 +861,9 @@ module quadpack
 !                       try to decrease the value of erlarg.
 !           noext     - logical variable denoting that extrapolation
 !                       is no longer allowed (true-value)
-!
-!            machine dependent constants
-!            ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!           oflow is the largest positive magnitude.
-!
 
-      epmach = d1mach(4)
-!
 !           test on validity of parameters
 !           -----------------------------
-!
       Ier = 0
       Neval = 0
       Last = 0
@@ -912,8 +908,6 @@ module quadpack
 !           initialization
 !           --------------
 !
-      uflow = d1mach(1)
-      oflow = d1mach(2)
       rlist2(1) = Result
       errmax = Abserr
       maxerr = 1
@@ -1529,12 +1523,12 @@ module quadpack
       real(wp) a , abseps , Abserr , Alist , area , area1 , &
                        area12 , area2 , a1 , a2 , b , Blist , b1 , b2 , &
                        correc , defabs , defab1 , defab2 , &
-                       min , dres , Elist , epmach , &
+                       min , dres , Elist , &
                        Epsabs , Epsrel , erlarg , erlast , errbnd , &
                        errmax , error1 , erro12 , error2 , errsum , &
-                       ertest , oflow , Points , Pts , resa , &
+                       ertest , Points , Pts , resa , &
                        resabs , reseps , Result , res3la , Rlist , &
-                       rlist2 , sign , temp , uflow
+                       rlist2 , sign , temp
       integer i , id , Ier , ierro , ind1 , ind2 , Iord , ip1 , iroff1 ,&
               iroff2 , iroff3 , j , jlow , jupbnd , k , ksgn , ktmin , &
               Last , levcur , Level , levmax , Limit , maxerr , Ndin , &
@@ -1592,17 +1586,7 @@ module quadpack
 !                       try to decrease the value of erlarg.
 !           noext     - logical variable denoting that extrapolation is
 !                       no longer allowed (true-value)
-!
-!            machine dependent constants
-!            ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!           oflow is the largest positive magnitude.
-!
 
-      epmach = d1mach(4)
-!
 !            test on validity of parameters
 !            -----------------------------
 !
@@ -1733,8 +1717,6 @@ module quadpack
       iroff2 = 0
       iroff3 = 0
       ierro = 0
-      uflow = d1mach(1)
-      oflow = d1mach(2)
       Abserr = oflow
       ksgn = -1
       if ( dres>=(1.0_wp-50.0_wp*epmach)*resabs ) ksgn = 1
@@ -2255,11 +2237,11 @@ module quadpack
       real(wp) a , abseps , Abserr , Alist , area , area1 , &
                        area12 , area2 , a1 , a2 , b , Blist , b1 , b2 , &
                        correc , defabs , defab1 , defab2 , &
-                       dres , Elist , epmach , Epsabs ,&
+                       dres , Elist , Epsabs ,&
                        Epsrel , erlarg , erlast , errbnd , errmax , &
                        error1 , error2 , erro12 , errsum , ertest , &
-                       oflow , resabs , reseps , Result , res3la , &
-                       Rlist , rlist2 , small , uflow
+                       resabs , reseps , Result , res3la , &
+                       Rlist , rlist2 , small
       integer id , Ier , ierro , Iord , iroff1 , iroff2 , iroff3 , &
               jupbnd , k , ksgn , ktmin , Last , Limit , maxerr , &
               Neval , nres , nrmax , numrl2
@@ -2315,17 +2297,8 @@ module quadpack
 !                       decrease the value of erlarg.
 !           noext     - logical variable denoting that extrapolation
 !                       is no longer allowed (true value)
-!
-!            machine dependent constants
-!            ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!           oflow is the largest positive magnitude.
-!
 
-      epmach = d1mach(4)
-!
+
 !            test on validity of parameters
 !            ------------------------------
       Ier = 0
@@ -2343,9 +2316,6 @@ module quadpack
 !
 !           first approximation to the integral
 !           -----------------------------------
-!
-         uflow = d1mach(1)
-         oflow = d1mach(2)
          ierro = 0
          call dqk21(f,a,b,Result,Abserr,defabs,resabs)
 !
@@ -2889,9 +2859,9 @@ module quadpack
 
       real(wp) a , aa , Abserr , Alist , area , area1 , area12 ,&
                        area2 , a1 , a2 , b , bb , Blist , b1 , b2 , c , &
-                       abs , Elist , epmach , Epsabs ,&
+                       abs , Elist , Epsabs ,&
                        Epsrel , errbnd , errmax , error1 , erro12 , &
-                       error2 , errsum , Result , Rlist , uflow
+                       error2 , errsum , Result , Rlist
       integer Ier , Iord , iroff1 , iroff2 , k , krule , Last , Limit , &
               maxerr , nev , Neval , nrmax
 !
@@ -2921,16 +2891,7 @@ module quadpack
 !           *****2    - variable for the right subinterval
 !           last      - index for subdivision
 !
-!
-!            machine dependent constants
-!            ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
 !
 !
 !           test on validity of parameters
@@ -3515,7 +3476,7 @@ module quadpack
                        drl , Elist , Erlst , ep , eps ,&
                        epsa , Epsabs , errsum , fact , Omega , &
                        p1 , psum , reseps , Result , res3la , &
-                       Rlist , Rslst , uflow
+                       Rlist , Rslst
       integer Ier , Ierlst , Integr , Iord , ktmin , l , last , Lst , &
               Limit , Limlst , ll , Maxp1 , momcom , nev , Neval , &
               Nnlog , nres , numrl2
@@ -3583,7 +3544,6 @@ module quadpack
             c1 = a
             c2 = cycle + a
             p1 = 1.0_wp - p
-            uflow = d1mach(1)
             eps = Epsabs
             if ( Epsabs>uflow/p1 ) eps = Epsabs*p1
             ep = eps
@@ -4119,11 +4079,11 @@ module quadpack
                        area12 , area2 , a1 , a2 , b , Blist , b1 , b2 , &
                        Chebmo , correc , defab1 , defab2 , &
                        defabs , domega , dres , Elist ,&
-                       epmach , Epsabs , Epsrel , erlarg , erlast , &
+                       Epsabs , Epsrel , erlarg , erlast , &
                        errbnd , errmax , error1 , erro12 , error2 , &
-                       errsum , ertest , oflow , Omega , resabs , &
+                       errsum , ertest , Omega , resabs , &
                        reseps , Result , res3la , Rlist , rlist2 , &
-                       small , uflow , width
+                       small , width
       integer Icall , id , Ier , ierro , Integr , Iord , iroff1 , &
               iroff2 , iroff3 , jupbnd , k , ksgn , ktmin , Last , &
               Limit , maxerr , Maxp1 , Momcom , nev , Neval , Nnlog , &
@@ -4180,16 +4140,7 @@ module quadpack
 !           noext     - logical variable denoting that extrapolation
 !                       is no longer allowed (true  value)
 !
-!            machine dependent constants
-!            ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!           oflow is the largest positive magnitude.
-!
 
-      epmach = d1mach(4)
-!
 !         test on validity of parameters
 !         ------------------------------
 !
@@ -4236,8 +4187,6 @@ module quadpack
 !           initializations
 !           ---------------
 !
-            uflow = d1mach(1)
-            oflow = d1mach(2)
             errmax = Abserr
             maxerr = 1
             area = Result
@@ -4636,10 +4585,10 @@ module quadpack
       real(wp) a , Abserr , Alfa , Alist , area , area1 , &
                        area12 , area2 , a1 , a2 , b , Beta , Blist , &
                        b1 , b2 , centre , &
-                       Elist , epmach , Epsabs , Epsrel , errbnd , &
+                       Elist , Epsabs , Epsrel , errbnd , &
                        errmax , error1 , erro12 , error2 , errsum , &
                        resas1 , resas2 , Result , rg , rh , ri , rj , &
-                       Rlist , uflow
+                       Rlist
       integer Ier , Integr , Iord , iroff1 , iroff2 , k , Last , Limit ,&
               maxerr , nev , Neval , nrmax
 !
@@ -4669,18 +4618,9 @@ module quadpack
 !           *****1    - variable for the left subinterval
 !           *****2    - variable for the right subinterval
 !           last      - index for subdivision
-!
-!
-!            machine dependent constants
-!            ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
-!
+
+
 !           test on validity of parameters
 !           ------------------------------
 !
@@ -5109,7 +5049,7 @@ module quadpack
                        b , centr , Chebmo , cheb12 , cheb24 , conc , &
                        cons , cospar , d ,&
                        d1 , d2 , estc , ests , fval , &
-                       hlgth , oflow , Omega , parint , par2 , par22 , &
+                       hlgth  , Omega , parint , par2 , par22 , &
                        p2 , p3 , p4 , Resabs , Resasc , resc12 , &
                        resc24 , ress12 , ress24 , Result , sinpar , v , &
                        x
@@ -5159,13 +5099,7 @@ module quadpack
 !           ress24 - the analogue of resc24 for the sine
 !
 !
-!           machine dependent constant
-!           --------------------------
-!
-!           oflow is the largest positive magnitude.
-!
 
-      oflow = d1mach(2)
 !
       centr = 0.5_wp*(b+a)
       hlgth = 0.5_wp*(b-a)
@@ -5286,7 +5220,7 @@ module quadpack
 !           value problem with 1 initial value (v(2)) and 1 end value
 !           (computed using an asymptotic formula).
 !
-               an = 0.5d+01
+               an = 5.0_wp
                do k = 1 , noeq1
                   an2 = an*an
                   d(k) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
@@ -5914,9 +5848,9 @@ module quadpack
       implicit none
 
       real(wp) Abserr , delta1 , delta2 , delta3 , &
-                       epmach , epsinf , Epstab , &
+                       epsinf , Epstab , &
                        error , err1 , err2 , err3 , e0 , e1 , e1abs , &
-                       e2 , e3 , oflow , res , Result , Res3la , ss , &
+                       e2 , e3 , res , Result , Res3la , ss , &
                        tol1 , tol2 , tol3
       integer i , ib , ib2 , ie , indx , k1 , k2 , k3 , limexp , n , &
               newelm , Nres , num
@@ -5940,15 +5874,12 @@ module quadpack
 !           machine dependent constants
 !           ---------------------------
 !
-!           epmach is the largest relative spacing.
-!           oflow is the largest positive magnitude.
 !           limexp is the maximum number of elements the epsilon
 !           table can contain. if this number is reached, the upper
 !           diagonal of the epsilon table is deleted.
 !
 
-      epmach = d1mach(4)
-      oflow = d1mach(2)
+
       Nres = Nres + 1
       Abserr = oflow
       Result = Epstab(n)
@@ -6056,7 +5987,7 @@ module quadpack
             Abserr = oflow
          endif
       endif
- 200  Abserr = max(Abserr,0.5d+01*epmach*abs(Result))
+ 200  Abserr = max(Abserr,5.0_wp*epmach*abs(Result))
 
       end subroutine dqelg
 !********************************************************************************
@@ -6112,9 +6043,9 @@ module quadpack
       implicit none
 
       real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , epmach , fc , fsum ,&
+                       min , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , uflow , &
+                       Resasc , resg , resk , reskh , Result , &
                        wg , wgk , xgk
       integer j , jtw , jtwm1
       procedure(func) :: f
@@ -6175,17 +6106,8 @@ module quadpack
 !           resk   - result of the 15-point kronrod formula
 !           reskh  - approximation to the mean value of f over (a,b),
 !                    i.e. to i/(b-a)
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
-!
+
       centr = 0.5_wp*(a+b)
       hlgth = 0.5_wp*(b-a)
       dhlgth = abs(hlgth)
@@ -6308,9 +6230,9 @@ module quadpack
 
       real(wp) a , absc , absc1 , absc2 , Abserr , b , Boun , &
                        centr , dinf , min , &
-                       epmach , fc , fsum , fval1 , fval2 , fv1 , &
+                       fc , fsum , fval1 , fval2 , fv1 , &
                        fv2 , hlgth , Resabs , Resasc , resg , resk , &
-                       reskh , Result , tabsc1 , tabsc2 , uflow , wg , &
+                       reskh , Result , tabsc1 , tabsc2 , wg , &
                        wgk , xgk
       integer Inf , j
       procedure(func) :: f
@@ -6373,17 +6295,9 @@ module quadpack
 !           resk   - result of the 15-point kronrod formula
 !           reskh  - approximation to the mean value of the transformed
 !                    integrand over (a,b), i.e. to i/(b-a)
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
-      dinf = min0(1,Inf)
+
+      dinf = min(1,Inf)
 !
       centr = 0.5_wp*(a+b)
       hlgth = 0.5_wp*(b-a)
@@ -6406,8 +6320,10 @@ module quadpack
          tabsc2 = Boun + dinf*(1.0_wp-absc2)/absc2
          fval1 = f(tabsc1)
          fval2 = f(tabsc2)
-         if ( Inf==2 ) fval1 = fval1 + f(-tabsc1)
-         if ( Inf==2 ) fval2 = fval2 + f(-tabsc2)
+         if ( Inf==2 ) then
+            fval1 = fval1 + f(-tabsc1)
+            fval2 = fval2 + f(-tabsc2)
+         end if
          fval1 = (fval1/absc1)/absc1
          fval2 = (fval2/absc2)/absc2
          fv1(j) = fval1
@@ -6497,10 +6413,10 @@ module quadpack
       implicit none
 
       real(wp) a , absc , absc1 , absc2 , Abserr , b , centr , &
-                       abs , dhlgth , min , epmach ,&
+                       abs , dhlgth , min ,&
                        fc , fsum , fval1 , fval2 , fv1 , fv2 , &
                        hlgth , p1 , p2 , p3 , p4 , Resabs , Resasc , &
-                       resg , resk , reskh , Result , uflow , w , wg , &
+                       resg , resk , reskh , Result , w , wg , &
                        wgk , xgk
       integer j , jtw , jtwm1 , Kp
       procedure(func) :: f
@@ -6550,17 +6466,7 @@ module quadpack
 !           resk   - result of the 15-point kronrod formula
 !           reskh  - approximation to the mean value of f*w over (a,b),
 !                    i.e. to i/(b-a)
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
-!
       centr = 0.5_wp*(a+b)
       hlgth = 0.5_wp*(b-a)
       dhlgth = abs(hlgth)
@@ -6667,9 +6573,9 @@ module quadpack
       implicit none
 
       real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , epmach , fc , fsum ,&
+                       min , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , uflow , &
+                       Resasc , resg , resk , reskh , Result , &
                        wg , wgk , xgk
       integer j , jtw , jtwm1
       procedure(func) :: f
@@ -6737,18 +6643,7 @@ module quadpack
 !           resk   - result of the 21-point kronrod formula
 !           reskh  - approximation to the mean value of f over (a,b),
 !                    i.e. to i/(b-a)
-!
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
-!
       centr = 0.5_wp*(a+b)
       hlgth = 0.5_wp*(b-a)
       dhlgth = abs(hlgth)
@@ -6852,9 +6747,9 @@ module quadpack
       implicit none
 
       real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , epmach , fc , fsum ,&
+                       min , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , uflow , &
+                       Resasc , resg , resk , reskh , Result , &
                        wg , wgk , xgk
       integer j , jtw , jtwm1
       procedure(func) :: f
@@ -6934,15 +6829,7 @@ module quadpack
 !           resk   - result of the 31-point kronrod formula
 !           reskh  - approximation to the mean value of f over (a,b),
 !                    i.e. to i/(b-a)
-!
-!           machine dependent constants
-!           ---------------------------
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
-!
       centr = 0.5_wp*(a+b)
       hlgth = 0.5_wp*(b-a)
       dhlgth = abs(hlgth)
@@ -7046,9 +6933,9 @@ module quadpack
       implicit none
 
       real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , epmach , fc , fsum ,&
+                       min , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , uflow , &
+                       Resasc , resg , resk , reskh , Result , &
                        wg , wgk , xgk
       integer j , jtw , jtwm1
       procedure(func) :: f
@@ -7141,17 +7028,7 @@ module quadpack
 !           resk   - result of the 41-point kronrod formula
 !           reskh  - approximation to mean value of f over (a,b), i.e.
 !                    to i/(b-a)
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
-!
       centr = 0.5_wp*(a+b)
       hlgth = 0.5_wp*(b-a)
       dhlgth = abs(hlgth)
@@ -7256,9 +7133,9 @@ module quadpack
       implicit none
 
       real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , epmach , fc , fsum ,&
+                       min , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , uflow , &
+                       Resasc , resg , resk , reskh , Result , &
                        wg , wgk , xgk
       integer j , jtw , jtwm1
       procedure(func) :: f
@@ -7365,17 +7242,7 @@ module quadpack
 !           resk   - result of the 51-point kronrod formula
 !           reskh  - approximation to the mean value of f over (a,b),
 !                    i.e. to i/(b-a)
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
-!
       centr = 0.5_wp*(a+b)
       hlgth = 0.5_wp*(b-a)
       dhlgth = abs(hlgth)
@@ -7476,9 +7343,9 @@ module quadpack
       implicit none
 
       real(wp) a , dabsc , Abserr , b , centr , dhlgth , &
-                       min , epmach , fc , fsum ,&
+                       min , fc , fsum ,&
                        fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , uflow , &
+                       Resasc , resg , resk , reskh , Result , &
                        wg , wgk , xgk
       integer j , jtw , jtwm1
       procedure(func) :: f
@@ -7595,16 +7462,7 @@ module quadpack
 !           resk   - result of the 61-point kronrod rule
 !           reskh  - approximation to the mean value of f
 !                    over (a,b), i.e. to i/(b-a)
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
-      epmach = d1mach(4)
-      uflow = d1mach(1)
-!
+
       centr = 0.5_wp*(b+a)
       hlgth = 0.5_wp*(b-a)
       dhlgth = abs(hlgth)
@@ -7858,11 +7716,11 @@ module quadpack
       implicit none
 
       real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , epmach , Epsabs , &
+                       min , Epsabs , &
                        Epsrel , fcentr , fval , fval1 , fval2 , &
                        fv1 , fv2 , fv3 , fv4 , hlgth , Result , res10 , &
                        res21 , res43 , res87 , resabs , resasc , reskh ,&
-                       savfun , uflow , w10 , w21a , w21b , w43a , &
+                       savfun , w10 , w21a , w21b , w43a , &
                        w43b , w87a , w87b , x1 , x2 , x3 , x4
       integer Ier , ipx , k , l , Neval
       procedure(func) :: f
@@ -8038,16 +7896,7 @@ module quadpack
 !           res87  - 87-point result
 !           resabs - approximation to the integral of abs(f)
 !           resasc - approximation to the integral of abs(f-i/(b-a))
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           epmach is the largest relative spacing.
-!           uflow is the smallest positive magnitude.
-!
 
-      epmach = d1mach(4)
-      uflow = d1mach(1)
 !
 !           test on validity of parameters
 !           ------------------------------
@@ -8488,43 +8337,6 @@ module quadpack
     end if
 
     end subroutine dgtsl
-!********************************************************************************
-
-!********************************************************************************
-!>
-!  Modernized D1MACH machine constants.
-!
-!  Replaces the old one by using intrinsic functions.
-!
-!  The traditional D1MACH constants are:
-!
-!   * `D1MACH( 1) = B**(EMIN-1)`, THE SMALLEST POSITIVE MAGNITUDE.
-!   * `D1MACH( 2) = B**EMAX*(1 - B**(-T))`, THE LARGEST MAGNITUDE.
-!   * `D1MACH( 3) = B**(-T)`, THE SMALLEST RELATIVE SPACING.
-!   * `D1MACH( 4) = B**(1-T)`, THE LARGEST RELATIVE SPACING.
-!   * `D1MACH( 5) = LOG10(B)`
-
-    function d1mach(i)
-    implicit none
-
-    integer,intent(in) :: i
-    real(wp) :: d1mach
-
-    real(wp), dimension(5), parameter :: d1mach_values = [ tiny(1.0_wp), &
-                                                           huge(1.0_wp), &
-                                                           real(radix(1.0_wp),&
-                                                           kind(1.0_wp))**(-digits(1.0_wp)), &
-                                                           epsilon(1.0_wp), &
-                                                           log10(real(radix(1.0_wp),&
-                                                           kind(1.0_wp))) ]
-
-    if (i<1 .or. i>5) then
-        write (*,'(1x,''d1mach(i) - i out of bounds, i ='',i10)') i
-        error stop ' d1mach(i) - i out of bounds'
-    end if
-    d1mach = d1mach_values(i)
-
-    end function d1mach
 !********************************************************************************
 
 !********************************************************************************
