@@ -1,5 +1,5 @@
 program test_qag
-    use quadpack
+use quadpack
 implicit none
 
 double precision a,abserr,b,epsabs,epsrel,result,work
@@ -9,12 +9,12 @@ dimension iwork(100),work(400)
 a = 0.0d0
 b = 1.0d0
 epsabs = 0.0d0
-epsrel = 1.0d-3
+epsrel = 1.0d-9
 key = 6
 limit = 100
 lenw = limit*4
 call dqag(f,a,b,epsabs,epsrel,key,result,abserr,neval,&
-         ier,limit,lenw,last,iwork,work)
+          ier,limit,lenw,last,iwork,work)
 
 write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqag: result, error = ', result, result - 2.0d0/sqrt(3.0d0)
 
