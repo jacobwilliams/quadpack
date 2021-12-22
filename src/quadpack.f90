@@ -19,32 +19,32 @@
 
 module quadpack
 
-    use iso_fortran_env, only: wp => real64
+   use iso_fortran_env, only: wp => real64
 
-    implicit none
+   implicit none
 
-    real(wp), dimension(5), parameter :: d1mach = [ tiny(1.0_wp), &
-                                                    huge(1.0_wp), &
-                                                    real(radix(1.0_wp),&
-                                                    kind(1.0_wp))**(-digits(1.0_wp)), &
-                                                    epsilon(1.0_wp), &
-                                                    log10(real(radix(1.0_wp),&
-                                                    kind(1.0_wp))) ] !! machine constants
+   real(wp), dimension(5), parameter :: d1mach = [tiny(1.0_wp), &
+                                                  huge(1.0_wp), &
+                                                  real(radix(1.0_wp), &
+                                                  kind(1.0_wp))**(-digits(1.0_wp)), &
+                                                  epsilon(1.0_wp), &
+                                                  log10(real(radix(1.0_wp), &
+                                                  kind(1.0_wp)))] !! machine constants
 
-    real(wp), parameter :: uflow = d1mach(1) !! the smallest positive magnitude.
-    real(wp), parameter :: oflow = d1mach(2) !! the largest positive magnitude.
-    real(wp), parameter :: epmach = d1mach(4) !! the largest relative spacing.
+   real(wp), parameter :: uflow = d1mach(1) !! the smallest positive magnitude.
+   real(wp), parameter :: oflow = d1mach(2) !! the largest positive magnitude.
+   real(wp), parameter :: epmach = d1mach(4) !! the largest relative spacing.
 
-    abstract interface
-        real(wp) function func(x)
+   abstract interface
+      real(wp) function func(x)
         !! interface for user-supplied function.
-        import :: wp
-        implicit none
-        real(wp),intent(in) :: x
-        end function func
-    end interface
+         import :: wp
+         implicit none
+         real(wp), intent(in) :: x
+      end function func
+   end interface
 
-    contains
+contains
 !********************************************************************************
 
 !********************************************************************************
@@ -59,27 +59,27 @@ module quadpack
 !    de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-      subroutine dqag(f,a,b,Epsabs,Epsrel,Key,Result,Abserr,Neval,Ier, &
-                      Limit,Lenw,Last,Iwork,Work)
+   subroutine dqag(f, a, b, Epsabs, Epsrel, Key, Result, Abserr, Neval, Ier, &
+                   Limit, Lenw, Last, Iwork, Work)
 
       implicit none
 
       procedure(func) :: f !! function subprogam defining the integrand function f(x).
-      real(wp),intent(in) :: a !! lower limit of integration
-      real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+      real(wp), intent(in) :: a !! lower limit of integration
+      real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
                                      !! which should equal or exceed abs(i-result)
-      real(wp),intent(in) :: b !! upper limit of integration
-      real(wp),intent(in) :: Epsabs !! absolute accoracy requested
-      real(wp),intent(in) :: Epsrel !! relative accuracy requested
+      real(wp), intent(in) :: b !! upper limit of integration
+      real(wp), intent(in) :: Epsabs !! absolute accoracy requested
+      real(wp), intent(in) :: Epsrel !! relative accuracy requested
                                     !! if epsabs<=0
                                     !! and epsrel<max(50*rel.mach.acc.,0.5e-28),
                                     !! the routine will end with ier = 6.
-      real(wp),intent(out) :: Result !! approximation to the integral
-      integer,intent(in) :: Lenw !! dimensioning parameter for work
+      real(wp), intent(out) :: Result !! approximation to the integral
+      integer, intent(in) :: Lenw !! dimensioning parameter for work
                                  !! lenw must be at least limit*4.
                                  !! if lenw<limit*4, the routine will end with
                                  !! ier = 6.
-      integer,intent(in) :: Limit !! dimensioning parameter for iwork
+      integer, intent(in) :: Limit !! dimensioning parameter for iwork
                                   !! limit determines the maximum number of subintervals
                                   !! in the partition of the given integration interval
                                   !! (a,b), limit>=1.
@@ -101,7 +101,7 @@ module quadpack
                               !! work(limit*3+iwork(1)),... , work(limit*3+iwork(k))
                               !! form a decreasing sequence with k = last if
                               !! last<=(limit/2+2), and k = limit+1-last otherwise
-      integer,intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
+      integer, intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
                                  !!         routine. it is assumed that the requested
                                  !!         accuracy has been achieved.
                                  !! * ier>0 abnormal termination of the routine
@@ -144,7 +144,7 @@ module quadpack
                                  !!         work(limit*2+1) and work(limit*3+1) are
                                  !!         set to zero, work(1) is set to a and
                                  !!         work(limit+1) to b.
-      integer,intent(in) :: Key !! key for choice of local integration rule.
+      integer, intent(in) :: Key !! key for choice of local integration rule.
                                 !! a gauss-kronrod pair is used with:
                                 !!
                                 !!  *  7 - 15 points if key<2,
@@ -153,39 +153,39 @@ module quadpack
                                 !!  * 20 - 41 points if key = 4,
                                 !!  * 25 - 51 points if key = 5,
                                 !!  * 30 - 61 points if key>5.
-      integer,intent(out) :: Last !! on return, last equals the number of subintervals
+      integer, intent(out) :: Last !! on return, last equals the number of subintervals
                                   !! produced in the subdiviosion process, which
                                   !! determines the number of significant elements
                                   !! actually in the work arrays.
-      integer,intent(out) :: Neval !! number of integrand evaluations
+      integer, intent(out) :: Neval !! number of integrand evaluations
 
-      integer :: lvl , l1 , l2 , l3
+      integer :: lvl, l1, l2, l3
 
-    ! check validity of lenw.
+      ! check validity of lenw.
       Ier = 6
       Neval = 0
       Last = 0
       Result = 0.0_wp
       Abserr = 0.0_wp
-      if ( Limit>=1 .and. Lenw>=Limit*4 ) then
+      if (Limit >= 1 .and. Lenw >= Limit*4) then
 
-        ! prepare call for dqage.
+         ! prepare call for dqage.
 
          l1 = Limit + 1
          l2 = Limit + l1
          l3 = Limit + l2
 
-         call dqage(f,a,b,Epsabs,Epsrel,Key,Limit,Result,Abserr,Neval, &
-                    Ier,Work(1),Work(l1),Work(l2),Work(l3),Iwork,Last)
+         call dqage(f, a, b, Epsabs, Epsrel, Key, Limit, Result, Abserr, Neval, &
+                    Ier, Work(1), Work(l1), Work(l2), Work(l3), Iwork, Last)
 
-        ! call error handler if necessary.
+         ! call error handler if necessary.
 
          lvl = 0
-      endif
-      if ( Ier==6 ) lvl = 1
-      if ( Ier/=0 ) call xerror('abnormal return from dqag ',26,Ier,lvl)
+      end if
+      if (Ier == 6) lvl = 1
+      if (Ier /= 0) call xerror('abnormal return from dqag ', 26, Ier, lvl)
 
-      end subroutine dqag
+   end subroutine dqag
 !********************************************************************************
 
 !********************************************************************************
@@ -198,19 +198,19 @@ module quadpack
 !### History
 !  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-    subroutine dqage(f,a,b,Epsabs,Epsrel,Key,Limit,Result,Abserr, &
-                     Neval,Ier,Alist,Blist,Rlist,Elist,Iord,Last)
-    implicit none
+   subroutine dqage(f, a, b, Epsabs, Epsrel, Key, Limit, Result, Abserr, &
+                    Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)
+      implicit none
 
-    procedure(func) :: f !! function subprogram defining the integrand function f(x).
-    real(wp),intent(in) :: a !! lower limit of integration
-    real(wp),intent(in) :: b !! uppwer limit of integration
-    real(wp),intent(in) :: Epsabs !! absolute accuracy requested
-    real(wp),intent(in) :: Epsrel !! relative accuracy requested
+      procedure(func) :: f !! function subprogram defining the integrand function f(x).
+      real(wp), intent(in) :: a !! lower limit of integration
+      real(wp), intent(in) :: b !! uppwer limit of integration
+      real(wp), intent(in) :: Epsabs !! absolute accuracy requested
+      real(wp), intent(in) :: Epsrel !! relative accuracy requested
                                   !! if  epsabs<=0
                                   !! and epsrel<max(50*rel.mach.acc.,0.5e-28),
                                   !! the routine will end with ier = 6.
-    integer,intent(in) :: Key !! key for choice of local integration rule
+      integer, intent(in) :: Key !! key for choice of local integration rule
                               !!  a gauss-kronrod pair is used with
                               !!
                               !!  * 7 - 15 points if key<2,
@@ -219,13 +219,13 @@ module quadpack
                               !!  * 20 - 41 points if key = 4,
                               !!  * 25 - 51 points if key = 5,
                               !!  * 30 - 61 points if key>5.
-    integer,intent(in) :: Limit !! gives an upperbound on the number of subintervals
+      integer, intent(in) :: Limit !! gives an upperbound on the number of subintervals
                                 !! in the partition of (a,b), limit>=1.
-    real(wp),intent(out) :: Result !! approximation to the integral
-    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+      real(wp), intent(out) :: Result !! approximation to the integral
+      real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
                                    !! which should equal or exceed abs(i-result)
-    integer,intent(out) :: Neval !! number of integrand evaluations
-    integer,intent(out) :: Ier !!  * ier = 0 normal and reliable termination of the
+      integer, intent(out) :: Neval !! number of integrand evaluations
+      integer, intent(out) :: Ier !!  * ier = 0 normal and reliable termination of the
                                !!    routine. it is assumed that the requested
                                !!    accuracy has been achieved.
                                !!  * ier>0 abnormal termination of the routine
@@ -265,44 +265,44 @@ module quadpack
                                !!          elist(1) and iord(1) are set to zero.
                                !!          alist(1) and blist(1) are set to a and b
                                !!          respectively.
-    real(wp),intent(out) :: Alist(Limit) !! vector of dimension at least limit, the first
+      real(wp), intent(out) :: Alist(Limit) !! vector of dimension at least limit, the first
                                          !! `last` elements of which are the left
                                          !! end points of the subintervals in the partition
                                          !! of the given integration range (a,b)
-    real(wp),intent(out) :: Blist(Limit) !! vector of dimension at least limit, the first
+      real(wp), intent(out) :: Blist(Limit) !! vector of dimension at least limit, the first
                                          !! `last` elements of which are the right
                                          !! end points of the subintervals in the partition
                                          !! of the given integration range (a,b)
-    real(wp),intent(out) :: Elist(Limit) !! vector of dimension at least limit, the first
+      real(wp), intent(out) :: Elist(Limit) !! vector of dimension at least limit, the first
                                          !! `last` elements of which are the moduli of the
                                          !! absolute error estimates on the subintervals
-    real(wp),intent(out) :: Rlist(Limit) !! vector of dimension at least limit, the first
+      real(wp), intent(out) :: Rlist(Limit) !! vector of dimension at least limit, the first
                                          !! `last` elements of which are the
                                          !! integral approximations on the subintervals
-    integer,intent(out) :: Iord(Limit) !! vector of dimension at least limit, the first k
+      integer, intent(out) :: Iord(Limit) !! vector of dimension at least limit, the first k
                                        !! elements of which are pointers to the
                                        !! error estimates over the subintervals,
                                        !! such that elist(iord(1)), ...,
                                        !! elist(iord(k)) form a decreasing sequence,
                                        !! with k = last if last<=(limit/2+2), and
                                        !! k = limit+1-last otherwise
-    integer,intent(out) :: Last !! number of subintervals actually produced in the
+      integer, intent(out) :: Last !! number of subintervals actually produced in the
                                 !! subdivision process
 
-    real(wp) :: area1 , a1 , b1, defab1, error1 !! variable for the left subinterval
-    real(wp) :: area2 , a2 , b2 , defab2, error2 !! variable for the right subinterval
-    real(wp) :: area !! sum of the integrals over the subintervals
-    real(wp) :: area12 !! area1 + area2
-    real(wp) :: erro12 !! error1 + error2
-    real(wp) :: errsum !! sum of the errors over the subintervals
-    real(wp) :: errmax !! elist(maxerr)
-    real(wp) :: errbnd !! requested accuracy max(epsabs,epsrel*abs(result))
-    real(wp) :: resabs
-    real(wp) :: defabs
-    integer :: maxerr !! pointer to the interval with largest error estimate
-    integer :: iroff1 , iroff2 , k , keyf , nrmax
+      real(wp) :: area1, a1, b1, defab1, error1 !! variable for the left subinterval
+      real(wp) :: area2, a2, b2, defab2, error2 !! variable for the right subinterval
+      real(wp) :: area !! sum of the integrals over the subintervals
+      real(wp) :: area12 !! area1 + area2
+      real(wp) :: erro12 !! error1 + error2
+      real(wp) :: errsum !! sum of the errors over the subintervals
+      real(wp) :: errmax !! elist(maxerr)
+      real(wp) :: errbnd !! requested accuracy max(epsabs,epsrel*abs(result))
+      real(wp) :: resabs
+      real(wp) :: defabs
+      integer :: maxerr !! pointer to the interval with largest error estimate
+      integer :: iroff1, iroff2, k, keyf, nrmax
 
-    ! test on validity of parameters
+      ! test on validity of parameters
 
       Ier = 0
       Neval = 0
@@ -314,22 +314,22 @@ module quadpack
       Rlist(1) = 0.0_wp
       Elist(1) = 0.0_wp
       Iord(1) = 0
-      if ( Epsabs<=0.0_wp .and. Epsrel<max(50.0_wp*epmach,0.5e-28_wp) ) Ier = 6
-      if ( Ier/=6 ) then
+      if (Epsabs <= 0.0_wp .and. Epsrel < max(50.0_wp*epmach, 0.5e-28_wp)) Ier = 6
+      if (Ier /= 6) then
 
-        ! first approximation to the integral
+         ! first approximation to the integral
 
          keyf = Key
-         if ( Key<=0 ) keyf = 1
-         if ( Key>=7 ) keyf = 6
+         if (Key <= 0) keyf = 1
+         if (Key >= 7) keyf = 6
          Neval = 0
          select case (keyf)
-         case ( 1 ); call dqk15(f,a,b,Result,Abserr,defabs,resabs)
-         case ( 2 ); call dqk21(f,a,b,Result,Abserr,defabs,resabs)
-         case ( 3 ); call dqk31(f,a,b,Result,Abserr,defabs,resabs)
-         case ( 4 ); call dqk41(f,a,b,Result,Abserr,defabs,resabs)
-         case ( 5 ); call dqk51(f,a,b,Result,Abserr,defabs,resabs)
-         case ( 6 ); call dqk61(f,a,b,Result,Abserr,defabs,resabs)
+         case (1); call dqk15(f, a, b, Result, Abserr, defabs, resabs)
+         case (2); call dqk21(f, a, b, Result, Abserr, defabs, resabs)
+         case (3); call dqk31(f, a, b, Result, Abserr, defabs, resabs)
+         case (4); call dqk41(f, a, b, Result, Abserr, defabs, resabs)
+         case (5); call dqk51(f, a, b, Result, Abserr, defabs, resabs)
+         case (6); call dqk61(f, a, b, Result, Abserr, defabs, resabs)
          end select
          Last = 1
          Rlist(1) = Result
@@ -338,12 +338,12 @@ module quadpack
 
          ! test on accuracy.
 
-         errbnd = max(Epsabs,Epsrel*abs(Result))
-         if ( Abserr<=50.0_wp*epmach*defabs .and. Abserr>errbnd ) Ier = 2
-         if ( Limit==1 ) Ier = 1
+         errbnd = max(Epsabs, Epsrel*abs(Result))
+         if (Abserr <= 50.0_wp*epmach*defabs .and. Abserr > errbnd) Ier = 2
+         if (Limit == 1) Ier = 1
 
-         if ( .not.(Ier/=0 .or. (Abserr<=errbnd .and. Abserr/=resabs) &
-              .or. Abserr==0.0_wp) ) then
+         if (.not. (Ier /= 0 .or. (Abserr <= errbnd .and. Abserr /= resabs) &
+                    .or. Abserr == 0.0_wp)) then
 
             ! initialization
             errmax = Abserr
@@ -356,73 +356,73 @@ module quadpack
 
             ! main do-loop
 
-            do Last = 2 , Limit
+            do Last = 2, Limit
 
                ! bisect the subinterval with the largest error estimate.
 
                a1 = Alist(maxerr)
-               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
                a2 = b1
                b2 = Blist(maxerr)
                select case (keyf)
-               case( 1 )
-                call dqk15(f,a1,b1,area1,error1,resabs,defab1)
-                call dqk15(f,a2,b2,area2,error2,resabs,defab2)
-               case( 2 )
-                call dqk21(f,a1,b1,area1,error1,resabs,defab1)
-                call dqk21(f,a2,b2,area2,error2,resabs,defab2)
-               case( 3 )
-                call dqk31(f,a1,b1,area1,error1,resabs,defab1)
-                call dqk31(f,a2,b2,area2,error2,resabs,defab2)
-               case( 4 )
-                call dqk41(f,a1,b1,area1,error1,resabs,defab1)
-                call dqk41(f,a2,b2,area2,error2,resabs,defab2)
-               case( 5 )
-                call dqk51(f,a1,b1,area1,error1,resabs,defab1)
-                call dqk51(f,a2,b2,area2,error2,resabs,defab2)
-               case( 6 )
-                call dqk61(f,a1,b1,area1,error1,resabs,defab1)
-                call dqk61(f,a2,b2,area2,error2,resabs,defab2)
+               case (1)
+                  call dqk15(f, a1, b1, area1, error1, resabs, defab1)
+                  call dqk15(f, a2, b2, area2, error2, resabs, defab2)
+               case (2)
+                  call dqk21(f, a1, b1, area1, error1, resabs, defab1)
+                  call dqk21(f, a2, b2, area2, error2, resabs, defab2)
+               case (3)
+                  call dqk31(f, a1, b1, area1, error1, resabs, defab1)
+                  call dqk31(f, a2, b2, area2, error2, resabs, defab2)
+               case (4)
+                  call dqk41(f, a1, b1, area1, error1, resabs, defab1)
+                  call dqk41(f, a2, b2, area2, error2, resabs, defab2)
+               case (5)
+                  call dqk51(f, a1, b1, area1, error1, resabs, defab1)
+                  call dqk51(f, a2, b2, area2, error2, resabs, defab2)
+               case (6)
+                  call dqk61(f, a1, b1, area1, error1, resabs, defab1)
+                  call dqk61(f, a2, b2, area2, error2, resabs, defab2)
                end select
 
-            ! improve previous approximations to integral
-            ! and error and test for accuracy.
+               ! improve previous approximations to integral
+               ! and error and test for accuracy.
 
                Neval = Neval + 1
                area12 = area1 + area2
                erro12 = error1 + error2
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
-               if ( defab1/=error1 .and. defab2/=error2 ) then
-                  if ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) &
-                       .and. erro12>=0.99_wp*errmax ) iroff1 = iroff1 + 1
-                  if ( Last>10 .and. erro12>errmax ) iroff2 = iroff2 + 1
-               endif
+               if (defab1 /= error1 .and. defab2 /= error2) then
+                  if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) &
+                      .and. erro12 >= 0.99_wp*errmax) iroff1 = iroff1 + 1
+                  if (Last > 10 .and. erro12 > errmax) iroff2 = iroff2 + 1
+               end if
                Rlist(maxerr) = area1
                Rlist(Last) = area2
-               errbnd = max(Epsabs,Epsrel*abs(area))
-               if ( errsum>errbnd ) then
+               errbnd = max(Epsabs, Epsrel*abs(area))
+               if (errsum > errbnd) then
 
                   ! test for roundoff error and eventually set error flag.
 
-                  if ( iroff1>=6 .or. iroff2>=20 ) Ier = 2
+                  if (iroff1 >= 6 .or. iroff2 >= 20) Ier = 2
 
-                ! set error flag in the case that the number of subintervals
-                ! equals limit.
+                  ! set error flag in the case that the number of subintervals
+                  ! equals limit.
 
-                  if ( Last==Limit ) Ier = 1
+                  if (Last == Limit) Ier = 1
 
-                ! set error flag in the case of bad integrand behaviour
-                ! at a point of the integration range.
+                  ! set error flag in the case of bad integrand behaviour
+                  ! at a point of the integration range.
 
-                  if ( max(abs(a1),abs(b2)) &
-                       <=(1.0_wp+100.0_wp*epmach) &
-                       *(abs(a2)+1000.0_wp*uflow) ) Ier = 3
-               endif
+                  if (max(abs(a1), abs(b2)) &
+                      <= (1.0_wp + 100.0_wp*epmach) &
+                      *(abs(a2) + 1000.0_wp*uflow)) Ier = 3
+               end if
 
-                ! append the newly-created intervals to the list.
+               ! append the newly-created intervals to the list.
 
-               if ( error2>error1 ) then
+               if (error2 > error1) then
                   Alist(maxerr) = a2
                   Alist(Last) = a1
                   Blist(Last) = b1
@@ -436,29 +436,29 @@ module quadpack
                   Blist(Last) = b2
                   Elist(maxerr) = error1
                   Elist(Last) = error2
-               endif
+               end if
 
-                ! call subroutine dqpsrt to maintain the descending ordering
-                ! in the list of error estimates and select the subinterval
-                ! with the largest error estimate (to be bisected next).
+               ! call subroutine dqpsrt to maintain the descending ordering
+               ! in the list of error estimates and select the subinterval
+               ! with the largest error estimate (to be bisected next).
 
-               call dqpsrt(Limit,Last,maxerr,errmax,Elist,Iord,nrmax)
-               if ( Ier/=0 .or. errsum<=errbnd ) exit  ! jump out of do-loop
-            enddo
+               call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
+               if (Ier /= 0 .or. errsum <= errbnd) exit  ! jump out of do-loop
+            end do
 
             ! compute final result.
 
             Result = 0.0_wp
-            do k = 1 , Last
+            do k = 1, Last
                Result = Result + Rlist(k)
-            enddo
+            end do
             Abserr = errsum
-         endif
-         if ( keyf/=1 ) Neval = (10*keyf+1)*(2*Neval+1)
-         if ( keyf==1 ) Neval = 30*Neval + 15
-      endif
+         end if
+         if (keyf /= 1) Neval = (10*keyf + 1)*(2*Neval + 1)
+         if (keyf == 1) Neval = 30*Neval + 15
+      end if
 
-      end subroutine dqage
+   end subroutine dqage
 !********************************************************************************
 
 !********************************************************************************
@@ -476,31 +476,31 @@ module quadpack
 !### History
 !  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-    subroutine dqagi(f,Bound,Inf,Epsabs,Epsrel,Result,Abserr,Neval, &
-                     Ier,Limit,Lenw,Last,Iwork,Work)
-    implicit none
+   subroutine dqagi(f, Bound, Inf, Epsabs, Epsrel, Result, Abserr, Neval, &
+                    Ier, Limit, Lenw, Last, Iwork, Work)
+      implicit none
 
-    procedure(func) :: f !! function subprogram defining the integrand function f(x).
-    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+      procedure(func) :: f !! function subprogram defining the integrand function f(x).
+      real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
                                    !! which should equal or exceed abs(i-result)
-    real(wp),intent(in) :: Bound !! finite bound of integration range
+      real(wp), intent(in) :: Bound !! finite bound of integration range
                                  !! (has no meaning if interval is doubly-infinite)
-    real(wp),intent(in) :: Epsabs !! absolute accuracy requested
-    real(wp),intent(in) :: Epsrel !! relative accuracy requested
+      real(wp), intent(in) :: Epsabs !! absolute accuracy requested
+      real(wp), intent(in) :: Epsrel !! relative accuracy requested
                                   !! if  `epsabs<=0`
                                   !! and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
                                   !! the routine will end with ier = 6.
-    real(wp),intent(out) :: Result !! approximation to the integral
-    integer,intent(in) :: Lenw !! dimensioning parameter for work
+      real(wp), intent(out) :: Result !! approximation to the integral
+      integer, intent(in) :: Lenw !! dimensioning parameter for work
                                !! `lenw` must be at least `limit*4`.
                                !! if `lenw<limit*4`, the routine will end
                                !! with ier = 6.
-    integer,intent(in) :: Limit !! dimensioning parameter for iwork
+      integer, intent(in) :: Limit !! dimensioning parameter for iwork
                                 !! limit determines the maximum number of subintervals
                                 !! in the partition of the given integration interval
                                 !! (a,b), `limit>=1`.
                                 !! if `limit<1`, the routine will end with ier = 6.
-    real(wp) :: Work(Lenw) !! vector of dimension at least lenw
+      real(wp) :: Work(Lenw) !! vector of dimension at least lenw
                            !! on return:
                            !! * `work(1), ..., work(last)` contain the left
                            !!   end points of the subintervals in the
@@ -511,7 +511,7 @@ module quadpack
                            !!   integral approximations over the subintervals,
                            !! * `work(limit*3+1), ..., work(limit*3)`
                            !!   contain the error estimates.
-    integer,intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
+      integer, intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
                                !!           routine. it is assumed that the requested
                                !!           accuracy has been achieved.
                                !! * ier>0 abnormal termination of the routine. the
@@ -564,49 +564,49 @@ module quadpack
                                !!         invalid, `iwork(1)`, `work(limit*2+1)` and
                                !!         `work(limit*3+1)` are set to zero, `work(1)`
                                !!         is set to `a` and `work(limit+1)` to `b`.
-    integer,intent(in) :: Inf !! indicating the kind of integration range involved:
+      integer, intent(in) :: Inf !! indicating the kind of integration range involved:
                               !!
                               !! * inf = 1 corresponds to `(bound,+infinity)`
                               !! * inf = -1 corresponds to `(-infinity,bound)`
                               !! * inf = 2 corresponds to `(-infinity,+infinity)`
-    integer :: Iwork(Limit) !! vector of dimension at least limit, the first
+      integer :: Iwork(Limit) !! vector of dimension at least limit, the first
                             !! `k` elements of which contain pointers
                             !! to the error estimates over the subintervals,
                             !! such that `work(limit*3+iwork(1)),...,work(limit*3+iwork(k))`
                             !! form a decreasing sequence, with `k = last`
                             !! if `last<=(limit/2+2)`, and `k = limit+1-last` otherwise
-    integer,intent(out) :: Last !! on return, last equals the number of subintervals
+      integer, intent(out) :: Last !! on return, last equals the number of subintervals
                                 !! produced in the subdivision process, which
                                 !! determines the number of significant elements
                                 !! actually in the work arrays.
-    integer,intent(out) :: Neval !! number of integrand evaluations
+      integer, intent(out) :: Neval !! number of integrand evaluations
 
-    integer :: lvl , l1 , l2 , l3
+      integer :: lvl, l1, l2, l3
 
-    ! check validity of limit and lenw.
-    Ier = 6
-    Neval = 0
-    Last = 0
-    Result = 0.0_wp
-    Abserr = 0.0_wp
-    if ( Limit>=1 .and. Lenw>=Limit*4 ) then
+      ! check validity of limit and lenw.
+      Ier = 6
+      Neval = 0
+      Last = 0
+      Result = 0.0_wp
+      Abserr = 0.0_wp
+      if (Limit >= 1 .and. Lenw >= Limit*4) then
 
-        ! prepare call for dqagie.
-        l1 = Limit + 1
-        l2 = Limit + l1
-        l3 = Limit + l2
+         ! prepare call for dqagie.
+         l1 = Limit + 1
+         l2 = Limit + l1
+         l3 = Limit + l2
 
-        call dqagie(f,Bound,Inf,Epsabs,Epsrel,Limit,Result,Abserr,&
-                    Neval,Ier,Work(1),Work(l1),Work(l2),Work(l3),Iwork,&
-                    Last)
+         call dqagie(f, Bound, Inf, Epsabs, Epsrel, Limit, Result, Abserr, &
+                     Neval, Ier, Work(1), Work(l1), Work(l2), Work(l3), Iwork, &
+                     Last)
 
-        ! call error handler if necessary.
-        lvl = 0
-    endif
-    if ( Ier==6 ) lvl = 1
-    if ( Ier/=0 ) call xerror('abnormal return from dqagi',26,Ier,lvl)
+         ! call error handler if necessary.
+         lvl = 0
+      end if
+      if (Ier == 6) lvl = 1
+      if (Ier /= 0) call xerror('abnormal return from dqagi', 26, Ier, lvl)
 
-    end subroutine dqagi
+   end subroutine dqagi
 !********************************************************************************
 
 !********************************************************************************
@@ -624,38 +624,38 @@ module quadpack
 !### History
 !  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-    subroutine dqagie(f,Bound,Inf,Epsabs,Epsrel,Limit,Result,Abserr, &
-                      Neval,Ier,Alist,Blist,Rlist,Elist,Iord,Last)
+   subroutine dqagie(f, Bound, Inf, Epsabs, Epsrel, Limit, Result, Abserr, &
+                     Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)
       implicit none
 
       procedure(func) :: f !! function subprogram defining the integrand function f(x).
-      integer,intent(in) :: Limit !! gives an upper bound on the number of subintervals
+      integer, intent(in) :: Limit !! gives an upper bound on the number of subintervals
                         !! in the partition of (a,b), limit>=1
-      real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+      real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
                            !! which should equal or exceed abs(i-result)
-      real(wp),intent(out) :: Alist(Limit) !! vector of dimension at least limit, the first
+      real(wp), intent(out) :: Alist(Limit) !! vector of dimension at least limit, the first
                                  !! `last` elements of which are the left
                                  !! end points of the subintervals in the partition
                                  !! of the transformed integration range (0,1).
-      real(wp),intent(out) :: Blist(Limit) !! vector of dimension at least limit, the first
+      real(wp), intent(out) :: Blist(Limit) !! vector of dimension at least limit, the first
                                  !! `last` elements of which are the right
                                  !! end points of the subintervals in the partition
                                  !! of the transformed integration range (0,1).
-      real(wp),intent(out) :: Elist(Limit) !! vector of dimension at least limit,  the first
+      real(wp), intent(out) :: Elist(Limit) !! vector of dimension at least limit,  the first
                                  !! `last` elements of which are the moduli of the
                                  !! absolute error estimates on the subintervals
-      real(wp),intent(out) :: Rlist(Limit) !! vector of dimension at least limit, the first
+      real(wp), intent(out) :: Rlist(Limit) !! vector of dimension at least limit, the first
                                  !! `last` elements of which are the integral
                                  !! approximations on the subintervals
-      real(wp),intent(in) :: Epsabs !! absolute accuracy requested
-      real(wp),intent(in) :: Epsrel !! relative accuracy requested
+      real(wp), intent(in) :: Epsabs !! absolute accuracy requested
+      real(wp), intent(in) :: Epsrel !! relative accuracy requested
                            !! if `epsabs<=0`
                            !! and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
                            !! the routine will end with `ier = 6`.
-      real(wp),intent(out) :: Result !! approximation to the integral
-      real(wp),intent(in) :: Bound !! finite bound of integration range
+      real(wp), intent(out) :: Result !! approximation to the integral
+      real(wp), intent(in) :: Bound !! finite bound of integration range
                         !! (has no meaning if interval is doubly-infinite)
-      integer,intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
+      integer, intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
                         !!   routine. it is assumed that the requested
                         !!   accuracy has been achieved.
                         !! * ier>0 abnormal termination of the routine. the
@@ -705,29 +705,29 @@ module quadpack
                         !!   elist(1) and iord(1) are set to zero.
                         !!   alist(1) and blist(1) are set to 0
                         !!   and 1 respectively.
-      integer,intent(in) :: Inf !! indicating the kind of integration range involved
+      integer, intent(in) :: Inf !! indicating the kind of integration range involved
                      !! * inf = 1  corresponds to `(bound,+infinity)`
                      !! * inf = -1 corresponds to `(-infinity,bound)`
                      !! * inf = 2  corresponds to `(-infinity,+infinity)`
-      integer,intent(out) :: Iord(Limit) !! vector of dimension limit, the first k
+      integer, intent(out) :: Iord(Limit) !! vector of dimension limit, the first k
                               !! elements of which are pointers to the
                               !! error estimates over the subintervals,
                               !! such that elist(iord(1)), ..., elist(iord(k))
                               !! form a decreasing sequence, with k = last
                               !! if last<=(limit/2+2), and k = limit+1-last
                               !! otherwise
-      integer,intent(out) :: Last !! number of subintervals actually produced
+      integer, intent(out) :: Last !! number of subintervals actually produced
                         !! in the subdivision process
-      integer,intent(out) :: Neval !! number of integrand evaluations
+      integer, intent(out) :: Neval !! number of integrand evaluations
 
-      real(wp) :: abseps , boun , correc , defabs , dres , &
-                  ertest , resabs , reseps , res3la(3)
-      real(wp) :: area1 , a1 , b1 , defab1 , error1 !! variable for the left subinterval
-      real(wp) :: area2 , a2 , b2 , defab2 , error2 !! variable for the right subinterval
+      real(wp) :: abseps, boun, correc, defabs, dres, &
+                  ertest, resabs, reseps, res3la(3)
+      real(wp) :: area1, a1, b1, defab1, error1 !! variable for the left subinterval
+      real(wp) :: area2, a2, b2, defab2, error2 !! variable for the right subinterval
       real(wp) :: area12 !! `area1 + area2`
       real(wp) :: erro12 !! `error1 + error2`
-      integer :: id , ierro , iroff1 , iroff2 , iroff3 , &
-                 jupbnd , k , ksgn , ktmin , nrmax
+      integer :: id, ierro, iroff1, iroff2, iroff3, &
+                 jupbnd, k, ksgn, ktmin, nrmax
       real(wp) :: errmax !! `elist(maxerr)`
       real(wp) :: erlast !! error on the interval currently subdivided
                !! (before that subdivision has taken place)
@@ -769,9 +769,9 @@ module quadpack
       Rlist(1) = 0.0_wp
       Elist(1) = 0.0_wp
       Iord(1) = 0
-      if ( Epsabs<=0.0_wp .and. Epsrel<max(50.0_wp*epmach,0.5e-28_wp) ) &
-           Ier = 6
-      if ( Ier==6 ) return
+      if (Epsabs <= 0.0_wp .and. Epsrel < max(50.0_wp*epmach, 0.5e-28_wp)) &
+         Ier = 6
+      if (Ier == 6) return
 
 ! first approximation to the integral
 
@@ -781,8 +781,8 @@ module quadpack
 ! i2 = integral of f over (0,+infinity).
 
       boun = Bound
-      if ( Inf==2 ) boun = 0.0_wp
-      call dqk15i(f,boun,Inf,0.0_wp,1.0_wp,Result,Abserr,defabs, &
+      if (Inf == 2) boun = 0.0_wp
+      call dqk15i(f, boun, Inf, 0.0_wp, 1.0_wp, Result, Abserr, defabs, &
                   resabs)
 
 ! test on accuracy
@@ -792,11 +792,11 @@ module quadpack
       Elist(1) = Abserr
       Iord(1) = 1
       dres = abs(Result)
-      errbnd = max(Epsabs,Epsrel*dres)
-      if ( Abserr<=100.0_wp*epmach*defabs .and. Abserr>errbnd ) Ier = 2
-      if ( Limit==1 ) Ier = 1
-      if ( Ier/=0 .or. (Abserr<=errbnd .and. Abserr/=resabs) .or. &
-           Abserr==0.0_wp ) goto 400
+      errbnd = max(Epsabs, Epsrel*dres)
+      if (Abserr <= 100.0_wp*epmach*defabs .and. Abserr > errbnd) Ier = 2
+      if (Limit == 1) Ier = 1
+      if (Ier /= 0 .or. (Abserr <= errbnd .and. Abserr /= resabs) .or. &
+          Abserr == 0.0_wp) goto 400
 
 ! initialization
 
@@ -817,21 +817,21 @@ module quadpack
       iroff2 = 0
       iroff3 = 0
       ksgn = -1
-      if ( dres>=(1.0_wp-50.0_wp*epmach)*defabs ) ksgn = 1
+      if (dres >= (1.0_wp - 50.0_wp*epmach)*defabs) ksgn = 1
 
 ! main do-loop
 
-      do Last = 2 , Limit
+      do Last = 2, Limit
 
 ! bisect the subinterval with nrmax-th largest error estimate.
 
          a1 = Alist(maxerr)
-         b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
+         b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
          a2 = b1
          b2 = Blist(maxerr)
          erlast = errmax
-         call dqk15i(f,boun,Inf,a1,b1,area1,error1,resabs,defab1)
-         call dqk15i(f,boun,Inf,a2,b2,area2,error2,resabs,defab2)
+         call dqk15i(f, boun, Inf, a1, b1, area1, error1, resabs, defab1)
+         call dqk15i(f, boun, Inf, a2, b2, area2, error2, resabs, defab2)
 
 ! improve previous approximations to integral
 ! and error and test for accuracy.
@@ -840,37 +840,37 @@ module quadpack
          erro12 = error1 + error2
          errsum = errsum + erro12 - errmax
          area = area + area12 - Rlist(maxerr)
-         if ( defab1/=error1 .and. defab2/=error2 ) then
-            if ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) .and. &
-                 erro12>=0.99_wp*errmax ) then
-               if ( extrap ) iroff2 = iroff2 + 1
-               if ( .not.extrap ) iroff1 = iroff1 + 1
-            endif
-            if ( Last>10 .and. erro12>errmax ) iroff3 = iroff3 + 1
-         endif
+         if (defab1 /= error1 .and. defab2 /= error2) then
+            if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) .and. &
+                erro12 >= 0.99_wp*errmax) then
+               if (extrap) iroff2 = iroff2 + 1
+               if (.not. extrap) iroff1 = iroff1 + 1
+            end if
+            if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
+         end if
          Rlist(maxerr) = area1
          Rlist(Last) = area2
-         errbnd = max(Epsabs,Epsrel*abs(area))
+         errbnd = max(Epsabs, Epsrel*abs(area))
 
 ! test for roundoff error and eventually set error flag.
 
-         if ( iroff1+iroff2>=10 .or. iroff3>=20 ) Ier = 2
-         if ( iroff2>=5 ) ierro = 3
+         if (iroff1 + iroff2 >= 10 .or. iroff3 >= 20) Ier = 2
+         if (iroff2 >= 5) ierro = 3
 
 ! set error flag in the case that the number of
 ! subintervals equals limit.
 
-         if ( Last==Limit ) Ier = 1
+         if (Last == Limit) Ier = 1
 
 ! set error flag in the case of bad integrand behaviour
 ! at some points of the integration range.
 
-         if ( max(abs(a1),abs(b2))<=(1.0_wp+100.0_wp*epmach) &
-              *(abs(a2)+1000.0_wp*uflow) ) Ier = 4
+         if (max(abs(a1), abs(b2)) <= (1.0_wp + 100.0_wp*epmach) &
+             *(abs(a2) + 1000.0_wp*uflow)) Ier = 4
 
 ! append the newly-created intervals to the list.
 
-         if ( error2>error1 ) then
+         if (error2 > error1) then
             Alist(maxerr) = a2
             Alist(Last) = a1
             Blist(Last) = b1
@@ -884,33 +884,33 @@ module quadpack
             Blist(Last) = b2
             Elist(maxerr) = error1
             Elist(Last) = error2
-         endif
+         end if
 
 ! call subroutine dqpsrt to maintain the descending ordering
 ! in the list of error estimates and select the subinterval
 ! with nrmax-th largest error estimate (to be bisected next).
 
-         call dqpsrt(Limit,Last,maxerr,errmax,Elist,Iord,nrmax)
-         if ( errsum<=errbnd ) goto 300
-         if ( Ier/=0 ) goto 200
-         if ( Last==2 ) then
+         call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
+         if (errsum <= errbnd) goto 300
+         if (Ier /= 0) goto 200
+         if (Last == 2) then
             small = 0.375_wp
             erlarg = errsum
             ertest = errbnd
             rlist2(2) = area
-         elseif ( .not.(noext) ) then
+         elseif (.not. (noext)) then
             erlarg = erlarg - erlast
-            if ( abs(b1-a1)>small ) erlarg = erlarg + erro12
-            if ( .not.(extrap) ) then
+            if (abs(b1 - a1) > small) erlarg = erlarg + erro12
+            if (.not. (extrap)) then
 
 ! test whether the interval to be bisected next is the
 ! smallest interval.
 
-               if ( abs(Blist(maxerr)-Alist(maxerr))>small ) goto 100
+               if (abs(Blist(maxerr) - Alist(maxerr)) > small) goto 100
                extrap = .true.
                nrmax = 2
-            endif
-            if ( ierro/=3 .and. erlarg>ertest ) then
+            end if
+            if (ierro /= 3 .and. erlarg > ertest) then
 
 ! the smallest interval has the largest error.
 ! before bisecting decrease the sum of the errors over the
@@ -918,81 +918,81 @@ module quadpack
 
                id = nrmax
                jupbnd = Last
-               if ( Last>(2+Limit/2) ) jupbnd = Limit + 3 - Last
-               do k = id , jupbnd
+               if (Last > (2 + Limit/2)) jupbnd = Limit + 3 - Last
+               do k = id, jupbnd
                   maxerr = Iord(nrmax)
                   errmax = Elist(maxerr)
-                  if ( abs(Blist(maxerr)-Alist(maxerr))>small ) &
-                       goto 100
+                  if (abs(Blist(maxerr) - Alist(maxerr)) > small) &
+                     goto 100
                   nrmax = nrmax + 1
-               enddo
-            endif
+               end do
+            end if
 
 ! perform extrapolation.
 
             numrl2 = numrl2 + 1
             rlist2(numrl2) = area
-            call dqelg(numrl2,rlist2,reseps,abseps,res3la,nres)
+            call dqelg(numrl2, rlist2, reseps, abseps, res3la, nres)
             ktmin = ktmin + 1
-            if ( ktmin>5 .and. Abserr<0.1e-02_wp*errsum ) Ier = 5
-            if ( abseps<Abserr ) then
+            if (ktmin > 5 .and. Abserr < 0.1e-02_wp*errsum) Ier = 5
+            if (abseps < Abserr) then
                ktmin = 0
                Abserr = abseps
                Result = reseps
                correc = erlarg
-               ertest = max(Epsabs,Epsrel*abs(reseps))
-               if ( Abserr<=ertest ) goto 200
-            endif
+               ertest = max(Epsabs, Epsrel*abs(reseps))
+               if (Abserr <= ertest) goto 200
+            end if
 
 ! prepare bisection of the smallest interval.
 
-            if ( numrl2==1 ) noext = .true.
-            if ( Ier==5 ) goto 200
+            if (numrl2 == 1) noext = .true.
+            if (Ier == 5) goto 200
             maxerr = Iord(1)
             errmax = Elist(maxerr)
             nrmax = 1
             extrap = .false.
             small = small*0.5_wp
             erlarg = errsum
-         endif
- 100  enddo
+         end if
+100   end do
 
 ! set final result and error estimate.
 
- 200  if ( Abserr/=oflow ) then
-         if ( (Ier+ierro)/=0 ) then
-            if ( ierro==3 ) Abserr = Abserr + correc
-            if ( Ier==0 ) Ier = 3
-            if ( Result==0.0_wp .or. area==0.0_wp ) then
-               if ( Abserr>errsum ) goto 300
-               if ( area==0.0_wp ) goto 400
-            elseif ( Abserr/abs(Result)>errsum/abs(area) ) then
+200   if (Abserr /= oflow) then
+         if ((Ier + ierro) /= 0) then
+            if (ierro == 3) Abserr = Abserr + correc
+            if (Ier == 0) Ier = 3
+            if (Result == 0.0_wp .or. area == 0.0_wp) then
+               if (Abserr > errsum) goto 300
+               if (area == 0.0_wp) goto 400
+            elseif (Abserr/abs(Result) > errsum/abs(area)) then
                goto 300
-            endif
-         endif
+            end if
+         end if
 
 ! test on divergence
 
-         if ( ksgn/=(-1) .or. max(abs(Result),abs(area)) &
-              >defabs*0.01_wp ) then
-            if ( 0.01_wp>(Result/area) .or. (Result/area)>100.0_wp .or. &
-                 errsum>abs(area) ) Ier = 6
-         endif
+         if (ksgn /= (-1) .or. max(abs(Result), abs(area)) &
+             > defabs*0.01_wp) then
+            if (0.01_wp > (Result/area) .or. (Result/area) > 100.0_wp .or. &
+                errsum > abs(area)) Ier = 6
+         end if
          goto 400
-      endif
+      end if
 
 ! compute global integral sum.
 
- 300  Result = 0.0_wp
-      do k = 1 , Last
+300   Result = 0.0_wp
+      do k = 1, Last
          Result = Result + Rlist(k)
-      enddo
+      end do
       Abserr = errsum
- 400  Neval = 30*Last - 15
-      if ( Inf==2 ) Neval = 2*Neval
-      if ( Ier>2 ) Ier = Ier - 1
+400   Neval = 30*Last - 15
+      if (Inf == 2) Neval = 2*Neval
+      if (Ier > 2) Ier = Ier - 1
 
-    end subroutine dqagie
+   end subroutine dqagie
 !********************************************************************************
 
 !********************************************************************************
@@ -1174,16 +1174,16 @@ module quadpack
 !                     break points sorted in an ascending sequence.
 !                    note that limit = (leniw-npts2)/2.
 
-      subroutine dqagp(f,a,b,Npts2,Points,Epsabs,Epsrel,Result,Abserr, &
-                       Neval,Ier,Leniw,Lenw,Last,Iwork,Work)
+   subroutine dqagp(f, a, b, Npts2, Points, Epsabs, Epsrel, Result, Abserr, &
+                    Neval, Ier, Leniw, Lenw, Last, Iwork, Work)
       implicit none
 
-      real(wp) a , Abserr , b , Epsabs , Epsrel , Points , &
-                       Result , Work
-      integer Ier , Iwork , Last , Leniw , Lenw , limit , lvl , l1 , &
-              l2 , l3 , l4 , Neval , Npts2
+      real(wp) a, Abserr, b, Epsabs, Epsrel, Points, &
+         Result, Work
+      integer Ier, Iwork, Last, Leniw, Lenw, limit, lvl, l1, &
+         l2, l3, l4, Neval, Npts2
 !
-      dimension Iwork(Leniw) , Points(Npts2) , Work(Lenw)
+      dimension Iwork(Leniw), Points(Npts2), Work(Lenw)
 !
       procedure(func) :: f
 !
@@ -1195,33 +1195,33 @@ module quadpack
       Last = 0
       Result = 0.0_wp
       Abserr = 0.0_wp
-      if ( Leniw>=(3*Npts2-2) .and. Lenw>=(Leniw*2-Npts2) .and. &
-           Npts2>=2 ) then
+      if (Leniw >= (3*Npts2 - 2) .and. Lenw >= (Leniw*2 - Npts2) .and. &
+          Npts2 >= 2) then
 !
 !         prepare call for dqagpe.
 !
-         limit = (Leniw-Npts2)/2
+         limit = (Leniw - Npts2)/2
          l1 = limit + 1
          l2 = limit + l1
          l3 = limit + l2
          l4 = limit + l3
 !
-         call dqagpe(f,a,b,Npts2,Points,Epsabs,Epsrel,limit,Result, &
-                     Abserr,Neval,Ier,Work(1),Work(l1),Work(l2),Work(l3)&
-                     ,Work(l4),Iwork(1),Iwork(l1),Iwork(l2),Last)
+         call dqagpe(f, a, b, Npts2, Points, Epsabs, Epsrel, limit, Result, &
+                     Abserr, Neval, Ier, Work(1), Work(l1), Work(l2), Work(l3) &
+                     , Work(l4), Iwork(1), Iwork(l1), Iwork(l2), Last)
 !
 !         call error handler if necessary.
 !
          lvl = 0
       else
-         write(*,*) Leniw, (3*Npts2-2)
-         write(*,*) Lenw, (Leniw*2-Npts2)
-         write(*,*) Npts2,  2
-      endif
-      if ( Ier==6 ) lvl = 1
-      if ( Ier/=0 ) call xerror('abnormal return from dqagp',26,Ier,lvl)
+         write (*, *) Leniw, (3*Npts2 - 2)
+         write (*, *) Lenw, (Leniw*2 - Npts2)
+         write (*, *) Npts2, 2
+      end if
+      if (Ier == 6) lvl = 1
+      if (Ier /= 0) call xerror('abnormal return from dqagp', 26, Ier, lvl)
 
-      end subroutine dqagp
+   end subroutine dqagp
 !********************************************************************************
 
 !********************************************************************************
@@ -1405,31 +1405,31 @@ module quadpack
 !                     number of subintervals actually produced in the
 !                     subdivisions process
 
-      subroutine dqagpe(f,a,b,Npts2,Points,Epsabs,Epsrel,Limit,Result, &
-                        Abserr,Neval,Ier,Alist,Blist,Rlist,Elist,Pts, &
-                        Iord,Level,Ndin,Last)
+   subroutine dqagpe(f, a, b, Npts2, Points, Epsabs, Epsrel, Limit, Result, &
+                     Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Pts, &
+                     Iord, Level, Ndin, Last)
       implicit none
 
-      real(wp) a , abseps , Abserr , Alist , area , area1 , &
-                       area12 , area2 , a1 , a2 , b , Blist , b1 , b2 , &
-                       correc , defabs , defab1 , defab2 , &
-                       min , dres , Elist , &
-                       Epsabs , Epsrel , erlarg , erlast , errbnd , &
-                       errmax , error1 , erro12 , error2 , errsum , &
-                       ertest , Points , Pts , resa , &
-                       resabs , reseps , Result , res3la , Rlist , &
-                       rlist2 , sign , temp
-      integer i , id , Ier , ierro , ind1 , ind2 , Iord , ip1 , iroff1 ,&
-              iroff2 , iroff3 , j , jlow , jupbnd , k , ksgn , ktmin , &
-              Last , levcur , Level , levmax , Limit , maxerr , Ndin , &
-              Neval , nint , nintp1 , npts , Npts2 , nres , nrmax , &
-              numrl2
-      logical extrap , noext
+      real(wp) a, abseps, Abserr, Alist, area, area1, &
+         area12, area2, a1, a2, b, Blist, b1, b2, &
+         correc, defabs, defab1, defab2, &
+         min, dres, Elist, &
+         Epsabs, Epsrel, erlarg, erlast, errbnd, &
+         errmax, error1, erro12, error2, errsum, &
+         ertest, Points, Pts, resa, &
+         resabs, reseps, Result, res3la, Rlist, &
+         rlist2, sign, temp
+      integer i, id, Ier, ierro, ind1, ind2, Iord, ip1, iroff1, &
+         iroff2, iroff3, j, jlow, jupbnd, k, ksgn, ktmin, &
+         Last, levcur, Level, levmax, Limit, maxerr, Ndin, &
+         Neval, nint, nintp1, npts, Npts2, nres, nrmax, &
+         numrl2
+      logical extrap, noext
 !
 !
-      dimension Alist(Limit) , Blist(Limit) , Elist(Limit) , Iord(Limit)&
-                , Level(Limit) , Ndin(Npts2) , Points(Npts2) , &
-                Pts(Npts2) , res3la(3) , Rlist(Limit) , rlist2(52)
+      dimension Alist(Limit), Blist(Limit), Elist(Limit), Iord(Limit) &
+         , Level(Limit), Ndin(Npts2), Points(Npts2), &
+         Pts(Npts2), res3la(3), Rlist(Limit), rlist2(52)
 !
       procedure(func) :: f
 !
@@ -1492,59 +1492,59 @@ module quadpack
       Iord(1) = 0
       Level(1) = 0
       npts = Npts2 - 2
-      if ( Npts2<2 .or. Limit<=npts .or.  &
-           (Epsabs<=0.0_wp .and. Epsrel<max(50.0_wp*epmach,0.5e-28_wp)) &
-           ) then
-            write(*,*) 'Npts2=',Npts2
-            write(*,*) 'Epsabs=',Epsabs
-            write(*,*) 'Epsrel=',Epsabs
-            write(*,*) 'max(50.0_wp*epmach,0.5e-28_wp)=',max(50.0_wp*epmach,0.5e-28_wp)
-            write(*,*) 'oops'
-            Ier = 6
+      if (Npts2 < 2 .or. Limit <= npts .or. &
+          (Epsabs <= 0.0_wp .and. Epsrel < max(50.0_wp*epmach, 0.5e-28_wp)) &
+          ) then
+         write (*, *) 'Npts2=', Npts2
+         write (*, *) 'Epsabs=', Epsabs
+         write (*, *) 'Epsrel=', Epsabs
+         write (*, *) 'max(50.0_wp*epmach,0.5e-28_wp)=', max(50.0_wp*epmach, 0.5e-28_wp)
+         write (*, *) 'oops'
+         Ier = 6
       end if
-      if ( Ier==6 ) return
+      if (Ier == 6) return
 !
 !            if any break points are provided, sort them into an
 !            ascending sequence.
 !
       sign = 1.0_wp
-      if ( a>b ) sign = -1.0_wp
-      Pts(1) = min(a,b)
-      if ( npts/=0 ) then
-         do i = 1 , npts
-            Pts(i+1) = Points(i)
-         enddo
-      endif
-      Pts(npts+2) = max(a,b)
+      if (a > b) sign = -1.0_wp
+      Pts(1) = min(a, b)
+      if (npts /= 0) then
+         do i = 1, npts
+            Pts(i + 1) = Points(i)
+         end do
+      end if
+      Pts(npts + 2) = max(a, b)
       nint = npts + 1
       a1 = Pts(1)
-      if ( npts/=0 ) then
+      if (npts /= 0) then
          nintp1 = nint + 1
-         do i = 1 , nint
+         do i = 1, nint
             ip1 = i + 1
-            do j = ip1 , nintp1
-               if ( Pts(i)>Pts(j) ) then
+            do j = ip1, nintp1
+               if (Pts(i) > Pts(j)) then
                   temp = Pts(i)
                   Pts(i) = Pts(j)
                   Pts(j) = temp
-               endif
-            enddo
-         enddo
-         if ( Pts(1)/=min(a,b) .or. Pts(nintp1)/=max(a,b) ) Ier = 6
-         if ( Ier==6 ) return
-      endif
+               end if
+            end do
+         end do
+         if (Pts(1) /= min(a, b) .or. Pts(nintp1) /= max(a, b)) Ier = 6
+         if (Ier == 6) return
+      end if
 !
 !            compute first integral and error approximations.
 !            ------------------------------------------------
 !
       resabs = 0.0_wp
-      do i = 1 , nint
-         b1 = Pts(i+1)
-         call dqk21(f,a1,b1,area1,error1,defabs,resa)
+      do i = 1, nint
+         b1 = Pts(i + 1)
+         call dqk21(f, a1, b1, area1, error1, defabs, resa)
          Abserr = Abserr + error1
          Result = Result + area1
          Ndin(i) = 0
-         if ( error1==resa .and. error1/=0.0_wp ) Ndin(i) = 1
+         if (error1 == resa .and. error1 /= 0.0_wp) Ndin(i) = 1
          resabs = resabs + defabs
          Level(i) = 0
          Elist(i) = error1
@@ -1553,39 +1553,39 @@ module quadpack
          Rlist(i) = area1
          Iord(i) = i
          a1 = b1
-      enddo
+      end do
       errsum = 0.0_wp
-      do i = 1 , nint
-         if ( Ndin(i)==1 ) Elist(i) = Abserr
+      do i = 1, nint
+         if (Ndin(i) == 1) Elist(i) = Abserr
          errsum = errsum + Elist(i)
-      enddo
+      end do
 !
 !           test on accuracy.
 !
       Last = nint
       Neval = 21*nint
       dres = abs(Result)
-      errbnd = max(Epsabs,Epsrel*dres)
-      if ( Abserr<=100.0_wp*epmach*resabs .and. Abserr>errbnd ) Ier = 2
-      if ( nint/=1 ) then
-         do i = 1 , npts
+      errbnd = max(Epsabs, Epsrel*dres)
+      if (Abserr <= 100.0_wp*epmach*resabs .and. Abserr > errbnd) Ier = 2
+      if (nint /= 1) then
+         do i = 1, npts
             jlow = i + 1
             ind1 = Iord(i)
-            do j = jlow , nint
+            do j = jlow, nint
                ind2 = Iord(j)
-               if ( Elist(ind1)<=Elist(ind2) ) then
+               if (Elist(ind1) <= Elist(ind2)) then
                   ind1 = ind2
                   k = j
-               endif
-            enddo
-            if ( ind1/=Iord(i) ) then
+               end if
+            end do
+            if (ind1 /= Iord(i)) then
                Iord(k) = Iord(i)
                Iord(i) = ind1
-            endif
-         enddo
-         if ( Limit<Npts2 ) Ier = 1
-      endif
-      if ( Ier/=0 .or. Abserr<=errbnd ) goto 400
+            end if
+         end do
+         if (Limit < Npts2) Ier = 1
+      end if
+      if (Ier /= 0 .or. Abserr <= errbnd) goto 400
 !
 !           initialization
 !           --------------
@@ -1609,24 +1609,24 @@ module quadpack
       ierro = 0
       Abserr = oflow
       ksgn = -1
-      if ( dres>=(1.0_wp-50.0_wp*epmach)*resabs ) ksgn = 1
+      if (dres >= (1.0_wp - 50.0_wp*epmach)*resabs) ksgn = 1
 !
 !           main do-loop
 !           ------------
 !
-      do Last = Npts2 , Limit
+      do Last = Npts2, Limit
 !
 !           bisect the subinterval with the nrmax-th largest error
 !           estimate.
 !
          levcur = Level(maxerr) + 1
          a1 = Alist(maxerr)
-         b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
+         b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
          a2 = b1
          b2 = Blist(maxerr)
          erlast = errmax
-         call dqk21(f,a1,b1,area1,error1,resa,defab1)
-         call dqk21(f,a2,b2,area2,error2,resa,defab2)
+         call dqk21(f, a1, b1, area1, error1, resa, defab1)
+         call dqk21(f, a2, b2, area2, error2, resa, defab2)
 !
 !           improve previous approximations to integral
 !           and error and test for accuracy.
@@ -1636,39 +1636,39 @@ module quadpack
          erro12 = error1 + error2
          errsum = errsum + erro12 - errmax
          area = area + area12 - Rlist(maxerr)
-         if ( defab1/=error1 .and. defab2/=error2 ) then
-            if ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) .and. &
-                 erro12>=0.99_wp*errmax ) then
-               if ( extrap ) iroff2 = iroff2 + 1
-               if ( .not.extrap ) iroff1 = iroff1 + 1
-            endif
-            if ( Last>10 .and. erro12>errmax ) iroff3 = iroff3 + 1
-         endif
+         if (defab1 /= error1 .and. defab2 /= error2) then
+            if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) .and. &
+                erro12 >= 0.99_wp*errmax) then
+               if (extrap) iroff2 = iroff2 + 1
+               if (.not. extrap) iroff1 = iroff1 + 1
+            end if
+            if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
+         end if
          Level(maxerr) = levcur
          Level(Last) = levcur
          Rlist(maxerr) = area1
          Rlist(Last) = area2
-         errbnd = max(Epsabs,Epsrel*abs(area))
+         errbnd = max(Epsabs, Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
-         if ( iroff1+iroff2>=10 .or. iroff3>=20 ) Ier = 2
-         if ( iroff2>=5 ) ierro = 3
+         if (iroff1 + iroff2 >= 10 .or. iroff3 >= 20) Ier = 2
+         if (iroff2 >= 5) ierro = 3
 !
 !           set error flag in the case that the number of
 !           subintervals equals limit.
 !
-         if ( Last==Limit ) Ier = 1
+         if (Last == Limit) Ier = 1
 !
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range
 !
-         if ( max(abs(a1),abs(b2))<=(1.0_wp+100.0_wp*epmach) &
-              *(abs(a2)+1000.0_wp*uflow) ) Ier = 4
+         if (max(abs(a1), abs(b2)) <= (1.0_wp + 100.0_wp*epmach) &
+             *(abs(a2) + 1000.0_wp*uflow)) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
-         if ( error2>error1 ) then
+         if (error2 > error1) then
             Alist(maxerr) = a2
             Alist(Last) = a1
             Blist(Last) = b1
@@ -1682,30 +1682,30 @@ module quadpack
             Blist(Last) = b2
             Elist(maxerr) = error1
             Elist(Last) = error2
-         endif
+         end if
 !
 !           call subroutine dqpsrt to maintain the descending ordering
 !           in the list of error estimates and select the subinterval
 !           with nrmax-th largest error estimate (to be bisected next).
 !
-         call dqpsrt(Limit,Last,maxerr,errmax,Elist,Iord,nrmax)
+         call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
 ! ***jump out of do-loop
-         if ( errsum<=errbnd ) goto 300
+         if (errsum <= errbnd) goto 300
 ! ***jump out of do-loop
-         if ( Ier/=0 ) goto 200
-         if ( .not.(noext) ) then
+         if (Ier /= 0) goto 200
+         if (.not. (noext)) then
             erlarg = erlarg - erlast
-            if ( levcur+1<=levmax ) erlarg = erlarg + erro12
-            if ( .not.(extrap) ) then
+            if (levcur + 1 <= levmax) erlarg = erlarg + erro12
+            if (.not. (extrap)) then
 !
 !           test whether the interval to be bisected next is the
 !           smallest interval.
 !
-               if ( Level(maxerr)+1<=levmax ) goto 100
+               if (Level(maxerr) + 1 <= levmax) goto 100
                extrap = .true.
                nrmax = 2
-            endif
-            if ( ierro/=3 .and. erlarg>ertest ) then
+            end if
+            if (ierro /= 3 .and. erlarg > ertest) then
 !
 !           the smallest interval has the largest error.
 !           before bisecting decrease the sum of the errors over
@@ -1713,85 +1713,85 @@ module quadpack
 !
                id = nrmax
                jupbnd = Last
-               if ( Last>(2+Limit/2) ) jupbnd = Limit + 3 - Last
-               do k = id , jupbnd
+               if (Last > (2 + Limit/2)) jupbnd = Limit + 3 - Last
+               do k = id, jupbnd
                   maxerr = Iord(nrmax)
                   errmax = Elist(maxerr)
 ! ***jump out of do-loop
-                  if ( Level(maxerr)+1<=levmax ) goto 100
+                  if (Level(maxerr) + 1 <= levmax) goto 100
                   nrmax = nrmax + 1
-               enddo
-            endif
+               end do
+            end if
 !
 !           perform extrapolation.
 !
             numrl2 = numrl2 + 1
             rlist2(numrl2) = area
-            if ( numrl2>2 ) then
-               call dqelg(numrl2,rlist2,reseps,abseps,res3la,nres)
+            if (numrl2 > 2) then
+               call dqelg(numrl2, rlist2, reseps, abseps, res3la, nres)
                ktmin = ktmin + 1
-               if ( ktmin>5 .and. Abserr<0.1e-02_wp*errsum ) Ier = 5
-               if ( abseps<Abserr ) then
+               if (ktmin > 5 .and. Abserr < 0.1e-02_wp*errsum) Ier = 5
+               if (abseps < Abserr) then
                   ktmin = 0
                   Abserr = abseps
                   Result = reseps
                   correc = erlarg
-                  ertest = max(Epsabs,Epsrel*abs(reseps))
+                  ertest = max(Epsabs, Epsrel*abs(reseps))
 ! ***jump out of do-loop
-                  if ( Abserr<ertest ) goto 200
-               endif
+                  if (Abserr < ertest) goto 200
+               end if
 !
 !           prepare bisection of the smallest interval.
 !
-               if ( numrl2==1 ) noext = .true.
-               if ( Ier>=5 ) goto 200
-            endif
+               if (numrl2 == 1) noext = .true.
+               if (Ier >= 5) goto 200
+            end if
             maxerr = Iord(1)
             errmax = Elist(maxerr)
             nrmax = 1
             extrap = .false.
             levmax = levmax + 1
             erlarg = errsum
-         endif
- 100  enddo
+         end if
+100   end do
 !
 !           set the final result.
 !           ---------------------
 !
 !
- 200  if ( Abserr/=oflow ) then
-         if ( (Ier+ierro)/=0 ) then
-            if ( ierro==3 ) Abserr = Abserr + correc
-            if ( Ier==0 ) Ier = 3
-            if ( Result==0.0_wp .or. area==0.0_wp ) then
-               if ( Abserr>errsum ) goto 300
-               if ( area==0.0_wp ) goto 400
-            elseif ( Abserr/abs(Result)>errsum/abs(area) ) then
+200   if (Abserr /= oflow) then
+         if ((Ier + ierro) /= 0) then
+            if (ierro == 3) Abserr = Abserr + correc
+            if (Ier == 0) Ier = 3
+            if (Result == 0.0_wp .or. area == 0.0_wp) then
+               if (Abserr > errsum) goto 300
+               if (area == 0.0_wp) goto 400
+            elseif (Abserr/abs(Result) > errsum/abs(area)) then
                goto 300
-            endif
-         endif
+            end if
+         end if
 !
 !           test on divergence.
 !
-         if ( ksgn/=(-1) .or. max(abs(Result),abs(area)) &
-              >resabs*0.01_wp ) then
-            if ( 0.01_wp>(Result/area) .or. (Result/area)>100.0_wp .or. &
-                 errsum>abs(area) ) Ier = 6
-         endif
+         if (ksgn /= (-1) .or. max(abs(Result), abs(area)) &
+             > resabs*0.01_wp) then
+            if (0.01_wp > (Result/area) .or. (Result/area) > 100.0_wp .or. &
+                errsum > abs(area)) Ier = 6
+         end if
          goto 400
-      endif
+      end if
 !
 !           compute global integral sum.
 !
- 300  Result = 0.0_wp
-      do k = 1 , Last
+300   Result = 0.0_wp
+      do k = 1, Last
          Result = Result + Rlist(k)
-      enddo
+      end do
       Abserr = errsum
- 400  if ( Ier>2 ) Ier = Ier - 1
+400   if (Ier > 2) Ier = Ier - 1
       Result = Result*sign
 
-    end subroutine dqagpe
+   end subroutine dqagpe
 !********************************************************************************
 
 !********************************************************************************
@@ -1938,16 +1938,16 @@ module quadpack
 !                    work(limit*3+1), ..., work(limit*3+last)
 !                     contain the error estimates.
 
-      subroutine dqags(f,a,b,Epsabs,Epsrel,Result,Abserr,Neval,Ier, &
-                       Limit,Lenw,Last,Iwork,Work)
+   subroutine dqags(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier, &
+                    Limit, Lenw, Last, Iwork, Work)
       implicit none
 
-      real(wp) a , Abserr , b , Epsabs , Epsrel , Result , &
-                       Work
-      integer Ier , Iwork , Last , Lenw , Limit , lvl , l1 , l2 , l3 , &
-              Neval
+      real(wp) a, Abserr, b, Epsabs, Epsrel, Result, &
+         Work
+      integer Ier, Iwork, Last, Lenw, Limit, lvl, l1, l2, l3, &
+         Neval
 !
-      dimension Iwork(Limit) , Work(Lenw)
+      dimension Iwork(Limit), Work(Lenw)
 !
       procedure(func) :: f
 !
@@ -1959,7 +1959,7 @@ module quadpack
       Last = 0
       Result = 0.0_wp
       Abserr = 0.0_wp
-      if ( Limit>=1 .and. Lenw>=Limit*4 ) then
+      if (Limit >= 1 .and. Lenw >= Limit*4) then
 !
 !         prepare call for dqagse.
 !
@@ -1967,17 +1967,17 @@ module quadpack
          l2 = Limit + l1
          l3 = Limit + l2
 !
-         call dqagse(f,a,b,Epsabs,Epsrel,Limit,Result,Abserr,Neval,Ier, &
-                     Work(1),Work(l1),Work(l2),Work(l3),Iwork,Last)
+         call dqagse(f, a, b, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, &
+                     Work(1), Work(l1), Work(l2), Work(l3), Iwork, Last)
 !
 !         call error handler if necessary.
 !
          lvl = 0
-      endif
-      if ( Ier==6 ) lvl = 1
-      if ( Ier/=0 ) call xerror('abnormal return from dqags',26,Ier,lvl)
+      end if
+      if (Ier == 6) lvl = 1
+      if (Ier /= 0) call xerror('abnormal return from dqags', 26, Ier, lvl)
 
-      end subroutine dqags
+   end subroutine dqags
 !********************************************************************************
 
 !********************************************************************************
@@ -2118,25 +2118,25 @@ module quadpack
 !                     number of subintervals actually produced in the
 !                     subdivision process
 
-      subroutine dqagse(f,a,b,Epsabs,Epsrel,Limit,Result,Abserr,Neval, &
-                        Ier,Alist,Blist,Rlist,Elist,Iord,Last)
+   subroutine dqagse(f, a, b, Epsabs, Epsrel, Limit, Result, Abserr, Neval, &
+                     Ier, Alist, Blist, Rlist, Elist, Iord, Last)
       implicit none
 
-      real(wp) a , abseps , Abserr , Alist , area , area1 , &
-                       area12 , area2 , a1 , a2 , b , Blist , b1 , b2 , &
-                       correc , defabs , defab1 , defab2 , &
-                       dres , Elist , Epsabs ,&
-                       Epsrel , erlarg , erlast , errbnd , errmax , &
-                       error1 , error2 , erro12 , errsum , ertest , &
-                       resabs , reseps , Result , res3la , &
-                       Rlist , rlist2 , small
-      integer id , Ier , ierro , Iord , iroff1 , iroff2 , iroff3 , &
-              jupbnd , k , ksgn , ktmin , Last , Limit , maxerr , &
-              Neval , nres , nrmax , numrl2
-      logical extrap , noext
+      real(wp) a, abseps, Abserr, Alist, area, area1, &
+         area12, area2, a1, a2, b, Blist, b1, b2, &
+         correc, defabs, defab1, defab2, &
+         dres, Elist, Epsabs, &
+         Epsrel, erlarg, erlast, errbnd, errmax, &
+         error1, error2, erro12, errsum, ertest, &
+         resabs, reseps, Result, res3la, &
+         Rlist, rlist2, small
+      integer id, Ier, ierro, Iord, iroff1, iroff2, iroff3, &
+         jupbnd, k, ksgn, ktmin, Last, Limit, maxerr, &
+         Neval, nres, nrmax, numrl2
+      logical extrap, noext
 !
-      dimension Alist(Limit) , Blist(Limit) , Elist(Limit) , Iord(Limit)&
-                , res3la(3) , Rlist(Limit) , rlist2(52)
+      dimension Alist(Limit), Blist(Limit), Elist(Limit), Iord(Limit) &
+         , res3la(3), Rlist(Limit), rlist2(52)
 !
       procedure(func) :: f
 !
@@ -2186,7 +2186,6 @@ module quadpack
 !           noext     - logical variable denoting that extrapolation
 !                       is no longer allowed (true value)
 
-
 !            test on validity of parameters
 !            ------------------------------
       Ier = 0
@@ -2198,28 +2197,28 @@ module quadpack
       Blist(1) = b
       Rlist(1) = 0.0_wp
       Elist(1) = 0.0_wp
-      if ( Epsabs<=0.0_wp .and. Epsrel<max(50.0_wp*epmach,0.5e-28_wp) ) &
-           Ier = 6
-      if ( Ier/=6 ) then
+      if (Epsabs <= 0.0_wp .and. Epsrel < max(50.0_wp*epmach, 0.5e-28_wp)) &
+         Ier = 6
+      if (Ier /= 6) then
 !
 !           first approximation to the integral
 !           -----------------------------------
          ierro = 0
-         call dqk21(f,a,b,Result,Abserr,defabs,resabs)
+         call dqk21(f, a, b, Result, Abserr, defabs, resabs)
 !
 !           test on accuracy.
 !
          dres = abs(Result)
-         errbnd = max(Epsabs,Epsrel*dres)
+         errbnd = max(Epsabs, Epsrel*dres)
          Last = 1
          Rlist(1) = Result
          Elist(1) = Abserr
          Iord(1) = 1
-         if ( Abserr<=100.0_wp*epmach*defabs .and. Abserr>errbnd ) &
-              Ier = 2
-         if ( Limit==1 ) Ier = 1
-         if ( Ier/=0 .or. (Abserr<=errbnd .and. Abserr/=resabs) .or. &
-              Abserr==0.0_wp ) then
+         if (Abserr <= 100.0_wp*epmach*defabs .and. Abserr > errbnd) &
+            Ier = 2
+         if (Limit == 1) Ier = 1
+         if (Ier /= 0 .or. (Abserr <= errbnd .and. Abserr /= resabs) .or. &
+             Abserr == 0.0_wp) then
             Neval = 42*Last - 21
             return
          else
@@ -2243,23 +2242,23 @@ module quadpack
             iroff2 = 0
             iroff3 = 0
             ksgn = -1
-            if ( dres>=(1.0_wp-50.0_wp*epmach)*defabs ) ksgn = 1
+            if (dres >= (1.0_wp - 50.0_wp*epmach)*defabs) ksgn = 1
 !
 !           main do-loop
 !           ------------
 !
-            do Last = 2 , Limit
+            do Last = 2, Limit
 !
 !           bisect the subinterval with the nrmax-th largest error
 !           estimate.
 !
                a1 = Alist(maxerr)
-               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
                a2 = b1
                b2 = Blist(maxerr)
                erlast = errmax
-               call dqk21(f,a1,b1,area1,error1,resabs,defab1)
-               call dqk21(f,a2,b2,area2,error2,resabs,defab2)
+               call dqk21(f, a1, b1, area1, error1, resabs, defab1)
+               call dqk21(f, a2, b2, area2, error2, resabs, defab2)
 !
 !           improve previous approximations to integral
 !           and error and test for accuracy.
@@ -2268,37 +2267,37 @@ module quadpack
                erro12 = error1 + error2
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
-               if ( defab1/=error1 .and. defab2/=error2 ) then
-                  if ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) &
-                       .and. erro12>=0.99_wp*errmax ) then
-                     if ( extrap ) iroff2 = iroff2 + 1
-                     if ( .not.extrap ) iroff1 = iroff1 + 1
-                  endif
-                  if ( Last>10 .and. erro12>errmax ) iroff3 = iroff3 + 1
-               endif
+               if (defab1 /= error1 .and. defab2 /= error2) then
+                  if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) &
+                      .and. erro12 >= 0.99_wp*errmax) then
+                     if (extrap) iroff2 = iroff2 + 1
+                     if (.not. extrap) iroff1 = iroff1 + 1
+                  end if
+                  if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
+               end if
                Rlist(maxerr) = area1
                Rlist(Last) = area2
-               errbnd = max(Epsabs,Epsrel*abs(area))
+               errbnd = max(Epsabs, Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
-               if ( iroff1+iroff2>=10 .or. iroff3>=20 ) Ier = 2
-               if ( iroff2>=5 ) ierro = 3
+               if (iroff1 + iroff2 >= 10 .or. iroff3 >= 20) Ier = 2
+               if (iroff2 >= 5) ierro = 3
 !
 !           set error flag in the case that the number of subintervals
 !           equals limit.
 !
-               if ( Last==Limit ) Ier = 1
+               if (Last == Limit) Ier = 1
 !
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-               if ( max(abs(a1),abs(b2))<=(1.0_wp+100.0_wp*epmach) &
-                    *(abs(a2)+1000.0_wp*uflow) ) Ier = 4
+               if (max(abs(a1), abs(b2)) <= (1.0_wp + 100.0_wp*epmach) &
+                   *(abs(a2) + 1000.0_wp*uflow)) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
-               if ( error2>error1 ) then
+               if (error2 > error1) then
                   Alist(maxerr) = a2
                   Alist(Last) = a1
                   Blist(Last) = b1
@@ -2312,35 +2311,35 @@ module quadpack
                   Blist(Last) = b2
                   Elist(maxerr) = error1
                   Elist(Last) = error2
-               endif
+               end if
 !
 !           call subroutine dqpsrt to maintain the descending ordering
 !           in the list of error estimates and select the subinterval
 !           with nrmax-th largest error estimate (to be bisected next).
 !
-               call dqpsrt(Limit,Last,maxerr,errmax,Elist,Iord,nrmax)
+               call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
 ! ***jump out of do-loop
-               if ( errsum<=errbnd ) goto 50
+               if (errsum <= errbnd) goto 50
 ! ***jump out of do-loop
-               if ( Ier/=0 ) goto 40
-               if ( Last==2 ) then
-                  small = abs(b-a)*0.375_wp
+               if (Ier /= 0) goto 40
+               if (Last == 2) then
+                  small = abs(b - a)*0.375_wp
                   erlarg = errsum
                   ertest = errbnd
                   rlist2(2) = area
-               elseif ( .not.(noext) ) then
+               elseif (.not. (noext)) then
                   erlarg = erlarg - erlast
-                  if ( abs(b1-a1)>small ) erlarg = erlarg + erro12
-                  if ( .not.(extrap) ) then
+                  if (abs(b1 - a1) > small) erlarg = erlarg + erro12
+                  if (.not. (extrap)) then
 !
 !           test whether the interval to be bisected next is the
 !           smallest interval.
 !
-                     if ( abs(Blist(maxerr)-Alist(maxerr))>small ) goto 20
+                     if (abs(Blist(maxerr) - Alist(maxerr)) > small) goto 20
                      extrap = .true.
                      nrmax = 2
-                  endif
-                  if ( ierro/=3 .and. erlarg>ertest ) then
+                  end if
+                  if (ierro /= 3 .and. erlarg > ertest) then
 !
 !           the smallest interval has the largest error.
 !           before bisecting decrease the sum of the errors over the
@@ -2348,90 +2347,90 @@ module quadpack
 !
                      id = nrmax
                      jupbnd = Last
-                     if ( Last>(2+Limit/2) ) jupbnd = Limit + 3 - Last
-                     do k = id , jupbnd
+                     if (Last > (2 + Limit/2)) jupbnd = Limit + 3 - Last
+                     do k = id, jupbnd
                         maxerr = Iord(nrmax)
                         errmax = Elist(maxerr)
 ! ***jump out of do-loop
-                        if ( abs(Blist(maxerr)-Alist(maxerr))>small ) goto 20
+                        if (abs(Blist(maxerr) - Alist(maxerr)) > small) goto 20
                         nrmax = nrmax + 1
-                     enddo
-                  endif
+                     end do
+                  end if
 !
 !           perform extrapolation.
 !
                   numrl2 = numrl2 + 1
                   rlist2(numrl2) = area
-                  call dqelg(numrl2,rlist2,reseps,abseps,res3la,nres)
+                  call dqelg(numrl2, rlist2, reseps, abseps, res3la, nres)
                   ktmin = ktmin + 1
-                  if ( ktmin>5 .and. Abserr<0.1e-02_wp*errsum ) Ier = 5
-                  if ( abseps<Abserr ) then
+                  if (ktmin > 5 .and. Abserr < 0.1e-02_wp*errsum) Ier = 5
+                  if (abseps < Abserr) then
                      ktmin = 0
                      Abserr = abseps
                      Result = reseps
                      correc = erlarg
-                     ertest = max(Epsabs,Epsrel*abs(reseps))
+                     ertest = max(Epsabs, Epsrel*abs(reseps))
 ! ***jump out of do-loop
-                     if ( Abserr<=ertest ) goto 40
-                  endif
+                     if (Abserr <= ertest) goto 40
+                  end if
 !
 !           prepare bisection of the smallest interval.
 !
-                  if ( numrl2==1 ) noext = .true.
-                  if ( Ier==5 ) goto 40
+                  if (numrl2 == 1) noext = .true.
+                  if (Ier == 5) goto 40
                   maxerr = Iord(1)
                   errmax = Elist(maxerr)
                   nrmax = 1
                   extrap = .false.
                   small = small*0.5_wp
                   erlarg = errsum
-               endif
- 20         enddo
+               end if
+20          end do
 !
 !           set final result and error estimate.
 !           ------------------------------------
 !
- 40         if ( Abserr/=oflow ) then
-               if ( Ier+ierro/=0 ) then
-                  if ( ierro==3 ) Abserr = Abserr + correc
-                  if ( Ier==0 ) Ier = 3
-                  if ( Result==0.0_wp .or. area==0.0_wp ) then
-                     if ( Abserr>errsum ) goto 50
-                     if ( area==0.0_wp ) then
-                        if ( Ier>2 ) Ier = Ier - 1
+40          if (Abserr /= oflow) then
+               if (Ier + ierro /= 0) then
+                  if (ierro == 3) Abserr = Abserr + correc
+                  if (Ier == 0) Ier = 3
+                  if (Result == 0.0_wp .or. area == 0.0_wp) then
+                     if (Abserr > errsum) goto 50
+                     if (area == 0.0_wp) then
+                        if (Ier > 2) Ier = Ier - 1
                         Neval = 42*Last - 21
                         return
-                     endif
-                  elseif ( Abserr/abs(Result)>errsum/abs(area) ) then
+                     end if
+                  elseif (Abserr/abs(Result) > errsum/abs(area)) then
                      goto 50
-                  endif
-               endif
+                  end if
+               end if
 !
 !           test on divergence.
 !
-               if ( ksgn/=(-1) .or. max(abs(Result),abs(area)) &
-                    >defabs*0.01_wp ) then
-                  if ( 0.01_wp>(Result/area) .or. (Result/area) &
-                       >100.0_wp .or. errsum>abs(area) ) Ier = 6
-               endif
-               if ( Ier>2 ) Ier = Ier - 1
+               if (ksgn /= (-1) .or. max(abs(Result), abs(area)) &
+                   > defabs*0.01_wp) then
+                  if (0.01_wp > (Result/area) .or. (Result/area) &
+                      > 100.0_wp .or. errsum > abs(area)) Ier = 6
+               end if
+               if (Ier > 2) Ier = Ier - 1
                Neval = 42*Last - 21
                return
-            endif
-         endif
+            end if
+         end if
 !
 !           compute global integral sum.
 !
- 50      Result = 0.0_wp
-         do k = 1 , Last
+50       Result = 0.0_wp
+         do k = 1, Last
             Result = Result + Rlist(k)
-         enddo
+         end do
          Abserr = errsum
-         if ( Ier>2 ) Ier = Ier - 1
+         if (Ier > 2) Ier = Ier - 1
          Neval = 42*Last - 21
-      endif
+      end if
 
-    end subroutine dqagse
+   end subroutine dqagse
 !********************************************************************************
 
 !********************************************************************************
@@ -2572,16 +2571,16 @@ module quadpack
 !                    work(limit*3+1), ..., work(limit*3+last)
 !                     contain the error estimates.
 
-      subroutine dqawc(f,a,b,c,Epsabs,Epsrel,Result,Abserr,Neval,Ier, &
-                       Limit,Lenw,Last,Iwork,Work)
+   subroutine dqawc(f, a, b, c, Epsabs, Epsrel, Result, Abserr, Neval, Ier, &
+                    Limit, Lenw, Last, Iwork, Work)
       implicit none
 
-      real(wp) a , Abserr , b , c , Epsabs , Epsrel , &
-                       Result , Work
-      integer Ier , Iwork , Last , Lenw , Limit , lvl , l1 , l2 , l3 , &
-              Neval
+      real(wp) a, Abserr, b, c, Epsabs, Epsrel, &
+         Result, Work
+      integer Ier, Iwork, Last, Lenw, Limit, lvl, l1, l2, l3, &
+         Neval
 !
-      dimension Iwork(Limit) , Work(Lenw)
+      dimension Iwork(Limit), Work(Lenw)
 !
       procedure(func) :: f
 !
@@ -2593,24 +2592,24 @@ module quadpack
       Last = 0
       Result = 0.0_wp
       Abserr = 0.0_wp
-      if ( Limit>=1 .and. Lenw>=Limit*4 ) then
+      if (Limit >= 1 .and. Lenw >= Limit*4) then
 !
 !         prepare call for dqawce.
 !
          l1 = Limit + 1
          l2 = Limit + l1
          l3 = Limit + l2
-         call dqawce(f,a,b,c,Epsabs,Epsrel,Limit,Result,Abserr,Neval, &
-                     Ier,Work(1),Work(l1),Work(l2),Work(l3),Iwork,Last)
+         call dqawce(f, a, b, c, Epsabs, Epsrel, Limit, Result, Abserr, Neval, &
+                     Ier, Work(1), Work(l1), Work(l2), Work(l3), Iwork, Last)
 !
 !         call error handler if necessary.
 !
          lvl = 0
-      endif
-      if ( Ier==6 ) lvl = 1
-      if ( Ier/=0 ) call xerror('abnormal return from dqawc',26,Ier,lvl)
+      end if
+      if (Ier == 6) lvl = 1
+      if (Ier /= 0) call xerror('abnormal return from dqawc', 26, Ier, lvl)
 
-      end subroutine dqawc
+   end subroutine dqawc
 !********************************************************************************
 
 !********************************************************************************
@@ -2741,20 +2740,20 @@ module quadpack
 !                      number of subintervals actually produced in
 !                      the subdivision process
 
-      subroutine dqawce(f,a,b,c,Epsabs,Epsrel,Limit,Result,Abserr,Neval,&
-                        Ier,Alist,Blist,Rlist,Elist,Iord,Last)
+   subroutine dqawce(f, a, b, c, Epsabs, Epsrel, Limit, Result, Abserr, Neval, &
+                     Ier, Alist, Blist, Rlist, Elist, Iord, Last)
       implicit none
 
-      real(wp) a , aa , Abserr , Alist , area , area1 , area12 ,&
-                       area2 , a1 , a2 , b , bb , Blist , b1 , b2 , c , &
-                       abs , Elist , Epsabs ,&
-                       Epsrel , errbnd , errmax , error1 , erro12 , &
-                       error2 , errsum , Result , Rlist
-      integer Ier , Iord , iroff1 , iroff2 , k , krule , Last , Limit , &
-              maxerr , nev , Neval , nrmax
+      real(wp) a, aa, Abserr, Alist, area, area1, area12, &
+         area2, a1, a2, b, bb, Blist, b1, b2, c, &
+         abs, Elist, Epsabs, &
+         Epsrel, errbnd, errmax, error1, erro12, &
+         error2, errsum, Result, Rlist
+      integer Ier, Iord, iroff1, iroff2, k, krule, Last, Limit, &
+         maxerr, nev, Neval, nrmax
 !
-      dimension Alist(Limit) , Blist(Limit) , Rlist(Limit) , &
-                Elist(Limit) , Iord(Limit)
+      dimension Alist(Limit), Blist(Limit), Rlist(Limit), &
+         Elist(Limit), Iord(Limit)
 !
       procedure(func) :: f
 !
@@ -2795,21 +2794,21 @@ module quadpack
       Iord(1) = 0
       Result = 0.0_wp
       Abserr = 0.0_wp
-      if ( .not.(c==a .or. c==b .or. (Epsabs<=0.0_wp .and. Epsrel<max &
-           (50.0_wp*epmach,0.5e-28_wp))) ) then
+      if (.not. (c == a .or. c == b .or. (Epsabs <= 0.0_wp .and. Epsrel < max &
+                                          (50.0_wp*epmach, 0.5e-28_wp)))) then
 !
 !           first approximation to the integral
 !           -----------------------------------
 !
          aa = a
          bb = b
-         if ( a>b ) then
+         if (a > b) then
             aa = b
             bb = a
-         endif
+         end if
          Ier = 0
          krule = 1
-         call dqc25c(f,aa,bb,c,Result,Abserr,krule,Neval)
+         call dqc25c(f, aa, bb, c, Result, Abserr, krule, Neval)
          Last = 1
          Rlist(1) = Result
          Elist(1) = Abserr
@@ -2819,9 +2818,9 @@ module quadpack
 !
 !           test on accuracy
 !
-         errbnd = max(Epsabs,Epsrel*abs(Result))
-         if ( Limit==1 ) Ier = 1
-         if ( Abserr>=min(0.01_wp*abs(Result),errbnd) .and. Ier/=1 ) then
+         errbnd = max(Epsabs, Epsrel*abs(Result))
+         if (Limit == 1) Ier = 1
+         if (Abserr >= min(0.01_wp*abs(Result), errbnd) .and. Ier /= 1) then
 !
 !           initialization
 !           --------------
@@ -2840,21 +2839,21 @@ module quadpack
 !           main do-loop
 !           ------------
 !
-            do Last = 2 , Limit
+            do Last = 2, Limit
 !
 !           bisect the subinterval with nrmax-th largest
 !           error estimate.
 !
                a1 = Alist(maxerr)
-               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
                b2 = Blist(maxerr)
-               if ( c<=b1 .and. c>a1 ) b1 = 0.5_wp*(c+b2)
-               if ( c>b1 .and. c<b2 ) b1 = 0.5_wp*(a1+c)
+               if (c <= b1 .and. c > a1) b1 = 0.5_wp*(c + b2)
+               if (c > b1 .and. c < b2) b1 = 0.5_wp*(a1 + c)
                a2 = b1
                krule = 2
-               call dqc25c(f,a1,b1,c,area1,error1,krule,nev)
+               call dqc25c(f, a1, b1, c, area1, error1, krule, nev)
                Neval = Neval + nev
-               call dqc25c(f,a2,b2,c,area2,error2,krule,nev)
+               call dqc25c(f, a2, b2, c, area2, error2, krule, nev)
                Neval = Neval + nev
 !
 !           improve previous approximations to integral
@@ -2864,36 +2863,36 @@ module quadpack
                erro12 = error1 + error2
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
-               if ( abs(Rlist(maxerr)-area12)<0.1e-4_wp*abs(area12) &
-                    .and. erro12>=0.99_wp*errmax .and. krule==0 ) &
-                    iroff1 = iroff1 + 1
-               if ( Last>10 .and. erro12>errmax .and. krule==0 ) &
-                    iroff2 = iroff2 + 1
+               if (abs(Rlist(maxerr) - area12) < 0.1e-4_wp*abs(area12) &
+                   .and. erro12 >= 0.99_wp*errmax .and. krule == 0) &
+                  iroff1 = iroff1 + 1
+               if (Last > 10 .and. erro12 > errmax .and. krule == 0) &
+                  iroff2 = iroff2 + 1
                Rlist(maxerr) = area1
                Rlist(Last) = area2
-               errbnd = max(Epsabs,Epsrel*abs(area))
-               if ( errsum>errbnd ) then
+               errbnd = max(Epsabs, Epsrel*abs(area))
+               if (errsum > errbnd) then
 !
 !           test for roundoff error and eventually set error flag.
 !
-                  if ( iroff1>=6 .and. iroff2>20 ) Ier = 2
+                  if (iroff1 >= 6 .and. iroff2 > 20) Ier = 2
 !
 !           set error flag in the case that number of interval
 !           bisections exceeds limit.
 !
-                  if ( Last==Limit ) Ier = 1
+                  if (Last == Limit) Ier = 1
 !
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-                  if ( max(abs(a1),abs(b2))    &
-                       <=(1.0_wp+100.0_wp*epmach)  &
-                       *(abs(a2)+1000.0_wp*uflow) ) Ier = 3
-               endif
+                  if (max(abs(a1), abs(b2)) &
+                      <= (1.0_wp + 100.0_wp*epmach) &
+                      *(abs(a2) + 1000.0_wp*uflow)) Ier = 3
+               end if
 !
 !           append the newly-created intervals to the list.
 !
-               if ( error2>error1 ) then
+               if (error2 > error1) then
                   Alist(maxerr) = a2
                   Alist(Last) = a1
                   Blist(Last) = b1
@@ -2907,30 +2906,30 @@ module quadpack
                   Blist(Last) = b2
                   Elist(maxerr) = error1
                   Elist(Last) = error2
-               endif
+               end if
 !
 !           call subroutine dqpsrt to maintain the descending ordering
 !           in the list of error estimates and select the subinterval
 !           with nrmax-th largest error estimate (to be bisected next).
 !
-               call dqpsrt(Limit,Last,maxerr,errmax,Elist,Iord,nrmax)
+               call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
 ! ***jump out of do-loop
-               if ( Ier/=0 .or. errsum<=errbnd ) goto 20
-            enddo
+               if (Ier /= 0 .or. errsum <= errbnd) goto 20
+            end do
 !
 !           compute final result.
 !           ---------------------
 !
- 20         Result = 0.0_wp
-            do k = 1 , Last
+20          Result = 0.0_wp
+            do k = 1, Last
                Result = Result + Rlist(k)
-            enddo
+            end do
             Abserr = errsum
-         endif
-         if ( aa==b ) Result = -Result
-      endif
+         end if
+         if (aa == b) Result = -Result
+      end if
 
-      end subroutine dqawce
+   end subroutine dqawce
 !********************************************************************************
 
 !********************************************************************************
@@ -3116,16 +3115,16 @@ module quadpack
 !                     further elements of work have no specific
 !                     meaning for the user.
 
-      subroutine dqawf(f,a,Omega,Integr,Epsabs,Result,Abserr,Neval,Ier, &
-                       Limlst,Lst,Leniw,Maxp1,Lenw,Iwork,Work)
+   subroutine dqawf(f, a, Omega, Integr, Epsabs, Result, Abserr, Neval, Ier, &
+                    Limlst, Lst, Leniw, Maxp1, Lenw, Iwork, Work)
       implicit none
 
-      real(wp) a , Abserr , Epsabs , Omega , Result , Work
-      integer Ier , Integr , Iwork , last , Leniw , Lenw , limit , &
-              Limlst , ll2 , lvl , Lst , l1 , l2 , l3 , l4 , l5 , l6 , &
-              Maxp1 , Neval
+      real(wp) a, Abserr, Epsabs, Omega, Result, Work
+      integer Ier, Integr, Iwork, last, Leniw, Lenw, limit, &
+         Limlst, ll2, lvl, Lst, l1, l2, l3, l4, l5, l6, &
+         Maxp1, Neval
 !
-      dimension Iwork(Leniw) , Work(Lenw)
+      dimension Iwork(Leniw), Work(Lenw)
 !
       procedure(func) :: f
 !
@@ -3137,12 +3136,12 @@ module quadpack
       last = 0
       Result = 0.0_wp
       Abserr = 0.0_wp
-      if ( Limlst>=3 .and. Leniw>=(Limlst+2) .and. Maxp1>=1 .and. &
-           Lenw>=(Leniw*2+Maxp1*25) ) then
+      if (Limlst >= 3 .and. Leniw >= (Limlst + 2) .and. Maxp1 >= 1 .and. &
+          Lenw >= (Leniw*2 + Maxp1*25)) then
 !
 !         prepare call for dqawfe
 !
-         limit = (Leniw-Limlst)/2
+         limit = (Leniw - Limlst)/2
          l1 = Limlst + 1
          l2 = Limlst + l1
          l3 = limit + l2
@@ -3150,19 +3149,19 @@ module quadpack
          l5 = limit + l4
          l6 = limit + l5
          ll2 = limit + l1
-         call dqawfe(f,a,Omega,Integr,Epsabs,Limlst,limit,Maxp1,Result, &
-                     Abserr,Neval,Ier,Work(1),Work(l1),Iwork(1),Lst, &
-                     Work(l2),Work(l3),Work(l4),Work(l5),Iwork(l1), &
-                     Iwork(ll2),Work(l6))
+         call dqawfe(f, a, Omega, Integr, Epsabs, Limlst, limit, Maxp1, Result, &
+                     Abserr, Neval, Ier, Work(1), Work(l1), Iwork(1), Lst, &
+                     Work(l2), Work(l3), Work(l4), Work(l5), Iwork(l1), &
+                     Iwork(ll2), Work(l6))
 !
 !         call error handler if necessary
 !
          lvl = 0
-      endif
-      if ( Ier==6 ) lvl = 1
-      if ( Ier/=0 ) call xerror('abnormal return from dqawf',26,Ier,lvl)
+      end if
+      if (Ier == 6) lvl = 1
+      if (Ier /= 0) call xerror('abnormal return from dqawf', 26, Ier, lvl)
 
-      end subroutine dqawf
+   end subroutine dqawf
 !********************************************************************************
 
 !********************************************************************************
@@ -3352,25 +3351,25 @@ module quadpack
 !                     space for the chebyshev moments needed within the
 !                     cycles
 
-      subroutine dqawfe(f,a,Omega,Integr,Epsabs,Limlst,Limit,Maxp1, &
-                        Result,Abserr,Neval,Ier,Rslst,Erlst,Ierlst,Lst, &
-                        Alist,Blist,Rlist,Elist,Iord,Nnlog,Chebmo)
+   subroutine dqawfe(f, a, Omega, Integr, Epsabs, Limlst, Limit, Maxp1, &
+                     Result, Abserr, Neval, Ier, Rslst, Erlst, Ierlst, Lst, &
+                     Alist, Blist, Rlist, Elist, Iord, Nnlog, Chebmo)
       implicit none
 
-      real(wp) a , abseps , Abserr , Alist , Blist , Chebmo , &
-                       correc , cycle , c1 , c2 , dl , dla , &
-                       drl , Elist , Erlst , ep , eps ,&
-                       epsa , Epsabs , errsum , fact , Omega , &
-                       p1 , psum , reseps , Result , res3la , &
-                       Rlist , Rslst
-      integer Ier , Ierlst , Integr , Iord , ktmin , l , last , Lst , &
-              Limit , Limlst , ll , Maxp1 , momcom , nev , Neval , &
-              Nnlog , nres , numrl2
+      real(wp) a, abseps, Abserr, Alist, Blist, Chebmo, &
+         correc, cycle, c1, c2, dl, dla, &
+         drl, Elist, Erlst, ep, eps, &
+         epsa, Epsabs, errsum, fact, Omega, &
+         p1, psum, reseps, Result, res3la, &
+         Rlist, Rslst
+      integer Ier, Ierlst, Integr, Iord, ktmin, l, last, Lst, &
+         Limit, Limlst, ll, Maxp1, momcom, nev, Neval, &
+         Nnlog, nres, numrl2
 !
-      dimension Alist(Limit) , Blist(Limit) , Chebmo(Maxp1,25) , &
-                Elist(Limit) , Erlst(Limlst) , Ierlst(Limlst) , &
-                Iord(Limit) , Nnlog(Limit) , psum(52) , res3la(3) , &
-                Rlist(Limit) , Rslst(Limlst)
+      dimension Alist(Limit), Blist(Limit), Chebmo(Maxp1, 25), &
+         Elist(Limit), Erlst(Limlst), Ierlst(Limlst), &
+         Iord(Limit), Nnlog(Limit), psum(52), res3la(3), &
+         Rlist(Limit), Rslst(Limlst)
 !
       procedure(func) :: f
 !
@@ -3398,8 +3397,8 @@ module quadpack
 !           chebmo    - array containing the modified chebyshev
 !                       moments (see also routine dqc25f)
 
-    real(wp),parameter :: p = 0.9_wp
-    real(wp),parameter :: pi = acos(-1.0_wp)
+      real(wp), parameter :: p = 0.9_wp
+      real(wp), parameter :: pi = acos(-1.0_wp)
 
 !
 !           test on validity of parameters
@@ -3411,10 +3410,10 @@ module quadpack
       Neval = 0
       Lst = 0
       Ier = 0
-      if ( (Integr/=1 .and. Integr/=2) .or. Epsabs<=0.0_wp .or. &
-           Limlst<3 ) Ier = 6
-      if ( Ier/=6 ) then
-         if ( Omega/=0.0_wp ) then
+      if ((Integr /= 1 .and. Integr /= 2) .or. Epsabs <= 0.0_wp .or. &
+          Limlst < 3) Ier = 6
+      if (Ier /= 6) then
+         if (Omega /= 0.0_wp) then
 !
 !           initializations
 !           ---------------
@@ -3431,7 +3430,7 @@ module quadpack
             c2 = cycle + a
             p1 = 1.0_wp - p
             eps = Epsabs
-            if ( Epsabs>uflow/p1 ) eps = Epsabs*p1
+            if (Epsabs > uflow/p1) eps = Epsabs*p1
             ep = eps
             fact = 1.0_wp
             correc = 0.0_wp
@@ -3441,16 +3440,16 @@ module quadpack
 !           main do-loop
 !           ------------
 !
-            do Lst = 1 , Limlst
+            do Lst = 1, Limlst
 !
 !           integrate over current subinterval.
 !
                dla = Lst
                epsa = eps*fact
-               call dqawoe(f,c1,c2,Omega,Integr,epsa,0.0_wp,Limit,Lst, &
-                           Maxp1,Rslst(Lst),Erlst(Lst),nev,Ierlst(Lst), &
-                           last,Alist,Blist,Rlist,Elist,Iord,Nnlog, &
-                           momcom,Chebmo)
+               call dqawoe(f, c1, c2, Omega, Integr, epsa, 0.0_wp, Limit, Lst, &
+                           Maxp1, Rslst(Lst), Erlst(Lst), nev, Ierlst(Lst), &
+                           last, Alist, Blist, Rlist, Elist, Iord, Nnlog, &
+                           momcom, Chebmo)
                Neval = Neval + nev
                fact = fact*p
                errsum = errsum + Erlst(Lst)
@@ -3458,31 +3457,31 @@ module quadpack
 !
 !           test on accuracy with partial sum
 !
-               if ( (errsum+drl)<=Epsabs .and. Lst>=6 ) goto 50
-               correc = max(correc,Erlst(Lst))
-               if ( Ierlst(Lst)/=0 ) eps = max(ep,correc*p1)
-               if ( Ierlst(Lst)/=0 ) Ier = 7
-               if ( Ier==7 .and. (errsum+drl)<=correc*10.0_wp .and. &
-                    Lst>5 ) goto 50
+               if ((errsum + drl) <= Epsabs .and. Lst >= 6) goto 50
+               correc = max(correc, Erlst(Lst))
+               if (Ierlst(Lst) /= 0) eps = max(ep, correc*p1)
+               if (Ierlst(Lst) /= 0) Ier = 7
+               if (Ier == 7 .and. (errsum + drl) <= correc*10.0_wp .and. &
+                   Lst > 5) goto 50
                numrl2 = numrl2 + 1
-               if ( Lst>1 ) then
+               if (Lst > 1) then
                   psum(numrl2) = psum(ll) + Rslst(Lst)
-                  if ( Lst/=2 ) then
+                  if (Lst /= 2) then
 !
 !           test on maximum number of subintervals
 !
-                     if ( Lst==Limlst ) Ier = 1
+                     if (Lst == Limlst) Ier = 1
 !
 !           perform new extrapolation
 !
-                     call dqelg(numrl2,psum,reseps,abseps,res3la,nres)
+                     call dqelg(numrl2, psum, reseps, abseps, res3la, nres)
 !
 !           test whether extrapolated result is influenced by roundoff
 !
                      ktmin = ktmin + 1
-                     if ( ktmin>=15 .and. Abserr<=0.1e-02_wp*(errsum+drl) ) &
-                          Ier = 4
-                     if ( abseps<=Abserr .or. Lst==3 ) then
+                     if (ktmin >= 15 .and. Abserr <= 0.1e-02_wp*(errsum + drl)) &
+                        Ier = 4
+                     if (abseps <= Abserr .or. Lst == 3) then
                         Abserr = abseps
                         Result = reseps
                         ktmin = 0
@@ -3491,53 +3490,54 @@ module quadpack
 !           or extrapolated result yields the best integral
 !           approximation
 !
-                        if ( (Abserr+10.0_wp*correc)<=Epsabs .or. &
-                             (Abserr<=Epsabs .and. &
-                             10.0_wp*correc>=Epsabs) ) goto 20
-                     endif
-                     if ( Ier/=0 .and. Ier/=7 ) goto 20
-                  endif
+                        if ((Abserr + 10.0_wp*correc) <= Epsabs .or. &
+                            (Abserr <= Epsabs .and. &
+                             10.0_wp*correc >= Epsabs)) goto 20
+                     end if
+                     if (Ier /= 0 .and. Ier /= 7) goto 20
+                  end if
                else
                   psum(1) = Rslst(1)
-               endif
+               end if
                ll = numrl2
                c1 = c2
                c2 = c2 + cycle
-            enddo
+            end do
 !
 !         set final result and error estimate
 !         -----------------------------------
 !
- 20         Abserr = Abserr + 10.0_wp*correc
-            if ( Ier==0 ) return
-            if ( Result==0.0_wp .or. psum(numrl2)==0.0_wp ) then
-               if ( Abserr>errsum ) goto 50
-               if ( psum(numrl2)==0.0_wp ) return
-            endif
-            if ( Abserr/abs(Result)<=(errsum+drl)/abs(psum(numrl2)) ) &
-                 then
-               if ( Ier>=1 .and. Ier/=7 ) Abserr = Abserr + drl
+20          Abserr = Abserr + 10.0_wp*correc
+            if (Ier == 0) return
+            if (Result == 0.0_wp .or. psum(numrl2) == 0.0_wp) then
+               if (Abserr > errsum) goto 50
+               if (psum(numrl2) == 0.0_wp) return
+            end if
+            if (Abserr/abs(Result) <= (errsum + drl)/abs(psum(numrl2))) &
+               then
+               if (Ier >= 1 .and. Ier /= 7) Abserr = Abserr + drl
                return
-            endif
+            end if
          else
 !
 !           integration by dqagie if omega is zero
 !           --------------------------------------
 !
-            if ( Integr==1 ) call dqagie(f,0.0_wp,1,Epsabs,0.0_wp, &
-                 Limit,Result,Abserr,Neval,Ier,Alist,Blist,Rlist,Elist, &
-                 Iord,last)
+            if (Integr == 1) call dqagie(f, 0.0_wp, 1, Epsabs, 0.0_wp, &
+                                         Limit, Result, Abserr, Neval, &
+                                         Ier, Alist, Blist, Rlist, Elist, &
+                                         Iord, last)
             Rslst(1) = Result
             Erlst(1) = Abserr
             Ierlst(1) = Ier
             Lst = 1
             return
-         endif
- 50      Result = psum(numrl2)
+         end if
+50       Result = psum(numrl2)
          Abserr = errsum + drl
-      endif
+      end if
 
-    end subroutine dqawfe
+   end subroutine dqawfe
 !********************************************************************************
 
 !********************************************************************************
@@ -3718,16 +3718,16 @@ module quadpack
 !                      provide space for storing the chebyshev moments.
 !                     note that limit = lenw/2.
 
-      subroutine dqawo(f,a,b,Omega,Integr,Epsabs,Epsrel,Result,Abserr, &
-                       Neval,Ier,Leniw,Maxp1,Lenw,Last,Iwork,Work)
+   subroutine dqawo(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, &
+                    Neval, Ier, Leniw, Maxp1, Lenw, Last, Iwork, Work)
       implicit none
 
-      real(wp) a , Abserr , b , Epsabs , Epsrel , Omega , &
-                       Result , Work
-      integer Ier , Integr , Iwork , Last , limit , Lenw , Leniw , lvl ,&
-              l1 , l2 , l3 , l4 , Maxp1 , momcom , Neval
+      real(wp) a, Abserr, b, Epsabs, Epsrel, Omega, &
+         Result, Work
+      integer Ier, Integr, Iwork, Last, limit, Lenw, Leniw, lvl, &
+         l1, l2, l3, l4, Maxp1, momcom, Neval
 !
-      dimension Iwork(Leniw) , Work(Lenw)
+      dimension Iwork(Leniw), Work(Lenw)
 !
       procedure(func) :: f
 !
@@ -3739,7 +3739,7 @@ module quadpack
       Last = 0
       Result = 0.0_wp
       Abserr = 0.0_wp
-      if ( Leniw>=2 .and. Maxp1>=1 .and. Lenw>=(Leniw*2+Maxp1*25) ) then
+      if (Leniw >= 2 .and. Maxp1 >= 1 .and. Lenw >= (Leniw*2 + Maxp1*25)) then
 !
 !         prepare call for dqawoe
 !
@@ -3748,19 +3748,19 @@ module quadpack
          l2 = limit + l1
          l3 = limit + l2
          l4 = limit + l3
-         call dqawoe(f,a,b,Omega,Integr,Epsabs,Epsrel,limit,1,Maxp1, &
-                     Result,Abserr,Neval,Ier,Last,Work(1),Work(l1), &
-                     Work(l2),Work(l3),Iwork(1),Iwork(l1),momcom, &
+         call dqawoe(f, a, b, Omega, Integr, Epsabs, Epsrel, limit, 1, Maxp1, &
+                     Result, Abserr, Neval, Ier, Last, Work(1), Work(l1), &
+                     Work(l2), Work(l3), Iwork(1), Iwork(l1), momcom, &
                      Work(l4))
 !
 !         call error handler if necessary
 !
          lvl = 0
-      endif
-      if ( Ier==6 ) lvl = 0
-      if ( Ier/=0 ) call xerror('abnormal return from dqawo',26,Ier,lvl)
+      end if
+      if (Ier == 6) lvl = 0
+      if (Ier /= 0) call xerror('abnormal return from dqawo', 26, Ier, lvl)
 
-      end subroutine dqawo
+   end subroutine dqawo
 !********************************************************************************
 
 !********************************************************************************
@@ -3956,29 +3956,29 @@ module quadpack
 !                     array of dimension (maxp1,25) containing the
 !                     chebyshev moments
 
-      subroutine dqawoe(f,a,b,Omega,Integr,Epsabs,Epsrel,Limit,Icall, &
-                        Maxp1,Result,Abserr,Neval,Ier,Last,Alist,Blist, &
-                        Rlist,Elist,Iord,Nnlog,Momcom,Chebmo)
+   subroutine dqawoe(f, a, b, Omega, Integr, Epsabs, Epsrel, Limit, Icall, &
+                     Maxp1, Result, Abserr, Neval, Ier, Last, Alist, Blist, &
+                     Rlist, Elist, Iord, Nnlog, Momcom, Chebmo)
       implicit none
 
-      real(wp) a , abseps , Abserr , Alist , area , area1 , &
-                       area12 , area2 , a1 , a2 , b , Blist , b1 , b2 , &
-                       Chebmo , correc , defab1 , defab2 , &
-                       defabs , domega , dres , Elist ,&
-                       Epsabs , Epsrel , erlarg , erlast , &
-                       errbnd , errmax , error1 , erro12 , error2 , &
-                       errsum , ertest , Omega , resabs , &
-                       reseps , Result , res3la , Rlist , rlist2 , &
-                       small , width
-      integer Icall , id , Ier , ierro , Integr , Iord , iroff1 , &
-              iroff2 , iroff3 , jupbnd , k , ksgn , ktmin , Last , &
-              Limit , maxerr , Maxp1 , Momcom , nev , Neval , Nnlog , &
-              nres , nrmax , nrmom , numrl2
-      logical extrap , noext , extall
+      real(wp) a, abseps, Abserr, Alist, area, area1, &
+         area12, area2, a1, a2, b, Blist, b1, b2, &
+         Chebmo, correc, defab1, defab2, &
+         defabs, domega, dres, Elist, &
+         Epsabs, Epsrel, erlarg, erlast, &
+         errbnd, errmax, error1, erro12, error2, &
+         errsum, ertest, Omega, resabs, &
+         reseps, Result, res3la, Rlist, rlist2, &
+         small, width
+      integer Icall, id, Ier, ierro, Integr, Iord, iroff1, &
+         iroff2, iroff3, jupbnd, k, ksgn, ktmin, Last, &
+         Limit, maxerr, Maxp1, Momcom, nev, Neval, Nnlog, &
+         nres, nrmax, nrmom, numrl2
+      logical extrap, noext, extall
 !
-      dimension Alist(Limit) , Blist(Limit) , Rlist(Limit) , &
-                Elist(Limit) , Iord(Limit) , rlist2(52) , res3la(3) , &
-                Chebmo(Maxp1,25) , Nnlog(Limit)
+      dimension Alist(Limit), Blist(Limit), Rlist(Limit), &
+         Elist(Limit), Iord(Limit), rlist2(52), res3la(3), &
+         Chebmo(Maxp1, 25), Nnlog(Limit)
 !
       procedure(func) :: f
 !
@@ -4041,32 +4041,32 @@ module quadpack
       Elist(1) = 0.0_wp
       Iord(1) = 0
       Nnlog(1) = 0
-      if ( (Integr/=1 .and. Integr/=2) .or. &
-           (Epsabs<=0.0_wp .and. Epsrel<max(50.0_wp*epmach,0.5e-28_wp)) &
-           .or. Icall<1 .or. Maxp1<1 ) Ier = 6
-      if ( Ier/=6 ) then
+      if ((Integr /= 1 .and. Integr /= 2) .or. &
+          (Epsabs <= 0.0_wp .and. Epsrel < max(50.0_wp*epmach, 0.5e-28_wp)) &
+          .or. Icall < 1 .or. Maxp1 < 1) Ier = 6
+      if (Ier /= 6) then
 !
 !           first approximation to the integral
 !           -----------------------------------
 !
          domega = abs(Omega)
          nrmom = 0
-         if ( Icall<=1 ) Momcom = 0
-         call dqc25f(f,a,b,domega,Integr,nrmom,Maxp1,0,Result,Abserr, &
-                     Neval,defabs,resabs,Momcom,Chebmo)
+         if (Icall <= 1) Momcom = 0
+         call dqc25f(f, a, b, domega, Integr, nrmom, Maxp1, 0, Result, Abserr, &
+                     Neval, defabs, resabs, Momcom, Chebmo)
 !
 !           test on accuracy.
 !
          dres = abs(Result)
-         errbnd = max(Epsabs,Epsrel*dres)
+         errbnd = max(Epsabs, Epsrel*dres)
          Rlist(1) = Result
          Elist(1) = Abserr
          Iord(1) = 1
-         if ( Abserr<=100.0_wp*epmach*defabs .and. Abserr>errbnd ) &
-              Ier = 2
-         if ( Limit==1 ) Ier = 1
-         if ( Ier/=0 .or. Abserr<=errbnd ) then
-            if ( Integr==2 .and. Omega<0.0_wp ) Result = -Result
+         if (Abserr <= 100.0_wp*epmach*defabs .and. Abserr > errbnd) &
+            Ier = 2
+         if (Limit == 1) Ier = 1
+         if (Ier /= 0 .or. Abserr <= errbnd) then
+            if (Integr == 2 .and. Omega < 0.0_wp) Result = -Result
             return
          else
 !
@@ -4086,38 +4086,38 @@ module quadpack
             iroff2 = 0
             iroff3 = 0
             ktmin = 0
-            small = abs(b-a)*0.75_wp
+            small = abs(b - a)*0.75_wp
             nres = 0
             numrl2 = 0
             extall = .false.
-            if ( 0.5_wp*abs(b-a)*domega<=2.0_wp ) then
+            if (0.5_wp*abs(b - a)*domega <= 2.0_wp) then
                numrl2 = 1
                extall = .true.
                rlist2(1) = Result
-            endif
-            if ( 0.25_wp*abs(b-a)*domega<=2.0_wp ) extall = .true.
+            end if
+            if (0.25_wp*abs(b - a)*domega <= 2.0_wp) extall = .true.
             ksgn = -1
-            if ( dres>=(1.0_wp-50.0_wp*epmach)*defabs ) ksgn = 1
+            if (dres >= (1.0_wp - 50.0_wp*epmach)*defabs) ksgn = 1
 !
 !           main do-loop
 !           ------------
 !
-            do Last = 2 , Limit
+            do Last = 2, Limit
 !
 !           bisect the subinterval with the nrmax-th largest
 !           error estimate.
 !
                nrmom = Nnlog(maxerr) + 1
                a1 = Alist(maxerr)
-               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
                a2 = b1
                b2 = Blist(maxerr)
                erlast = errmax
-               call dqc25f(f,a1,b1,domega,Integr,nrmom,Maxp1,0,area1, &
-                           error1,nev,resabs,defab1,Momcom,Chebmo)
+               call dqc25f(f, a1, b1, domega, Integr, nrmom, Maxp1, 0, area1, &
+                           error1, nev, resabs, defab1, Momcom, Chebmo)
                Neval = Neval + nev
-               call dqc25f(f,a2,b2,domega,Integr,nrmom,Maxp1,1,area2, &
-                           error2,nev,resabs,defab2,Momcom,Chebmo)
+               call dqc25f(f, a2, b2, domega, Integr, nrmom, Maxp1, 1, area2, &
+                           error2, nev, resabs, defab2, Momcom, Chebmo)
                Neval = Neval + nev
 !
 !           improve previous approximations to integral
@@ -4127,39 +4127,39 @@ module quadpack
                erro12 = error1 + error2
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
-               if ( defab1/=error1 .and. defab2/=error2 ) then
-                  if ( abs(Rlist(maxerr)-area12)<=0.1e-4_wp*abs(area12) &
-                       .and. erro12>=0.99_wp*errmax ) then
-                     if ( extrap ) iroff2 = iroff2 + 1
-                     if ( .not.extrap ) iroff1 = iroff1 + 1
-                  endif
-                  if ( Last>10 .and. erro12>errmax ) iroff3 = iroff3 + 1
-               endif
+               if (defab1 /= error1 .and. defab2 /= error2) then
+                  if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) &
+                      .and. erro12 >= 0.99_wp*errmax) then
+                     if (extrap) iroff2 = iroff2 + 1
+                     if (.not. extrap) iroff1 = iroff1 + 1
+                  end if
+                  if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
+               end if
                Rlist(maxerr) = area1
                Rlist(Last) = area2
                Nnlog(maxerr) = nrmom
                Nnlog(Last) = nrmom
-               errbnd = max(Epsabs,Epsrel*abs(area))
+               errbnd = max(Epsabs, Epsrel*abs(area))
 !
 !           test for roundoff error and eventually set error flag.
 !
-               if ( iroff1+iroff2>=10 .or. iroff3>=20 ) Ier = 2
-               if ( iroff2>=5 ) ierro = 3
+               if (iroff1 + iroff2 >= 10 .or. iroff3 >= 20) Ier = 2
+               if (iroff2 >= 5) ierro = 3
 !
 !           set error flag in the case that the number of
 !           subintervals equals limit.
 !
-               if ( Last==Limit ) Ier = 1
+               if (Last == Limit) Ier = 1
 !
 !           set error flag in the case of bad integrand behaviour
 !           at a point of the integration range.
 !
-               if ( max(abs(a1),abs(b2))<=(1.0_wp+100.0_wp*epmach) &
-                    *(abs(a2)+1000.0_wp*uflow) ) Ier = 4
+               if (max(abs(a1), abs(b2)) <= (1.0_wp + 100.0_wp*epmach) &
+                   *(abs(a2) + 1000.0_wp*uflow)) Ier = 4
 !
 !           append the newly-created intervals to the list.
 !
-               if ( error2>error1 ) then
+               if (error2 > error1) then
                   Alist(maxerr) = a2
                   Alist(Last) = a1
                   Blist(Last) = b1
@@ -4173,34 +4173,34 @@ module quadpack
                   Blist(Last) = b2
                   Elist(maxerr) = error1
                   Elist(Last) = error2
-               endif
+               end if
 !
 !           call subroutine dqpsrt to maintain the descending ordering
 !           in the list of error estimates and select the subinterval
 !           with nrmax-th largest error estimate (to bisected next).
 !
-               call dqpsrt(Limit,Last,maxerr,errmax,Elist,Iord,nrmax)
+               call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
 ! ***jump out of do-loop
-               if ( errsum<=errbnd ) goto 50
-               if ( Ier/=0 ) goto 40
-               if ( Last==2 .and. extall ) then
+               if (errsum <= errbnd) goto 50
+               if (Ier /= 0) goto 40
+               if (Last == 2 .and. extall) then
                   small = small*0.5_wp
                   numrl2 = numrl2 + 1
                   rlist2(numrl2) = area
                else
-                  if ( noext ) goto 20
-                  if ( extall ) then
+                  if (noext) goto 20
+                  if (extall) then
                      erlarg = erlarg - erlast
-                     if ( abs(b1-a1)>small ) erlarg = erlarg + erro12
-                     if ( extrap ) goto 5
-                  endif
+                     if (abs(b1 - a1) > small) erlarg = erlarg + erro12
+                     if (extrap) goto 5
+                  end if
 !
 !           test whether the interval to be bisected next is the
 !           smallest interval.
 !
-                  width = abs(Blist(maxerr)-Alist(maxerr))
-                  if ( width>small ) goto 20
-                  if ( extall ) then
+                  width = abs(Blist(maxerr) - Alist(maxerr))
+                  if (width > small) goto 20
+                  if (extall) then
                      extrap = .true.
                      nrmax = 2
                   else
@@ -4210,51 +4210,51 @@ module quadpack
 !           use of a gauss-kronrod rule - see subroutine dqc25f).
 !
                      small = small*0.5_wp
-                     if ( 0.25_wp*width*domega>2.0_wp ) goto 20
+                     if (0.25_wp*width*domega > 2.0_wp) goto 20
                      extall = .true.
                      goto 10
-                  endif
- 5                if ( ierro/=3 .and. erlarg>ertest ) then
+                  end if
+5                 if (ierro /= 3 .and. erlarg > ertest) then
 !
 !           the smallest interval has the largest error.
 !           before bisecting decrease the sum of the errors over
 !           the larger intervals (erlarg) and perform extrapolation.
 !
                      jupbnd = Last
-                     if ( Last>(Limit/2+2) ) jupbnd = Limit + 3 - Last
+                     if (Last > (Limit/2 + 2)) jupbnd = Limit + 3 - Last
                      id = nrmax
-                     do k = id , jupbnd
+                     do k = id, jupbnd
                         maxerr = Iord(nrmax)
                         errmax = Elist(maxerr)
-                        if ( abs(Blist(maxerr)-Alist(maxerr))>small ) &
-                             goto 20
+                        if (abs(Blist(maxerr) - Alist(maxerr)) > small) &
+                           goto 20
                         nrmax = nrmax + 1
-                     enddo
-                  endif
+                     end do
+                  end if
 !
 !           perform extrapolation.
 !
                   numrl2 = numrl2 + 1
                   rlist2(numrl2) = area
-                  if ( numrl2>=3 ) then
-                     call dqelg(numrl2,rlist2,reseps,abseps,res3la,nres)
+                  if (numrl2 >= 3) then
+                     call dqelg(numrl2, rlist2, reseps, abseps, res3la, nres)
                      ktmin = ktmin + 1
-                     if ( ktmin>5 .and. Abserr<0.1e-02_wp*errsum ) Ier = 5
-                     if ( abseps<Abserr ) then
+                     if (ktmin > 5 .and. Abserr < 0.1e-02_wp*errsum) Ier = 5
+                     if (abseps < Abserr) then
                         ktmin = 0
                         Abserr = abseps
                         Result = reseps
                         correc = erlarg
-                        ertest = max(Epsabs,Epsrel*abs(reseps))
+                        ertest = max(Epsabs, Epsrel*abs(reseps))
 ! ***jump out of do-loop
-                        if ( Abserr<=ertest ) goto 40
-                     endif
+                        if (Abserr <= ertest) goto 40
+                     end if
 !
 !           prepare bisection of the smallest interval.
 !
-                     if ( numrl2==1 ) noext = .true.
-                     if ( Ier==5 ) goto 40
-                  endif
+                     if (numrl2 == 1) noext = .true.
+                     if (Ier == 5) goto 40
+                  end if
                   maxerr = Iord(1)
                   errmax = Elist(maxerr)
                   nrmax = 1
@@ -4262,55 +4262,55 @@ module quadpack
                   small = small*0.5_wp
                   erlarg = errsum
                   goto 20
-               endif
- 10            ertest = errbnd
+               end if
+10             ertest = errbnd
                erlarg = errsum
- 20         enddo
+20          end do
 !
 !           set the final result.
 !           ---------------------
 !
- 40         if ( Abserr/=oflow .and. nres/=0 ) then
-               if ( Ier+ierro/=0 ) then
-                  if ( ierro==3 ) Abserr = Abserr + correc
-                  if ( Ier==0 ) Ier = 3
-                  if ( Result==0.0_wp .or. area==0.0_wp ) then
-                     if ( Abserr>errsum ) goto 50
-                     if ( area==0.0_wp ) then
-                        if ( Ier>2 ) Ier = Ier - 1
-                        if ( Integr==2 .and. Omega<0.0_wp ) Result = -Result
+40          if (Abserr /= oflow .and. nres /= 0) then
+               if (Ier + ierro /= 0) then
+                  if (ierro == 3) Abserr = Abserr + correc
+                  if (Ier == 0) Ier = 3
+                  if (Result == 0.0_wp .or. area == 0.0_wp) then
+                     if (Abserr > errsum) goto 50
+                     if (area == 0.0_wp) then
+                        if (Ier > 2) Ier = Ier - 1
+                        if (Integr == 2 .and. Omega < 0.0_wp) Result = -Result
                         return
-                     endif
-                  elseif ( Abserr/abs(Result)>errsum/abs(area) ) then
+                     end if
+                  elseif (Abserr/abs(Result) > errsum/abs(area)) then
                      goto 50
-                  endif
-               endif
+                  end if
+               end if
 !
 !           test on divergence.
 !
-               if ( ksgn/=(-1) .or. max(abs(Result),abs(area)) &
-                    >defabs*0.01_wp ) then
-                  if ( 0.01_wp>(Result/area) .or. (Result/area) &
-                       >100.0_wp .or. errsum>=abs(area) ) Ier = 6
-               endif
-               if ( Ier>2 ) Ier = Ier - 1
-               if ( Integr==2 .and. Omega<0.0_wp ) Result = -Result
+               if (ksgn /= (-1) .or. max(abs(Result), abs(area)) &
+                   > defabs*0.01_wp) then
+                  if (0.01_wp > (Result/area) .or. (Result/area) &
+                      > 100.0_wp .or. errsum >= abs(area)) Ier = 6
+               end if
+               if (Ier > 2) Ier = Ier - 1
+               if (Integr == 2 .and. Omega < 0.0_wp) Result = -Result
                return
-            endif
-         endif
+            end if
+         end if
 !
 !           compute global integral sum.
 !
- 50      Result = 0.0_wp
-         do k = 1 , Last
+50       Result = 0.0_wp
+         do k = 1, Last
             Result = Result + Rlist(k)
-         enddo
+         end do
          Abserr = errsum
-         if ( Ier>2 ) Ier = Ier - 1
-         if ( Integr==2 .and. Omega<0.0_wp ) Result = -Result
-      endif
+         if (Ier > 2) Ier = Ier - 1
+         if (Integr == 2 .and. Omega < 0.0_wp) Result = -Result
+      end if
 
-    end subroutine dqawoe
+   end subroutine dqawoe
 !********************************************************************************
 
 !********************************************************************************
@@ -4463,26 +4463,26 @@ module quadpack
 !                     number of subintervals actually produced in
 !                     the subdivision process
 
-      subroutine dqawse(f,a,b,Alfa,Beta,Integr,Epsabs,Epsrel,Limit, &
-                        Result,Abserr,Neval,Ier,Alist,Blist,Rlist,Elist,&
-                        Iord,Last)
+   subroutine dqawse(f, a, b, Alfa, Beta, Integr, Epsabs, Epsrel, Limit, &
+                     Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, &
+                     Iord, Last)
       implicit none
 
-      real(wp) a , Abserr , Alfa , Alist , area , area1 , &
-                       area12 , area2 , a1 , a2 , b , Beta , Blist , &
-                       b1 , b2 , centre , &
-                       Elist , Epsabs , Epsrel , errbnd , &
-                       errmax , error1 , erro12 , error2 , errsum , &
-                       resas1 , resas2 , Result , rg , rh , ri , rj , &
-                       Rlist
-      integer Ier , Integr , Iord , iroff1 , iroff2 , k , Last , Limit ,&
-              maxerr , nev , Neval , nrmax
+      real(wp) a, Abserr, Alfa, Alist, area, area1, &
+         area12, area2, a1, a2, b, Beta, Blist, &
+         b1, b2, centre, &
+         Elist, Epsabs, Epsrel, errbnd, &
+         errmax, error1, erro12, error2, errsum, &
+         resas1, resas2, Result, rg, rh, ri, rj, &
+         Rlist
+      integer Ier, Integr, Iord, iroff1, iroff2, k, Last, Limit, &
+         maxerr, nev, Neval, nrmax
 !
       procedure(func) :: f
 !
-      dimension Alist(Limit) , Blist(Limit) , Rlist(Limit) , &
-                Elist(Limit) , Iord(Limit) , ri(25) , rj(25) , rh(25) , &
-                rg(25)
+      dimension Alist(Limit), Blist(Limit), Rlist(Limit), &
+         Elist(Limit), Iord(Limit), ri(25), rj(25), rh(25), &
+         rg(25)
 !
 !            list of major variables
 !            -----------------------
@@ -4505,8 +4505,6 @@ module quadpack
 !           *****2    - variable for the right subinterval
 !           last      - index for subdivision
 
-
-
 !           test on validity of parameters
 !           ------------------------------
 !
@@ -4518,23 +4516,23 @@ module quadpack
       Iord(1) = 0
       Result = 0.0_wp
       Abserr = 0.0_wp
-      if ( .not.(b<=a .or. (Epsabs==0.0_wp .and. Epsrel<max(50.0_wp* &
-           epmach,0.5e-28_wp)) .or. Alfa<=(-1.0_wp) .or. Beta<=(-1.0_wp) &
-           .or. Integr<1 .or. Integr>4 .or. Limit<2) ) then
+      if (.not. (b <= a .or. (Epsabs == 0.0_wp .and. Epsrel < max(50.0_wp* &
+           epmach, 0.5e-28_wp)) .or. Alfa <= (-1.0_wp) .or. Beta <= (-1.0_wp) &
+           .or. Integr < 1 .or. Integr > 4 .or. Limit < 2)) then
          Ier = 0
 !
 !           compute the modified chebyshev moments.
 !
-         call dqmomo(Alfa,Beta,ri,rj,rg,rh,Integr)
+         call dqmomo(Alfa, Beta, ri, rj, rg, rh, Integr)
 !
 !           integrate over the intervals (a,(a+b)/2) and ((a+b)/2,b).
 !
-         centre = 0.5_wp*(b+a)
-         call dqc25s(f,a,b,a,centre,Alfa,Beta,ri,rj,rg,rh,area1,error1, &
-                     resas1,Integr,nev)
+         centre = 0.5_wp*(b + a)
+         call dqc25s(f, a, b, a, centre, Alfa, Beta, ri, rj, rg, rh, area1, error1, &
+                     resas1, Integr, nev)
          Neval = nev
-         call dqc25s(f,a,b,centre,b,Alfa,Beta,ri,rj,rg,rh,area2,error2, &
-                     resas2,Integr,nev)
+         call dqc25s(f, a, b, centre, b, Alfa, Beta, ri, rj, rg, rh, area2, error2, &
+                     resas2, Integr, nev)
          Last = 2
          Neval = Neval + nev
          Result = area1 + area2
@@ -4542,12 +4540,12 @@ module quadpack
 !
 !           test on accuracy.
 !
-         errbnd = max(Epsabs,Epsrel*abs(Result))
+         errbnd = max(Epsabs, Epsrel*abs(Result))
 !
 !           initialization
 !           --------------
 !
-         if ( error2>error1 ) then
+         if (error2 > error1) then
             Alist(1) = centre
             Alist(2) = a
             Blist(1) = b
@@ -4565,11 +4563,11 @@ module quadpack
             Rlist(2) = area2
             Elist(1) = error1
             Elist(2) = error2
-         endif
+         end if
          Iord(1) = 1
          Iord(2) = 2
-         if ( Limit==2 ) Ier = 1
-         if ( Abserr>errbnd .and. Ier/=1 ) then
+         if (Limit == 2) Ier = 1
+         if (Abserr > errbnd .and. Ier /= 1) then
             errmax = Elist(1)
             maxerr = 1
             nrmax = 1
@@ -4581,20 +4579,20 @@ module quadpack
 !            main do-loop
 !            ------------
 !
-            do Last = 3 , Limit
+            do Last = 3, Limit
 !
 !           bisect the subinterval with largest error estimate.
 !
                a1 = Alist(maxerr)
-               b1 = 0.5_wp*(Alist(maxerr)+Blist(maxerr))
+               b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
                a2 = b1
                b2 = Blist(maxerr)
 !
-               call dqc25s(f,a,b,a1,b1,Alfa,Beta,ri,rj,rg,rh,area1, &
-                           error1,resas1,Integr,nev)
+               call dqc25s(f, a, b, a1, b1, Alfa, Beta, ri, rj, rg, rh, area1, &
+                           error1, resas1, Integr, nev)
                Neval = Neval + nev
-               call dqc25s(f,a,b,a2,b2,Alfa,Beta,ri,rj,rg,rh,area2, &
-                           error2,resas2,Integr,nev)
+               call dqc25s(f, a, b, a2, b2, Alfa, Beta, ri, rj, rg, rh, area2, &
+                           error2, resas2, Integr, nev)
                Neval = Neval + nev
 !
 !           improve previous approximations integral and error
@@ -4604,47 +4602,47 @@ module quadpack
                erro12 = error1 + error2
                errsum = errsum + erro12 - errmax
                area = area + area12 - Rlist(maxerr)
-               if ( a/=a1 .and. b/=b2 ) then
-                  if ( resas1/=error1 .and. resas2/=error2 ) then
+               if (a /= a1 .and. b /= b2) then
+                  if (resas1 /= error1 .and. resas2 /= error2) then
 !
 !           test for roundoff error.
 !
-                     if ( abs(Rlist(maxerr)-area12) &
-                          <0.1e-4_wp*abs(area12) .and. &
-                          erro12>=0.99_wp*errmax ) iroff1 = iroff1 + 1
-                     if ( Last>10 .and. erro12>errmax ) &
-                          iroff2 = iroff2 + 1
-                  endif
-               endif
+                     if (abs(Rlist(maxerr) - area12) &
+                         < 0.1e-4_wp*abs(area12) .and. &
+                         erro12 >= 0.99_wp*errmax) iroff1 = iroff1 + 1
+                     if (Last > 10 .and. erro12 > errmax) &
+                        iroff2 = iroff2 + 1
+                  end if
+               end if
                Rlist(maxerr) = area1
                Rlist(Last) = area2
 !
 !           test on accuracy.
 !
-               errbnd = max(Epsabs,Epsrel*abs(area))
-               if ( errsum>errbnd ) then
+               errbnd = max(Epsabs, Epsrel*abs(area))
+               if (errsum > errbnd) then
 !
 !           set error flag in the case that the number of interval
 !           bisections exceeds limit.
 !
-                  if ( Last==Limit ) Ier = 1
+                  if (Last == Limit) Ier = 1
 !
 !
 !           set error flag in the case of roundoff error.
 !
-                  if ( iroff1>=6 .or. iroff2>=20 ) Ier = 2
+                  if (iroff1 >= 6 .or. iroff2 >= 20) Ier = 2
 !
 !           set error flag in the case of bad integrand behaviour
 !           at interior points of integration range.
 !
-                  if ( max(abs(a1),abs(b2))    &
-                       <=(1.0_wp+100.0_wp*epmach)  &
-                       *(abs(a2)+1000.0_wp*uflow) ) Ier = 3
-               endif
+                  if (max(abs(a1), abs(b2)) &
+                      <= (1.0_wp + 100.0_wp*epmach) &
+                      *(abs(a2) + 1000.0_wp*uflow)) Ier = 3
+               end if
 !
 !           append the newly-created intervals to the list.
 !
-               if ( error2>error1 ) then
+               if (error2 > error1) then
                   Alist(maxerr) = a2
                   Alist(Last) = a1
                   Blist(Last) = b1
@@ -4658,29 +4656,29 @@ module quadpack
                   Blist(Last) = b2
                   Elist(maxerr) = error1
                   Elist(Last) = error2
-               endif
+               end if
 !
 !           call subroutine dqpsrt to maintain the descending ordering
 !           in the list of error estimates and select the subinterval
 !           with largest error estimate (to be bisected next).
 !
-               call dqpsrt(Limit,Last,maxerr,errmax,Elist,Iord,nrmax)
+               call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
 ! ***jump out of do-loop
-               if ( Ier/=0 .or. errsum<=errbnd ) goto 20
-            enddo
+               if (Ier /= 0 .or. errsum <= errbnd) goto 20
+            end do
 !
 !           compute final result.
 !           ---------------------
 !
- 20         Result = 0.0_wp
-            do k = 1 , Last
+20          Result = 0.0_wp
+            do k = 1, Last
                Result = Result + Rlist(k)
-            enddo
+            end do
             Abserr = errsum
-         endif
-      endif
+         end if
+      end if
 
-      end subroutine dqawse
+   end subroutine dqawse
 !********************************************************************************
 
 !********************************************************************************
@@ -4729,16 +4727,16 @@ module quadpack
 !           neval  - integer
 !                    number of integrand evaluations
 
-      subroutine dqc25c(f,a,b,c,Result,Abserr,Krul,Neval)
+   subroutine dqc25c(f, a, b, c, Result, Abserr, Krul, Neval)
       implicit none
 
-      real(wp) a , Abserr , ak22 , amom0 , amom1 , amom2 , b , &
-                       c , cc , centr , cheb12 , cheb24 , &
-                       fval , hlgth , p2 , p3 , p4 , &
-                       resabs , resasc , Result , res12 , res24 , u , x
-      integer i , isym , k , kp , Krul , Neval
+      real(wp) a, Abserr, ak22, amom0, amom1, amom2, b, &
+         c, cc, centr, cheb12, cheb24, &
+         fval, hlgth, p2, p3, p4, &
+         resabs, resasc, Result, res12, res24, u, x
+      integer i, isym, k, kp, Krul, Neval
 !
-      dimension x(11) , fval(25) , cheb12(13) , cheb24(25)
+      dimension x(11), fval(25), cheb12(13), cheb24(25)
 !
       procedure(func) :: f
 !
@@ -4779,66 +4777,66 @@ module quadpack
 !           check the position of c.
 !
 
-      cc = (2.0_wp*c-b-a)/(b-a)
-      if ( abs(cc)<1.1_wp ) then
+      cc = (2.0_wp*c - b - a)/(b - a)
+      if (abs(cc) < 1.1_wp) then
 !
 !           use the generalized clenshaw-curtis method.
 !
-         hlgth = 0.5_wp*(b-a)
-         centr = 0.5_wp*(b+a)
+         hlgth = 0.5_wp*(b - a)
+         centr = 0.5_wp*(b + a)
          Neval = 25
-         fval(1) = 0.5_wp*f(hlgth+centr)
+         fval(1) = 0.5_wp*f(hlgth + centr)
          fval(13) = f(centr)
-         fval(25) = 0.5_wp*f(centr-hlgth)
-         do i = 2 , 12
-            u = hlgth*x(i-1)
+         fval(25) = 0.5_wp*f(centr - hlgth)
+         do i = 2, 12
+            u = hlgth*x(i - 1)
             isym = 26 - i
-            fval(i) = f(u+centr)
-            fval(isym) = f(centr-u)
-         enddo
+            fval(i) = f(u + centr)
+            fval(isym) = f(centr - u)
+         end do
 !
 !           compute the chebyshev series expansion.
 !
-         call dqcheb(x,fval,cheb12,cheb24)
+         call dqcheb(x, fval, cheb12, cheb24)
 !
 !           the modified chebyshev moments are computed by forward
 !           recursion, using amom0 and amom1 as starting values.
 !
-         amom0 = log(abs((1.0_wp-cc)/(1.0_wp+cc)))
+         amom0 = log(abs((1.0_wp - cc)/(1.0_wp + cc)))
          amom1 = 2.0_wp + cc*amom0
          res12 = cheb12(1)*amom0 + cheb12(2)*amom1
          res24 = cheb24(1)*amom0 + cheb24(2)*amom1
-         do k = 3 , 13
+         do k = 3, 13
             amom2 = 2.0_wp*cc*amom1 - amom0
-            ak22 = (k-2)*(k-2)
-            if ( (k/2)*2==k ) amom2 = amom2 - 4.0_wp/(ak22-1.0_wp)
+            ak22 = (k - 2)*(k - 2)
+            if ((k/2)*2 == k) amom2 = amom2 - 4.0_wp/(ak22 - 1.0_wp)
             res12 = res12 + cheb12(k)*amom2
             res24 = res24 + cheb24(k)*amom2
             amom0 = amom1
             amom1 = amom2
-         enddo
-         do k = 14 , 25
+         end do
+         do k = 14, 25
             amom2 = 2.0_wp*cc*amom1 - amom0
-            ak22 = (k-2)*(k-2)
-            if ( (k/2)*2==k ) amom2 = amom2 - 4.0_wp/(ak22-1.0_wp)
+            ak22 = (k - 2)*(k - 2)
+            if ((k/2)*2 == k) amom2 = amom2 - 4.0_wp/(ak22 - 1.0_wp)
             res24 = res24 + cheb24(k)*amom2
             amom0 = amom1
             amom1 = amom2
-         enddo
+         end do
          Result = res24
-         Abserr = abs(res24-res12)
+         Abserr = abs(res24 - res12)
       else
 !
 !           apply the 15-point gauss-kronrod scheme.
 !
          Krul = Krul - 1
-         call dqk15w(f,dqwgtc,c,p2,p3,p4,kp,a,b,Result,Abserr,resabs, &
+         call dqk15w(f, dqwgtc, c, p2, p3, p4, kp, a, b, Result, Abserr, resabs, &
                      resasc)
          Neval = 15
-         if ( resasc==Abserr ) Krul = Krul + 1
-      endif
+         if (resasc == Abserr) Krul = Krul + 1
+      end if
 
-      end subroutine dqc25c
+   end subroutine dqc25c
 !********************************************************************************
 
 !********************************************************************************
@@ -4927,23 +4925,23 @@ module quadpack
 !                    the modified chebyshev moments for the first momcom
 !                    momcom interval lengths
 
-      subroutine dqc25f(f,a,b,Omega,Integr,Nrmom,Maxp1,Ksave,Result, &
-                        Abserr,Neval,Resabs,Resasc,Momcom,Chebmo)
+   subroutine dqc25f(f, a, b, Omega, Integr, Nrmom, Maxp1, Ksave, Result, &
+                     Abserr, Neval, Resabs, Resasc, Momcom, Chebmo)
       implicit none
 
-      real(wp) a , Abserr , ac , an , an2 , as , asap , ass , &
-                       b , centr , Chebmo , cheb12 , cheb24 , conc , &
-                       cons , cospar , d ,&
-                       d1 , d2 , estc , ests , fval , &
-                       hlgth  , Omega , parint , par2 , par22 , &
-                       p2 , p3 , p4 , Resabs , Resasc , resc12 , &
-                       resc24 , ress12 , ress24 , Result , sinpar , v , &
-                       x
-      integer i , iers , Integr , isym , j , k , Ksave , m , Momcom , &
-              Neval , Maxp1 , noequ , noeq1 , Nrmom
+      real(wp) a, Abserr, ac, an, an2, as, asap, ass, &
+         b, centr, Chebmo, cheb12, cheb24, conc, &
+         cons, cospar, d, &
+         d1, d2, estc, ests, fval, &
+         hlgth, Omega, parint, par2, par22, &
+         p2, p3, p4, Resabs, Resasc, resc12, &
+         resc24, ress12, ress24, Result, sinpar, v, &
+         x
+      integer i, iers, Integr, isym, j, k, Ksave, m, Momcom, &
+         Neval, Maxp1, noequ, noeq1, Nrmom
 !
-      dimension Chebmo(Maxp1,25) , cheb12(13) , cheb24(25) , d(25) , &
-                d1(25) , d2(25) , fval(25) , v(28) , x(11)
+      dimension Chebmo(Maxp1, 25), cheb12(13), cheb24(25), d(25), &
+         d1(25), d2(25), fval(25), v(28), x(11)
 !
       procedure(func) :: f
 !
@@ -4987,15 +4985,15 @@ module quadpack
 !
 
 !
-      centr = 0.5_wp*(b+a)
-      hlgth = 0.5_wp*(b-a)
+      centr = 0.5_wp*(b + a)
+      hlgth = 0.5_wp*(b - a)
       parint = Omega*hlgth
 !
 !           compute the integral using the 15-point gauss-kronrod
 !           formula if the value of the parameter in the integrand
 !           is small.
 !
-      if ( abs(parint)>2.0_wp ) then
+      if (abs(parint) > 2.0_wp) then
 !
 !           compute the integral using the generalized clenshaw-
 !           curtis method.
@@ -5008,7 +5006,7 @@ module quadpack
 !           check whether the chebyshev moments for this interval
 !           have already been computed.
 !
-         if ( Nrmom>=Momcom .and. Ksave/=1 ) then
+         if (Nrmom >= Momcom .and. Ksave /= 1) then
 !
 !           compute a new set of chebyshev moments.
 !
@@ -5021,25 +5019,25 @@ module quadpack
 !           compute the chebyshev moments with respect to cosine.
 !
             v(1) = 2.0_wp*sinpar/parint
-            v(2) = (8.0_wp*cospar+(par2+par2-8.0_wp)*sinpar/parint) &
+            v(2) = (8.0_wp*cospar + (par2 + par2 - 8.0_wp)*sinpar/parint) &
                    /par2
-            v(3) = (32.0_wp*(par2-12.0_wp)*cospar+(2.0_wp*((par2- &
-                   80.0_wp)*par2+192.0_wp)*sinpar)/parint)/(par2*par2)
+            v(3) = (32.0_wp*(par2 - 12.0_wp)*cospar + (2.0_wp*((par2 - &
+                    80.0_wp)*par2 + 192.0_wp)*sinpar)/parint)/(par2*par2)
             ac = 8.0_wp*cospar
             as = 24.0_wp*parint*sinpar
-            if ( abs(parint)>24.0_wp ) then
+            if (abs(parint) > 24.0_wp) then
 !
 !           compute the chebyshev moments by means of forward
 !           recursion.
 !
                an = 4.0_wp
-               do i = 4 , 13
+               do i = 4, 13
                   an2 = an*an
-                  v(i) = ((an2-4.0_wp)*(2.0_wp*(par22-an2-an2)*v(i-1)-&
-                         ac)+as-par2*(an+1.0_wp)*(an+2.0_wp)*v(i-2)) &
-                         /(par2*(an-1.0_wp)*(an-2.0_wp))
+                  v(i) = ((an2 - 4.0_wp)*(2.0_wp*(par22 - an2 - an2)*v(i - 1) - &
+                         ac) + as - par2*(an + 1.0_wp)*(an + 2.0_wp)*v(i - 2)) &
+                         /(par2*(an - 1.0_wp)*(an - 2.0_wp))
                   an = an + 2.0_wp
-               enddo
+               end do
             else
 !
 !           compute the chebyshev moments as the solutions of a
@@ -5049,25 +5047,25 @@ module quadpack
                noequ = 25
                noeq1 = noequ - 1
                an = 6.0_wp
-               do k = 1 , noeq1
+               do k = 1, noeq1
                   an2 = an*an
-                  d(k) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
-                  d2(k) = (an-1.0_wp)*(an-2.0_wp)*par2
-                  d1(k+1) = (an+3.0_wp)*(an+4.0_wp)*par2
-                  v(k+3) = as - (an2-4.0_wp)*ac
+                  d(k) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
+                  d2(k) = (an - 1.0_wp)*(an - 2.0_wp)*par2
+                  d1(k + 1) = (an + 3.0_wp)*(an + 4.0_wp)*par2
+                  v(k + 3) = as - (an2 - 4.0_wp)*ac
                   an = an + 2.0_wp
-               enddo
+               end do
                an2 = an*an
-               d(noequ) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
-               v(noequ+3) = as - (an2-4.0_wp)*ac
+               d(noequ) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
+               v(noequ + 3) = as - (an2 - 4.0_wp)*ac
                v(4) = v(4) - 56.0_wp*par2*v(3)
                ass = parint*sinpar
-               asap = (((((210.0_wp*par2-1.0_wp)*cospar-(105.0_wp* &
-                      par2-63.0_wp)*ass)/an2-(1.0_wp-15.0_wp*par2) &
-                      *cospar+15.0_wp*ass)/an2-cospar+3.0_wp*ass) &
-                      /an2-cospar)/an2
-               v(noequ+3) = v(noequ+3) - 2.0_wp*asap*par2*(an-1.0_wp) &
-                            *(an-2.0_wp)
+               asap = (((((210.0_wp*par2 - 1.0_wp)*cospar - (105.0_wp* &
+                        par2 - 63.0_wp)*ass)/an2 - (1.0_wp - 15.0_wp*par2) &
+                        *cospar + 15.0_wp*ass)/an2 - cospar + 3.0_wp*ass) &
+                        /an2 - cospar)/an2
+               v(noequ + 3) = v(noequ + 3) - 2.0_wp*asap*par2*(an - 1.0_wp) &
+                              *(an - 2.0_wp)
 !
 !           solve the tridiagonal system by means of gaussian
 !           elimination with partial pivoting.
@@ -5075,31 +5073,31 @@ module quadpack
 !***        call to dgtsl must be replaced by call to
 !***        real(wp) version of linpack routine sgtsl
 !
-               call dgtsl(noequ,d1,d,d2,v(4),iers)
-            endif
-            do j = 1 , 13
-               Chebmo(m,2*j-1) = v(j)
-            enddo
+               call dgtsl(noequ, d1, d, d2, v(4), iers)
+            end if
+            do j = 1, 13
+               Chebmo(m, 2*j - 1) = v(j)
+            end do
 !
 !           compute the chebyshev moments with respect to sine.
 !
-            v(1) = 2.0_wp*(sinpar-parint*cospar)/par2
-            v(2) = (18.0_wp-48.0_wp/par2)*sinpar/par2 + &
-                   (-2.0_wp+48.0_wp/par2)*cospar/parint
+            v(1) = 2.0_wp*(sinpar - parint*cospar)/par2
+            v(2) = (18.0_wp - 48.0_wp/par2)*sinpar/par2 + &
+                   (-2.0_wp + 48.0_wp/par2)*cospar/parint
             ac = -24.0_wp*parint*cospar
             as = -8.0_wp*sinpar
-            if ( abs(parint)>24.0_wp ) then
+            if (abs(parint) > 24.0_wp) then
 !
 !           compute the chebyshev moments by means of forward recursion.
 !
                an = 3.0_wp
-               do i = 3 , 12
+               do i = 3, 12
                   an2 = an*an
-                  v(i) = ((an2-4.0_wp)*(2.0_wp*(par22-an2-an2)*v(i-1)+&
-                         as)+ac-par2*(an+1.0_wp)*(an+2.0_wp)*v(i-2)) &
-                         /(par2*(an-1.0_wp)*(an-2.0_wp))
+                  v(i) = ((an2 - 4.0_wp)*(2.0_wp*(par22 - an2 - an2)*v(i - 1) + &
+                         as) + ac - par2*(an + 1.0_wp)*(an + 2.0_wp)*v(i - 2)) &
+                         /(par2*(an - 1.0_wp)*(an - 2.0_wp))
                   an = an + 2.0_wp
-               enddo
+               end do
             else
 !
 !           compute the chebyshev moments as the solutions of a boundary
@@ -5107,25 +5105,25 @@ module quadpack
 !           (computed using an asymptotic formula).
 !
                an = 5.0_wp
-               do k = 1 , noeq1
+               do k = 1, noeq1
                   an2 = an*an
-                  d(k) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
-                  d2(k) = (an-1.0_wp)*(an-2.0_wp)*par2
-                  d1(k+1) = (an+3.0_wp)*(an+4.0_wp)*par2
-                  v(k+2) = ac + (an2-4.0_wp)*as
+                  d(k) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
+                  d2(k) = (an - 1.0_wp)*(an - 2.0_wp)*par2
+                  d1(k + 1) = (an + 3.0_wp)*(an + 4.0_wp)*par2
+                  v(k + 2) = ac + (an2 - 4.0_wp)*as
                   an = an + 2.0_wp
-               enddo
+               end do
                an2 = an*an
-               d(noequ) = -2.0_wp*(an2-4.0_wp)*(par22-an2-an2)
-               v(noequ+2) = ac + (an2-4.0_wp)*as
+               d(noequ) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
+               v(noequ + 2) = ac + (an2 - 4.0_wp)*as
                v(3) = v(3) - 0.42d+02*par2*v(2)
                ass = parint*cospar
-               asap = (((((105.0_wp*par2-63.0_wp)*ass+(210.0_wp*par2-&
-                      1.0_wp)*sinpar)/an2+(15.0_wp*par2-1.0_wp) &
-                      *sinpar-15.0_wp*ass)/an2-3.0_wp*ass-sinpar) &
-                      /an2-sinpar)/an2
-               v(noequ+2) = v(noequ+2) - 2.0_wp*asap*par2*(an-1.0_wp) &
-                            *(an-2.0_wp)
+               asap = (((((105.0_wp*par2 - 63.0_wp)*ass + (210.0_wp*par2 - &
+                        1.0_wp)*sinpar)/an2 + (15.0_wp*par2 - 1.0_wp) &
+                        *sinpar - 15.0_wp*ass)/an2 - 3.0_wp*ass - sinpar) &
+                        /an2 - sinpar)/an2
+               v(noequ + 2) = v(noequ + 2) - 2.0_wp*asap*par2*(an - 1.0_wp) &
+                              *(an - 2.0_wp)
 !
 !           solve the tridiagonal system by means of gaussian
 !           elimination with partial pivoting.
@@ -5133,65 +5131,65 @@ module quadpack
 !***        call to dgtsl must be replaced by call to
 !***        real(wp) version of linpack routine sgtsl
 !
-               call dgtsl(noequ,d1,d,d2,v(3),iers)
-            endif
-            do j = 1 , 12
-               Chebmo(m,2*j) = v(j)
-            enddo
-         endif
-         if ( Nrmom<Momcom ) m = Nrmom + 1
-         if ( Momcom<(Maxp1-1) .and. Nrmom>=Momcom ) Momcom = Momcom + 1
+               call dgtsl(noequ, d1, d, d2, v(3), iers)
+            end if
+            do j = 1, 12
+               Chebmo(m, 2*j) = v(j)
+            end do
+         end if
+         if (Nrmom < Momcom) m = Nrmom + 1
+         if (Momcom < (Maxp1 - 1) .and. Nrmom >= Momcom) Momcom = Momcom + 1
 !
 !           compute the coefficients of the chebyshev expansions
 !           of degrees 12 and 24 of the function f.
 !
-         fval(1) = 0.5_wp*f(centr+hlgth)
+         fval(1) = 0.5_wp*f(centr + hlgth)
          fval(13) = f(centr)
-         fval(25) = 0.5_wp*f(centr-hlgth)
-         do i = 2 , 12
+         fval(25) = 0.5_wp*f(centr - hlgth)
+         do i = 2, 12
             isym = 26 - i
-            fval(i) = f(hlgth*x(i-1)+centr)
-            fval(isym) = f(centr-hlgth*x(i-1))
-         enddo
-         call dqcheb(x,fval,cheb12,cheb24)
+            fval(i) = f(hlgth*x(i - 1) + centr)
+            fval(isym) = f(centr - hlgth*x(i - 1))
+         end do
+         call dqcheb(x, fval, cheb12, cheb24)
 !
 !           compute the integral and error estimates.
 !
-         resc12 = cheb12(13)*Chebmo(m,13)
+         resc12 = cheb12(13)*Chebmo(m, 13)
          ress12 = 0.0_wp
          k = 11
-         do j = 1 , 6
-            resc12 = resc12 + cheb12(k)*Chebmo(m,k)
-            ress12 = ress12 + cheb12(k+1)*Chebmo(m,k+1)
+         do j = 1, 6
+            resc12 = resc12 + cheb12(k)*Chebmo(m, k)
+            ress12 = ress12 + cheb12(k + 1)*Chebmo(m, k + 1)
             k = k - 2
-         enddo
-         resc24 = cheb24(25)*Chebmo(m,25)
+         end do
+         resc24 = cheb24(25)*Chebmo(m, 25)
          ress24 = 0.0_wp
          Resabs = abs(cheb24(25))
          k = 23
-         do j = 1 , 12
-            resc24 = resc24 + cheb24(k)*Chebmo(m,k)
-            ress24 = ress24 + cheb24(k+1)*Chebmo(m,k+1)
-            Resabs = Resabs + abs(cheb24(k)) + abs(cheb24(k+1))
+         do j = 1, 12
+            resc24 = resc24 + cheb24(k)*Chebmo(m, k)
+            ress24 = ress24 + cheb24(k + 1)*Chebmo(m, k + 1)
+            Resabs = Resabs + abs(cheb24(k)) + abs(cheb24(k + 1))
             k = k - 2
-         enddo
-         estc = abs(resc24-resc12)
-         ests = abs(ress24-ress12)
+         end do
+         estc = abs(resc24 - resc12)
+         ests = abs(ress24 - ress12)
          Resabs = Resabs*abs(hlgth)
-         if ( Integr==2 ) then
+         if (Integr == 2) then
             Result = conc*ress24 + cons*resc24
             Abserr = abs(conc*ests) + abs(cons*estc)
          else
             Result = conc*resc24 - cons*ress24
             Abserr = abs(conc*estc) + abs(cons*ests)
-         endif
+         end if
       else
-         call dqk15w(f,dqwgtf,Omega,p2,p3,p4,Integr,a,b,Result,Abserr, &
-                     Resabs,Resasc)
+         call dqk15w(f, dqwgtf, Omega, p2, p3, p4, Integr, a, b, Result, Abserr, &
+                     Resabs, Resasc)
          Neval = 15
-      endif
+      end if
 
-      end subroutine dqc25f
+   end subroutine dqc25f
 !********************************************************************************
 
 !********************************************************************************
@@ -5263,19 +5261,19 @@ module quadpack
 !           nev    - integer
 !                    number of integrand evaluations
 
-      subroutine dqc25s(f,a,b,Bl,Br,Alfa,Beta,Ri,Rj,Rg,Rh,Result,Abserr,&
-                        Resasc,Integr,Nev)
+   subroutine dqc25s(f, a, b, Bl, Br, Alfa, Beta, Ri, Rj, Rg, Rh, Result, Abserr, &
+                     Resasc, Integr, Nev)
       implicit none
 
-      real(wp) a , Abserr , Alfa , b , Beta , Bl , Br , centr , &
-                       cheb12 , cheb24 , dc , factor ,&
-                       fix , fval , hlgth , resabs , Resasc , Result , &
-                       res12 , res24 , Rg , Rh , Ri , Rj , u , &
-                       x
-      integer i , Integr , isym , Nev
+      real(wp) a, Abserr, Alfa, b, Beta, Bl, Br, centr, &
+         cheb12, cheb24, dc, factor, &
+         fix, fval, hlgth, resabs, Resasc, Result, &
+         res12, res24, Rg, Rh, Ri, Rj, u, &
+         x
+      integer i, Integr, isym, Nev
 !
-      dimension cheb12(13) , cheb24(25) , fval(25) , Rg(25) , Rh(25) , &
-                Ri(25) , Rj(25) , x(11)
+      dimension cheb12(13), cheb24(25), fval(25), Rg(25), Rh(25), &
+         Ri(25), Rj(25), x(11)
 !
       procedure(func) :: f
 !
@@ -5316,8 +5314,8 @@ module quadpack
 !
 
       Nev = 25
-      if ( Bl==a .and. (Alfa/=0.0_wp .or. Integr==2 .or. Integr==4) ) &
-           then
+      if (Bl == a .and. (Alfa /= 0.0_wp .or. Integr == 2 .or. Integr == 4)) &
+         then
 !
 !           this part of the program is executed only if a = bl.
 !           ----------------------------------------------------
@@ -5327,99 +5325,99 @@ module quadpack
 !           f1 = (0.5*(b+b-br-a)-0.5*(br-a)*x)**beta
 !                  *f(0.5*(br-a)*x+0.5*(br+a))
 !
-         hlgth = 0.5_wp*(Br-Bl)
-         centr = 0.5_wp*(Br+Bl)
+         hlgth = 0.5_wp*(Br - Bl)
+         centr = 0.5_wp*(Br + Bl)
          fix = b - centr
-         fval(1) = 0.5_wp*f(hlgth+centr)*(fix-hlgth)**Beta
+         fval(1) = 0.5_wp*f(hlgth + centr)*(fix - hlgth)**Beta
          fval(13) = f(centr)*(fix**Beta)
-         fval(25) = 0.5_wp*f(centr-hlgth)*(fix+hlgth)**Beta
-         do i = 2 , 12
-            u = hlgth*x(i-1)
+         fval(25) = 0.5_wp*f(centr - hlgth)*(fix + hlgth)**Beta
+         do i = 2, 12
+            u = hlgth*x(i - 1)
             isym = 26 - i
-            fval(i) = f(u+centr)*(fix-u)**Beta
-            fval(isym) = f(centr-u)*(fix+u)**Beta
-         enddo
-         factor = hlgth**(Alfa+1.0_wp)
+            fval(i) = f(u + centr)*(fix - u)**Beta
+            fval(isym) = f(centr - u)*(fix + u)**Beta
+         end do
+         factor = hlgth**(Alfa + 1.0_wp)
          Result = 0.0_wp
          Abserr = 0.0_wp
          res12 = 0.0_wp
          res24 = 0.0_wp
-         if ( Integr>2 ) then
+         if (Integr > 2) then
 !
 !           compute the chebyshev series expansion of the
 !           following function
 !           f4 = f1*log(0.5*(b+b-br-a)-0.5*(br-a)*x)
 !
-            fval(1) = fval(1)*log(fix-hlgth)
+            fval(1) = fval(1)*log(fix - hlgth)
             fval(13) = fval(13)*log(fix)
-            fval(25) = fval(25)*log(fix+hlgth)
-            do i = 2 , 12
-               u = hlgth*x(i-1)
+            fval(25) = fval(25)*log(fix + hlgth)
+            do i = 2, 12
+               u = hlgth*x(i - 1)
                isym = 26 - i
-               fval(i) = fval(i)*log(fix-u)
-               fval(isym) = fval(isym)*log(fix+u)
-            enddo
-            call dqcheb(x,fval,cheb12,cheb24)
+               fval(i) = fval(i)*log(fix - u)
+               fval(isym) = fval(isym)*log(fix + u)
+            end do
+            call dqcheb(x, fval, cheb12, cheb24)
 !
 !           integr = 3  (or 4)
 !
-            do i = 1 , 13
+            do i = 1, 13
                res12 = res12 + cheb12(i)*Ri(i)
                res24 = res24 + cheb24(i)*Ri(i)
-            enddo
-            do i = 14 , 25
+            end do
+            do i = 14, 25
                res24 = res24 + cheb24(i)*Ri(i)
-            enddo
-            if ( Integr/=3 ) then
+            end do
+            if (Integr /= 3) then
 !
 !           integr = 4
 !
-               dc = log(Br-Bl)
+               dc = log(Br - Bl)
                Result = res24*dc
-               Abserr = abs((res24-res12)*dc)
+               Abserr = abs((res24 - res12)*dc)
                res12 = 0.0_wp
                res24 = 0.0_wp
-               do i = 1 , 13
+               do i = 1, 13
                   res12 = res12 + cheb12(i)*Rg(i)
                   res24 = res24 + cheb24(i)*Rg(i)
-               enddo
-               do i = 14 , 25
+               end do
+               do i = 14, 25
                   res24 = res24 + cheb24(i)*Rg(i)
-               enddo
-            endif
+               end do
+            end if
          else
-            call dqcheb(x,fval,cheb12,cheb24)
+            call dqcheb(x, fval, cheb12, cheb24)
 !
 !           integr = 1  (or 2)
 !
-            do i = 1 , 13
+            do i = 1, 13
                res12 = res12 + cheb12(i)*Ri(i)
                res24 = res24 + cheb24(i)*Ri(i)
-            enddo
-            do i = 14 , 25
+            end do
+            do i = 14, 25
                res24 = res24 + cheb24(i)*Ri(i)
-            enddo
-            if ( Integr/=1 ) then
+            end do
+            if (Integr /= 1) then
 !
 !           integr = 2
 !
-               dc = log(Br-Bl)
+               dc = log(Br - Bl)
                Result = res24*dc
-               Abserr = abs((res24-res12)*dc)
+               Abserr = abs((res24 - res12)*dc)
                res12 = 0.0_wp
                res24 = 0.0_wp
-               do i = 1 , 13
+               do i = 1, 13
                   res12 = res12 + cheb12(i)*Rg(i)
                   res24 = res12 + cheb24(i)*Rg(i)
-               enddo
-               do i = 14 , 25
+               end do
+               do i = 14, 25
                   res24 = res24 + cheb24(i)*Rg(i)
-               enddo
-            endif
-         endif
-         Result = (Result+res24)*factor
-         Abserr = (Abserr+abs(res24-res12))*factor
-      elseif ( Br==b .and. (Beta/=0.0_wp .or. Integr==3 .or. Integr==4) ) then
+               end do
+            end if
+         end if
+         Result = (Result + res24)*factor
+         Abserr = (Abserr + abs(res24 - res12))*factor
+      elseif (Br == b .and. (Beta /= 0.0_wp .or. Integr == 3 .or. Integr == 4)) then
 !
 !           this part of the program is executed only if b = br.
 !           ----------------------------------------------------
@@ -5429,110 +5427,110 @@ module quadpack
 !           f2 = (0.5*(b+bl-a-a)+0.5*(b-bl)*x)**alfa
 !                *f(0.5*(b-bl)*x+0.5*(b+bl))
 !
-         hlgth = 0.5_wp*(Br-Bl)
-         centr = 0.5_wp*(Br+Bl)
+         hlgth = 0.5_wp*(Br - Bl)
+         centr = 0.5_wp*(Br + Bl)
          fix = centr - a
-         fval(1) = 0.5_wp*f(hlgth+centr)*(fix+hlgth)**Alfa
+         fval(1) = 0.5_wp*f(hlgth + centr)*(fix + hlgth)**Alfa
          fval(13) = f(centr)*(fix**Alfa)
-         fval(25) = 0.5_wp*f(centr-hlgth)*(fix-hlgth)**Alfa
-         do i = 2 , 12
-            u = hlgth*x(i-1)
+         fval(25) = 0.5_wp*f(centr - hlgth)*(fix - hlgth)**Alfa
+         do i = 2, 12
+            u = hlgth*x(i - 1)
             isym = 26 - i
-            fval(i) = f(u+centr)*(fix+u)**Alfa
-            fval(isym) = f(centr-u)*(fix-u)**Alfa
-         enddo
-         factor = hlgth**(Beta+1.0_wp)
+            fval(i) = f(u + centr)*(fix + u)**Alfa
+            fval(isym) = f(centr - u)*(fix - u)**Alfa
+         end do
+         factor = hlgth**(Beta + 1.0_wp)
          Result = 0.0_wp
          Abserr = 0.0_wp
          res12 = 0.0_wp
          res24 = 0.0_wp
-         if ( Integr==2 .or. Integr==4 ) then
+         if (Integr == 2 .or. Integr == 4) then
 !
 !           compute the chebyshev series expansion of the
 !           following function
 !           f3 = f2*log(0.5*(b-bl)*x+0.5*(b+bl-a-a))
 !
-            fval(1) = fval(1)*log(hlgth+fix)
+            fval(1) = fval(1)*log(hlgth + fix)
             fval(13) = fval(13)*log(fix)
-            fval(25) = fval(25)*log(fix-hlgth)
-            do i = 2 , 12
-               u = hlgth*x(i-1)
+            fval(25) = fval(25)*log(fix - hlgth)
+            do i = 2, 12
+               u = hlgth*x(i - 1)
                isym = 26 - i
-               fval(i) = fval(i)*log(u+fix)
-               fval(isym) = fval(isym)*log(fix-u)
-            enddo
-            call dqcheb(x,fval,cheb12,cheb24)
+               fval(i) = fval(i)*log(u + fix)
+               fval(isym) = fval(isym)*log(fix - u)
+            end do
+            call dqcheb(x, fval, cheb12, cheb24)
 !
 !           integr = 2  (or 4)
 !
-            do i = 1 , 13
+            do i = 1, 13
                res12 = res12 + cheb12(i)*Rj(i)
                res24 = res24 + cheb24(i)*Rj(i)
-            enddo
-            do i = 14 , 25
+            end do
+            do i = 14, 25
                res24 = res24 + cheb24(i)*Rj(i)
-            enddo
-            if ( Integr/=2 ) then
-               dc = log(Br-Bl)
+            end do
+            if (Integr /= 2) then
+               dc = log(Br - Bl)
                Result = res24*dc
-               Abserr = abs((res24-res12)*dc)
+               Abserr = abs((res24 - res12)*dc)
                res12 = 0.0_wp
                res24 = 0.0_wp
 !
 !           integr = 4
 !
-               do i = 1 , 13
+               do i = 1, 13
                   res12 = res12 + cheb12(i)*Rh(i)
                   res24 = res24 + cheb24(i)*Rh(i)
-               enddo
-               do i = 14 , 25
+               end do
+               do i = 14, 25
                   res24 = res24 + cheb24(i)*Rh(i)
-               enddo
-            endif
+               end do
+            end if
          else
 !
 !           integr = 1  (or 3)
 !
-            call dqcheb(x,fval,cheb12,cheb24)
-            do i = 1 , 13
+            call dqcheb(x, fval, cheb12, cheb24)
+            do i = 1, 13
                res12 = res12 + cheb12(i)*Rj(i)
                res24 = res24 + cheb24(i)*Rj(i)
-            enddo
-            do i = 14 , 25
+            end do
+            do i = 14, 25
                res24 = res24 + cheb24(i)*Rj(i)
-            enddo
-            if ( Integr/=1 ) then
+            end do
+            if (Integr /= 1) then
 !
 !           integr = 3
 !
-               dc = log(Br-Bl)
+               dc = log(Br - Bl)
                Result = res24*dc
-               Abserr = abs((res24-res12)*dc)
+               Abserr = abs((res24 - res12)*dc)
                res12 = 0.0_wp
                res24 = 0.0_wp
-               do i = 1 , 13
+               do i = 1, 13
                   res12 = res12 + cheb12(i)*Rh(i)
                   res24 = res24 + cheb24(i)*Rh(i)
-               enddo
-               do i = 14 , 25
+               end do
+               do i = 14, 25
                   res24 = res24 + cheb24(i)*Rh(i)
-               enddo
-            endif
-         endif
-         Result = (Result+res24)*factor
-         Abserr = (Abserr+abs(res24-res12))*factor
+               end do
+            end if
+         end if
+         Result = (Result + res24)*factor
+         Abserr = (Abserr + abs(res24 - res12))*factor
       else
 !
 !           if a>bl and b<br, apply the 15-point gauss-kronrod
 !           scheme.
 !
 !
-         call dqk15w(f,dqwgts,a,b,Alfa,Beta,Integr,Bl,Br,Result,Abserr, &
-                     resabs,Resasc)
+         call dqk15w(f, dqwgts, a, b, Alfa, Beta, Integr, Bl, Br, Result, Abserr, &
+                     resabs, Resasc)
          Nev = 15
-      endif
+      end if
 
-      end subroutine dqc25s
+   end subroutine dqc25s
 !********************************************************************************
 
 !********************************************************************************
@@ -5574,23 +5572,23 @@ module quadpack
 !                    vector of dimension 25 containing the
 !                    chebyshev coefficients for degree 24
 
-      subroutine dqcheb(x,Fval,Cheb12,Cheb24)
+   subroutine dqcheb(x, Fval, Cheb12, Cheb24)
       implicit none
 
-      real(wp) alam , alam1 , alam2 , Cheb12 , Cheb24 , Fval , &
-                       part1 , part2 , part3 , v , x
-      integer i , j
+      real(wp) alam, alam1, alam2, Cheb12, Cheb24, Fval, &
+         part1, part2, part3, v, x
+      integer i, j
 !
-      dimension Cheb12(13) , Cheb24(25) , Fval(25) , v(12) , x(11)
+      dimension Cheb12(13), Cheb24(25), Fval(25), v(12), x(11)
 !
 
-      do i = 1 , 12
+      do i = 1, 12
          j = 26 - i
          v(i) = Fval(i) - Fval(j)
          Fval(i) = Fval(i) + Fval(j)
-      enddo
+      end do
       alam1 = v(1) - v(9)
-      alam2 = x(6)*(v(3)-v(7)-v(11))
+      alam2 = x(6)*(v(3) - v(7) - v(11))
       Cheb12(4) = alam1 + alam2
       Cheb12(10) = alam1 - alam2
       alam1 = v(2) - v(8) - v(10)
@@ -5612,7 +5610,7 @@ module quadpack
              + x(11)*v(12)
       Cheb24(2) = Cheb12(2) + alam
       Cheb24(24) = Cheb12(2) - alam
-      alam = x(11)*v(2) - x(9)*v(4) + x(7)*v(6) - x(5)*v(8) + x(3)*v(10)&
+      alam = x(11)*v(2) - x(9)*v(4) + x(7)*v(6) - x(5)*v(8) + x(3)*v(10) &
              - x(1)*v(12)
       Cheb24(12) = Cheb12(12) + alam
       Cheb24(14) = Cheb12(12) - alam
@@ -5620,19 +5618,19 @@ module quadpack
       alam2 = x(10)*v(3) - part3 + x(2)*v(11)
       Cheb12(6) = alam1 + alam2
       Cheb12(8) = alam1 - alam2
-      alam = x(5)*v(2) - x(9)*v(4) - x(1)*v(6) - x(11)*v(8) + x(3)*v(10)&
+      alam = x(5)*v(2) - x(9)*v(4) - x(1)*v(6) - x(11)*v(8) + x(3)*v(10) &
              + x(7)*v(12)
       Cheb24(6) = Cheb12(6) + alam
       Cheb24(20) = Cheb12(6) - alam
-      alam = x(7)*v(2) - x(3)*v(4) - x(11)*v(6) + x(1)*v(8) - x(9)*v(10)&
+      alam = x(7)*v(2) - x(3)*v(4) - x(11)*v(6) + x(1)*v(8) - x(9)*v(10) &
              - x(5)*v(12)
       Cheb24(8) = Cheb12(8) + alam
       Cheb24(18) = Cheb12(8) - alam
-      do i = 1 , 6
+      do i = 1, 6
          j = 14 - i
          v(i) = Fval(i) - Fval(j)
          Fval(i) = Fval(i) + Fval(j)
-      enddo
+      end do
       alam1 = v(1) + x(8)*v(5)
       alam2 = x(4)*v(3)
       Cheb12(3) = alam1 + alam2
@@ -5641,17 +5639,17 @@ module quadpack
       alam = x(2)*v(2) + x(6)*v(4) + x(10)*v(6)
       Cheb24(3) = Cheb12(3) + alam
       Cheb24(23) = Cheb12(3) - alam
-      alam = x(6)*(v(2)-v(4)-v(6))
+      alam = x(6)*(v(2) - v(4) - v(6))
       Cheb24(7) = Cheb12(7) + alam
       Cheb24(19) = Cheb12(7) - alam
       alam = x(10)*v(2) - x(6)*v(4) + x(2)*v(6)
       Cheb24(11) = Cheb12(11) + alam
       Cheb24(15) = Cheb12(11) - alam
-      do i = 1 , 3
+      do i = 1, 3
          j = 8 - i
          v(i) = Fval(i) - Fval(j)
          Fval(i) = Fval(i) + Fval(j)
-      enddo
+      end do
       Cheb12(5) = v(1) + x(8)*v(3)
       Cheb12(9) = Fval(1) - x(8)*Fval(3)
       alam = x(4)*v(2)
@@ -5667,19 +5665,19 @@ module quadpack
       Cheb12(13) = v(1) - v(3)
       Cheb24(13) = Cheb12(13)
       alam = 1.0_wp/6.0_wp
-      do i = 2 , 12
+      do i = 2, 12
          Cheb12(i) = Cheb12(i)*alam
-      enddo
+      end do
       alam = 0.5_wp*alam
       Cheb12(1) = Cheb12(1)*alam
       Cheb12(13) = Cheb12(13)*alam
-      do i = 2 , 24
+      do i = 2, 24
          Cheb24(i) = Cheb24(i)*alam
-      enddo
+      end do
       Cheb24(1) = 0.5_wp*alam*Cheb24(1)
       Cheb24(25) = 0.5_wp*alam*Cheb24(25)
 
-      end subroutine dqcheb
+   end subroutine dqcheb
 !********************************************************************************
 
 !********************************************************************************
@@ -5728,17 +5726,17 @@ module quadpack
 !                       number of calls to the routine
 !                       (should be zero at first call)
 
-      subroutine dqelg(n,Epstab,Result,Abserr,Res3la,Nres)
+   subroutine dqelg(n, Epstab, Result, Abserr, Res3la, Nres)
       implicit none
 
-      real(wp) Abserr , delta1 , delta2 , delta3 , &
-                       epsinf , Epstab , &
-                       error , err1 , err2 , err3 , e0 , e1 , e1abs , &
-                       e2 , e3 , res , Result , Res3la , ss , &
-                       tol1 , tol2 , tol3
-      integer i , ib , ib2 , ie , indx , k1 , k2 , k3 , limexp , n , &
-              newelm , Nres , num
-      dimension Epstab(52) , Res3la(3)
+      real(wp) Abserr, delta1, delta2, delta3, &
+         epsinf, Epstab, &
+         error, err1, err2, err3, e0, e1, e1abs, &
+         e2, e3, res, Result, Res3la, ss, &
+         tol1, tol2, tol3
+      integer i, ib, ib2, ie, indx, k1, k2, k3, limexp, n, &
+         newelm, Nres, num
+      dimension Epstab(52), Res3la(3)
 !
 !           list of major variables
 !           -----------------------
@@ -5763,42 +5761,41 @@ module quadpack
 !           diagonal of the epsilon table is deleted.
 !
 
-
       Nres = Nres + 1
       Abserr = oflow
       Result = Epstab(n)
-      if ( n>=3 ) then
+      if (n >= 3) then
          limexp = 50
-         Epstab(n+2) = Epstab(n)
-         newelm = (n-1)/2
+         Epstab(n + 2) = Epstab(n)
+         newelm = (n - 1)/2
          Epstab(n) = oflow
          num = n
          k1 = n
-         do i = 1 , newelm
+         do i = 1, newelm
             k2 = k1 - 1
             k3 = k1 - 2
-            res = Epstab(k1+2)
+            res = Epstab(k1 + 2)
             e0 = Epstab(k3)
             e1 = Epstab(k2)
             e2 = res
             e1abs = abs(e1)
             delta2 = e2 - e1
             err2 = abs(delta2)
-            tol2 = max(abs(e2),e1abs)*epmach
+            tol2 = max(abs(e2), e1abs)*epmach
             delta3 = e1 - e0
             err3 = abs(delta3)
-            tol3 = max(e1abs,abs(e0))*epmach
-            if ( err2>tol2 .or. err3>tol3 ) then
+            tol3 = max(e1abs, abs(e0))*epmach
+            if (err2 > tol2 .or. err3 > tol3) then
                e3 = Epstab(k1)
                Epstab(k1) = e1
                delta1 = e1 - e3
                err1 = abs(delta1)
-               tol1 = max(e1abs,abs(e3))*epmach
+               tol1 = max(e1abs, abs(e3))*epmach
 !
 !           if two elements are very close to each other, omit
 !           a part of the table by adjusting the value of n
 !
-               if ( err1>tol1 .and. err2>tol2 .and. err3>tol3 ) then
+               if (err1 > tol1 .and. err2 > tol2 .and. err3 > tol3) then
                   ss = 1.0_wp/delta1 + 1.0_wp/delta2 - 1.0_wp/delta3
                   epsinf = abs(ss*e1)
 !
@@ -5806,7 +5803,7 @@ module quadpack
 !           eventually omit a part of the table adjusting the value
 !           of n.
 !
-                  if ( epsinf>0.1d-03 ) then
+                  if (epsinf > 0.1d-03) then
 !
 !           compute a new element and eventually adjust
 !           the value of result.
@@ -5814,14 +5811,14 @@ module quadpack
                      res = e1 + 1.0_wp/ss
                      Epstab(k1) = res
                      k1 = k1 - 2
-                     error = err2 + abs(res-e2) + err3
-                     if ( error<=Abserr ) then
+                     error = err2 + abs(res - e2) + err3
+                     if (error <= Abserr) then
                         Abserr = error
                         Result = res
-                     endif
+                     end if
                      goto 50
-                  endif
-               endif
+                  end if
+               end if
                n = i + i - 1
 ! ***jump out of do-loop
                goto 100
@@ -5836,44 +5833,44 @@ module quadpack
                Abserr = err2 + err3
 ! ***jump out of do-loop
                goto 200
-            endif
- 50      enddo
+            end if
+50       end do
 !
 !           shift the table.
 !
- 100     if ( n==limexp ) n = 2*(limexp/2) - 1
+100      if (n == limexp) n = 2*(limexp/2) - 1
          ib = 1
-         if ( (num/2)*2==num ) ib = 2
+         if ((num/2)*2 == num) ib = 2
          ie = newelm + 1
-         do i = 1 , ie
+         do i = 1, ie
             ib2 = ib + 2
             Epstab(ib) = Epstab(ib2)
             ib = ib2
-         enddo
-         if ( num/=n ) then
+         end do
+         if (num /= n) then
             indx = num - n + 1
-            do i = 1 , n
+            do i = 1, n
                Epstab(i) = Epstab(indx)
                indx = indx + 1
-            enddo
-         endif
-         if ( Nres>=4 ) then
+            end do
+         end if
+         if (Nres >= 4) then
 !
 !           compute error estimate
 !
-            Abserr = abs(Result-Res3la(3)) + abs(Result-Res3la(2)) &
-                     + abs(Result-Res3la(1))
+            Abserr = abs(Result - Res3la(3)) + abs(Result - Res3la(2)) &
+                     + abs(Result - Res3la(1))
             Res3la(1) = Res3la(2)
             Res3la(2) = Res3la(3)
             Res3la(3) = Result
          else
             Res3la(Nres) = Result
             Abserr = oflow
-         endif
-      endif
- 200  Abserr = max(Abserr,5.0_wp*epmach*abs(Result))
+         end if
+      end if
+200   Abserr = max(Abserr, 5.0_wp*epmach*abs(Result))
 
-      end subroutine dqelg
+   end subroutine dqelg
 !********************************************************************************
 
 !********************************************************************************
@@ -5921,18 +5918,18 @@ module quadpack
 !                       approximation to the integral of abs(f-i/(b-a))
 !                       over (a,b)
 
-      subroutine dqk15(f,a,b,Result,Abserr,Resabs,Resasc)
+   subroutine dqk15(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , fc , fsum ,&
-                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , &
-                       wg , wgk , xgk
-      integer j , jtw , jtwm1
+      real(wp) a, absc, Abserr, b, centr, dhlgth, &
+         min, fc, fsum, &
+         fval1, fval2, fv1, fv2, hlgth, Resabs, &
+         Resasc, resg, resk, reskh, Result, &
+         wg, wgk, xgk
+      integer j, jtw, jtwm1
       procedure(func) :: f
 !
-      dimension fv1(7) , fv2(7) , wg(4) , wgk(8) , xgk(8)
+      dimension fv1(7), fv2(7), wg(4), wgk(8), xgk(8)
 !
 !           the abscissae and weights are given for the interval (-1,1).
 !           because of symmetry only the positive abscissae and their
@@ -5989,9 +5986,8 @@ module quadpack
 !           reskh  - approximation to the mean value of f over (a,b),
 !                    i.e. to i/(b-a)
 
-
-      centr = 0.5_wp*(a+b)
-      hlgth = 0.5_wp*(b-a)
+      centr = 0.5_wp*(a + b)
+      hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
 !
 !           compute the 15-point kronrod approximation to
@@ -6001,46 +5997,46 @@ module quadpack
       resg = fc*wg(4)
       resk = fc*wgk(8)
       Resabs = abs(resk)
-      do j = 1 , 3
+      do j = 1, 3
          jtw = j*2
          absc = hlgth*xgk(jtw)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtw) = fval1
          fv2(jtw) = fval2
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
-      enddo
-      do j = 1 , 4
+         Resabs = Resabs + wgk(jtw)*(abs(fval1) + abs(fval2))
+      end do
+      do j = 1, 4
          jtwm1 = j*2 - 1
          absc = hlgth*xgk(jtwm1)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtwm1) = fval1
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
-      enddo
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1) + abs(fval2))
+      end do
       reskh = resk*0.5_wp
-      Resasc = wgk(8)*abs(fc-reskh)
-      do j = 1 , 7
+      Resasc = wgk(8)*abs(fc - reskh)
+      do j = 1, 7
          Resasc = Resasc + wgk(j) &
-                  *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
-      enddo
+                  *(abs(fv1(j) - reskh) + abs(fv2(j) - reskh))
+      end do
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = abs((resk-resg)*hlgth)
-      if ( Resasc/=0.0_wp .and. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
-           **1.5_wp)
-      if ( Resabs>uflow/(50.0_wp*epmach) )  &
-           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
+      Abserr = abs((resk - resg)*hlgth)
+      if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
+                             **1.5_wp)
+      if (Resabs > uflow/(50.0_wp*epmach)) &
+         Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
-      end subroutine dqk15
+   end subroutine dqk15
 !********************************************************************************
 
 !********************************************************************************
@@ -6107,19 +6103,19 @@ module quadpack
 !                       approximation to the integral of
 !                       abs((transformed integrand)-i/(b-a)) over (a,b)
 
-      subroutine dqk15i(f,Boun,Inf,a,b,Result,Abserr,Resabs,Resasc)
+   subroutine dqk15i(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a , absc , absc1 , absc2 , Abserr , b , Boun , &
-                       centr , dinf , min , &
-                       fc , fsum , fval1 , fval2 , fv1 , &
-                       fv2 , hlgth , Resabs , Resasc , resg , resk , &
-                       reskh , Result , tabsc1 , tabsc2 , wg , &
-                       wgk , xgk
-      integer Inf , j
+      real(wp) a, absc, absc1, absc2, Abserr, b, Boun, &
+         centr, dinf, min, &
+         fc, fsum, fval1, fval2, fv1, &
+         fv2, hlgth, Resabs, Resasc, resg, resk, &
+         reskh, Result, tabsc1, tabsc2, wg, &
+         wgk, xgk
+      integer Inf, j
       procedure(func) :: f
 !
-      dimension fv1(7) , fv2(7) , xgk(8) , wgk(8) , wg(8)
+      dimension fv1(7), fv2(7), xgk(8), wgk(8), wg(8)
 !
 !           the abscissae and weights are supplied for the interval
 !           (-1,1).  because of symmetry only the positive abscissae and
@@ -6178,14 +6174,13 @@ module quadpack
 !           reskh  - approximation to the mean value of the transformed
 !                    integrand over (a,b), i.e. to i/(b-a)
 
-
-      dinf = min(1,Inf)
+      dinf = min(1, Inf)
 !
-      centr = 0.5_wp*(a+b)
-      hlgth = 0.5_wp*(b-a)
-      tabsc1 = Boun + dinf*(1.0_wp-centr)/centr
+      centr = 0.5_wp*(a + b)
+      hlgth = 0.5_wp*(b - a)
+      tabsc1 = Boun + dinf*(1.0_wp - centr)/centr
       fval1 = f(tabsc1)
-      if ( Inf==2 ) fval1 = fval1 + f(-tabsc1)
+      if (Inf == 2) fval1 = fval1 + f(-tabsc1)
       fc = (fval1/centr)/centr
 !
 !           compute the 15-point kronrod approximation to
@@ -6194,15 +6189,15 @@ module quadpack
       resg = wg(8)*fc
       resk = wgk(8)*fc
       Resabs = abs(resk)
-      do j = 1 , 7
+      do j = 1, 7
          absc = hlgth*xgk(j)
          absc1 = centr - absc
          absc2 = centr + absc
-         tabsc1 = Boun + dinf*(1.0_wp-absc1)/absc1
-         tabsc2 = Boun + dinf*(1.0_wp-absc2)/absc2
+         tabsc1 = Boun + dinf*(1.0_wp - absc1)/absc1
+         tabsc2 = Boun + dinf*(1.0_wp - absc2)/absc2
          fval1 = f(tabsc1)
          fval2 = f(tabsc2)
-         if ( Inf==2 ) then
+         if (Inf == 2) then
             fval1 = fval1 + f(-tabsc1)
             fval2 = fval2 + f(-tabsc2)
          end if
@@ -6213,25 +6208,25 @@ module quadpack
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(j)*fsum
-         Resabs = Resabs + wgk(j)*(abs(fval1)+abs(fval2))
-      enddo
+         Resabs = Resabs + wgk(j)*(abs(fval1) + abs(fval2))
+      end do
       reskh = resk*0.5_wp
-      Resasc = wgk(8)*abs(fc-reskh)
-      do j = 1 , 7
-         Resasc = Resasc + wgk(j)           &
-                  *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
-      enddo
+      Resasc = wgk(8)*abs(fc - reskh)
+      do j = 1, 7
+         Resasc = Resasc + wgk(j) &
+                  *(abs(fv1(j) - reskh) + abs(fv2(j) - reskh))
+      end do
       Result = resk*hlgth
       Resasc = Resasc*hlgth
       Resabs = Resabs*hlgth
-      Abserr = abs((resk-resg)*hlgth)
-      if ( Resasc/=0.0_wp .and. Abserr/=0.0_wp )    &
-           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
-           **1.5_wp)
-      if ( Resabs>uflow/(50.0_wp*epmach) )  &
-           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
+      Abserr = abs((resk - resg)*hlgth)
+      if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
+                             **1.5_wp)
+      if (Resabs > uflow/(50.0_wp*epmach)) &
+         Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
-      end subroutine dqk15i
+   end subroutine dqk15i
 !********************************************************************************
 
 !********************************************************************************
@@ -6290,21 +6285,21 @@ module quadpack
 !              resasc - real(wp)
 !                       approximation to the integral of abs(f-i/(b-a))
 
-      subroutine dqk15w(f,w,p1,p2,p3,p4,Kp,a,b,Result,Abserr,Resabs, &
-                        Resasc)
+   subroutine dqk15w(f, w, p1, p2, p3, p4, Kp, a, b, Result, Abserr, Resabs, &
+                     Resasc)
       implicit none
 
-      real(wp) a , absc , absc1 , absc2 , Abserr , b , centr , &
-                       abs , dhlgth , min ,&
-                       fc , fsum , fval1 , fval2 , fv1 , fv2 , &
-                       hlgth , p1 , p2 , p3 , p4 , Resabs , Resasc , &
-                       resg , resk , reskh , Result , w , wg , &
-                       wgk , xgk
-      integer j , jtw , jtwm1 , Kp
+      real(wp) a, absc, absc1, absc2, Abserr, b, centr, &
+         abs, dhlgth, min, &
+         fc, fsum, fval1, fval2, fv1, fv2, &
+         hlgth, p1, p2, p3, p4, Resabs, Resasc, &
+         resg, resk, reskh, Result, w, wg, &
+         wgk, xgk
+      integer j, jtw, jtwm1, Kp
       procedure(func) :: f
       external :: w
 !
-      dimension fv1(7) , fv2(7) , xgk(8) , wgk(8) , wg(4)
+      dimension fv1(7), fv2(7), xgk(8), wgk(8), wg(4)
 !
 !           the abscissae and weights are given for the interval (-1,1).
 !           because of symmetry only the positive abscissae and their
@@ -6320,21 +6315,21 @@ module quadpack
 !
 !           wg     - weights of the 7-point gauss rule
 !
-      data xgk(1) , xgk(2) , xgk(3) , xgk(4) , xgk(5) , xgk(6) , xgk(7) &
-           , xgk(8)/0.9914553711208126_wp , 0.9491079123427585_wp , &
-           0.8648644233597691_wp , 0.7415311855993944_wp , &
-           0.5860872354676911_wp , 0.4058451513773972_wp , &
-           0.2077849550078985_wp , 0.0000000000000000_wp/
+      data xgk(1), xgk(2), xgk(3), xgk(4), xgk(5), xgk(6), xgk(7) &
+         , xgk(8)/0.9914553711208126_wp, 0.9491079123427585_wp, &
+         0.8648644233597691_wp, 0.7415311855993944_wp, &
+         0.5860872354676911_wp, 0.4058451513773972_wp, &
+         0.2077849550078985_wp, 0.0000000000000000_wp/
 !
-      data wgk(1) , wgk(2) , wgk(3) , wgk(4) , wgk(5) , wgk(6) , wgk(7) &
-           , wgk(8)/0.2293532201052922d-01 , 0.6309209262997855d-01 , &
-           0.1047900103222502_wp , 0.1406532597155259_wp , &
-           0.1690047266392679_wp , 0.1903505780647854_wp , &
-           0.2044329400752989_wp , 0.2094821410847278_wp/
+      data wgk(1), wgk(2), wgk(3), wgk(4), wgk(5), wgk(6), wgk(7) &
+         , wgk(8)/0.2293532201052922d-01, 0.6309209262997855d-01, &
+         0.1047900103222502_wp, 0.1406532597155259_wp, &
+         0.1690047266392679_wp, 0.1903505780647854_wp, &
+         0.2044329400752989_wp, 0.2094821410847278_wp/
 !
-      data wg(1) , wg(2) , wg(3) , wg(4)/0.1294849661688697_wp , &
-           0.2797053914892767_wp , 0.3818300505051189_wp , &
-           0.4179591836734694_wp/
+      data wg(1), wg(2), wg(3), wg(4)/0.1294849661688697_wp, &
+         0.2797053914892767_wp, 0.3818300505051189_wp, &
+         0.4179591836734694_wp/
 !
 !
 !           list of major variables
@@ -6349,61 +6344,61 @@ module quadpack
 !           reskh  - approximation to the mean value of f*w over (a,b),
 !                    i.e. to i/(b-a)
 
-      centr = 0.5_wp*(a+b)
-      hlgth = 0.5_wp*(b-a)
+      centr = 0.5_wp*(a + b)
+      hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
 !
 !           compute the 15-point kronrod approximation to the
 !           integral, and estimate the error.
 !
-      fc = f(centr)*w(centr,p1,p2,p3,p4,Kp)
+      fc = f(centr)*w(centr, p1, p2, p3, p4, Kp)
       resg = wg(4)*fc
       resk = wgk(8)*fc
       Resabs = abs(resk)
-      do j = 1 , 3
+      do j = 1, 3
          jtw = j*2
          absc = hlgth*xgk(jtw)
          absc1 = centr - absc
          absc2 = centr + absc
-         fval1 = f(absc1)*w(absc1,p1,p2,p3,p4,Kp)
-         fval2 = f(absc2)*w(absc2,p1,p2,p3,p4,Kp)
+         fval1 = f(absc1)*w(absc1, p1, p2, p3, p4, Kp)
+         fval2 = f(absc2)*w(absc2, p1, p2, p3, p4, Kp)
          fv1(jtw) = fval1
          fv2(jtw) = fval2
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
-      enddo
-      do j = 1 , 4
+         Resabs = Resabs + wgk(jtw)*(abs(fval1) + abs(fval2))
+      end do
+      do j = 1, 4
          jtwm1 = j*2 - 1
          absc = hlgth*xgk(jtwm1)
          absc1 = centr - absc
          absc2 = centr + absc
-         fval1 = f(absc1)*w(absc1,p1,p2,p3,p4,Kp)
-         fval2 = f(absc2)*w(absc2,p1,p2,p3,p4,Kp)
+         fval1 = f(absc1)*w(absc1, p1, p2, p3, p4, Kp)
+         fval2 = f(absc2)*w(absc2, p1, p2, p3, p4, Kp)
          fv1(jtwm1) = fval1
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
-      enddo
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1) + abs(fval2))
+      end do
       reskh = resk*0.5_wp
-      Resasc = wgk(8)*abs(fc-reskh)
-      do j = 1 , 7
-         Resasc = Resasc + wgk(j)           &
-                  *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
-      enddo
+      Resasc = wgk(8)*abs(fc - reskh)
+      do j = 1, 7
+         Resasc = Resasc + wgk(j) &
+                  *(abs(fv1(j) - reskh) + abs(fv2(j) - reskh))
+      end do
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = abs((resk-resg)*hlgth)
-      if ( Resasc/=0.0_wp .and. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
-           **1.5_wp)
-      if ( Resabs>uflow/(50.0_wp*epmach) )  &
-           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
+      Abserr = abs((resk - resg)*hlgth)
+      if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
+                             **1.5_wp)
+      if (Resabs > uflow/(50.0_wp*epmach)) &
+         Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
-      end subroutine dqk15w
+   end subroutine dqk15w
 !********************************************************************************
 
 !********************************************************************************
@@ -6451,18 +6446,18 @@ module quadpack
 !                       approximation to the integral of abs(f-i/(b-a))
 !                       over (a,b)
 
-      subroutine dqk21(f,a,b,Result,Abserr,Resabs,Resasc)
+   subroutine dqk21(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , fc , fsum ,&
-                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , &
-                       wg , wgk , xgk
-      integer j , jtw , jtwm1
+      real(wp) a, absc, Abserr, b, centr, dhlgth, &
+         min, fc, fsum, &
+         fval1, fval2, fv1, fv2, hlgth, Resabs, &
+         Resasc, resg, resk, reskh, Result, &
+         wg, wgk, xgk
+      integer j, jtw, jtwm1
       procedure(func) :: f
 !
-      dimension fv1(10) , fv2(10) , wg(5) , wgk(11) , xgk(11)
+      dimension fv1(10), fv2(10), wg(5), wgk(11), xgk(11)
 !
 !           the abscissae and weights are given for the interval (-1,1).
 !           because of symmetry only the positive abscissae and their
@@ -6526,8 +6521,8 @@ module quadpack
 !           reskh  - approximation to the mean value of f over (a,b),
 !                    i.e. to i/(b-a)
 
-      centr = 0.5_wp*(a+b)
-      hlgth = 0.5_wp*(b-a)
+      centr = 0.5_wp*(a + b)
+      hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
 !
 !           compute the 21-point kronrod approximation to
@@ -6537,46 +6532,46 @@ module quadpack
       fc = f(centr)
       resk = wgk(11)*fc
       Resabs = abs(resk)
-      do j = 1 , 5
+      do j = 1, 5
          jtw = 2*j
          absc = hlgth*xgk(jtw)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtw) = fval1
          fv2(jtw) = fval2
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
-      enddo
-      do j = 1 , 5
+         Resabs = Resabs + wgk(jtw)*(abs(fval1) + abs(fval2))
+      end do
+      do j = 1, 5
          jtwm1 = 2*j - 1
          absc = hlgth*xgk(jtwm1)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtwm1) = fval1
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
-      enddo
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1) + abs(fval2))
+      end do
       reskh = resk*0.5_wp
-      Resasc = wgk(11)*abs(fc-reskh)
-      do j = 1 , 10
-         Resasc = Resasc + wgk(j)           &
-                  *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
-      enddo
+      Resasc = wgk(11)*abs(fc - reskh)
+      do j = 1, 10
+         Resasc = Resasc + wgk(j) &
+                  *(abs(fv1(j) - reskh) + abs(fv2(j) - reskh))
+      end do
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = abs((resk-resg)*hlgth)
-      if ( Resasc/=0.0_wp .and. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
-           **1.5_wp)
-      if ( Resabs>uflow/(50.0_wp*epmach) )  &
-           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
+      Abserr = abs((resk - resg)*hlgth)
+      if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
+                             **1.5_wp)
+      if (Resabs > uflow/(50.0_wp*epmach)) &
+         Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
-      end subroutine dqk21
+   end subroutine dqk21
 !********************************************************************************
 
 !********************************************************************************
@@ -6625,18 +6620,18 @@ module quadpack
 !                       approximation to the integral of abs(f-i/(b-a))
 !                       over (a,b)
 
-      subroutine dqk31(f,a,b,Result,Abserr,Resabs,Resasc)
+   subroutine dqk31(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , fc , fsum ,&
-                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , &
-                       wg , wgk , xgk
-      integer j , jtw , jtwm1
+      real(wp) a, absc, Abserr, b, centr, dhlgth, &
+         min, fc, fsum, &
+         fval1, fval2, fv1, fv2, hlgth, Resabs, &
+         Resasc, resg, resk, reskh, Result, &
+         wg, wgk, xgk
+      integer j, jtw, jtwm1
       procedure(func) :: f
 !
-      dimension fv1(15) , fv2(15) , xgk(16) , wgk(16) , wg(8)
+      dimension fv1(15), fv2(15), xgk(16), wgk(16), wg(8)
 !
 !           the abscissae and weights are given for the interval (-1,1).
 !           because of symmetry only the positive abscissae and their
@@ -6712,8 +6707,8 @@ module quadpack
 !           reskh  - approximation to the mean value of f over (a,b),
 !                    i.e. to i/(b-a)
 
-      centr = 0.5_wp*(a+b)
-      hlgth = 0.5_wp*(b-a)
+      centr = 0.5_wp*(a + b)
+      hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
 !
 !           compute the 31-point kronrod approximation to
@@ -6723,46 +6718,46 @@ module quadpack
       resg = wg(8)*fc
       resk = wgk(16)*fc
       Resabs = abs(resk)
-      do j = 1 , 7
+      do j = 1, 7
          jtw = j*2
          absc = hlgth*xgk(jtw)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtw) = fval1
          fv2(jtw) = fval2
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
-      enddo
-      do j = 1 , 8
+         Resabs = Resabs + wgk(jtw)*(abs(fval1) + abs(fval2))
+      end do
+      do j = 1, 8
          jtwm1 = j*2 - 1
          absc = hlgth*xgk(jtwm1)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtwm1) = fval1
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
-      enddo
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1) + abs(fval2))
+      end do
       reskh = resk*0.5_wp
-      Resasc = wgk(16)*abs(fc-reskh)
-      do j = 1 , 15
-         Resasc = Resasc + wgk(j)           &
-                  *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
-      enddo
+      Resasc = wgk(16)*abs(fc - reskh)
+      do j = 1, 15
+         Resasc = Resasc + wgk(j) &
+                  *(abs(fv1(j) - reskh) + abs(fv2(j) - reskh))
+      end do
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = abs((resk-resg)*hlgth)
-      if ( Resasc/=0.0_wp .and. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
-           **1.5_wp)
-      if ( Resabs>uflow/(50.0_wp*epmach) )  &
-           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
+      Abserr = abs((resk - resg)*hlgth)
+      if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
+                             **1.5_wp)
+      if (Resabs > uflow/(50.0_wp*epmach)) &
+         Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
-      end subroutine dqk31
+   end subroutine dqk31
 !********************************************************************************
 
 !********************************************************************************
@@ -6811,18 +6806,18 @@ module quadpack
 !                       approximation to the integal of abs(f-i/(b-a))
 !                       over (a,b)
 
-      subroutine dqk41(f,a,b,Result,Abserr,Resabs,Resasc)
+   subroutine dqk41(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , fc , fsum ,&
-                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , &
-                       wg , wgk , xgk
-      integer j , jtw , jtwm1
+      real(wp) a, absc, Abserr, b, centr, dhlgth, &
+         min, fc, fsum, &
+         fval1, fval2, fv1, fv2, hlgth, Resabs, &
+         Resasc, resg, resk, reskh, Result, &
+         wg, wgk, xgk
+      integer j, jtw, jtwm1
       procedure(func) :: f
 !
-      dimension fv1(20) , fv2(20) , xgk(21) , wgk(21) , wg(10)
+      dimension fv1(20), fv2(20), xgk(21), wgk(21), wg(10)
 !
 !           the abscissae and weights are given for the interval (-1,1).
 !           because of symmetry only the positive abscissae and their
@@ -6911,8 +6906,8 @@ module quadpack
 !           reskh  - approximation to mean value of f over (a,b), i.e.
 !                    to i/(b-a)
 
-      centr = 0.5_wp*(a+b)
-      hlgth = 0.5_wp*(b-a)
+      centr = 0.5_wp*(a + b)
+      hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
 !
 !           compute the 41-point gauss-kronrod approximation to
@@ -6922,46 +6917,46 @@ module quadpack
       fc = f(centr)
       resk = wgk(21)*fc
       Resabs = abs(resk)
-      do j = 1 , 10
+      do j = 1, 10
          jtw = j*2
          absc = hlgth*xgk(jtw)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtw) = fval1
          fv2(jtw) = fval2
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
-      enddo
-      do j = 1 , 10
+         Resabs = Resabs + wgk(jtw)*(abs(fval1) + abs(fval2))
+      end do
+      do j = 1, 10
          jtwm1 = j*2 - 1
          absc = hlgth*xgk(jtwm1)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtwm1) = fval1
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
-      enddo
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1) + abs(fval2))
+      end do
       reskh = resk*0.5_wp
-      Resasc = wgk(21)*abs(fc-reskh)
-      do j = 1 , 20
-         Resasc = Resasc + wgk(j)           &
-                  *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
-      enddo
+      Resasc = wgk(21)*abs(fc - reskh)
+      do j = 1, 20
+         Resasc = Resasc + wgk(j) &
+                  *(abs(fv1(j) - reskh) + abs(fv2(j) - reskh))
+      end do
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = abs((resk-resg)*hlgth)
-      if ( Resasc/=0.0_wp .and. Abserr/=0._wp )  &
-           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
-           **1.5_wp)
-      if ( Resabs>uflow/(50.0_wp*epmach) )  &
-           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
+      Abserr = abs((resk - resg)*hlgth)
+      if (Resasc /= 0.0_wp .and. Abserr /= 0._wp) &
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
+                             **1.5_wp)
+      if (Resabs > uflow/(50.0_wp*epmach)) &
+         Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
-      end subroutine dqk41
+   end subroutine dqk41
 !********************************************************************************
 
 !********************************************************************************
@@ -7009,18 +7004,18 @@ module quadpack
 !                       approximation to the integral of abs(f-i/(b-a))
 !                       over (a,b)
 
-      subroutine dqk51(f,a,b,Result,Abserr,Resabs,Resasc)
+   subroutine dqk51(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , fc , fsum ,&
-                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , &
-                       wg , wgk , xgk
-      integer j , jtw , jtwm1
+      real(wp) a, absc, Abserr, b, centr, dhlgth, &
+         min, fc, fsum, &
+         fval1, fval2, fv1, fv2, hlgth, Resabs, &
+         Resasc, resg, resk, reskh, Result, &
+         wg, wgk, xgk
+      integer j, jtw, jtwm1
       procedure(func) :: f
 !
-      dimension fv1(25) , fv2(25) , xgk(26) , wgk(26) , wg(13)
+      dimension fv1(25), fv2(25), xgk(26), wgk(26), wg(13)
 !
 !           the abscissae and weights are given for the interval (-1,1).
 !           because of symmetry only the positive abscissae and their
@@ -7123,8 +7118,8 @@ module quadpack
 !           reskh  - approximation to the mean value of f over (a,b),
 !                    i.e. to i/(b-a)
 
-      centr = 0.5_wp*(a+b)
-      hlgth = 0.5_wp*(b-a)
+      centr = 0.5_wp*(a + b)
+      hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
 !
 !           compute the 51-point kronrod approximation to
@@ -7134,46 +7129,46 @@ module quadpack
       resg = wg(13)*fc
       resk = wgk(26)*fc
       Resabs = abs(resk)
-      do j = 1 , 12
+      do j = 1, 12
          jtw = j*2
          absc = hlgth*xgk(jtw)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtw) = fval1
          fv2(jtw) = fval2
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
-      enddo
-      do j = 1 , 13
+         Resabs = Resabs + wgk(jtw)*(abs(fval1) + abs(fval2))
+      end do
+      do j = 1, 13
          jtwm1 = j*2 - 1
          absc = hlgth*xgk(jtwm1)
-         fval1 = f(centr-absc)
-         fval2 = f(centr+absc)
+         fval1 = f(centr - absc)
+         fval2 = f(centr + absc)
          fv1(jtwm1) = fval1
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
-      enddo
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1) + abs(fval2))
+      end do
       reskh = resk*0.5_wp
-      Resasc = wgk(26)*abs(fc-reskh)
-      do j = 1 , 25
-         Resasc = Resasc + wgk(j)           &
-                  *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
-      enddo
+      Resasc = wgk(26)*abs(fc - reskh)
+      do j = 1, 25
+         Resasc = Resasc + wgk(j) &
+                  *(abs(fv1(j) - reskh) + abs(fv2(j) - reskh))
+      end do
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = abs((resk-resg)*hlgth)
-      if ( Resasc/=0.0_wp .and. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
-           **1.5_wp)
-      if ( Resabs>uflow/(50.0_wp*epmach) )  &
-           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
+      Abserr = abs((resk - resg)*hlgth)
+      if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
+                             **1.5_wp)
+      if (Resabs > uflow/(50.0_wp*epmach)) &
+         Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
-      end subroutine dqk51
+   end subroutine dqk51
 !********************************************************************************
 
 !********************************************************************************
@@ -7219,18 +7214,18 @@ module quadpack
 !           resasc - real(wp)
 !                    approximation to the integral of abs(f-i/(b-a))
 
-      subroutine dqk61(f,a,b,Result,Abserr,Resabs,Resasc)
+   subroutine dqk61(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a , dabsc , Abserr , b , centr , dhlgth , &
-                       min , fc , fsum ,&
-                       fval1 , fval2 , fv1 , fv2 , hlgth , Resabs , &
-                       Resasc , resg , resk , reskh , Result , &
-                       wg , wgk , xgk
-      integer j , jtw , jtwm1
+      real(wp) a, dabsc, Abserr, b, centr, dhlgth, &
+         min, fc, fsum, &
+         fval1, fval2, fv1, fv2, hlgth, Resabs, &
+         Resasc, resg, resk, reskh, Result, &
+         wg, wgk, xgk
+      integer j, jtw, jtwm1
       procedure(func) :: f
 !
-      dimension fv1(30) , fv2(30) , xgk(31) , wgk(31) , wg(15)
+      dimension fv1(30), fv2(30), xgk(31), wgk(31), wg(15)
 !
 !           the abscissae and weights are given for the
 !           interval (-1,1). because of symmetry only the positive
@@ -7343,8 +7338,8 @@ module quadpack
 !           reskh  - approximation to the mean value of f
 !                    over (a,b), i.e. to i/(b-a)
 
-      centr = 0.5_wp*(b+a)
-      hlgth = 0.5_wp*(b-a)
+      centr = 0.5_wp*(b + a)
+      hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
 !
 !           compute the 61-point kronrod approximation to the
@@ -7355,46 +7350,46 @@ module quadpack
       fc = f(centr)
       resk = wgk(31)*fc
       Resabs = abs(resk)
-      do j = 1 , 15
+      do j = 1, 15
          jtw = j*2
          dabsc = hlgth*xgk(jtw)
-         fval1 = f(centr-dabsc)
-         fval2 = f(centr+dabsc)
+         fval1 = f(centr - dabsc)
+         fval2 = f(centr + dabsc)
          fv1(jtw) = fval1
          fv2(jtw) = fval2
          fsum = fval1 + fval2
          resg = resg + wg(j)*fsum
          resk = resk + wgk(jtw)*fsum
-         Resabs = Resabs + wgk(jtw)*(abs(fval1)+abs(fval2))
-      enddo
-      do j = 1 , 15
+         Resabs = Resabs + wgk(jtw)*(abs(fval1) + abs(fval2))
+      end do
+      do j = 1, 15
          jtwm1 = j*2 - 1
          dabsc = hlgth*xgk(jtwm1)
-         fval1 = f(centr-dabsc)
-         fval2 = f(centr+dabsc)
+         fval1 = f(centr - dabsc)
+         fval2 = f(centr + dabsc)
          fv1(jtwm1) = fval1
          fv2(jtwm1) = fval2
          fsum = fval1 + fval2
          resk = resk + wgk(jtwm1)*fsum
-         Resabs = Resabs + wgk(jtwm1)*(abs(fval1)+abs(fval2))
-      enddo
+         Resabs = Resabs + wgk(jtwm1)*(abs(fval1) + abs(fval2))
+      end do
       reskh = resk*0.5_wp
-      Resasc = wgk(31)*abs(fc-reskh)
-      do j = 1 , 30
-         Resasc = Resasc + wgk(j)           &
-                  *(abs(fv1(j)-reskh)+abs(fv2(j)-reskh))
-      enddo
+      Resasc = wgk(31)*abs(fc - reskh)
+      do j = 1, 30
+         Resasc = Resasc + wgk(j) &
+                  *(abs(fv1(j) - reskh) + abs(fv2(j) - reskh))
+      end do
       Result = resk*hlgth
       Resabs = Resabs*dhlgth
       Resasc = Resasc*dhlgth
-      Abserr = abs((resk-resg)*hlgth)
-      if ( Resasc/=0.0_wp .and. Abserr/=0.0_wp ) &
-           Abserr = Resasc*min(1.0_wp,(200.0_wp*Abserr/Resasc) &
-           **1.5_wp)
-      if ( Resabs>uflow/(50.0_wp*epmach) )  &
-           Abserr = max((epmach*50.0_wp)*Resabs,Abserr)
+      Abserr = abs((resk - resg)*hlgth)
+      if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
+                             **1.5_wp)
+      if (Resabs > uflow/(50.0_wp*epmach)) &
+         Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
-      end subroutine dqk61
+   end subroutine dqk61
 !********************************************************************************
 
 !********************************************************************************
@@ -7445,14 +7440,14 @@ module quadpack
 !                           = 3 compute ri, rj, rh
 !                           = 4 compute ri, rj, rg, rh
 
-      subroutine dqmomo(Alfa,Beta,Ri,Rj,Rg,Rh,Integr)
+   subroutine dqmomo(Alfa, Beta, Ri, Rj, Rg, Rh, Integr)
       implicit none
 
-      real(wp) Alfa , alfp1 , alfp2 , an , anm1 , Beta , betp1 ,&
-                       betp2 , ralf , rbet , Rg , Rh , Ri , Rj
-      integer i , im1 , Integr
+      real(wp) Alfa, alfp1, alfp2, an, anm1, Beta, betp1, &
+         betp2, ralf, rbet, Rg, Rh, Ri, Rj
+      integer i, im1, Integr
 
-      dimension Rg(25) , Rh(25) , Ri(25) , Rj(25)
+      dimension Rg(25), Rh(25), Ri(25), Rj(25)
 
       alfp1 = Alfa + 1.0_wp
       betp1 = Beta + 1.0_wp
@@ -7469,55 +7464,55 @@ module quadpack
       Rj(2) = Rj(1)*Beta/betp2
       an = 2.0_wp
       anm1 = 1.0_wp
-      do i = 3 , 25
-         Ri(i) = -(ralf+an*(an-alfp2)*Ri(i-1))/(anm1*(an+alfp1))
-         Rj(i) = -(rbet+an*(an-betp2)*Rj(i-1))/(anm1*(an+betp1))
+      do i = 3, 25
+         Ri(i) = -(ralf + an*(an - alfp2)*Ri(i - 1))/(anm1*(an + alfp1))
+         Rj(i) = -(rbet + an*(an - betp2)*Rj(i - 1))/(anm1*(an + betp1))
          anm1 = an
          an = an + 1.0_wp
-      enddo
-      if ( Integr/=1 ) then
-         if ( Integr/=3 ) then
+      end do
+      if (Integr /= 1) then
+         if (Integr /= 3) then
 !
 !           compute rg using a forward recurrence relation.
 !
             Rg(1) = -Ri(1)/alfp1
-            Rg(2) = -(ralf+ralf)/(alfp2*alfp2) - Rg(1)
+            Rg(2) = -(ralf + ralf)/(alfp2*alfp2) - Rg(1)
             an = 2.0_wp
             anm1 = 1.0_wp
             im1 = 2
-            do i = 3 , 25
-               Rg(i) = -(an*(an-alfp2)*Rg(im1)-an*Ri(im1)+anm1*Ri(i)) &
-                       /(anm1*(an+alfp1))
+            do i = 3, 25
+               Rg(i) = -(an*(an - alfp2)*Rg(im1) - an*Ri(im1) + anm1*Ri(i)) &
+                       /(anm1*(an + alfp1))
                anm1 = an
                an = an + 1.0_wp
                im1 = i
-            enddo
-            if ( Integr==2 ) goto 100
-         endif
+            end do
+            if (Integr == 2) goto 100
+         end if
 !
 !           compute rh using a forward recurrence relation.
 !
          Rh(1) = -Rj(1)/betp1
-         Rh(2) = -(rbet+rbet)/(betp2*betp2) - Rh(1)
+         Rh(2) = -(rbet + rbet)/(betp2*betp2) - Rh(1)
          an = 2.0_wp
          anm1 = 1.0_wp
          im1 = 2
-         do i = 3 , 25
-            Rh(i) = -(an*(an-betp2)*Rh(im1)-an*Rj(im1)+anm1*Rj(i)) &
-                    /(anm1*(an+betp1))
+         do i = 3, 25
+            Rh(i) = -(an*(an - betp2)*Rh(im1) - an*Rj(im1) + anm1*Rj(i)) &
+                    /(anm1*(an + betp1))
             anm1 = an
             an = an + 1.0_wp
             im1 = i
-         enddo
-         do i = 2 , 25 , 2
+         end do
+         do i = 2, 25, 2
             Rh(i) = -Rh(i)
-         enddo
-      endif
- 100  do i = 2 , 25 , 2
+         end do
+      end if
+100   do i = 2, 25, 2
          Rj(i) = -Rj(i)
-      enddo
+      end do
 
-      end subroutine dqmomo
+   end subroutine dqmomo
 !********************************************************************************
 
 !********************************************************************************
@@ -7590,22 +7585,22 @@ module quadpack
 !                            epsrel<max(50*rel.mach.acc.,0.5e-28_wp).
 !                            result, abserr and neval are set to zero.
 
-      subroutine dqng(f,a,b,Epsabs,Epsrel,Result,Abserr,Neval,Ier)
+   subroutine dqng(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier)
       implicit none
 
-      real(wp) a , absc , Abserr , b , centr , dhlgth , &
-                       min , Epsabs , &
-                       Epsrel , fcentr , fval , fval1 , fval2 , &
-                       fv1 , fv2 , fv3 , fv4 , hlgth , Result , res10 , &
-                       res21 , res43 , res87 , resabs , resasc , reskh ,&
-                       savfun , w10 , w21a , w21b , w43a , &
-                       w43b , w87a , w87b , x1 , x2 , x3 , x4
-      integer Ier , ipx , k , l , Neval
+      real(wp) a, absc, Abserr, b, centr, dhlgth, &
+         min, Epsabs, &
+         Epsrel, fcentr, fval, fval1, fval2, &
+         fv1, fv2, fv3, fv4, hlgth, Result, res10, &
+         res21, res43, res87, resabs, resasc, reskh, &
+         savfun, w10, w21a, w21b, w43a, &
+         w43b, w87a, w87b, x1, x2, x3, x4
+      integer Ier, ipx, k, l, Neval
       procedure(func) :: f
 !
-      dimension fv1(5) , fv2(5) , fv3(5) , fv4(5) , x1(5) , x2(5) , &
-                x3(11) , x4(22) , w10(5) , w21a(5) , w21b(6) , w43a(10) &
-                , w43b(12) , w87a(21) , w87b(23) , savfun(21)
+      dimension fv1(5), fv2(5), fv3(5), fv4(5), x1(5), x2(5), &
+         x3(11), x4(22), w10(5), w21a(5), w21b(6), w43a(10) &
+         , w43b(12), w87a(21), w87b(23), savfun(21)
 !
 !           the following data statements contain the
 !           abscissae and weights of the integration rules used.
@@ -7783,18 +7778,18 @@ module quadpack
       Abserr = 0.0_wp
       Neval = 0
       Ier = 6
-      if ( Epsabs>0.0_wp .or. Epsrel>=max(50.0_wp*epmach,0.5e-28_wp) ) &
-           then
-         hlgth = 0.5_wp*(b-a)
+      if (Epsabs > 0.0_wp .or. Epsrel >= max(50.0_wp*epmach, 0.5e-28_wp)) &
+         then
+         hlgth = 0.5_wp*(b - a)
          dhlgth = abs(hlgth)
-         centr = 0.5_wp*(b+a)
+         centr = 0.5_wp*(b + a)
          fcentr = f(centr)
          Neval = 21
          Ier = 1
 !
 !          compute the integral using the 10- and 21-point formula.
 !
-         do l = 1 , 3
+         do l = 1, 3
             select case (l)
             case (2)
 !
@@ -7802,94 +7797,94 @@ module quadpack
 !
                res43 = w43b(12)*fcentr
                Neval = 43
-               do k = 1 , 10
+               do k = 1, 10
                   res43 = res43 + savfun(k)*w43a(k)
-               enddo
-               do k = 1 , 11
+               end do
+               do k = 1, 11
                   ipx = ipx + 1
                   absc = hlgth*x3(k)
-                  fval = f(absc+centr) + f(centr-absc)
+                  fval = f(absc + centr) + f(centr - absc)
                   res43 = res43 + fval*w43b(k)
                   savfun(ipx) = fval
-               enddo
+               end do
 !
 !          test for convergence.
 !
                Result = res43*hlgth
-               Abserr = abs((res43-res21)*hlgth)
+               Abserr = abs((res43 - res21)*hlgth)
             case (3)
 !
 !          compute the integral using the 87-point formula.
 !
                res87 = w87b(23)*fcentr
                Neval = 87
-               do k = 1 , 21
+               do k = 1, 21
                   res87 = res87 + savfun(k)*w87a(k)
-               enddo
-               do k = 1 , 22
+               end do
+               do k = 1, 22
                   absc = hlgth*x4(k)
-                  res87 = res87 + w87b(k)*(f(absc+centr)+f(centr-absc))
-               enddo
+                  res87 = res87 + w87b(k)*(f(absc + centr) + f(centr - absc))
+               end do
                Result = res87*hlgth
-               Abserr = abs((res87-res43)*hlgth)
+               Abserr = abs((res87 - res43)*hlgth)
             case default
                res10 = 0.0_wp
                res21 = w21b(6)*fcentr
                resabs = w21b(6)*abs(fcentr)
-               do k = 1 , 5
+               do k = 1, 5
                   absc = hlgth*x1(k)
-                  fval1 = f(centr+absc)
-                  fval2 = f(centr-absc)
+                  fval1 = f(centr + absc)
+                  fval2 = f(centr - absc)
                   fval = fval1 + fval2
                   res10 = res10 + w10(k)*fval
                   res21 = res21 + w21a(k)*fval
-                  resabs = resabs + w21a(k)*(abs(fval1)+abs(fval2))
+                  resabs = resabs + w21a(k)*(abs(fval1) + abs(fval2))
                   savfun(k) = fval
                   fv1(k) = fval1
                   fv2(k) = fval2
-               enddo
+               end do
                ipx = 5
-               do k = 1 , 5
+               do k = 1, 5
                   ipx = ipx + 1
                   absc = hlgth*x2(k)
-                  fval1 = f(centr+absc)
-                  fval2 = f(centr-absc)
+                  fval1 = f(centr + absc)
+                  fval2 = f(centr - absc)
                   fval = fval1 + fval2
                   res21 = res21 + w21b(k)*fval
-                  resabs = resabs + w21b(k)*(abs(fval1)+abs(fval2))
+                  resabs = resabs + w21b(k)*(abs(fval1) + abs(fval2))
                   savfun(ipx) = fval
                   fv3(k) = fval1
                   fv4(k) = fval2
-               enddo
+               end do
 !
 !          test for convergence.
 !
                Result = res21*hlgth
                resabs = resabs*dhlgth
                reskh = 0.5_wp*res21
-               resasc = w21b(6)*abs(fcentr-reskh)
-               do k = 1 , 5
+               resasc = w21b(6)*abs(fcentr - reskh)
+               do k = 1, 5
                   resasc = resasc + w21a(k) &
-                           *(abs(fv1(k)-reskh)+abs(fv2(k)-reskh)) &
-                           + w21b(k)        &
-                           *(abs(fv3(k)-reskh)+abs(fv4(k)-reskh))
-               enddo
-               Abserr = abs((res21-res10)*hlgth)
+                           *(abs(fv1(k) - reskh) + abs(fv2(k) - reskh)) &
+                           + w21b(k) &
+                           *(abs(fv3(k) - reskh) + abs(fv4(k) - reskh))
+               end do
+               Abserr = abs((res21 - res10)*hlgth)
                resasc = resasc*dhlgth
             end select
-            if ( resasc/=0.0_wp .and. Abserr/=0.0_wp ) &
-                 Abserr = resasc*min(1.0_wp,(200.0_wp*Abserr/resasc) &
-                 **1.5_wp)
-            if ( resabs>uflow/(50.0_wp*epmach) )   &
-                 Abserr = max((epmach*50.0_wp)*resabs,Abserr)
-            if ( Abserr<=max(Epsabs,Epsrel*abs(Result)) ) Ier = 0
+            if (resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
+               Abserr = resasc*min(1.0_wp, (200.0_wp*Abserr/resasc) &
+                                   **1.5_wp)
+            if (resabs > uflow/(50.0_wp*epmach)) &
+               Abserr = max((epmach*50.0_wp)*resabs, Abserr)
+            if (Abserr <= max(Epsabs, Epsrel*abs(Result))) Ier = 0
 ! ***jump out of do-loop
-            if ( Ier==0 ) return
-         enddo
-      endif
-      call xerror('abnormal return from dqng ',26,Ier,0)
+            if (Ier == 0) return
+         end do
+      end if
+      call xerror('abnormal return from dqng ', 26, Ier, 0)
 
-    end subroutine dqng
+   end subroutine dqng
 !********************************************************************************
 
 !********************************************************************************
@@ -7943,19 +7938,19 @@ module quadpack
 !              nrmax  - integer
 !                       maxerr = iord(nrmax)
 
-      subroutine dqpsrt(Limit,Last,Maxerr,Ermax,Elist,Iord,Nrmax)
+   subroutine dqpsrt(Limit, Last, Maxerr, Ermax, Elist, Iord, Nrmax)
       implicit none
 
-      real(wp) Elist , Ermax , errmax , errmin
-      integer i , ibeg , ido , Iord , isucc , j , jbnd , jupbn , k , &
-              Last , Limit , Maxerr , Nrmax
-      dimension Elist(Last) , Iord(Last)
+      real(wp) Elist, Ermax, errmax, errmin
+      integer i, ibeg, ido, Iord, isucc, j, jbnd, jupbn, k, &
+         Last, Limit, Maxerr, Nrmax
+      dimension Elist(Last), Iord(Last)
 !
 !           check whether the list contains more than
 !           two error estimates.
 !
 
-      if ( Last>2 ) then
+      if (Last > 2) then
 !
 !           this part of the routine is only executed if, due to a
 !           difficult integrand, subdivision increased the error
@@ -7963,23 +7958,23 @@ module quadpack
 !           start after the nrmax-th largest error estimate.
 !
          errmax = Elist(Maxerr)
-         if ( Nrmax/=1 ) then
+         if (Nrmax /= 1) then
             ido = Nrmax - 1
-            do i = 1 , ido
-               isucc = Iord(Nrmax-1)
+            do i = 1, ido
+               isucc = Iord(Nrmax - 1)
 ! ***jump out of do-loop
-               if ( errmax<=Elist(isucc) ) goto 50
+               if (errmax <= Elist(isucc)) goto 50
                Iord(Nrmax) = isucc
                Nrmax = Nrmax - 1
-            enddo
-         endif
+            end do
+         end if
 !
 !           compute the number of elements in the list to be maintained
 !           in descending order. this number depends on the number of
 !           subdivisions still allowed.
 !
- 50      jupbn = Last
-         if ( Last>(Limit/2+2) ) jupbn = Limit + 3 - Last
+50       jupbn = Last
+         if (Last > (Limit/2 + 2)) jupbn = Limit + 3 - Last
          errmin = Elist(Last)
 !
 !           insert errmax by traversing the list top-down,
@@ -7987,43 +7982,43 @@ module quadpack
 !
          jbnd = jupbn - 1
          ibeg = Nrmax + 1
-         if ( ibeg<=jbnd ) then
-            do i = ibeg , jbnd
+         if (ibeg <= jbnd) then
+            do i = ibeg, jbnd
                isucc = Iord(i)
 ! ***jump out of do-loop
-               if ( errmax>=Elist(isucc) ) goto 100
-               Iord(i-1) = isucc
-            enddo
-         endif
+               if (errmax >= Elist(isucc)) goto 100
+               Iord(i - 1) = isucc
+            end do
+         end if
          Iord(jbnd) = Maxerr
          Iord(jupbn) = Last
       else
          Iord(1) = 1
          Iord(2) = 2
-      endif
+      end if
       goto 300
 !
 !           insert errmin by traversing the list bottom-up.
 !
- 100  Iord(i-1) = Maxerr
+100   Iord(i - 1) = Maxerr
       k = jbnd
-      do j = i , jbnd
+      do j = i, jbnd
          isucc = Iord(k)
 ! ***jump out of do-loop
-         if ( errmin<Elist(isucc) ) goto 200
-         Iord(k+1) = isucc
+         if (errmin < Elist(isucc)) goto 200
+         Iord(k + 1) = isucc
          k = k - 1
-      enddo
+      end do
       Iord(i) = Last
       goto 300
- 200  Iord(k+1) = Last
+200   Iord(k + 1) = Last
 !
 !           set maxerr and ermax.
 !
- 300  Maxerr = Iord(Nrmax)
+300   Maxerr = Iord(Nrmax)
       Ermax = Elist(Maxerr)
 
-      end subroutine dqpsrt
+   end subroutine dqpsrt
 !********************************************************************************
 
 !********************************************************************************
@@ -8040,13 +8035,13 @@ module quadpack
 !### Keywords
 !  * weight function, cauchy principal value
 
-   real(wp) function dqwgtc(x,c,p2,p3,p4,Kp)
-   implicit none
+   real(wp) function dqwgtc(x, c, p2, p3, p4, Kp)
+      implicit none
 
-   real(wp) :: c , p2 , p3 , p4 , x
-   integer :: Kp
+      real(wp) :: c, p2, p3, p4, x
+      integer :: Kp
 
-   dqwgtc = 1.0_wp/(x-c)
+      dqwgtc = 1.0_wp/(x - c)
 
    end function dqwgtc
 !********************************************************************************
@@ -8061,18 +8056,18 @@ module quadpack
 !### History
 !  * SLATEC: revision date 810101 (yymmdd)
 
-   real(wp) function dqwgtf(x,Omega,p2,p3,p4,Integr)
-   implicit none
+   real(wp) function dqwgtf(x, Omega, p2, p3, p4, Integr)
+      implicit none
 
-   real(wp) :: Omega , omx , p2 , p3 , p4 , x
-   integer :: Integr
+      real(wp) :: Omega, omx, p2, p3, p4, x
+      integer :: Integr
 
-   omx = Omega*x
-   if ( Integr==2 ) then
-      dqwgtf = sin(omx)
-   else
-      dqwgtf = cos(omx)
-   endif
+      omx = Omega*x
+      if (Integr == 2) then
+         dqwgtf = sin(omx)
+      else
+         dqwgtf = cos(omx)
+      end if
 
    end function dqwgtf
 !********************************************************************************
@@ -8088,25 +8083,25 @@ module quadpack
 !### History
 !  * SLATEC: revision date 810101 (yymmdd)
 
-   real(wp) function dqwgts(x,a,b,Alfa,Beta,Integr)
-   implicit none
+   real(wp) function dqwgts(x, a, b, Alfa, Beta, Integr)
+      implicit none
 
-   real(wp) :: a , Alfa , b , Beta , bmx , x , xma
-   integer :: Integr
+      real(wp) :: a, Alfa, b, Beta, bmx, x, xma
+      integer :: Integr
 
-   xma = x - a
-   bmx = b - x
+      xma = x - a
+      bmx = b - x
 
-   dqwgts = xma**Alfa*bmx**Beta
-   select case (Integr)
-   case (1)
-   case (3)
-      dqwgts = dqwgts*log(bmx)
-   case (4)
-      dqwgts = dqwgts*log(xma)*log(bmx)
-   case default
-      dqwgts = dqwgts*log(xma)
-   end select
+      dqwgts = xma**Alfa*bmx**Beta
+      select case (Integr)
+      case (1)
+      case (3)
+         dqwgts = dqwgts*log(bmx)
+      case (4)
+         dqwgts = dqwgts*log(xma)*log(bmx)
+      case default
+         dqwgts = dqwgts*log(xma)
+      end select
 
    end function dqwgts
 !********************************************************************************
@@ -8155,48 +8150,48 @@ module quadpack
    !     linpack. this version dated 08/14/78 .
    !     jack dongarra, argonne national laboratory.
 
-    subroutine dgtsl(n,c,d,e,b,info)
-    implicit none
-    integer :: n,info
-    real(wp) :: c(*),d(*),e(*),b(*)
+   subroutine dgtsl(n, c, d, e, b, info)
+      implicit none
+      integer :: n, info
+      real(wp) :: c(*), d(*), e(*), b(*)
 
-    integer :: k,kb,kp1,nm1,nm2
-    real(wp) :: t
+      integer :: k, kb, kp1, nm1, nm2
+      real(wp) :: t
 
-    info = 0
-    c(1) = d(1)
-    nm1 = n - 1
+      info = 0
+      c(1) = d(1)
+      nm1 = n - 1
 
-    if (nm1 >= 1) then
-        d(1) = e(1)
-        e(1) = 0.0_wp
-        e(n) = 0.0_wp
+      if (nm1 >= 1) then
+         d(1) = e(1)
+         e(1) = 0.0_wp
+         e(n) = 0.0_wp
 
-        do k = 1, nm1
+         do k = 1, nm1
             kp1 = k + 1
 
             ! find the largest of the two rows
 
             if (abs(c(kp1)) >= abs(c(k))) then
-                ! interchange row
-                t = c(kp1)
-                c(kp1) = c(k)
-                c(k) = t
-                t = d(kp1)
-                d(kp1) = d(k)
-                d(k) = t
-                t = e(kp1)
-                e(kp1) = e(k)
-                e(k) = t
-                t = b(kp1)
-                b(kp1) = b(k)
-                b(k) = t
+               ! interchange row
+               t = c(kp1)
+               c(kp1) = c(k)
+               c(k) = t
+               t = d(kp1)
+               d(kp1) = d(k)
+               d(k) = t
+               t = e(kp1)
+               e(kp1) = e(k)
+               e(k) = t
+               t = b(kp1)
+               b(kp1) = b(k)
+               b(k) = t
             end if
 
             ! zero elements
             if (c(k) == 0.0_wp) then
-                info = k
-                return
+               info = k
+               return
             end if
 
             t = -c(kp1)/c(k)
@@ -8204,28 +8199,28 @@ module quadpack
             d(kp1) = e(kp1) + t*e(k)
             e(kp1) = 0.0_wp
             b(kp1) = b(kp1) + t*b(k)
-        end do
+         end do
 
-    end if
+      end if
 
-    if (c(n) == 0.0_wp) then
-        info = n
-    else
-        ! back solve
-        nm2 = n - 2
-        b(n) = b(n)/c(n)
-        if (n /= 1) then
+      if (c(n) == 0.0_wp) then
+         info = n
+      else
+         ! back solve
+         nm2 = n - 2
+         b(n) = b(n)/c(n)
+         if (n /= 1) then
             b(nm1) = (b(nm1) - d(nm1)*b(n))/c(nm1)
             if (nm2 >= 1) then
-                do kb = 1, nm2
-                    k = nm2 - kb + 1
-                    b(k) = (b(k) - d(k)*b(k+1) - e(k)*b(k+2))/c(k)
-                end do
+               do kb = 1, nm2
+                  k = nm2 - kb + 1
+                  b(k) = (b(k) - d(k)*b(k + 1) - e(k)*b(k + 2))/c(k)
+               end do
             end if
-        end if
-    end if
+         end if
+      end if
 
-    end subroutine dgtsl
+   end subroutine dgtsl
 !********************************************************************************
 
 !********************************************************************************
@@ -8253,13 +8248,13 @@ module quadpack
 !    handling package", sand82-0800, sandia laboratories,
 !    1982.
 
-    subroutine xerror(messg,nmessg,nerr,level)
-    implicit none
-    character(len=*),intent(in) :: messg !! message to be processed
-    integer,intent(in) :: nmessg !! the actual number of characters in MESSG
-    integer,intent(in) :: nerr  !! the error number associated with this message.
+   subroutine xerror(messg, nmessg, nerr, level)
+      implicit none
+      character(len=*), intent(in) :: messg !! message to be processed
+      integer, intent(in) :: nmessg !! the actual number of characters in MESSG
+      integer, intent(in) :: nerr  !! the error number associated with this message.
                                 !! NERR must not be zero.
-    integer,intent(in) :: level !! error category:
+      integer, intent(in) :: level !! error category:
                                 !!  * =2 means this is an unconditionally fatal error.
                                 !!  * =1 means this is a recoverable error.  (I.e., it is
                                 !!    non-fatal if XSETF has been appropriately called.)
@@ -8268,12 +8263,12 @@ module quadpack
                                 !!    printed at most once, regardless of how many
                                 !!    times this call is executed.
 
-    !call xerrwv(messg,nmessg,nerr,level,0,0,0,0,0.,0.)
+      !call xerrwv(messg,nmessg,nerr,level,0,0,0,0,0.,0.)
 
-    write(*,*) nerr, messg(1:nmessg)
-    if (level==2) error stop
+      write (*, *) nerr, messg(1:nmessg)
+      if (level == 2) error stop
 
-    end subroutine xerror
+   end subroutine xerror
 !********************************************************************************
 
 end module quadpack
