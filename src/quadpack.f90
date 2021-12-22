@@ -2612,7 +2612,6 @@ contains
 !
 !
 !           test on validity of parameters
-!           ------------------------------
 !
       Ier = 6
       Neval = 0
@@ -3229,7 +3228,6 @@ contains
 
 !
 !           test on validity of parameters
-!           ------------------------------
 !
 
       Result = 0.0_wp
@@ -3243,7 +3241,6 @@ contains
          if (Omega /= 0.0_wp) then
 !
 !           initializations
-!           ---------------
 !
             l = abs(Omega)
             dl = 2*l + 1
@@ -3897,7 +3894,6 @@ contains
          else
 !
 !           initializations
-!           ---------------
 !
             errmax = Abserr
             maxerr = 1
@@ -4330,7 +4326,6 @@ contains
 !           last      - index for subdivision
 
 !           test on validity of parameters
-!           ------------------------------
 !
       Ier = 6
       Neval = 0
@@ -7594,7 +7589,6 @@ contains
 
 !
 !           test on validity of parameters
-!           ------------------------------
 !
       Result = 0.0_wp
       Abserr = 0.0_wp
@@ -7928,119 +7922,98 @@ contains
    end function dqwgts
 !********************************************************************************
 
-   !===================================================================
-   ! additional routines
-   !===================================================================
-
-   !********************************************************************************
-   !>
-   !     dgtsl given a general tridiagonal matrix and a right hand
-   !     side will find the solution.
-   !
-   !     on entry
-   !
-   !        n       integer
-   !                is the order of the tridiagonal matrix.
-   !
-   !        c       real(wp)(n)
-   !                is the subdiagonal of the tridiagonal matrix.
-   !                c(2) through c(n) should contain the subdiagonal.
-   !                on output c is destroyed.
-   !
-   !        d       real(wp)(n)
-   !                is the diagonal of the tridiagonal matrix.
-   !                on output d is destroyed.
-   !
-   !        e       real(wp)(n)
-   !                is the superdiagonal of the tridiagonal matrix.
-   !                e(1) through e(n-1) should contain the superdiagonal.
-   !                on output e is destroyed.
-   !
-   !        b       real(wp)(n)
-   !                is the right hand side vector.
-   !
-   !     on return
-   !
-   !        b       is the solution vector.
-   !
-   !        info    integer
-   !                = 0 normal value.
-   !                = k if the k-th element of the diagonal becomes
-   !                    exactly zero.  the subroutine returns when
-   !                    this is detected.
-   !
-   !     linpack. this version dated 08/14/78 .
-   !     jack dongarra, argonne national laboratory.
+!********************************************************************************
+!>
+!  dgtsl given a general tridiagonal matrix and a right hand
+!  side will find the solution.
+!
+!### History
+!  * linpack. this version dated 08/14/78.
+!    jack dongarra, argonne national laboratory.
 
    subroutine dgtsl(n, c, d, e, b, info)
-      implicit none
-      integer :: n, info
-      real(wp) :: c(*), d(*), e(*), b(*)
+       implicit none
 
-      integer :: k, kb, kp1, nm1, nm2
-      real(wp) :: t
+       integer,intent(in) :: n !! the order of the tridiagonal matrix.
+       integer,intent(out) :: info !! * = 0 normal value.
+                                   !! * = k if the k-th element of the diagonal becomes
+                                   !!   exactly zero.  the subroutine returns when
+                                   !!   this is detected.
+       real(wp),intent(inout) :: c(n) !! the subdiagonal of the tridiagonal matrix.
+                                      !! c(2) through c(n) should contain the subdiagonal.
+                                      !! on output c is destroyed.
+       real(wp),intent(inout) :: d(n) !! the diagonal of the tridiagonal matrix.
+                                      !! on output d is destroyed.
+       real(wp),intent(inout) :: e(n) !! the superdiagonal of the tridiagonal matrix.
+                                      !! e(1) through e(n-1) should contain the superdiagonal.
+                                      !! on output e is destroyed.
+       real(wp),intent(inout) :: b(n) !! input: is the right hand side vector..
+                                      !! output: the solution vector.
 
-      info = 0
-      c(1) = d(1)
-      nm1 = n - 1
+       integer :: k, kb, kp1, nm1, nm2
+       real(wp) :: t
 
-      if (nm1 >= 1) then
-         d(1) = e(1)
-         e(1) = 0.0_wp
-         e(n) = 0.0_wp
+       info = 0
+       c(1) = d(1)
+       nm1 = n - 1
 
-         do k = 1, nm1
-            kp1 = k + 1
+       if (nm1 >= 1) then
+           d(1) = e(1)
+           e(1) = 0.0_wp
+           e(n) = 0.0_wp
 
-            ! find the largest of the two rows
+           do k = 1, nm1
+               kp1 = k + 1
 
-            if (abs(c(kp1)) >= abs(c(k))) then
-               ! interchange row
-               t = c(kp1)
-               c(kp1) = c(k)
-               c(k) = t
-               t = d(kp1)
-               d(kp1) = d(k)
-               d(k) = t
-               t = e(kp1)
-               e(kp1) = e(k)
-               e(k) = t
-               t = b(kp1)
-               b(kp1) = b(k)
-               b(k) = t
-            end if
+               ! find the largest of the two rows
 
-            ! zero elements
-            if (c(k) == 0.0_wp) then
-               info = k
-               return
-            end if
+               if (abs(c(kp1)) >= abs(c(k))) then
+                   ! interchange row
+                   t = c(kp1)
+                   c(kp1) = c(k)
+                   c(k) = t
+                   t = d(kp1)
+                   d(kp1) = d(k)
+                   d(k) = t
+                   t = e(kp1)
+                   e(kp1) = e(k)
+                   e(k) = t
+                   t = b(kp1)
+                   b(kp1) = b(k)
+                   b(k) = t
+               end if
 
-            t = -c(kp1)/c(k)
-            c(kp1) = d(kp1) + t*d(k)
-            d(kp1) = e(kp1) + t*e(k)
-            e(kp1) = 0.0_wp
-            b(kp1) = b(kp1) + t*b(k)
-         end do
+               ! zero elements
+               if (c(k) == 0.0_wp) then
+                   info = k
+                   return
+               end if
 
-      end if
+               t = -c(kp1)/c(k)
+               c(kp1) = d(kp1) + t*d(k)
+               d(kp1) = e(kp1) + t*e(k)
+               e(kp1) = 0.0_wp
+               b(kp1) = b(kp1) + t*b(k)
+           end do
 
-      if (c(n) == 0.0_wp) then
-         info = n
-      else
-         ! back solve
-         nm2 = n - 2
-         b(n) = b(n)/c(n)
-         if (n /= 1) then
-            b(nm1) = (b(nm1) - d(nm1)*b(n))/c(nm1)
-            if (nm2 >= 1) then
-               do kb = 1, nm2
-                  k = nm2 - kb + 1
-                  b(k) = (b(k) - d(k)*b(k + 1) - e(k)*b(k + 2))/c(k)
-               end do
-            end if
-         end if
-      end if
+       end if
+
+       if (c(n) == 0.0_wp) then
+           info = n
+       else
+           ! back solve
+           nm2 = n - 2
+           b(n) = b(n)/c(n)
+           if (n /= 1) then
+               b(nm1) = (b(nm1) - d(nm1)*b(n))/c(nm1)
+               if (nm2 >= 1) then
+                   do kb = 1, nm2
+                       k = nm2 - kb + 1
+                       b(k) = (b(k) - d(k)*b(k + 1) - e(k)*b(k + 2))/c(k)
+                   end do
+               end if
+           end if
+       end if
 
    end subroutine dgtsl
 !********************************************************************************
@@ -8072,6 +8045,7 @@ contains
 
    subroutine xerror(messg, nmessg, nerr, level)
       implicit none
+
       character(len=*), intent(in) :: messg !! message to be processed
       integer, intent(in) :: nmessg !! the actual number of characters in MESSG
       integer, intent(in) :: nerr  !! the error number associated with this message.
@@ -8093,4 +8067,6 @@ contains
    end subroutine xerror
 !********************************************************************************
 
-end module quadpack
+!********************************************************************************
+    end module quadpack
+!********************************************************************************
