@@ -15,7 +15,7 @@
 !  * automatic integrator, general-purpose,
 !    integrand examinator, globally adaptive,
 !    gauss-kronrod, infinite intervals, transformation,
-!    extrapolation
+!    extrapolation, singularities at user specified points
 
 module quadpack
 
@@ -630,94 +630,94 @@ contains
 
       procedure(func) :: f !! function subprogram defining the integrand function f(x).
       integer, intent(in) :: Limit !! gives an upper bound on the number of subintervals
-                        !! in the partition of (a,b), limit>=1
+                                   !! in the partition of (a,b), limit>=1
       real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
-                           !! which should equal or exceed abs(i-result)
+                                      !! which should equal or exceed abs(i-result)
       real(wp), intent(out) :: Alist(Limit) !! vector of dimension at least limit, the first
-                                 !! `last` elements of which are the left
-                                 !! end points of the subintervals in the partition
-                                 !! of the transformed integration range (0,1).
+                                            !! `last` elements of which are the left
+                                            !! end points of the subintervals in the partition
+                                            !! of the transformed integration range (0,1).
       real(wp), intent(out) :: Blist(Limit) !! vector of dimension at least limit, the first
-                                 !! `last` elements of which are the right
-                                 !! end points of the subintervals in the partition
-                                 !! of the transformed integration range (0,1).
+                                            !! `last` elements of which are the right
+                                            !! end points of the subintervals in the partition
+                                            !! of the transformed integration range (0,1).
       real(wp), intent(out) :: Elist(Limit) !! vector of dimension at least limit,  the first
-                                 !! `last` elements of which are the moduli of the
-                                 !! absolute error estimates on the subintervals
+                                            !! `last` elements of which are the moduli of the
+                                            !! absolute error estimates on the subintervals
       real(wp), intent(out) :: Rlist(Limit) !! vector of dimension at least limit, the first
-                                 !! `last` elements of which are the integral
-                                 !! approximations on the subintervals
+                                            !! `last` elements of which are the integral
+                                            !! approximations on the subintervals
       real(wp), intent(in) :: Epsabs !! absolute accuracy requested
       real(wp), intent(in) :: Epsrel !! relative accuracy requested
-                           !! if `epsabs<=0`
-                           !! and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
-                           !! the routine will end with `ier = 6`.
+                                     !! if `epsabs<=0`
+                                     !! and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
+                                     !! the routine will end with `ier = 6`.
       real(wp), intent(out) :: Result !! approximation to the integral
       real(wp), intent(in) :: Bound !! finite bound of integration range
-                        !! (has no meaning if interval is doubly-infinite)
+                                    !! (has no meaning if interval is doubly-infinite)
       integer, intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
-                        !!   routine. it is assumed that the requested
-                        !!   accuracy has been achieved.
-                        !! * ier>0 abnormal termination of the routine. the
-                        !!   estimates for result and error are less
-                        !!   reliable. it is assumed that the requested
-                        !!   accuracy has not been achieved.
-                        !!
-                        !! error messages:
-                        !!
-                        !! * ier = 1 maximum number of subdivisions allowed
-                        !!   has been achieved. one can allow more
-                        !!   subdivisions by increasing the value of
-                        !!   limit (and taking the according dimension
-                        !!   adjustments into account). however,if
-                        !!   this yields no improvement it is advised
-                        !!   to analyze the integrand in order to
-                        !!   determine the integration difficulties.
-                        !!   if the position of a local difficulty can
-                        !!   be determined (e.g. singularity,
-                        !!   discontinuity within the interval) one
-                        !!   will probably gain from splitting up the
-                        !!   interval at this point and calling the
-                        !!   integrator on the subranges. if possible,
-                        !!   an appropriate special-purpose integrator
-                        !!   should be used, which is designed for
-                        !!   handling the type of difficulty involved.
-                        !! * ier = 2 the occurrence of roundoff error is
-                        !!   detected, which prevents the requested
-                        !!   tolerance from being achieved.
-                        !!   the error may be under-estimated.
-                        !! * ier = 3 extremely bad integrand behaviour occurs
-                        !!   at some points of the integration
-                        !!   interval.
-                        !! * ier = 4 the algorithm does not converge.
-                        !!   roundoff error is detected in the
-                        !!   extrapolation table.
-                        !!   it is assumed that the requested tolerance
-                        !!   cannot be achieved, and that the returned
-                        !!   result is the best which can be obtained.
-                        !! * ier = 5 the integral is probably divergent, or
-                        !!   slowly convergent. it must be noted that
-                        !!   divergence can occur with any other value
-                        !!   of ier.
-                        !! * ier = 6 the input is invalid, because
-                        !!   `(epsabs<=0 and epsrel<max(50*rel.mach.acc.,0.5e-28)`,
-                        !!   result, abserr, neval, last, rlist(1),
-                        !!   elist(1) and iord(1) are set to zero.
-                        !!   alist(1) and blist(1) are set to 0
-                        !!   and 1 respectively.
+                                  !!   routine. it is assumed that the requested
+                                  !!   accuracy has been achieved.
+                                  !! * ier>0 abnormal termination of the routine. the
+                                  !!   estimates for result and error are less
+                                  !!   reliable. it is assumed that the requested
+                                  !!   accuracy has not been achieved.
+                                  !!
+                                  !! error messages:
+                                  !!
+                                  !! * ier = 1 maximum number of subdivisions allowed
+                                  !!   has been achieved. one can allow more
+                                  !!   subdivisions by increasing the value of
+                                  !!   limit (and taking the according dimension
+                                  !!   adjustments into account). however,if
+                                  !!   this yields no improvement it is advised
+                                  !!   to analyze the integrand in order to
+                                  !!   determine the integration difficulties.
+                                  !!   if the position of a local difficulty can
+                                  !!   be determined (e.g. singularity,
+                                  !!   discontinuity within the interval) one
+                                  !!   will probably gain from splitting up the
+                                  !!   interval at this point and calling the
+                                  !!   integrator on the subranges. if possible,
+                                  !!   an appropriate special-purpose integrator
+                                  !!   should be used, which is designed for
+                                  !!   handling the type of difficulty involved.
+                                  !! * ier = 2 the occurrence of roundoff error is
+                                  !!   detected, which prevents the requested
+                                  !!   tolerance from being achieved.
+                                  !!   the error may be under-estimated.
+                                  !! * ier = 3 extremely bad integrand behaviour occurs
+                                  !!   at some points of the integration
+                                  !!   interval.
+                                  !! * ier = 4 the algorithm does not converge.
+                                  !!   roundoff error is detected in the
+                                  !!   extrapolation table.
+                                  !!   it is assumed that the requested tolerance
+                                  !!   cannot be achieved, and that the returned
+                                  !!   result is the best which can be obtained.
+                                  !! * ier = 5 the integral is probably divergent, or
+                                  !!   slowly convergent. it must be noted that
+                                  !!   divergence can occur with any other value
+                                  !!   of ier.
+                                  !! * ier = 6 the input is invalid, because
+                                  !!   `(epsabs<=0 and epsrel<max(50*rel.mach.acc.,0.5e-28)`,
+                                  !!   result, abserr, neval, last, rlist(1),
+                                  !!   elist(1) and iord(1) are set to zero.
+                                  !!   alist(1) and blist(1) are set to 0
+                                  !!   and 1 respectively.
       integer, intent(in) :: Inf !! indicating the kind of integration range involved
-                     !! * inf = 1  corresponds to `(bound,+infinity)`
-                     !! * inf = -1 corresponds to `(-infinity,bound)`
-                     !! * inf = 2  corresponds to `(-infinity,+infinity)`
+                                 !! * inf = 1  corresponds to `(bound,+infinity)`
+                                 !! * inf = -1 corresponds to `(-infinity,bound)`
+                                 !! * inf = 2  corresponds to `(-infinity,+infinity)`
       integer, intent(out) :: Iord(Limit) !! vector of dimension limit, the first k
-                              !! elements of which are pointers to the
-                              !! error estimates over the subintervals,
-                              !! such that elist(iord(1)), ..., elist(iord(k))
-                              !! form a decreasing sequence, with k = last
-                              !! if last<=(limit/2+2), and k = limit+1-last
-                              !! otherwise
+                                          !! elements of which are pointers to the
+                                          !! error estimates over the subintervals,
+                                          !! such that elist(iord(1)), ..., elist(iord(k))
+                                          !! form a decreasing sequence, with k = last
+                                          !! if last<=(limit/2+2), and k = limit+1-last
+                                          !! otherwise
       integer, intent(out) :: Last !! number of subintervals actually produced
-                        !! in the subdivision process
+                                   !! in the subdivision process
       integer, intent(out) :: Neval !! number of integrand evaluations
 
       real(wp) :: abseps, boun, correc, defabs, dres, &
@@ -730,32 +730,32 @@ contains
                  jupbnd, k, ksgn, ktmin, nrmax
       real(wp) :: errmax !! `elist(maxerr)`
       real(wp) :: erlast !! error on the interval currently subdivided
-               !! (before that subdivision has taken place)
+                         !! (before that subdivision has taken place)
       real(wp) :: area !! sum of the integrals over the subintervals
       real(wp) :: errsum !! sum of the errors over the subintervals
       real(wp) :: errbnd !! requested accuracy `max(epsabs,epsrel*abs(result))`
       real(wp) :: small !! length of the smallest interval considered up
-               !! to now, multiplied by 1.5
+                        !! to now, multiplied by 1.5
       real(wp) :: erlarg !! sum of the errors over the intervals larger
-               !! than the smallest interval considered up to now
+                         !! than the smallest interval considered up to now
       integer :: maxerr !! pointer to the interval with largest error estimate
       integer :: nres !! number of calls to the extrapolation routine
       integer :: numrl2 !! number of elements currently in rlist2. if an
-               !! appropriate approximation to the compounded
-               !! integral has been obtained, it is put in
-               !! rlist2(numrl2) after numrl2 has been increased
-               !! by one.
+                        !! appropriate approximation to the compounded
+                        !! integral has been obtained, it is put in
+                        !! rlist2(numrl2) after numrl2 has been increased
+                        !! by one.
       logical :: extrap !! logical variable denoting that the routine
-               !! is attempting to perform extrapolation. i.e.
-               !! before subdividing the smallest interval we
-               !! try to decrease the value of erlarg.
+                        !! is attempting to perform extrapolation. i.e.
+                        !! before subdividing the smallest interval we
+                        !! try to decrease the value of erlarg.
       logical :: noext !! logical variable denoting that extrapolation
-            !! is no longer allowed (true-value)
+                       !! is no longer allowed (true-value)
       real(wp) :: rlist2(52) !! array of dimension at least (limexp+2),
-                  !! containing the part of the epsilon table
-                  !! which is still needed for further computations.
-                  !! the dimension of `rlist2` is determined by the value of
-                  !! `limexp` in subroutine [[dqelg]].
+                             !! containing the part of the epsilon table
+                             !! which is still needed for further computations.
+                             !! the dimension of `rlist2` is determined by the value of
+                             !! `limexp` in subroutine [[dqelg]].
 
     ! test on validity of parameters
 
@@ -991,231 +991,176 @@ contains
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  automatic integrator, general-purpose,
-!             singularities at user specified points,
-!             extrapolation, globally adaptive
-!***author  piessens,robert,appl. math. & progr. div - k.u.leuven
-!           de doncker,elise,appl. math. & progr. div. - k.u.leuven
-!***purpose  the routine calculates an approximation result to a given
-!            definite integral i = integral of f over (a,b),
-!            hopefully satisfying following claim for accuracy
-!            break points of the integration interval, where local
-!            difficulties of the integrand may occur (e.g.
-!            singularities, discontinuities), are provided by the user.
-!***description
+!  the routine calculates an approximation result to a given
+!  definite integral i = integral of f over (a,b),
+!  hopefully satisfying following claim for accuracy
+!  break points of the integration interval, where local
+!  difficulties of the integrand may occur (e.g.
+!  singularities, discontinuities), are provided by the user.
 !
-!        computation of a definite integral
-!
-!        parameters
-!         on entry
-!            f      - real(wp)
-!                     function subprogram defining the integrand
-!                     function f(x). the actual name for f needs to be
-!                     declared external in the driver program.
-!
-!            a      - real(wp)
-!                     lower limit of integration
-!
-!            b      - real(wp)
-!                     upper limit of integration
-!
-!            npts2  - integer
-!                     number equal to two more than the number of
-!                     user-supplied break points within the integration
-!                     range, npts>=2.
-!                     if npts2<2, the routine will end with ier = 6.
-!
-!            points - real(wp)
-!                     vector of dimension npts2, the first (npts2-2)
-!                     elements of which are the user provided break
-!                     points. if these points do not constitute an
-!                     ascending sequence there will be an automatic
-!                     sorting.
-!
-!            epsabs - real(wp)
-!                     absolute accuracy requested
-!            epsrel - real(wp)
-!                     relative accuracy requested
-!                     if  epsabs<=0
-!                     and epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
-!                     the routine will end with ier = 6.
-!
-!         on return
-!            result - real(wp)
-!                     approximation to the integral
-!
-!            abserr - real(wp)
-!                     estimate of the modulus of the absolute error,
-!                     which should equal or exceed abs(i-result)
-!
-!            neval  - integer
-!                     number of integrand evaluations
-!
-!            ier    - integer
-!                     ier = 0 normal and reliable termination of the
-!                             routine. it is assumed that the requested
-!                             accuracy has been achieved.
-!                     ier>0 abnormal termination of the routine.
-!                             the estimates for integral and error are
-!                             less reliable. it is assumed that the
-!                             requested accuracy has not been achieved.
-!            error messages
-!                     ier = 1 maximum number of subdivisions allowed
-!                             has been achieved. one can allow more
-!                             subdivisions by increasing the value of
-!                             limit (and taking the according dimension
-!                             adjustments into account). however, if
-!                             this yields no improvement it is advised
-!                             to analyze the integrand in order to
-!                             determine the integration difficulties. if
-!                             the position of a local difficulty can be
-!                             determined (i.e. singularity,
-!                             discontinuity within the interval), it
-!                             should be supplied to the routine as an
-!                             element of the vector points. if necessary
-!                             an appropriate special-purpose integrator
-!                             must be used, which is designed for
-!                             handling the type of difficulty involved.
-!                         = 2 the occurrence of roundoff error is
-!                             detected, which prevents the requested
-!                             tolerance from being achieved.
-!                             the error may be under-estimated.
-!                         = 3 extremely bad integrand behaviour occurs
-!                             at some points of the integration
-!                             interval.
-!                         = 4 the algorithm does not converge.
-!                             roundoff error is detected in the
-!                             extrapolation table.
-!                             it is presumed that the requested
-!                             tolerance cannot be achieved, and that
-!                             the returned result is the best which
-!                             can be obtained.
-!                         = 5 the integral is probably divergent, or
-!                             slowly convergent. it must be noted that
-!                             divergence can occur with any other value
-!                             of ier>0.
-!                         = 6 the input is invalid because
-!                             npts2<2 or
-!                             break points are specified outside
-!                             the integration range or
-!                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
-!                             result, abserr, neval, last are set to
-!                             zero. exept when leniw or lenw or npts2 is
-!                             invalid, iwork(1), iwork(limit+1),
-!                             work(limit*2+1) and work(limit*3+1)
-!                             are set to zero.
-!                             work(1) is set to a and work(limit+1)
-!                             to b (where limit = (leniw-npts2)/2).
-!
-!         dimensioning parameters
-!            leniw - integer
-!                    dimensioning parameter for iwork
-!                    leniw determines limit = (leniw-npts2)/2,
-!                    which is the maximum number of subintervals in the
-!                    partition of the given integration interval (a,b),
-!                    leniw>=(3*npts2-2).
-!                    if leniw<(3*npts2-2), the routine will end with
-!                    ier = 6.
-!
-!            lenw  - integer
-!                    dimensioning parameter for work
-!                    lenw must be at least leniw*2-npts2.
-!                    if lenw<leniw*2-npts2, the routine will end
-!                    with ier = 6.
-!
-!            last  - integer
-!                    on return, last equals the number of subintervals
-!                    produced in the subdivision process, which
-!                    determines the number of significant elements
-!                    actually in the work arrays.
-!
-!         work arrays
-!            iwork - integer
-!                    vector of dimension at least leniw. on return,
-!                    the first k elements of which contain
-!                    pointers to the error estimates over the
-!                    subintervals, such that work(limit*3+iwork(1)),...,
-!                    work(limit*3+iwork(k)) form a decreasing
-!                    sequence, with k = last if last<=(limit/2+2), and
-!                    k = limit+1-last otherwise
-!                    iwork(limit+1), ...,iwork(limit+last) contain the
-!                     subdivision levels of the subintervals, i.e.
-!                     if (aa,bb) is a subinterval of (p1,p2)
-!                     where p1 as well as p2 is a user-provided
-!                     break point or integration limit, then (aa,bb) has
-!                     level l if abs(bb-aa) = abs(p2-p1)*2**(-l),
-!                    iwork(limit*2+1), ..., iwork(limit*2+npts2) have
-!                     no significance for the user,
-!                    note that limit = (leniw-npts2)/2.
-!
-!            work  - real(wp)
-!                    vector of dimension at least lenw
-!                    on return
-!                    work(1), ..., work(last) contain the left
-!                     end points of the subintervals in the
-!                     partition of (a,b),
-!                    work(limit+1), ..., work(limit+last) contain
-!                     the right end points,
-!                    work(limit*2+1), ..., work(limit*2+last) contain
-!                     the integral approximations over the subintervals,
-!                    work(limit*3+1), ..., work(limit*3+last)
-!                     contain the corresponding error estimates,
-!                    work(limit*4+1), ..., work(limit*4+npts2)
-!                     contain the integration limits and the
-!                     break points sorted in an ascending sequence.
-!                    note that limit = (leniw-npts2)/2.
+!### History
+!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-   subroutine dqagp(f, a, b, Npts2, Points, Epsabs, Epsrel, Result, Abserr, &
-                    Neval, Ier, Leniw, Lenw, Last, Iwork, Work)
-      implicit none
+    subroutine dqagp(f, a, b, Npts2, Points, Epsabs, Epsrel, Result, Abserr, &
+                     Neval, Ier, Leniw, Lenw, Last, Iwork, Work)
+    implicit none
 
-      real(wp) a, Abserr, b, Epsabs, Epsrel, Points, &
-         Result, Work
-      integer Ier, Iwork, Last, Leniw, Lenw, limit, lvl, l1, &
-         l2, l3, l4, Neval, Npts2
-!
-      dimension Iwork(Leniw), Points(Npts2), Work(Lenw)
-!
-      procedure(func) :: f
-!
-!         check validity of limit and lenw.
-!
+    procedure(func) :: f !! function subprogram defining the integrand function f(x).
+    real(wp),intent(in) :: a !! lower limit of integration
+    real(wp),intent(in) :: b !! upper limit of integration
+    integer,intent(in) :: Npts2 !! number equal to two more than the number of
+                                !! user-supplied break points within the integration
+                                !! range, `npts>=2`.
+                                !! if `npts2<2`, the routine will end with ier = 6.
+    real(wp),intent(in) :: Points(Npts2) !! vector of dimension npts2, the first `(npts2-2)`
+                                         !! elements of which are the user provided break
+                                         !! points. if these points do not constitute an
+                                         !! ascending sequence there will be an automatic
+                                         !! sorting.
+    real(wp),intent(in) :: Epsabs !! absolute accuracy requested
+    real(wp),intent(in) :: Epsrel !! relative accuracy requested
+                                  !! if `epsabs<=0`
+                                  !! and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
+                                  !! the routine will end with ier = 6.
+    real(wp),intent(out) :: Result !! approximation to the integral
+    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                   !! which should equal or exceed `abs(i-result)`
+    integer,intent(out) :: Neval !! number of integrand evaluations
+    integer,intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
+                               !!   routine. it is assumed that the requested
+                               !!   accuracy has been achieved.
+                               !! * ier>0 abnormal termination of the routine.
+                               !!   the estimates for integral and error are
+                               !!   less reliable. it is assumed that the
+                               !!   requested accuracy has not been achieved.
+                               !!
+                               !! error messages:
+                               !!
+                               !! * ier = 1 maximum number of subdivisions allowed
+                               !!   has been achieved. one can allow more
+                               !!   subdivisions by increasing the value of
+                               !!   limit (and taking the according dimension
+                               !!   adjustments into account). however, if
+                               !!   this yields no improvement it is advised
+                               !!   to analyze the integrand in order to
+                               !!   determine the integration difficulties. if
+                               !!   the position of a local difficulty can be
+                               !!   determined (i.e. singularity,
+                               !!   discontinuity within the interval), it
+                               !!   should be supplied to the routine as an
+                               !!   element of the vector points. if necessary
+                               !!   an appropriate special-purpose integrator
+                               !!   must be used, which is designed for
+                               !!   handling the type of difficulty involved.
+                               !! * ier = 2 the occurrence of roundoff error is
+                               !!   detected, which prevents the requested
+                               !!   tolerance from being achieved.
+                               !!   the error may be under-estimated.
+                               !! * ier = 3 extremely bad integrand behaviour occurs
+                               !!   at some points of the integration
+                               !!   interval.
+                               !! * ier = 4 the algorithm does not converge.
+                               !!   roundoff error is detected in the
+                               !!   extrapolation table.
+                               !!   it is presumed that the requested
+                               !!   tolerance cannot be achieved, and that
+                               !!   the returned result is the best which
+                               !!   can be obtained.
+                               !! * ier = 5 the integral is probably divergent, or
+                               !!   slowly convergent. it must be noted that
+                               !!   divergence can occur with any other value
+                               !!   of ier>0.
+                               !! * ier = 6 the input is invalid because
+                               !!   `npts2<2` or
+                               !!   break points are specified outside
+                               !!   the integration range or
+                               !!   `(epsabs<=0 and epsrel<max(50*rel.mach.acc.,0.5e-28))`
+                               !!   result, abserr, neval, last are set to
+                               !!   zero. exept when `leniw` or `lenw` or `npts2` is
+                               !!   invalid, `iwork(1)`, `iwork(limit+1)`,
+                               !!   `work(limit*2+1) and work(limit*3+1)`
+                               !!   are set to zero.
+                               !!   `work(1)` is set to a and `work(limit+1)`
+                               !!   to `b` (where `limit = (leniw-npts2)/2`).
+    integer,intent(in) :: Leniw !! dimensioning parameter for `iwork`.
+                                !! `leniw` determines `limit = (leniw-npts2)/2`,
+                                !! which is the maximum number of subintervals in the
+                                !! partition of the given integration interval `(a,b)`,
+                                !! `leniw>=(3*npts2-2)`.
+                                !! if `leniw<(3*npts2-2)`, the routine will end with
+                                !! ier = 6.
+    integer,intent(in) :: Lenw !! dimensioning parameter for `work`.
+                               !! `lenw` must be at least `leniw*2-npts2`.
+                               !! if `lenw<leniw*2-npts2`, the routine will end
+                               !! with ier = 6.
+    integer,intent(out) :: Last !! on return, last equals the number of subintervals
+                                !! produced in the subdivision process, which
+                                !! determines the number of significant elements
+                                !! actually in the work arrays.
+    integer :: Iwork(Leniw) !! vector of dimension at least `leniw`. on return,
+                            !! the first `k` elements of which contain
+                            !! pointers to the error estimates over the
+                            !! subintervals, such that
+                            !! `work(limit*3+iwork(1)),...,work(limit*3+iwork(k))`
+                            !! form a decreasing
+                            !! sequence, with `k = last` if `last<=(limit/2+2)`, and
+                            !! `k = limit+1-last` otherwise
+                            !! `iwork(limit+1), ...,iwork(limit+last)` contain the
+                            !! subdivision levels of the subintervals, i.e.
+                            !! if `(aa,bb)` is a subinterval of `(p1,p2)`
+                            !! where `p1` as well as `p2` is a user-provided
+                            !! break point or integration limit, then `(aa,bb)` has
+                            !! level `l` if `abs(bb-aa) = abs(p2-p1)*2**(-l)`,
+                            !! `iwork(limit*2+1), ..., iwork(limit*2+npts2)` have
+                            !! no significance for the user,
+                            !! note that `limit = (leniw-npts2)/2`.
+    real(wp) :: Work(Lenw) !! vector of dimension at least `lenw`.
+                           !! on return:
+                           !!
+                           !! * `work(1), ..., work(last)` contain the left
+                           !!   end points of the subintervals in the
+                           !!   partition of `(a,b)`,
+                           !! * `work(limit+1), ..., work(limit+last)` contain
+                           !!   the right end points,
+                           !! * `work(limit*2+1), ..., work(limit*2+last)` contain
+                           !!   the integral approximations over the subintervals,
+                           !! * `work(limit*3+1), ..., work(limit*3+last)`
+                           !!   contain the corresponding error estimates,
+                           !! * `work(limit*4+1), ..., work(limit*4+npts2)`
+                           !!   contain the integration limits and the
+                           !!   break points sorted in an ascending sequence.
+                           !!
+                           !! note that `limit = (leniw-npts2)/2`.
 
-      Ier = 6
-      Neval = 0
-      Last = 0
-      Result = 0.0_wp
-      Abserr = 0.0_wp
-      if (Leniw >= (3*Npts2 - 2) .and. Lenw >= (Leniw*2 - Npts2) .and. &
-          Npts2 >= 2) then
-!
-!         prepare call for dqagpe.
-!
-         limit = (Leniw - Npts2)/2
-         l1 = limit + 1
-         l2 = limit + l1
-         l3 = limit + l2
-         l4 = limit + l3
-!
-         call dqagpe(f, a, b, Npts2, Points, Epsabs, Epsrel, limit, Result, &
-                     Abserr, Neval, Ier, Work(1), Work(l1), Work(l2), Work(l3) &
-                     , Work(l4), Iwork(1), Iwork(l1), Iwork(l2), Last)
-!
-!         call error handler if necessary.
-!
-         lvl = 0
-      else
-         write (*, *) Leniw, (3*Npts2 - 2)
-         write (*, *) Lenw, (Leniw*2 - Npts2)
-         write (*, *) Npts2, 2
-      end if
-      if (Ier == 6) lvl = 1
-      if (Ier /= 0) call xerror('abnormal return from dqagp', 26, Ier, lvl)
+    integer :: limit, lvl, l1, l2, l3, l4
 
-   end subroutine dqagp
+    ! check validity of limit and lenw.
+    Ier = 6
+    Neval = 0
+    Last = 0
+    Result = 0.0_wp
+    Abserr = 0.0_wp
+    if (Leniw >= (3*Npts2 - 2) .and. Lenw >= (Leniw*2 - Npts2) .and. Npts2 >= 2) then
+
+        ! prepare call for dqagpe.
+        limit = (Leniw - Npts2)/2
+        l1 = limit + 1
+        l2 = limit + l1
+        l3 = limit + l2
+        l4 = limit + l3
+
+        call dqagpe(f, a, b, Npts2, Points, Epsabs, Epsrel, limit, Result, &
+                    Abserr, Neval, Ier, Work(1), Work(l1), Work(l2), Work(l3), &
+                    Work(l4), Iwork(1), Iwork(l1), Iwork(l2), Last)
+
+        ! call error handler if necessary.
+        lvl = 0
+    end if
+
+    if (Ier == 6) lvl = 1
+    if (Ier /= 0) call xerror('abnormal return from dqagp', 26, Ier, lvl)
+
+    end subroutine dqagp
 !********************************************************************************
 
 !********************************************************************************
