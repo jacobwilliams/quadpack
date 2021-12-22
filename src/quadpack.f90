@@ -757,7 +757,7 @@ contains
                   !! the dimension of `rlist2` is determined by the value of
                   !! `limexp` in subroutine [[dqelg]].
 
-! test on validity of parameters
+    ! test on validity of parameters
 
       Ier = 0
       Neval = 0
@@ -773,19 +773,19 @@ contains
          Ier = 6
       if (Ier == 6) return
 
-! first approximation to the integral
+    ! first approximation to the integral
 
-! determine the interval to be mapped onto (0,1).
-! if inf = 2 the integral is computed as i = i1+i2, where
-! i1 = integral of f over (-infinity,0),
-! i2 = integral of f over (0,+infinity).
+    ! determine the interval to be mapped onto (0,1).
+    ! if inf = 2 the integral is computed as i = i1+i2, where
+    ! i1 = integral of f over (-infinity,0),
+    ! i2 = integral of f over (0,+infinity).
 
       boun = Bound
       if (Inf == 2) boun = 0.0_wp
       call dqk15i(f, boun, Inf, 0.0_wp, 1.0_wp, Result, Abserr, defabs, &
                   resabs)
 
-! test on accuracy
+    ! test on accuracy
 
       Last = 1
       Rlist(1) = Result
@@ -798,7 +798,7 @@ contains
       if (Ier /= 0 .or. (Abserr <= errbnd .and. Abserr /= resabs) .or. &
           Abserr == 0.0_wp) goto 400
 
-! initialization
+    ! initialization
 
       rlist2(1) = Result
       errmax = Abserr
@@ -821,7 +821,7 @@ contains
 
     ! main do-loop
 
-      do Last = 2, Limit
+      main : do Last = 2, Limit
 
         ! bisect the subinterval with nrmax-th largest error estimate.
 
@@ -904,7 +904,7 @@ contains
             if (.not. (extrap)) then
                ! test whether the interval to be bisected next is the
                ! smallest interval.
-               if (abs(Blist(maxerr) - Alist(maxerr)) > small) goto 100
+               if (abs(Blist(maxerr) - Alist(maxerr)) > small) cycle main
                extrap = .true.
                nrmax = 2
             end if
@@ -920,8 +920,7 @@ contains
                do k = id, jupbnd
                   maxerr = Iord(nrmax)
                   errmax = Elist(maxerr)
-                  if (abs(Blist(maxerr) - Alist(maxerr)) > small) &
-                     goto 100
+                  if (abs(Blist(maxerr) - Alist(maxerr)) > small) cycle main
                   nrmax = nrmax + 1
                end do
             end if
@@ -953,9 +952,9 @@ contains
             small = small*0.5_wp
             erlarg = errsum
          end if
-100   end do
+      end do main
 
-! set final result and error estimate.
+    ! set final result and error estimate.
 
       if (Abserr /= oflow) then
          if ((Ier + ierro) /= 0) then
@@ -969,22 +968,19 @@ contains
             end if
          end if
 
-! test on divergence
+    ! test on divergence
 
-         if (ksgn /= (-1) .or. max(abs(Result), abs(area)) &
-             > defabs*0.01_wp) then
-            if (0.01_wp > (Result/area) .or. (Result/area) > 100.0_wp .or. &
-                errsum > abs(area)) Ier = 6
+         if (ksgn /= (-1) .or. max(abs(Result), abs(area)) > defabs*0.01_wp) then
+            if (0.01_wp > (Result/area) .or. &
+               (Result/area) > 100.0_wp .or. &
+               errsum > abs(area)) Ier = 6
          end if
          goto 400
       end if
 
-! compute global integral sum.
+    ! compute global integral sum.
 
-300   Result = 0.0_wp
-      do k = 1, Last
-         Result = Result + Rlist(k)
-      end do
+300   Result = sum(Rlist(1:Last))
       Abserr = errsum
 400   Neval = 30*Last - 15
       if (Inf == 2) Neval = 2*Neval
