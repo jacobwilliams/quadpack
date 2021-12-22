@@ -819,11 +819,11 @@ contains
       ksgn = -1
       if (dres >= (1.0_wp - 50.0_wp*epmach)*defabs) ksgn = 1
 
-! main do-loop
+    ! main do-loop
 
       do Last = 2, Limit
 
-! bisect the subinterval with nrmax-th largest error estimate.
+        ! bisect the subinterval with nrmax-th largest error estimate.
 
          a1 = Alist(maxerr)
          b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
@@ -833,8 +833,8 @@ contains
          call dqk15i(f, boun, Inf, a1, b1, area1, error1, resabs, defab1)
          call dqk15i(f, boun, Inf, a2, b2, area2, error2, resabs, defab2)
 
-! improve previous approximations to integral
-! and error and test for accuracy.
+        ! improve previous approximations to integral
+        ! and error and test for accuracy.
 
          area12 = area1 + area2
          erro12 = error1 + error2
@@ -852,23 +852,23 @@ contains
          Rlist(Last) = area2
          errbnd = max(Epsabs, Epsrel*abs(area))
 
-! test for roundoff error and eventually set error flag.
+        ! test for roundoff error and eventually set error flag.
 
          if (iroff1 + iroff2 >= 10 .or. iroff3 >= 20) Ier = 2
          if (iroff2 >= 5) ierro = 3
 
-! set error flag in the case that the number of
-! subintervals equals limit.
+        ! set error flag in the case that the number of
+        ! subintervals equals limit.
 
          if (Last == Limit) Ier = 1
 
-! set error flag in the case of bad integrand behaviour
-! at some points of the integration range.
+        ! set error flag in the case of bad integrand behaviour
+        ! at some points of the integration range.
 
          if (max(abs(a1), abs(b2)) <= (1.0_wp + 100.0_wp*epmach) &
              *(abs(a2) + 1000.0_wp*uflow)) Ier = 4
 
-! append the newly-created intervals to the list.
+        ! append the newly-created intervals to the list.
 
          if (error2 > error1) then
             Alist(maxerr) = a2
@@ -886,13 +886,13 @@ contains
             Elist(Last) = error2
          end if
 
-! call subroutine dqpsrt to maintain the descending ordering
-! in the list of error estimates and select the subinterval
-! with nrmax-th largest error estimate (to be bisected next).
+        ! call subroutine dqpsrt to maintain the descending ordering
+        ! in the list of error estimates and select the subinterval
+        ! with nrmax-th largest error estimate (to be bisected next).
 
          call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
          if (errsum <= errbnd) goto 300
-         if (Ier /= 0) goto 200
+         if (Ier /= 0) exit
          if (Last == 2) then
             small = 0.375_wp
             erlarg = errsum
@@ -902,19 +902,17 @@ contains
             erlarg = erlarg - erlast
             if (abs(b1 - a1) > small) erlarg = erlarg + erro12
             if (.not. (extrap)) then
-
-! test whether the interval to be bisected next is the
-! smallest interval.
-
+               ! test whether the interval to be bisected next is the
+               ! smallest interval.
                if (abs(Blist(maxerr) - Alist(maxerr)) > small) goto 100
                extrap = .true.
                nrmax = 2
             end if
             if (ierro /= 3 .and. erlarg > ertest) then
 
-! the smallest interval has the largest error.
-! before bisecting decrease the sum of the errors over the
-! larger intervals (erlarg) and perform extrapolation.
+               ! the smallest interval has the largest error.
+               ! before bisecting decrease the sum of the errors over the
+               ! larger intervals (erlarg) and perform extrapolation.
 
                id = nrmax
                jupbnd = Last
@@ -928,7 +926,7 @@ contains
                end do
             end if
 
-! perform extrapolation.
+            ! perform extrapolation.
 
             numrl2 = numrl2 + 1
             rlist2(numrl2) = area
@@ -941,13 +939,13 @@ contains
                Result = reseps
                correc = erlarg
                ertest = max(Epsabs, Epsrel*abs(reseps))
-               if (Abserr <= ertest) goto 200
+               if (Abserr <= ertest) exit
             end if
 
-! prepare bisection of the smallest interval.
+            ! prepare bisection of the smallest interval.
 
             if (numrl2 == 1) noext = .true.
-            if (Ier == 5) goto 200
+            if (Ier == 5) exit
             maxerr = Iord(1)
             errmax = Elist(maxerr)
             nrmax = 1
@@ -959,7 +957,7 @@ contains
 
 ! set final result and error estimate.
 
-200   if (Abserr /= oflow) then
+      if (Abserr /= oflow) then
          if ((Ier + ierro) /= 0) then
             if (ierro == 3) Abserr = Abserr + correc
             if (Ier == 0) Ier = 3
