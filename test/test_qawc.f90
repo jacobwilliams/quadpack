@@ -10,13 +10,14 @@ a = -1.0d0
 b = 1.0d0
 c = 0.5d0
 epsabs = 0.0d0
-epsrel = 1.0d-3
+epsrel = 1.0d-9
 limit = 100
 lenw = limit*4
 call dqawc(f,a,b,c,epsabs,epsrel,result,abserr,neval,&
-          ier,limit,lenw,last,iwork,work)
+           ier,limit,lenw,last,iwork,work)
 
-write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqawc: result = ', result
+! maxima: quad_qawc((1/(x*x+1.0e-4)), x, 0.5, -1, 1);
+write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqawc: result, error = ', result, result - (-628.4617285065623d0)
 
 contains
 
