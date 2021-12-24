@@ -19,7 +19,9 @@
 !    (end-point) singularities, cauchy principal value,
 !    clenshaw-curtis method, special-purpose, fourier integral,
 !    integration between zeros with dqawoe,
-!    convergence acceleration with dqelg
+!    convergence acceleration with dqelg,
+!    integrand with oscillatory cos or sin factor,
+!    (end point) singularities
 
 module quadpack
 
@@ -77,23 +79,23 @@ module quadpack
                                     !! and epsrel<max(50*rel.mach.acc.,0.5e-28),
                                     !! the routine will end with ier = 6.
       real(wp), intent(out) :: Result !! approximation to the integral
-      integer, intent(in) :: Lenw !! dimensioning parameter for work
+      integer, intent(in) :: Lenw !! dimensioning parameter for `work`
                                  !! lenw must be at least limit*4.
                                  !! if lenw<limit*4, the routine will end with
                                  !! ier = 6.
-      integer, intent(in) :: Limit !! dimensioning parameter for iwork
+      integer, intent(in) :: Limit !! dimensioning parameter for `iwork`
                                   !! limit determines the maximum number of subintervals
                                   !! in the partition of the given integration interval
                                   !! (a,b), limit>=1.
                                   !! if limit<1, the routine will end with ier = 6.
-      real(wp) :: Work(Lenw) !! vector of dimension at least lenw
+      real(wp) :: Work(Lenw) !! vector of dimension at least `lenw`
                              !! on return
                              !! work(1), ..., work(last) contain the left end
                              !! points of the subintervals in the partition of
                              !!  (a,b),
-                             !! work(limit+1), ..., work(limit+last) contain the
+                             !! `work(limit+1), ..., work(limit+last)` contain the
                              !!  right end points,
-                             !! work(limit*2+1), ..., work(limit*2+last) contain
+                             !! `work(limit*2+1), ..., work(limit*2+last)` contain
                              !!  the integral approximations over the subintervals,
                              !! work(limit*3+1), ..., work(limit*3+last) contain
                              !!  the error estimates.
@@ -493,16 +495,16 @@ module quadpack
                                   !! and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
                                   !! the routine will end with ier = 6.
       real(wp), intent(out) :: Result !! approximation to the integral
-      integer, intent(in) :: Lenw !! dimensioning parameter for work
+      integer, intent(in) :: Lenw !! dimensioning parameter for `work`
                                !! `lenw` must be at least `limit*4`.
                                !! if `lenw<limit*4`, the routine will end
                                !! with ier = 6.
-      integer, intent(in) :: Limit !! dimensioning parameter for iwork
+      integer, intent(in) :: Limit !! dimensioning parameter for `iwork`
                                 !! limit determines the maximum number of subintervals
                                 !! in the partition of the given integration interval
                                 !! (a,b), `limit>=1`.
                                 !! if `limit<1`, the routine will end with ier = 6.
-      real(wp) :: Work(Lenw) !! vector of dimension at least lenw
+      real(wp) :: Work(Lenw) !! vector of dimension at least `lenw`
                            !! on return:
                            !! * `work(1), ..., work(last)` contain the left
                            !!   end points of the subintervals in the
@@ -561,7 +563,7 @@ module quadpack
                                !!         `(epsabs<=0 and
                                !!         epsrel<max(50*rel.mach.acc.,0.5e-28))
                                !!         or limit<1 or leniw<limit*4`.
-                               !!         result, abserr, neval, last are set to
+                               !!         `result`, `abserr`, `neval`, `last` are set to
                                !!         zero. exept when limit or leniw is
                                !!         invalid, `iwork(1)`, `work(limit*2+1)` and
                                !!         `work(limit*3+1)` are set to zero, `work(1)`
@@ -1077,7 +1079,7 @@ module quadpack
                                !!   break points are specified outside
                                !!   the integration range or
                                !!   `(epsabs<=0 and epsrel<max(50*rel.mach.acc.,0.5e-28))`
-                               !!   result, abserr, neval, last are set to
+                               !!   `result`, `abserr`, `neval`, `last` are set to
                                !!   zero. exept when `leniw` or `lenw` or `npts2` is
                                !!   invalid, `iwork(1)`, `iwork(limit+1)`,
                                !!   `work(limit*2+1) and work(limit*3+1)`
@@ -1703,7 +1705,7 @@ module quadpack
                                !!   `(epsabs<=0` and
                                !!   `epsrel<max(50*rel.mach.acc.,0.5e-28)`
                                !!   or `limit<1` or `lenw<limit*4`.
-                               !!   result, abserr, neval, last are set to
+                               !!   `result`, `abserr`, `neval`, `last` are set to
                                !!   zero. except when limit or lenw is invalid,
                                !!   `iwork(1), work(limit*2+1)` and
                                !!   `work(limit*3+1)` are set to zero, `work(1)`
@@ -2219,7 +2221,7 @@ module quadpack
                                 !! in the partition of the given integration interval
                                 !! `(a,b)`, `limit>=1`.
                                 !! if `limit<1`, the routine will end with ier = 6.
-    integer,intent(in) :: Lenw !! dimensioning parameter for work.
+    integer,intent(in) :: Lenw !! dimensioning parameter for `work`.
                                !! `lenw` must be at least `limit*4`.
                                !! if `lenw<limit*4`, the routine will end with
                                !! ier = 6.
@@ -2639,7 +2641,7 @@ module quadpack
     integer,intent(out) :: Lst !! on return, lst indicates the number of cycles
                                !! actually needed for the integration.
                                !! if `omega = 0`, then lst is set to 1.
-    integer,intent(in) :: Leniw !! dimensioning parameter for iwork. on entry,
+    integer,intent(in) :: Leniw !! dimensioning parameter for `iwork`. on entry,
                                 !! `(leniw-limlst)/2` equals the maximum number of
                                 !! subintervals allowed in the partition of each
                                 !! cycle, `leniw>=(limlst+2)`.
@@ -2741,7 +2743,7 @@ module quadpack
     integer,intent(in) :: Maxp1 !! gives an upper bound on the number of
                                 !! chebyshev moments which can be stored, i.e.
                                 !! for the intervals of lengths
-                                !! `abs(b-a)*2**(-l), l=0,1, ..., maxp1-2, maxp1>=1`
+                                !! `abs(b-a)*2**(-l), `l=0,1, ..., maxp1-2, maxp1>=1``
     real(wp),intent(out) :: Result !! approximation to the integral `x`
     real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
                                    !! which should equal or exceed `abs(i-result)`
@@ -3019,245 +3021,188 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  automatic integrator, special-purpose,
-!             integrand with oscillatory cos or sin factor,
-!             clenshaw-curtis method, (end point) singularities,
-!             extrapolation, globally adaptive
-!***purpose  the routine calculates an approximation result to a given
-!            definite integral i=integral of f(x)*w(x) over (a,b)
-!            where w(x) = cos(omega*x)
-!            or w(x) = sin(omega*x),
-!            hopefully satisfying following claim for accuracy
-!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
-!***description
+!  the routine calculates an approximation result to a given
+!  definite integral i=integral of `f(x)*w(x)` over `(a,b)`
+!  where `w(x) = cos(omega*x)` or `w(x) = sin(omega*x)`,
+!  hopefully satisfying following claim for accuracy
+!  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
-!        computation of oscillatory integrals
-!
-!        parameters
-!         on entry
-!            f      - real(wp)
-!                     function subprogram defining the function
-!                     f(x).  the actual name for f needs to be
-!                     declared external in the driver program.
-!
-!            a      - real(wp)
-!                     lower limit of integration
-!
-!            b      - real(wp)
-!                     upper limit of integration
-!
-!            omega  - real(wp)
-!                     parameter in the integrand weight function
-!
-!            integr - integer
-!                     indicates which of the weight functions is used
-!                     integr = 1      w(x) = cos(omega*x)
-!                     integr = 2      w(x) = sin(omega*x)
-!                     if integr/=1.and.integr/=2, the routine will
-!                     end with ier = 6.
-!
-!            epsabs - real(wp)
-!                     absolute accuracy requested
-!            epsrel - real(wp)
-!                     relative accuracy requested
-!                     if epsabs<=0 and
-!                     epsrel<max(50*rel.mach.acc.,0.5e-28_wp),
-!                     the routine will end with ier = 6.
-!
-!         on return
-!            result - real(wp)
-!                     approximation to the integral
-!
-!            abserr - real(wp)
-!                     estimate of the modulus of the absolute error,
-!                     which should equal or exceed `abs(i-result)`
-!
-!            neval  - integer
-!                     number of  integrand evaluations
-!
-!            ier    - integer
-!                     ier = 0 normal and reliable termination of the
-!                             routine. it is assumed that the requested
-!                             accuracy has been achieved.
-!                   - ier>0 abnormal termination of the routine.
-!                             the estimates for integral and error are
-!                             less reliable. it is assumed that the
-!                             requested accuracy has not been achieved.
-!            error messages
-!                     ier = 1 maximum number of subdivisions allowed
-!                             (= leniw/2) has been achieved. one can
-!                             allow more subdivisions by increasing the
-!                             value of leniw (and taking the according
-!                             dimension adjustments into account).
-!                             however, if this yields no improvement it
-!                             is advised to analyze the integrand in
-!                             order to determine the integration
-!                             difficulties. if the position of a local
-!                             difficulty can be determined (e.g.
-!                             singularity, discontinuity within the
-!                             interval) one will probably gain from
-!                             splitting up the interval at this point
-!                             and calling the integrator on the
-!                             subranges. if possible, an appropriate
-!                             special-purpose integrator should be used
-!                             which is designed for handling the type of
-!                             difficulty involved.
-!                         = 2 the occurrence of roundoff error is
-!                             detected, which prevents the requested
-!                             tolerance from being achieved.
-!                             the error may be under-estimated.
-!                         = 3 extremely bad integrand behaviour occurs
-!                             at some interior points of the
-!                             integration interval.
-!                         = 4 the algorithm does not converge.
-!                             roundoff error is detected in the
-!                             extrapolation table. it is presumed that
-!                             the requested tolerance cannot be achieved
-!                             due to roundoff in the extrapolation
-!                             table, and that the returned result is
-!                             the best which can be obtained.
-!                         = 5 the integral is probably divergent, or
-!                             slowly convergent. it must be noted that
-!                             divergence can occur with any other value
-!                             of ier.
-!                         = 6 the input is invalid, because
-!                             (epsabs<=0 and
-!                              epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
-!                             or (integr/=1 and integr/=2),
-!                             or leniw<2 or maxp1<1 or
-!                             lenw<leniw*2+maxp1*25.
-!                             result, abserr, neval, last are set to
-!                             zero. except when leniw, maxp1 or lenw are
-!                             invalid, work(limit*2+1), work(limit*3+1),
-!                             iwork(1), iwork(limit+1) are set to zero,
-!                             work(1) is set to a and work(limit+1) to
-!                             b.
-!
-!         dimensioning parameters
-!            leniw  - integer
-!                     dimensioning parameter for iwork.
-!                     leniw/2 equals the maximum number of subintervals
-!                     allowed in the partition of the given integration
-!                     interval (a,b), leniw>=2.
-!                     if leniw<2, the routine will end with ier = 6.
-!
-!            maxp1  - integer
-!                     gives an upper bound on the number of chebyshev
-!                     moments which can be stored, i.e. for the
-!                     intervals of lengths abs(b-a)*2**(-l),
-!                     l=0,1, ..., maxp1-2, maxp1>=1
-!                     if maxp1<1, the routine will end with ier = 6.
-!
-!            lenw   - integer
-!                     dimensioning parameter for work
-!                     lenw must be at least leniw*2+maxp1*25.
-!                     if lenw<(leniw*2+maxp1*25), the routine will
-!                     end with ier = 6.
-!
-!            last   - integer
-!                     on return, last equals the number of subintervals
-!                     produced in the subdivision process, which
-!                     determines the number of significant elements
-!                     actually in the work arrays.
-!
-!         work arrays
-!            iwork  - integer
-!                     vector of dimension at least leniw
-!                     on return, the first `k` elements of which contain
-!                     pointers to the error estimates over the
-!                     subintervals, such that work(limit*3+iwork(1)), ..
-!                     work(limit*3+iwork(k)) form a decreasing
-!                     sequence, with limit = lenw/2 , and k = last
-!                     if last<=(limit/2+2), and k = limit+1-last
-!                     otherwise.
-!                     furthermore, iwork(limit+1), ..., iwork(limit+
-!                     last) indicate the subdivision levels of the
-!                     subintervals, such that iwork(limit+i) = l means
-!                     that the subinterval numbered i is of length
-!                     abs(b-a)*2**(1-l).
-!
-!            work   - real(wp)
-!                     vector of dimension at least lenw
-!                     on return
-!                     work(1), ..., work(last) contain the left
-!                      end points of the subintervals in the
-!                      partition of (a,b),
-!                     work(limit+1), ..., work(limit+last) contain
-!                      the right end points,
-!                     work(limit*2+1), ..., work(limit*2+last) contain
-!                      the integral approximations over the
-!                      subintervals,
-!                     work(limit*3+1), ..., work(limit*3+last)
-!                      contain the error estimates.
-!                     work(limit*4+1), ..., work(limit*4+maxp1*25)
-!                      provide space for storing the chebyshev moments.
-!                     note that limit = lenw/2.
+!### History
+!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-   subroutine dqawo(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, &
+    subroutine dqawo(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, &
                     Neval, Ier, Leniw, Maxp1, Lenw, Last, Iwork, Work)
-      implicit none
+    implicit none
 
-      real(wp) a, Abserr, b, Epsabs, Epsrel, Omega, &
-         Result, Work
-      integer Ier, Integr, Iwork, Last, limit, Lenw, Leniw, lvl, &
-         l1, l2, l3, l4, Maxp1, momcom, Neval
-!
-      dimension Iwork(Leniw), Work(Lenw)
-!
-      procedure(func) :: f
-!
-!         check validity of leniw, maxp1 and lenw.
-!
+    procedure(func) :: f !! function subprogram defining the function f(x).
+    real(wp),intent(in) :: a !! lower limit of integration
+    real(wp),intent(in) :: b !! upper limit of integration
+    real(wp),intent(in) :: Omega !! parameter in the integrand weight function
+    integer,intent(in) :: Integr !! indicates which of the weight functions is used
+                                 !!
+                                 !! * integr = 1  `w(x) = cos(omega*x)`
+                                 !! * integr = 2  `w(x) = sin(omega*x)`
+                                 !!
+                                 !! if `integr/=1.and.integr/=2`, the routine will
+                                 !! end with ier = 6.
+    real(wp),intent(in) :: Epsabs !! absolute accuracy requested
+    real(wp),intent(in) :: Epsrel !! relative accuracy requested
+                                  !! if `epsabs<=0` and
+                                  !! `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
+                                  !! the routine will end with ier = 6.
+    real(wp),intent(out) :: Result !! approximation to the integral
+    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                   !! which should equal or exceed `abs(i-result)`
+    integer,intent(out) :: Neval !! number of integrand evaluations
+    integer,intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
+                               !!   routine. it is assumed that the requested
+                               !!   accuracy has been achieved.
+                               !! * ier>0 abnormal termination of the routine.
+                               !!   the estimates for integral and error are
+                               !!   less reliable. it is assumed that the
+                               !!   requested accuracy has not been achieved.
+                               !!
+                               !! error messages:
+                               !!
+                               !! * ier = 1 maximum number of subdivisions allowed
+                               !!   `(= leniw/2)` has been achieved. one can
+                               !!   allow more subdivisions by increasing the
+                               !!   value of leniw (and taking the according
+                               !!   dimension adjustments into account).
+                               !!   however, if this yields no improvement it
+                               !!   is advised to analyze the integrand in
+                               !!   order to determine the integration
+                               !!   difficulties. if the position of a local
+                               !!   difficulty can be determined (e.g.
+                               !!   singularity, discontinuity within the
+                               !!   interval) one will probably gain from
+                               !!   splitting up the interval at this point
+                               !!   and calling the integrator on the
+                               !!   subranges. if possible, an appropriate
+                               !!   special-purpose integrator should be used
+                               !!   which is designed for handling the type of
+                               !!   difficulty involved.
+                               !! * ier = 2 the occurrence of roundoff error is
+                               !!   detected, which prevents the requested
+                               !!   tolerance from being achieved.
+                               !!   the error may be under-estimated.
+                               !! * ier = 3 extremely bad integrand behaviour occurs
+                               !!   at some interior points of the
+                               !!   integration interval.
+                               !! * ier = 4 the algorithm does not converge.
+                               !!   roundoff error is detected in the
+                               !!   extrapolation table. it is presumed that
+                               !!   the requested tolerance cannot be achieved
+                               !!   due to roundoff in the extrapolation
+                               !!   table, and that the returned result is
+                               !!   the best which can be obtained.
+                               !! * ier = 5 the integral is probably divergent, or
+                               !!   slowly convergent. it must be noted that
+                               !!   divergence can occur with any other value
+                               !!   of `ier`.
+                               !! * ier = 6 the input is invalid, because
+                               !!   `(epsabs<=0 and epsrel<max(50*rel.mach.acc.,0.5e-28))`
+                               !!   or `(integr/=1 and integr/=2)`,
+                               !!   or `leniw<2` or `maxp1<1` or
+                               !!   `lenw<leniw*2+maxp1*25`.
+                               !!   `result`, `abserr`, `neval`, `last` are set to
+                               !!   zero. except when `leniw`, `maxp1` or `lenw` are
+                               !!   invalid, `work(limit*2+1)`, `work(limit*3+1)`,
+                               !!   `iwork(1)`, `iwork(limit+1)` are set to zero,
+                               !!   `work(1)` is set to `a` and `work(limit+1)` to
+                               !!   `b`.
+    integer,intent(in) :: Leniw !! dimensioning parameter for `iwork`.
+                                !! `leniw/2` equals the maximum number of subintervals
+                                !! allowed in the partition of the given integration
+                                !! interval `(a,b)`, `leniw>=2`.
+                                !! if `leniw<2`, the routine will end with ier = 6.
+    integer,intent(in) :: Maxp1 !! gives an upper bound on the number of chebyshev
+                                !! moments which can be stored, i.e. for the
+                                !! intervals of lengths `abs(b-a)*2**(-l)`,
+                                !! `l=0,1, ..., maxp1-2, maxp1>=1`
+                                !! if `maxp1<1`, the routine will end with ier = 6.
+    integer,intent(in) :: Lenw !! dimensioning parameter for `work`
+                               !! `lenw` must be at least `leniw*2+maxp1*25`.
+                               !! if `lenw<(leniw*2+maxp1*25)`, the routine will
+                               !! end with ier = 6.
+    integer,intent(out) :: Last !! on return, last equals the number of subintervals
+                                !! produced in the subdivision process, which
+                                !! determines the number of significant elements
+                                !! actually in the work arrays.
+    integer :: Iwork(Leniw) !! vector of dimension at least leniw
+                            !! on return, the first `k` elements of which contain
+                            !! pointers to the error estimates over the
+                            !! subintervals, such that
+                            !! `work(limit*3+iwork(1)), .., work(limit*3+iwork(k))`
+                            !! form a decreasing
+                            !! sequence, with `limit = lenw/2` , and `k = last`
+                            !! if `last<=(limit/2+2)`, and `k = limit+1-last`
+                            !! otherwise.
+                            !! furthermore, `iwork(limit+1), ..., iwork(limit+last)`
+                            !! indicate the subdivision levels of the
+                            !! subintervals, such that `iwork(limit+i) = l` means
+                            !! that the subinterval numbered `i` is of length
+                            !! `abs(b-a)*2**(1-l)`.
+    real(wp) :: Work(Lenw) !! vector of dimension at least `lenw`.
+                           !! on return:
+                           !!
+                           !! * `work(1), ..., work(last)` contain the left
+                           !!   end points of the subintervals in the
+                           !!   partition of `(a,b)`,
+                           !! * `work(limit+1), ..., work(limit+last)` contain
+                           !!   the right end points,
+                           !! * `work(limit*2+1), ..., work(limit*2+last)` contain
+                           !!   the integral approximations over the
+                           !!   subintervals,
+                           !! * `work(limit*3+1), ..., work(limit*3+last)`
+                           !!   contain the error estimates.
+                           !! * `work(limit*4+1), ..., work(limit*4+maxp1*25)`
+                           !!   provide space for storing the chebyshev moments.
+                           !!
+                           !! note that `limit = lenw/2`.
 
-      Ier = 6
-      Neval = 0
-      Last = 0
-      Result = 0.0_wp
-      Abserr = 0.0_wp
-      if (Leniw >= 2 .and. Maxp1 >= 1 .and. Lenw >= (Leniw*2 + Maxp1*25)) then
-!
-!         prepare call for dqawoe
-!
-         limit = Leniw/2
-         l1 = limit + 1
-         l2 = limit + l1
-         l3 = limit + l2
-         l4 = limit + l3
-         call dqawoe(f, a, b, Omega, Integr, Epsabs, Epsrel, limit, 1, Maxp1, &
-                     Result, Abserr, Neval, Ier, Last, Work(1), Work(l1), &
-                     Work(l2), Work(l3), Iwork(1), Iwork(l1), momcom, &
-                     Work(l4))
-!
-!         call error handler if necessary
-!
-         lvl = 0
-      end if
-      if (Ier == 6) lvl = 0
-      if (Ier /= 0) call xerror('abnormal return from dqawo', 26, Ier, lvl)
+    integer :: limit, lvl, l1, l2, l3, l4, momcom
 
-   end subroutine dqawo
+    ! check validity of leniw, maxp1 and lenw.
+    Ier = 6
+    Neval = 0
+    Last = 0
+    Result = 0.0_wp
+    Abserr = 0.0_wp
+    if (Leniw >= 2 .and. Maxp1 >= 1 .and. Lenw >= (Leniw*2 + Maxp1*25)) then
+        ! prepare call for dqawoe
+        limit = Leniw/2
+        l1 = limit + 1
+        l2 = limit + l1
+        l3 = limit + l2
+        l4 = limit + l3
+        call dqawoe(f, a, b, Omega, Integr, Epsabs, Epsrel, limit, 1, Maxp1, &
+                    Result, Abserr, Neval, Ier, Last, Work(1), Work(l1), &
+                    Work(l2), Work(l3), Iwork(1), Iwork(l1), momcom, &
+                    Work(l4))
+        ! call error handler if necessary
+        lvl = 0
+    end if
+
+    if (Ier == 6) lvl = 0
+    if (Ier /= 0) call xerror('abnormal return from dqawo', 26, Ier, lvl)
+
+    end subroutine dqawo
 !********************************************************************************
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  automatic integrator, special-purpose,
-!             integrand with oscillatory cos or sin factor,
-!             clenshaw-curtis method, (end point) singularities,
-!             extrapolation, globally adaptive
-!***purpose  the routine calculates an approximation result to a given
-!            definite integral
-!            i = integral of f(x)*w(x) over (a,b)
-!            where w(x) = cos(omega*x) or w(x)=sin(omega*x),
-!            hopefully satisfying following claim for accuracy
-!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
-!***description
+!  the routine calculates an approximation result to a given
+!  definite integral
+!  i = integral of `f(x)*w(x)` over `(a,b)`
+!  where `w(x) = cos(omega*x)` or `w(x)=sin(omega*x)`,
+!  hopefully satisfying following claim for accuracy
+!  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
-!        computation of oscillatory integrals
-!
+!### History
+!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+
+
 !        parameters
 !         on entry
 !            f      - real(wp)
@@ -3299,7 +3244,7 @@ module quadpack
 !                     be set to 1.  assume that during this call, the
 !                     chebyshev moments (for clenshaw-curtis integration
 !                     of degree 24) have been computed for intervals of
-!                     lenghts (abs(b-a))*2**(-l), l=0,1,2,...momcom-1.
+!                     lengths (abs(b-a))*2**(-l), l=0,1,2,...momcom-1.
 !                     if icall>1 this means that dqawoe has been
 !                     called twice or more on intervals of the same
 !                     length abs(b-a). the chebyshev moments already
@@ -3309,9 +3254,9 @@ module quadpack
 !            maxp1  - integer
 !                     gives an upper bound on the number of chebyshev
 !                     moments which can be stored, i.e. for the
-!                     intervals of lenghts abs(b-a)*2**(-l),
-!                     l=0,1, ..., maxp1-2, maxp1>=1.
-!                     if maxp1<1, the routine will end with ier = 6.
+!                     intervals of lengths abs(b-a)*2**(-l),
+!                     `l=0,1, ..., maxp1-2, maxp1>=1`.
+!                     if `maxp1<1`, the routine will end with ier = 6.
 !
 !         on return
 !            result - real(wp)
@@ -3801,7 +3746,7 @@ module quadpack
 !            (where w shows a singular behaviour at the end points
 !            see parameter integr).
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
+!            `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !***description
 !
 !        integration of functions having algebraico-logarithmic
@@ -3898,7 +3843,7 @@ module quadpack
 !                             (epsabs<=0 and
 !                              epsrel<max(50*rel.mach.acc.,0.5d-28))
 !                             or limit<2 or lenw<limit*4.
-!                             result, abserr, neval, last are set to
+!                             `result`, `abserr`, `neval`, `last` are set to
 !                             zero. except when lenw or limit is invalid
 !                             iwork(1), work(limit*2+1) and
 !                             work(limit*3+1) are set to zero, work(1)
@@ -3906,14 +3851,14 @@ module quadpack
 !
 !         dimensioning parameters
 !            limit  - integer
-!                     dimensioning parameter for iwork
+!                     dimensioning parameter for `iwork`
 !                     limit determines the maximum number of
 !                     subintervals in the partition of the given
 !                     integration interval (a,b), limit>=2.
 !                     if limit<2, the routine will end with ier = 6.
 !
 !            lenw   - integer
-!                     dimensioning parameter for work
+!                     dimensioning parameter for `work`
 !                     lenw must be at least limit*4.
 !                     if lenw<limit*4, the routine will end
 !                     with ier = 6.
@@ -3940,7 +3885,7 @@ module quadpack
 !                     work(1), ..., work(last) contain the left
 !                      end points of the subintervals in the
 !                      partition of (a,b),
-!                     work(limit+1), ..., work(limit+last) contain
+!                     `work(limit+1), ..., work(limit+last)` contain
 !                      the right end points,
 !                     work(limit*2+1), ..., work(limit*2+last)
 !                      contain the integral approximations over
@@ -3995,7 +3940,7 @@ module quadpack
 !            (where w shows a singular behaviour at the end points,
 !            see parameter integr).
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
+!            `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !***description
 !
 !        integration of functions having algebraico-logarithmic
@@ -4126,7 +4071,7 @@ module quadpack
 !                     of which are pointers to the error
 !                     estimates over the subintervals, so that
 !                     elist(iord(1)), ..., elist(iord(k)) with k = last
-!                     if last<=(limit/2+2), and k = limit+1-last
+!                     if `last<=(limit/2+2)`, and `k = limit+1-last`
 !                     otherwise form a decreasing sequence
 !
 !            last   - integer
@@ -7192,7 +7137,7 @@ module quadpack
 !***purpose  the routine calculates an approximation result to a
 !            given definite integral i = integral of `f` over `(a,b)`,
 !            hopefully satisfying following claim for accuracy
-!            abs(i-result)<=max(epsabs,epsrel*abs(i)).
+!            `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !***description
 !
 ! non-adaptive integration
