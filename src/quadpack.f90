@@ -2636,9 +2636,9 @@ module quadpack
     integer,intent(in) :: Limlst !! limlst gives an upper bound on the number of
                                  !! cycles, `limlst>=3`.
                                  !! if `limlst<3`, the routine will end with ier = 6.
-    integer,intent(in) :: Lst !! on return, lst indicates the number of cycles
-                              !! actually needed for the integration.
-                              !! if `omega = 0`, then lst is set to 1.
+    integer,intent(out) :: Lst !! on return, lst indicates the number of cycles
+                               !! actually needed for the integration.
+                               !! if `omega = 0`, then lst is set to 1.
     integer,intent(in) :: Leniw !! dimensioning parameter for iwork. on entry,
                                 !! `(leniw-limlst)/2` equals the maximum number of
                                 !! subintervals allowed in the partition of each
@@ -2715,239 +2715,189 @@ module quadpack
 !### History
 !  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-!         on entry
-!            f      - real(wp)
-!                     function subprogram defining the integrand
-!                     function f(x). the actual name for f needs to
-!                     be declared external in the driver program.
-!
-!            a      - real(wp)
-!                     lower limit of integration
-!
-!            omega  - real(wp)
-!                     parameter in the weight function
-!
-!            integr - integer
-!                     indicates which weight function is used
-!                     integr = 1      w(x) = cos(omega*x)
-!                     integr = 2      w(x) = sin(omega*x)
-!                     if integr/=1.and.integr/=2, the routine will
-!                     end with ier = 6.
-!
-!            epsabs - real(wp)
-!                     absolute accuracy requested, epsabs>0
-!                     if epsabs<=0, the routine will end with ier = 6.
-!
-!            limlst - integer
-!                     limlst gives an upper bound on the number of
-!                     cycles, limlst>=1.
-!                     if limlst<3, the routine will end with ier = 6.
-!
-!            limit  - integer
-!                     gives an upper bound on the number of subintervals
-!                     allowed in the partition of each cycle, limit>=1
-!                     each cycle, limit>=1.
-!
-!            maxp1  - integer
-!                     gives an upper bound on the number of
-!                     chebyshev moments which can be stored, i.e.
-!                     for the intervals of lengths abs(b-a)*2**(-l),
-!                     l=0,1, ..., maxp1-2, maxp1>=1
-!
-!         on return
-!            result - real(wp)
-!                     approximation to the integral x
-!
-!            abserr - real(wp)
-!                     estimate of the modulus of the absolute error,
-!                     which should equal or exceed `abs(i-result)`
-!
-!            neval  - integer
-!                     number of integrand evaluations
-!
-!            ier    - ier = 0 normal and reliable termination of
-!                             the routine. it is assumed that the
-!                             requested accuracy has been achieved.
-!                     ier>0 abnormal termination of the routine. the
-!                             estimates for integral and error are less
-!                             reliable. it is assumed that the requested
-!                             accuracy has not been achieved.
-!            error messages
-!                    if omega/=0
-!                     ier = 1 maximum number of  cycles  allowed
-!                             has been achieved., i.e. of subintervals
-!                             (a+(k-1)c,a+kc) where
-!                             c = (2*int(abs(omega))+1)*pi/abs(omega),
-!                             for k = 1, 2, ..., lst.
-!                             one can allow more cycles by increasing
-!                             the value of limlst (and taking the
-!                             according dimension adjustments into
-!                             account).
-!                             examine the array iwork which contains
-!                             the error flags on the cycles, in order to
-!                             look for eventual local integration
-!                             difficulties. if the position of a local
-!                             difficulty can be determined (e.g.
-!                             singularity, discontinuity within the
-!                             interval) one will probably gain from
-!                             splitting up the interval at this point
-!                             and calling appropriate integrators on
-!                             the subranges.
-!                         = 4 the extrapolation table constructed for
-!                             convergence acceleration of the series
-!                             formed by the integral contributions over
-!                             the cycles, does not converge to within
-!                             the requested accuracy. as in the case of
-!                             ier = 1, it is advised to examine the
-!                             array iwork which contains the error
-!                             flags on the cycles.
-!                         = 6 the input is invalid because
-!                             (integr/=1 and integr/=2) or
-!                              epsabs<=0 or limlst<3.
-!                              result, abserr, neval, lst are set
-!                              to zero.
-!                         = 7 bad integrand behaviour occurs within one
-!                             or more of the cycles. location and type
-!                             of the difficulty involved can be
-!                             determined from the vector ierlst. here
-!                             lst is the number of cycles actually
-!                             needed (see below).
-!                             ierlst(k) = 1 the maximum number of
-!                                           subdivisions (= limit) has
-!                                           been achieved on the `k`th
-!                                           cycle.
-!                                       = 2 occurrence of roundoff error
-!                                           is detected and prevents the
-!                                           tolerance imposed on the
-!                                           `k`th cycle, from being
-!                                           achieved.
-!                                       = 3 extremely bad integrand
-!                                           behaviour occurs at some
-!                                           points of the `k`th cycle.
-!                                       = 4 the integration procedure
-!                                           over the `k`th cycle does
-!                                           not converge (to within the
-!                                           required accuracy) due to
-!                                           roundoff in the
-!                                           extrapolation procedure
-!                                           invoked on this cycle. it
-!                                           is assumed that the result
-!                                           on this interval is the
-!                                           best which can be obtained.
-!                                       = 5 the integral over the `k`th
-!                                           cycle is probably divergent
-!                                           or slowly convergent. it
-!                                           must be noted that
-!                                           divergence can occur with
-!                                           any other value of
-!                                           ierlst(k).
-!                    if omega = 0 and integr = 1,
-!                    the integral is calculated by means of dqagie
-!                    and ier = ierlst(1) (with meaning as described
-!                    for ierlst(k), k = 1).
-!
-!            rslst  - real(wp)
-!                     vector of dimension at least limlst
-!                     rslst(k) contains the integral contribution
-!                     over the interval (a+(k-1)c,a+kc) where
-!                     c = (2*int(abs(omega))+1)*pi/abs(omega),
-!                     k = 1, 2, ..., lst.
-!                     note that, if omega = 0, rslst(1) contains
-!                     the value of the integral over (a,infinity).
-!
-!            erlst  - real(wp)
-!                     vector of dimension at least limlst
-!                     erlst(k) contains the error estimate corresponding
-!                     with rslst(k).
-!
-!            ierlst - integer
-!                     vector of dimension at least limlst
-!                     ierlst(k) contains the error flag corresponding
-!                     with rslst(k). for the meaning of the local error
-!                     flags see description of output parameter ier.
-!
-!            lst    - integer
-!                     number of subintervals needed for the integration
-!                     if omega = 0 then lst is set to 1.
-!
-!            alist, blist, rlist, elist - real(wp)
-!                     vector of dimension at least `limit`,
-!
-!            iord, nnlog - integer
-!                     vector of dimension at least `limit`, providing
-!                     space for the quantities needed in the subdivision
-!                     process of each cycle
-!
-!            chebmo - real(wp)
-!                     array of dimension at least (maxp1,25), providing
-!                     space for the chebyshev moments needed within the
-!                     cycles
+    subroutine dqawfe(f, a, Omega, Integr, Epsabs, Limlst, Limit, Maxp1, &
+                      Result, Abserr, Neval, Ier, Rslst, Erlst, Ierlst, Lst, &
+                      Alist, Blist, Rlist, Elist, Iord, Nnlog, Chebmo)
+    implicit none
 
-   subroutine dqawfe(f, a, Omega, Integr, Epsabs, Limlst, Limit, Maxp1, &
-                     Result, Abserr, Neval, Ier, Rslst, Erlst, Ierlst, Lst, &
-                     Alist, Blist, Rlist, Elist, Iord, Nnlog, Chebmo)
-      implicit none
+    procedure(func) :: f !! function subprogram defining the integrand function f(x).
+    real(wp),intent(in) :: a !! lower limit of integration
+    real(wp),intent(in) :: Omega !! parameter in the weight function
+    integer,intent(in) :: Integr !! indicates which weight function is used:
+                                 !!
+                                 !! * integr = 1  `w(x) = cos(omega*x)`
+                                 !! * integr = 2  `w(x) = sin(omega*x)`
+                                 !!
+                                 !! if `integr/=1.and.integr/=2`, the routine will
+                                 !! end with ier = 6.
+    real(wp),intent(in) :: Epsabs !! absolute accuracy requested, `epsabs>0`
+                                  !! if `epsabs<=0`, the routine will end with ier = 6.
+    integer,intent(in) :: Limlst !! limlst gives an upper bound on the number of
+                                 !! cycles, `limlst>=1`.
+                                 !! if `limlst<3`, the routine will end with ier = 6.
+    integer,intent(in) :: Limit !! gives an upper bound on the number of subintervals
+                                !! allowed in the partition of each cycle, `limit>=1`
+                                !! each cycle, `limit>=1`.
+    integer,intent(in) :: Maxp1 !! gives an upper bound on the number of
+                                !! chebyshev moments which can be stored, i.e.
+                                !! for the intervals of lengths
+                                !! `abs(b-a)*2**(-l), l=0,1, ..., maxp1-2, maxp1>=1`
+    real(wp),intent(out) :: Result !! approximation to the integral `x`
+    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                   !! which should equal or exceed `abs(i-result)`
+    integer,intent(out) :: Neval !! number of integrand evaluations
+    integer,intent(out) :: Ier !! * ier = 0 normal and reliable termination of
+                               !!   the routine. it is assumed that the
+                               !!   requested accuracy has been achieved.
+                               !! * ier>0 abnormal termination of the routine. the
+                               !!   estimates for integral and error are less
+                               !!   reliable. it is assumed that the requested
+                               !!   accuracy has not been achieved.
+                               !!
+                               !! error messages:
+                               !!
+                               !! if `omega/=0`:
+                               !!
+                               !! * ier = 1 maximum number of  cycles  allowed
+                               !!   has been achieved., i.e. of subintervals
+                               !!   (a+(k-1)c,a+kc) where
+                               !!   c = (2*int(abs(omega))+1)*pi/abs(omega),
+                               !!   for k = 1, 2, ..., lst.
+                               !!   one can allow more cycles by increasing
+                               !!   the value of limlst (and taking the
+                               !!   according dimension adjustments into
+                               !!   account).
+                               !!   examine the array iwork which contains
+                               !!   the error flags on the cycles, in order to
+                               !!   look for eventual local integration
+                               !!   difficulties. if the position of a local
+                               !!   difficulty can be determined (e.g.
+                               !!   singularity, discontinuity within the
+                               !!   interval) one will probably gain from
+                               !!   splitting up the interval at this point
+                               !!   and calling appropriate integrators on
+                               !!   the subranges.
+                               !! * ier = 4 the extrapolation table constructed for
+                               !!   convergence acceleration of the series
+                               !!   formed by the integral contributions over
+                               !!   the cycles, does not converge to within
+                               !!   the requested accuracy. as in the case of
+                               !!   ier = 1, it is advised to examine the
+                               !!   array iwork which contains the error
+                               !!   flags on the cycles.
+                               !! * ier = 6 the input is invalid because
+                               !!   (integr/=1 and integr/=2) or
+                               !!   epsabs<=0 or limlst<3.
+                               !!   result, abserr, neval, lst are set
+                               !!   to zero.
+                               !! * ier = 7 bad integrand behaviour occurs within one
+                               !!   or more of the cycles. location and type
+                               !!   of the difficulty involved can be
+                               !!   determined from the vector ierlst. here
+                               !!   lst is the number of cycles actually
+                               !!   needed (see below):
+                               !!
+                               !!    * ierlst(k) = 1 the maximum number of
+                               !!      subdivisions (= `limit`) has
+                               !!      been achieved on the `k`th
+                               !!      cycle.
+                               !!    * ierlst(k) = 2 occurrence of roundoff error
+                               !!      is detected and prevents the
+                               !!      tolerance imposed on the
+                               !!      `k`th cycle, from being
+                               !!      achieved.
+                               !!    * ierlst(k) = 3 extremely bad integrand
+                               !!      behaviour occurs at some
+                               !!      points of the `k`th cycle.
+                               !!    * ierlst(k) = 4 the integration procedure
+                               !!      over the `k`th cycle does
+                               !!      not converge (to within the
+                               !!      required accuracy) due to
+                               !!      roundoff in the
+                               !!      extrapolation procedure
+                               !!      invoked on this cycle. it
+                               !!      is assumed that the result
+                               !!      on this interval is the
+                               !!      best which can be obtained.
+                               !!    * ierlst(k) = 5 the integral over the `k`th
+                               !!      cycle is probably divergent
+                               !!      or slowly convergent. it
+                               !!      must be noted that
+                               !!      divergence can occur with
+                               !!      any other value of
+                               !!      `ierlst(k)`.
+                               !!
+                               !! if `omega = 0` and `integr = 1`,
+                               !! the integral is calculated by means of [[dqagie]]
+                               !! and `ier = ierlst(1)` (with meaning as described
+                               !! for `ierlst(k), k = 1`).
+    real(wp),intent(out) :: Rslst(Limlst) !! vector of dimension at least limlst
+                                          !! rslst(k) contains the integral contribution
+                                          !! over the interval (a+(k-1)c,a+kc) where
+                                          !! c = (2*int(abs(omega))+1)*pi/abs(omega),
+                                          !! k = 1, 2, ..., lst.
+                                          !! note that, if omega = 0, rslst(1) contains
+                                          !! the value of the integral over (a,infinity).
+    real(wp),intent(out) :: Erlst(Limlst) !! vector of dimension at least limlst
+                                          !! erlst(k) contains the error estimate corresponding
+                                          !! with rslst(k).
+    integer,intent(out) :: Ierlst(Limlst) !! vector of dimension at least limlst
+                                          !! ierlst(k) contains the error flag corresponding
+                                          !! with rslst(k). for the meaning of the local error
+                                          !! flags see description of output parameter ier.
+    integer,intent(out) :: Lst !! number of subintervals needed for the integration
+                               !! if omega = 0 then lst is set to 1.
+    real(wp),intent(out) :: Alist(Limit) !! vector of dimension at least `limit`
+    real(wp),intent(out) :: Blist(Limit) !! vector of dimension at least `limit`
+    real(wp),intent(out) :: Rlist(Limit) !! vector of dimension at least `limit`
+    real(wp),intent(out) :: Elist(Limit) !! vector of dimension at least `limit`
+    integer,intent(out) :: Iord(Limit) !! vector of dimension at least `limit`, providing
+                                       !! space for the quantities needed in the subdivision
+                                       !! process of each cycle
+    integer,intent(out) :: Nnlog(Limit) !! vector of dimension at least `limit`, providing
+                                        !! space for the quantities needed in the subdivision
+                                        !! process of each cycle
+    real(wp),intent(out) :: Chebmo(Maxp1, 25) !! array of dimension at least `(maxp1,25)`, providing
+                                              !! space for the chebyshev moments needed within the
+                                              !! cycles (see also routine [[dqc25f]])
 
-      real(wp) a, abseps, Abserr, Alist, Blist, Chebmo, &
-         correc, cycle, c1, c2, dl, dla, &
-         drl, Elist, Erlst, ep, eps, &
-         epsa, Epsabs, errsum, fact, Omega, &
-         p1, psum, reseps, Result, res3la, &
-         Rlist, Rslst
-      integer Ier, Ierlst, Integr, Iord, ktmin, l, last, Lst, &
-         Limit, Limlst, ll, Maxp1, momcom, nev, Neval, &
-         Nnlog, nres, numrl2
-!
-      dimension Alist(Limit), Blist(Limit), Chebmo(Maxp1, 25), &
-         Elist(Limit), Erlst(Limlst), Ierlst(Limlst), &
-         Iord(Limit), Nnlog(Limit), psum(52), res3la(3), &
-         Rlist(Limit), Rslst(Limlst)
-!
-      procedure(func) :: f
-!
-!
-!            the dimension of  psum  is determined by the value of
-!            limexp in subroutine dqelg (psum must be of dimension
-!            (limexp+2) at least).
-!
-!           list of major variables
-!           -----------------------
-!
-!           c1, c2    - end points of subinterval (of length cycle)
-!           cycle     - (2*int(abs(omega))+1)*pi/abs(omega)
-!           psum      - vector of dimension at least (limexp+2)
-!                       (see routine dqelg)
-!                       psum contains the part of the epsilon table
-!                       which is still needed for further computations.
-!                       each element of psum is a partial sum of the
-!                       series which should sum to the value of the
-!                       integral.
-!           errsum    - sum of error estimates over the subintervals,
-!                       calculated cumulatively
-!           epsa      - absolute tolerance requested over current
-!                       subinterval
-!           chebmo    - array containing the modified chebyshev
-!                       moments (see also routine dqc25f)
+    real(wp) :: abseps, correc, dl, dla, drl, ep, eps, fact, p1, reseps, res3la(3)
+    integer :: ktmin, l, last, ll, momcom, nev, nres, numrl2
+    real(wp) :: psum(52) !! the dimension of  `psum`  is determined by the value of
+                         !! `limexp` in subroutine [[dqelg]] (`psum` must be of dimension
+                         !! `(limexp+2)` at least).
+                         !!
+                         !! vector of dimension at least `(limexp+2)`
+                         !! (see routine [[dqelg]]).
+                         !! `psum` contains the part of the epsilon table
+                         !! which is still needed for further computations.
+                         !! each element of `psum` is a partial sum of the
+                         !! series which should sum to the value of the
+                         !! integral.
+    real(wp) :: c1, c2 !! end points of subinterval (of length cycle)
+    real(wp) :: cycle !! `(2*int(abs(omega))+1)*pi/abs(omega)`
+    real(wp) :: errsum  !! sum of error estimates over the subintervals,
+                        !! calculated cumulatively
+    real(wp) :: epsa !! absolute tolerance requested over current
+                     !! subinterval
 
-      real(wp), parameter :: p = 0.9_wp
-      real(wp), parameter :: pi = acos(-1.0_wp)
+    real(wp), parameter :: p = 0.9_wp
+    real(wp), parameter :: pi = acos(-1.0_wp)
 
-!
-!           test on validity of parameters
-!
+    ! test on validity of parameters
 
-      Result = 0.0_wp
-      Abserr = 0.0_wp
-      Neval = 0
-      Lst = 0
-      Ier = 0
-      if ((Integr /= 1 .and. Integr /= 2) .or. Epsabs <= 0.0_wp .or. &
-          Limlst < 3) Ier = 6
-      if (Ier /= 6) then
-         if (Omega /= 0.0_wp) then
-!
-!           initializations
-!
+    Result = 0.0_wp
+    Abserr = 0.0_wp
+    Neval = 0
+    Lst = 0
+    Ier = 0
+    if ((Integr /= 1 .and. Integr /= 2) .or. Epsabs <= 0.0_wp .or. &
+        Limlst < 3) Ier = 6
+    if (Ier /= 6) then
+        if (Omega /= 0.0_wp) then
+
+            ! initializations
+
             l = abs(Omega)
             dl = 2*l + 1
             cycle = dl*pi/abs(Omega)
@@ -2966,92 +2916,90 @@ module quadpack
             correc = 0.0_wp
             Abserr = 0.0_wp
             errsum = 0.0_wp
-!
-!           main do-loop
-!
+
+            ! main do-loop
+
             do Lst = 1, Limlst
-!
-!           integrate over current subinterval.
-!
-               dla = Lst
-               epsa = eps*fact
-               call dqawoe(f, c1, c2, Omega, Integr, epsa, 0.0_wp, Limit, Lst, &
-                           Maxp1, Rslst(Lst), Erlst(Lst), nev, Ierlst(Lst), &
-                           last, Alist, Blist, Rlist, Elist, Iord, Nnlog, &
-                           momcom, Chebmo)
-               Neval = Neval + nev
-               fact = fact*p
-               errsum = errsum + Erlst(Lst)
-               drl = 50.0_wp*abs(Rslst(Lst))
-!
-!           test on accuracy with partial sum
-!
-               if ((errsum + drl) <= Epsabs .and. Lst >= 6) goto 50
-               correc = max(correc, Erlst(Lst))
-               if (Ierlst(Lst) /= 0) eps = max(ep, correc*p1)
-               if (Ierlst(Lst) /= 0) Ier = 7
-               if (Ier == 7 .and. (errsum + drl) <= correc*10.0_wp .and. &
-                   Lst > 5) goto 50
-               numrl2 = numrl2 + 1
-               if (Lst > 1) then
-                  psum(numrl2) = psum(ll) + Rslst(Lst)
-                  if (Lst /= 2) then
-!
-!           test on maximum number of subintervals
-!
-                     if (Lst == Limlst) Ier = 1
-!
-!           perform new extrapolation
-!
-                     call dqelg(numrl2, psum, reseps, abseps, res3la, nres)
-!
-!           test whether extrapolated result is influenced by roundoff
-!
-                     ktmin = ktmin + 1
-                     if (ktmin >= 15 .and. Abserr <= 0.1e-02_wp*(errsum + drl)) &
-                        Ier = 4
-                     if (abseps <= Abserr .or. Lst == 3) then
-                        Abserr = abseps
-                        Result = reseps
-                        ktmin = 0
-!
-!           if ier is not 0, check whether direct result (partial sum)
-!           or extrapolated result yields the best integral
-!           approximation
-!
-                        if ((Abserr + 10.0_wp*correc) <= Epsabs .or. &
-                            (Abserr <= Epsabs .and. &
-                             10.0_wp*correc >= Epsabs)) goto 20
-                     end if
-                     if (Ier /= 0 .and. Ier /= 7) goto 20
-                  end if
-               else
-                  psum(1) = Rslst(1)
-               end if
-               ll = numrl2
-               c1 = c2
-               c2 = c2 + cycle
+
+                ! integrate over current subinterval.
+
+                dla = Lst
+                epsa = eps*fact
+                call dqawoe(f, c1, c2, Omega, Integr, epsa, 0.0_wp, Limit, Lst, &
+                            Maxp1, Rslst(Lst), Erlst(Lst), nev, Ierlst(Lst), &
+                            last, Alist, Blist, Rlist, Elist, Iord, Nnlog, &
+                            momcom, Chebmo)
+                Neval = Neval + nev
+                fact = fact*p
+                errsum = errsum + Erlst(Lst)
+                drl = 50.0_wp*abs(Rslst(Lst))
+
+                ! test on accuracy with partial sum
+
+                if ((errsum + drl) <= Epsabs .and. Lst >= 6) goto 50
+                correc = max(correc, Erlst(Lst))
+                if (Ierlst(Lst) /= 0) eps = max(ep, correc*p1)
+                if (Ierlst(Lst) /= 0) Ier = 7
+                if (Ier == 7 .and. (errsum + drl) <= correc*10.0_wp .and. &
+                    Lst > 5) goto 50
+                numrl2 = numrl2 + 1
+                if (Lst > 1) then
+                    psum(numrl2) = psum(ll) + Rslst(Lst)
+                    if (Lst /= 2) then
+
+                        ! test on maximum number of subintervals
+
+                        if (Lst == Limlst) Ier = 1
+
+                        ! perform new extrapolation
+
+                        call dqelg(numrl2, psum, reseps, abseps, res3la, nres)
+
+                        ! test whether extrapolated result is influenced by roundoff
+
+                        ktmin = ktmin + 1
+                        if (ktmin >= 15 .and. Abserr <= 0.1e-02_wp*(errsum + drl)) &
+                            Ier = 4
+                        if (abseps <= Abserr .or. Lst == 3) then
+                            Abserr = abseps
+                            Result = reseps
+                            ktmin = 0
+
+                            ! if ier is not 0, check whether direct result (partial sum)
+                            ! or extrapolated result yields the best integral
+                            ! approximation
+
+                            if ((Abserr + 10.0_wp*correc) <= Epsabs .or. &
+                                (Abserr <= Epsabs .and. &
+                                 10.0_wp*correc >= Epsabs)) exit
+                        end if
+                        if (Ier /= 0 .and. Ier /= 7) exit
+                    end if
+                else
+                    psum(1) = Rslst(1)
+                end if
+                ll = numrl2
+                c1 = c2
+                c2 = c2 + cycle
             end do
-!
-!         set final result and error estimate
-!         -----------------------------------
-!
-20          Abserr = Abserr + 10.0_wp*correc
+
+            ! set final result and error estimate
+
+            Abserr = Abserr + 10.0_wp*correc
             if (Ier == 0) return
             if (Result == 0.0_wp .or. psum(numrl2) == 0.0_wp) then
-               if (Abserr > errsum) goto 50
-               if (psum(numrl2) == 0.0_wp) return
+                if (Abserr > errsum) goto 50
+                if (psum(numrl2) == 0.0_wp) return
             end if
             if (Abserr/abs(Result) <= (errsum + drl)/abs(psum(numrl2))) &
-               then
-               if (Ier >= 1 .and. Ier /= 7) Abserr = Abserr + drl
-               return
+                then
+                if (Ier >= 1 .and. Ier /= 7) Abserr = Abserr + drl
+                return
             end if
-         else
-!
-!           integration by dqagie if omega is zero
+        else
 
-!
+            ! integration by dqagie if omega is zero
+
             if (Integr == 1) call dqagie(f, 0.0_wp, 1, Epsabs, 0.0_wp, &
                                          Limit, Result, Abserr, Neval, &
                                          Ier, Alist, Blist, Rlist, Elist, &
@@ -3061,12 +3009,12 @@ module quadpack
             Ierlst(1) = Ier
             Lst = 1
             return
-         end if
-50       Result = psum(numrl2)
-         Abserr = errsum + drl
-      end if
+        end if
+50      Result = psum(numrl2)
+        Abserr = errsum + drl
+    end if
 
-   end subroutine dqawfe
+    end subroutine dqawfe
 !********************************************************************************
 
 !********************************************************************************
