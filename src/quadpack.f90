@@ -5445,7 +5445,7 @@ module quadpack
 !           wg     - weights of the 7-point gauss rule
 !
 !
-! gauss quadrature weights and kronron quadrature abscissae and weights
+! gauss quadrature weights and kronrod quadrature abscissae and weights
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
@@ -5972,7 +5972,7 @@ module quadpack
 !           wg     - weights of the 10-point gauss rule
 !
 !
-! gauss quadrature weights and kronron quadrature abscissae and weights
+! gauss quadrature weights and kronrod quadrature abscissae and weights
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
@@ -6146,7 +6146,7 @@ module quadpack
 !           wg     - weights of the 15-point gauss rule
 !
 !
-! gauss quadrature weights and kronron quadrature abscissae and weights
+! gauss quadrature weights and kronrod quadrature abscissae and weights
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
@@ -6332,7 +6332,7 @@ module quadpack
 !           wg     - weights of the 20-point gauss rule
 !
 !
-! gauss quadrature weights and kronron quadrature abscissae and weights
+! gauss quadrature weights and kronrod quadrature abscissae and weights
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
@@ -6530,7 +6530,7 @@ module quadpack
 !           wg     - weights of the 25-point gauss rule
 !
 !
-! gauss quadrature weights and kronron quadrature abscissae and weights
+! gauss quadrature weights and kronrod quadrature abscissae and weights
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
@@ -6740,7 +6740,7 @@ module quadpack
 !           wg    - weigths of the 30-point gauss rule
 !
 !
-! gauss quadrature weights and kronron quadrature abscissae and weights
+! gauss quadrature weights and kronrod quadrature abscissae and weights
 ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
 ! bell labs, nov. 1981.
 !
