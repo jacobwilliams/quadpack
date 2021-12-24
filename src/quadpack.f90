@@ -21,7 +21,7 @@
 !    integration between zeros with dqawoe,
 !    convergence acceleration with dqelg,
 !    integrand with oscillatory cos or sin factor,
-!    (end point) singularities
+!    (end point) singularities, 25-point clenshaw-curtis integration
 
 module quadpack
 
@@ -40,6 +40,7 @@ module quadpack
    real(wp), parameter :: uflow = d1mach(1) !! the smallest positive magnitude.
    real(wp), parameter :: oflow = d1mach(2) !! the largest positive magnitude.
    real(wp), parameter :: epmach = d1mach(4) !! the largest relative spacing.
+   real(wp), parameter, private :: pi = acos(-1.0_wp)
 
    abstract interface
       real(wp) function func(x)
@@ -2884,7 +2885,6 @@ module quadpack
                      !! subinterval
 
     real(wp), parameter :: p = 0.9_wp
-    real(wp), parameter :: pi = acos(-1.0_wp)
 
     ! test on validity of parameters
 
@@ -3207,8 +3207,7 @@ module quadpack
 !         on entry
 !            f      - real(wp)
 !                     function subprogram defining the integrand
-!                     function f(x). the actual name for f needs to be
-!                     declared external in the driver program.
+!                     function f(x).
 !
 !            a      - real(wp)
 !                     lower limit of integration
@@ -3950,8 +3949,7 @@ module quadpack
 !         on entry
 !            f      - real(wp)
 !                     function subprogram defining the integrand
-!                     function f(x). the actual name for f needs to be
-!                     declared external in the driver program.
+!                     function f(x).
 !
 !            a      - real(wp)
 !                     lower limit of integration
@@ -4294,130 +4292,87 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   810101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  25-point clenshaw-curtis integration
-!***purpose  to compute i = integral of f*w over (a,b) with
-!            error estimate, where w(x) = 1/(x-c)
-!***description
+!  integration rules for the computation of cauchy
+!  principal value integrals
 !
-!        integration rules for the computation of cauchy
-!        principal value integrals
+!  to compute i = integral of `f*w` over `(a,b)` with
+!  error estimate, where` w(x) = 1/(x-c)`
 !
-!        parameters
-!           f      - real(wp)
-!                    function subprogram defining the integrand function
-!                    f(x). the actual name for f needs to be declared
-!                    external  in the driver program.
-!
-!           a      - real(wp)
-!                    left end point of the integration interval
-!
-!           b      - real(wp)
-!                    right end point of the integration interval, b>a
-!
-!           c      - real(wp)
-!                    parameter in the weight function
-!
-!           result - real(wp)
-!                    approximation to the integral
-!                    result is computed by using a generalized
-!                    clenshaw-curtis method if c lies within ten percent
-!                    of the integration interval. in the other case the
-!                    15-point kronrod rule obtained by optimal addition
-!                    of abscissae to the 7-point gauss rule, is applied.
-!
-!           abserr - real(wp)
-!                    estimate of the modulus of the absolute error,
-!                    which should equal or exceed `abs(i-result)`
-!
-!           krul   - integer
-!                    key which is decreased by 1 if the 15-point
-!                    gauss-kronrod scheme has been used
-!
-!           neval  - integer
-!                    number of integrand evaluations
+!### History
+!  * SLATEC: date written 810101, revision date 830518 (yymmdd)
 
-   subroutine dqc25c(f, a, b, c, Result, Abserr, Krul, Neval)
-      implicit none
+    subroutine dqc25c(f, a, b, c, Result, Abserr, Krul, Neval)
+    implicit none
 
-      real(wp) a, Abserr, ak22, amom0, amom1, amom2, b, &
-         c, cc, centr, cheb12, cheb24, &
-         fval, hlgth, p2, p3, p4, &
-         resabs, resasc, Result, res12, res24, u, x
-      integer i, isym, k, kp, Krul, Neval
-!
-      dimension x(11), fval(25), cheb12(13), cheb24(25)
-!
-      procedure(func) :: f
-!
-!           the vector x contains the values cos(k*pi/24),
-!           k = 1, ..., 11, to be used for the chebyshev series
-!           expansion of f
-!
-      data x(1)/0.991444861373810411144557526928563_wp/
-      data x(2)/0.965925826289068286749743199728897_wp/
-      data x(3)/0.923879532511286756128183189396788_wp/
-      data x(4)/0.866025403784438646763723170752936_wp/
-      data x(5)/0.793353340291235164579776961501299_wp/
-      data x(6)/0.707106781186547524400844362104849_wp/
-      data x(7)/0.608761429008720639416097542898164_wp/
-      data x(8)/0.500000000000000000000000000000000_wp/
-      data x(9)/0.382683432365089771728459984030399_wp/
-      data x(10)/0.258819045102520762348898837624048_wp/
-      data x(11)/0.130526192220051591548406227895489_wp/
-!
-!           list of major variables
-!           ----------------------
-!           fval   - value of the function f at the points
-!                    cos(k*pi/24),  k = 0, ..., 24
-!           cheb12 - chebyshev series expansion coefficients,
-!                    for the function f, of degree 12
-!           cheb24 - chebyshev series expansion coefficients,
-!                    for the function f, of degree 24
-!           res12  - approximation to the integral corresponding
-!                    to the use of cheb12
-!           res24  - approximation to the integral corresponding
-!                    to the use of cheb24
-!           dqwgtc - external function subprogram defining
-!                    the weight function
-!           hlgth  - half-length of the interval
-!           centr  - mid point of the interval
-!
-!
-!           check the position of c.
-!
+    procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
+    real(wp),intent(in) :: a !! left end point of the integration interval
+    real(wp),intent(in) :: b !! right end point of the integration interval, `b>a`
+    real(wp),intent(in) :: c !! parameter in the weight function
+    real(wp),intent(out) :: Result !! approximation to the integral
+                                   !! result is computed by using a generalized
+                                   !! clenshaw-curtis method if `c` lies within ten percent
+                                   !! of the integration interval. in the other case the
+                                   !! 15-point kronrod rule obtained by optimal addition
+                                   !! of abscissae to the 7-point gauss rule, is applied.
+    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                   !! which should equal or exceed `abs(i-result)`
+    integer,intent(inout) :: Krul !! key which is decreased by 1 if the 15-point
+                                  !! gauss-kronrod scheme has been used
+    integer,intent(out) :: Neval !! number of integrand evaluations
 
-      cc = (2.0_wp*c - b - a)/(b - a)
-      if (abs(cc) < 1.1_wp) then
-!
-!           use the generalized clenshaw-curtis method.
-!
-         hlgth = 0.5_wp*(b - a)
-         centr = 0.5_wp*(b + a)
-         Neval = 25
-         fval(1) = 0.5_wp*f(hlgth + centr)
-         fval(13) = f(centr)
-         fval(25) = 0.5_wp*f(centr - hlgth)
-         do i = 2, 12
+    real(wp) :: ak22, amom0, amom1, amom2, cc, &
+                p2, p3, p4, resabs, resasc, u
+    integer :: i, isym, k, kp
+    real(wp) :: fval(25) !! value of the function `f` at the points
+                         !! `cos(k*pi/24)`, `k = 0, ..., 24`
+    real(wp) :: cheb12(13) !! chebyshev series expansion coefficients,
+                           !! for the function f, of degree 12
+    real(wp) :: cheb24(25) !! chebyshev series expansion coefficients,
+                           !! for the function f, of degree 24
+    real(wp) :: res12 !! approximation to the integral corresponding
+                      !! to the use of cheb12
+    real(wp) :: res24 !! approximation to the integral corresponding
+                      !! to the use of cheb24
+    real(wp) :: hlgth !! half-length of the interval
+    real(wp) :: centr !! mid point of the interval
+
+    real(wp),dimension(11),parameter :: x = [ (cos(k*pi/24.0_wp), k = 1, 11) ]
+        !! the vector x contains the values `cos(k*pi/24)`,
+        !! `k = 1, ..., 11`, to be used for the chebyshev series
+        !! expansion of `f`
+
+      ! check the position of c.
+
+    cc = (2.0_wp*c - b - a)/(b - a)
+    if (abs(cc) < 1.1_wp) then
+
+        ! use the generalized clenshaw-curtis method.
+
+        hlgth = 0.5_wp*(b - a)
+        centr = 0.5_wp*(b + a)
+        Neval = 25
+        fval(1) = 0.5_wp*f(hlgth + centr)
+        fval(13) = f(centr)
+        fval(25) = 0.5_wp*f(centr - hlgth)
+        do i = 2, 12
             u = hlgth*x(i - 1)
             isym = 26 - i
             fval(i) = f(u + centr)
             fval(isym) = f(centr - u)
-         end do
-!
-!           compute the chebyshev series expansion.
-!
-         call dqcheb(x, fval, cheb12, cheb24)
-!
-!           the modified chebyshev moments are computed by forward
-!           recursion, using amom0 and amom1 as starting values.
-!
-         amom0 = log(abs((1.0_wp - cc)/(1.0_wp + cc)))
-         amom1 = 2.0_wp + cc*amom0
-         res12 = cheb12(1)*amom0 + cheb12(2)*amom1
-         res24 = cheb24(1)*amom0 + cheb24(2)*amom1
-         do k = 3, 13
+        end do
+
+        ! compute the chebyshev series expansion.
+
+        call dqcheb(x, fval, cheb12, cheb24)
+
+        ! the modified chebyshev moments are computed by forward
+        ! recursion, using amom0 and amom1 as starting values.
+
+        amom0 = log(abs((1.0_wp - cc)/(1.0_wp + cc)))
+        amom1 = 2.0_wp + cc*amom0
+        res12 = cheb12(1)*amom0 + cheb12(2)*amom1
+        res24 = cheb24(1)*amom0 + cheb24(2)*amom1
+        do k = 3, 13
             amom2 = 2.0_wp*cc*amom1 - amom0
             ak22 = (k - 2)*(k - 2)
             if ((k/2)*2 == k) amom2 = amom2 - 4.0_wp/(ak22 - 1.0_wp)
@@ -4425,29 +4380,31 @@ module quadpack
             res24 = res24 + cheb24(k)*amom2
             amom0 = amom1
             amom1 = amom2
-         end do
-         do k = 14, 25
+        end do
+        do k = 14, 25
             amom2 = 2.0_wp*cc*amom1 - amom0
             ak22 = (k - 2)*(k - 2)
             if ((k/2)*2 == k) amom2 = amom2 - 4.0_wp/(ak22 - 1.0_wp)
             res24 = res24 + cheb24(k)*amom2
             amom0 = amom1
             amom1 = amom2
-         end do
-         Result = res24
-         Abserr = abs(res24 - res12)
-      else
-!
-!           apply the 15-point gauss-kronrod scheme.
-!
-         Krul = Krul - 1
-         call dqk15w(f, dqwgtc, c, p2, p3, p4, kp, a, b, Result, Abserr, resabs, &
-                     resasc)
-         Neval = 15
-         if (resasc == Abserr) Krul = Krul + 1
-      end if
+        end do
+        Result = res24
+        Abserr = abs(res24 - res12)
+    else
 
-   end subroutine dqc25c
+        ! apply the 15-point gauss-kronrod scheme.
+
+        ! dqwgtc - external function subprogram defining the weight function
+
+        Krul = Krul - 1
+        call dqk15w(f, dqwgtc, c, p2, p3, p4, kp, a, b, Result, Abserr, resabs, &
+                    resasc)
+        Neval = 15
+        if (resasc == Abserr) Krul = Krul + 1
+    end if
+
+    end subroutine dqc25c
 !********************************************************************************
 
 !********************************************************************************
@@ -4681,9 +4638,6 @@ module quadpack
 !           solve the tridiagonal system by means of gaussian
 !           elimination with partial pivoting.
 !
-!***        call to dgtsl must be replaced by call to
-!***        real(wp) version of linpack routine sgtsl
-!
                call dgtsl(noequ, d1, d, d2, v(4), iers)
             end if
             do j = 1, 13
@@ -4738,9 +4692,6 @@ module quadpack
 !
 !           solve the tridiagonal system by means of gaussian
 !           elimination with partial pivoting.
-!
-!***        call to dgtsl must be replaced by call to
-!***        real(wp) version of linpack routine sgtsl
 !
                call dgtsl(noequ, d1, d, d2, v(3), iers)
             end if
@@ -5345,10 +5296,19 @@ module quadpack
          error, err1, err2, err3, e0, e1, e1abs, &
          e2, e3, res, Result, Res3la, ss, &
          tol1, tol2, tol3
-      integer i, ib, ib2, ie, indx, k1, k2, k3, limexp, n, &
+      integer i, ib, ib2, ie, indx, k1, k2, k3, n, &
          newelm, Nres, num
       dimension Epstab(52), Res3la(3)
-!
+
+      ! JW : this needs to be a module variable...
+      ! ... some other dims depends on it (see all the 52's)
+      ! ... Is this dependant on the precision ?
+      ! ... Note that the single precision routine also used 50.
+
+      integer,parameter :: limexp = 50 !! limexp is the maximum number of elements the epsilon
+                                       !! table can contain. if this number is reached, the upper
+                                       !! diagonal of the epsilon table is deleted.
+
 !           list of major variables
 !           -----------------------
 !
@@ -5363,20 +5323,12 @@ module quadpack
 !           error  - error = abs(e1-e0)+abs(e2-e1)+abs(new-e2)
 !           result - the element in the new diagonal with least value
 !                    of error
-!
-!           machine dependent constants
-!           ---------------------------
-!
-!           limexp is the maximum number of elements the epsilon
-!           table can contain. if this number is reached, the upper
-!           diagonal of the epsilon table is deleted.
-!
+
 
       Nres = Nres + 1
       Abserr = oflow
       Result = Epstab(n)
       if (n >= 3) then
-         limexp = 50
          Epstab(n + 2) = Epstab(n)
          newelm = (n - 1)/2
          Epstab(n) = oflow
@@ -5941,8 +5893,7 @@ module quadpack
       data wg(1), wg(2), wg(3), wg(4)/0.1294849661688697_wp, &
          0.2797053914892767_wp, 0.3818300505051189_wp, &
          0.4179591836734694_wp/
-!
-!
+
 !           list of major variables
 !           -----------------------
 !
