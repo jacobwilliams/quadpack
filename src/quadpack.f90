@@ -3853,7 +3853,7 @@ module quadpack
 !                     dimensioning parameter for `iwork`
 !                     limit determines the maximum number of
 !                     subintervals in the partition of the given
-!                     integration interval (a,b), limit>=2.
+!                     integration interval `(a,b)`, limit>=2.
 !                     if limit<2, the routine will end with ier = 6.
 !
 !            lenw   - integer
@@ -4409,349 +4409,285 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   810101   (yymmdd)
-!***revision date  211011   (yymmdd)
-!***keywords  integration rules for functions with cos or sin
-!             factor, clenshaw-curtis, gauss-kronrod
-!***purpose  to compute the integral i=integral of f(x) over (a,b)
-!            where w(x) = cos(omega*x) or w(x)=sin(omega*x) and to
-!            compute j = integral of abs(f) over (a,b). for small value
-!            of omega or small intervals (a,b) the 15-point gauss-kronro
-!            rule is used. otherwise a generalized clenshaw-curtis
-!            method is used.
-!***description
+!  to compute the integral i=integral of `f(x)` over `(a,b)`
+!  where `w(x) = cos(omega*x)` or `w(x)=sin(omega*x)` and to
+!  compute j = integral of `abs(f)` over `(a,b)`. for small value
+!  of `omega` or small intervals `(a,b)` the 15-point gauss-kronrod
+!  rule is used. otherwise a generalized clenshaw-curtis
+!  method is used.
 !
-!        integration rules for functions with cos or sin factor
-!
-!        parameters
-!         on entry
-!           f      - real(wp)
-!                    function subprogram defining the integrand
-!                    function f(x). the actual name for f needs to
-!                    be declared external in the calling program.
-!
-!           a      - real(wp)
-!                    lower limit of integration
-!
-!           b      - real(wp)
-!                    upper limit of integration
-!
-!           omega  - real(wp)
-!                    parameter in the weight function
-!
-!           integr - integer
-!                    indicates which weight function is to be used
-!                       integr = 1   w(x) = cos(omega*x)
-!                       integr = 2   w(x) = sin(omega*x)
-!
-!           nrmom  - integer
-!                    the length of interval (a,b) is equal to the length
-!                    of the original integration interval divided by
-!                    2**nrmom (we suppose that the routine is used in an
-!                    adaptive integration process, otherwise set
-!                    nrmom = 0). nrmom must be zero at the first call.
-!
-!           maxp1  - integer
-!                    gives an upper bound on the number of chebyshev
-!                    moments which can be stored, i.e. for the
-!                    intervals of lengths abs(bb-aa)*2**(-l),
-!                    l = 0,1,2, ..., maxp1-2.
-!
-!           ksave  - integer
-!                    key which is one when the moments for the
-!                    current interval have been computed
-!
-!         on return
-!           result - real(wp)
-!                    approximation to the integral i
-!
-!           abserr - real(wp)
-!                    estimate of the modulus of the absolute
-!                    error, which should equal or exceed `abs(i-result)`
-!
-!           neval  - integer
-!                    number of integrand evaluations
-!
-!           resabs - real(wp)
-!                    approximation to the integral j
-!
-!           resasc - real(wp)
-!                    approximation to the integral of abs(f-i/(b-a))
-!
-!         on entry and return
-!           momcom - integer
-!                    for each interval length we need to compute the
-!                    chebyshev moments. momcom counts the number of
-!                    intervals for which these moments have already been
-!                    computed. if nrmom<momcom or ksave = 1, the
-!                    chebyshev moments for the interval (a,b) have
-!                    already been computed and stored, otherwise we
-!                    compute them and we increase momcom.
-!
-!           chebmo - real(wp)
-!                    array of dimension at least (maxp1,25) containing
-!                    the modified chebyshev moments for the first momcom
-!                    momcom interval lengths
+!### History
+!  * SLATEC: date written 810101, revision date 211011 (yymmdd)
 
-   subroutine dqc25f(f, a, b, Omega, Integr, Nrmom, Maxp1, Ksave, Result, &
+    subroutine dqc25f(f, a, b, Omega, Integr, Nrmom, Maxp1, Ksave, Result, &
                      Abserr, Neval, Resabs, Resasc, Momcom, Chebmo)
-      implicit none
+    implicit none
 
-      real(wp) a, Abserr, ac, an, an2, as, asap, ass, &
-         b, centr, Chebmo, cheb12, cheb24, conc, &
-         cons, cospar, d, &
-         d1, d2, estc, ests, fval, &
-         hlgth, Omega, parint, par2, par22, &
-         p2, p3, p4, Resabs, Resasc, resc12, &
-         resc24, ress12, ress24, Result, sinpar, v, &
-         x
-      integer i, iers, Integr, isym, j, k, Ksave, m, Momcom, &
-         Neval, Maxp1, noequ, noeq1, Nrmom
-!
-      dimension Chebmo(Maxp1, 25), cheb12(13), cheb24(25), d(25), &
-         d1(25), d2(25), fval(25), v(28), x(11)
-!
-      procedure(func) :: f
-!
-!           the vector x contains the values cos(k*pi/24)
-!           k = 1, ...,11, to be used for the chebyshev expansion of f
-!
-      data x(1)/0.991444861373810411144557526928563_wp/
-      data x(2)/0.965925826289068286749743199728897_wp/
-      data x(3)/0.923879532511286756128183189396788_wp/
-      data x(4)/0.866025403784438646763723170752936_wp/
-      data x(5)/0.793353340291235164579776961501299_wp/
-      data x(6)/0.707106781186547524400844362104849_wp/
-      data x(7)/0.608761429008720639416097542898164_wp/
-      data x(8)/0.500000000000000000000000000000000_wp/
-      data x(9)/0.382683432365089771728459984030399_wp/
-      data x(10)/0.258819045102520762348898837624048_wp/
-      data x(11)/0.130526192220051591548406227895489_wp/
-!
-!           list of major variables
-!           -----------------------
-!
-!           centr  - mid point of the integration interval
-!           hlgth  - half-length of the integration interval
-!           fval   - value of the function f at the points
-!                    (b-a)*0.5*cos(k*pi/12) + (b+a)*0.5, k = 0, ..., 24
-!           cheb12 - coefficients of the chebyshev series expansion
-!                    of degree 12, for the function f, in the
-!                    interval (a,b)
-!           cheb24 - coefficients of the chebyshev series expansion
-!                    of degree 24, for the function f, in the
-!                    interval (a,b)
-!           resc12 - approximation to the integral of
-!                    cos(0.5*(b-a)*omega*x)*f(0.5*(b-a)*x+0.5*(b+a))
-!                    over (-1,+1), using the chebyshev series
-!                    expansion of degree 12
-!           resc24 - approximation to the same integral, using the
-!                    chebyshev series expansion of degree 24
-!           ress12 - the analogue of resc12 for the sine
-!           ress24 - the analogue of resc24 for the sine
-!
-!
+    procedure(func) :: f !! function subprogram defining the integrand
+                         !! function f(x).
+    real(wp),intent(in) :: a !! lower limit of integration
+    real(wp),intent(in) :: b !! upper limit of integration
+    real(wp),intent(in) :: Omega !! parameter in the weight function
+    integer,intent(in) :: Integr !! indicates which weight function is to be used
+                                 !!
+                                 !! * integr = 1   `w(x) = cos(omega*x)`
+                                 !! * integr = 2   `w(x) = sin(omega*x)`
+    integer,intent(in) :: Nrmom !! the length of interval `(a,b)` is equal to the length
+                                !! of the original integration interval divided by
+                                !! `2**nrmom` (we suppose that the routine is used in an
+                                !! adaptive integration process, otherwise set
+                                !! nrmom = 0). `nrmom` must be zero at the first call.
+    integer,intent(in) :: Maxp1 !! gives an upper bound on the number of chebyshev
+                                !! moments which can be stored, i.e. for the
+                                !! intervals of lengths `abs(bb-aa)*2**(-l)`,
+                                !! `l = 0,1,2, ..., maxp1-2`.
+    integer,intent(in) :: Ksave !! key which is one when the moments for the
+                                !! current interval have been computed
+    real(wp),intent(out) :: Result !! approximation to the integral i
+    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute
+                                   !! error, which should equal or exceed `abs(i-result)`
+    integer,intent(out) :: Neval !! number of integrand evaluations
+    real(wp),intent(out) :: Resabs !! approximation to the integral j
+    real(wp),intent(out) :: Resasc !! approximation to the integral of `abs(f-i/(b-a))`
+    integer,intent(inout) :: Momcom !! for each interval length we need to compute the
+                                    !! chebyshev moments. momcom counts the number of
+                                    !! intervals for which these moments have already been
+                                    !! computed. if `nrmom<momcom` or `ksave = 1`, the
+                                    !! chebyshev moments for the interval `(a,b)` have
+                                    !! already been computed and stored, otherwise we
+                                    !! compute them and we increase momcom.
+    real(wp),intent(inout) :: Chebmo(Maxp1, 25) !! array of dimension at least `(maxp1,25)` containing
+                                                !! the modified chebyshev moments for the first `momcom`
+                                                !! `momcom` interval lengths
 
-!
-      centr = 0.5_wp*(b + a)
-      hlgth = 0.5_wp*(b - a)
-      parint = Omega*hlgth
-!
-!           compute the integral using the 15-point gauss-kronrod
-!           formula if the value of the parameter in the integrand
-!           is small.
-!
-      if (abs(parint) > 2.0_wp) then
-!
-!           compute the integral using the generalized clenshaw-
-!           curtis method.
-!
-         conc = hlgth*cos(centr*Omega)
-         cons = hlgth*sin(centr*Omega)
-         Resasc = oflow
-         Neval = 25
-!
-!           check whether the chebyshev moments for this interval
-!           have already been computed.
-!
-         if (Nrmom >= Momcom .and. Ksave /= 1) then
-!
-!           compute a new set of chebyshev moments.
-!
+    real(wp) :: ac, an, an2, as, asap, ass, conc, &
+                cons, cospar, d(25), d1(25), d2(25), &
+                estc, ests, parint, par2, par22, &
+                p2, p3, p4, sinpar, v(28)
+    integer :: i, iers, isym, j, k, m, noequ, noeq1
+    real(wp) :: centr !! mid point of the integration interval
+    real(wp) :: hlgth !! half-length of the integration interval
+    real(wp) :: fval(25) !! value of the function `f` at the points
+                         !! `(b-a)*0.5*cos(k*pi/12) + (b+a)*0.5`, `k = 0, ..., 24`
+    real(wp) :: cheb12(13) !! coefficients of the chebyshev series expansion
+                           !! of degree 12, for the function `f`, in the
+                           !! interval `(a,b)`
+    real(wp) :: cheb24(25) !! coefficients of the chebyshev series expansion
+                           !! of degree 24, for the function f, in the
+                           !! interval `(a,b)`
+    real(wp) :: resc12 !! approximation to the integral of
+                !! `cos(0.5*(b-a)*omega*x)*f(0.5*(b-a)*x+0.5*(b+a))`
+                !! over `(-1,+1)`, using the chebyshev series
+                !! expansion of degree 12
+    real(wp) :: resc24 !! approximation to the same integral, using the
+                       !! chebyshev series expansion of degree 24
+    real(wp) :: ress12 !! the analogue of `resc12` for the sine
+    real(wp) :: ress24 !! the analogue of `resc24` for the sine
+
+    real(wp),dimension(11),parameter :: x = [ (cos(k*pi/24.0_wp), k = 1, 11) ]
+        !! the vector x contains the values `cos(k*pi/24)`,
+        !! `k = 1, ..., 11`, to be used for the chebyshev series
+        !! expansion of `f`
+
+    centr = 0.5_wp*(b + a)
+    hlgth = 0.5_wp*(b - a)
+    parint = Omega*hlgth
+
+    ! compute the integral using the 15-point gauss-kronrod
+    ! formula if the value of the parameter in the integrand
+    ! is small.
+
+    if (abs(parint) > 2.0_wp) then
+
+        ! compute the integral using the generalized clenshaw-
+        ! curtis method.
+
+        conc = hlgth*cos(centr*Omega)
+        cons = hlgth*sin(centr*Omega)
+        Resasc = oflow
+        Neval = 25
+
+        ! check whether the chebyshev moments for this interval
+        ! have already been computed.
+
+        if (Nrmom >= Momcom .and. Ksave /= 1) then
+
+            ! compute a new set of chebyshev moments.
+
             m = Momcom + 1
             par2 = parint*parint
             par22 = par2 + 2.0_wp
             sinpar = sin(parint)
             cospar = cos(parint)
-!
-!           compute the chebyshev moments with respect to cosine.
-!
+
+            ! compute the chebyshev moments with respect to cosine.
+
             v(1) = 2.0_wp*sinpar/parint
             v(2) = (8.0_wp*cospar + (par2 + par2 - 8.0_wp)*sinpar/parint) &
                    /par2
             v(3) = (32.0_wp*(par2 - 12.0_wp)*cospar + (2.0_wp*((par2 - &
-                    80.0_wp)*par2 + 192.0_wp)*sinpar)/parint)/(par2*par2)
+                                                                80.0_wp)*par2 + 192.0_wp)*sinpar)/parint)/(par2*par2)
             ac = 8.0_wp*cospar
             as = 24.0_wp*parint*sinpar
             if (abs(parint) > 24.0_wp) then
-!
-!           compute the chebyshev moments by means of forward
-!           recursion.
-!
-               an = 4.0_wp
-               do i = 4, 13
-                  an2 = an*an
-                  v(i) = ((an2 - 4.0_wp)*(2.0_wp*(par22 - an2 - an2)*v(i - 1) - &
-                         ac) + as - par2*(an + 1.0_wp)*(an + 2.0_wp)*v(i - 2)) &
-                         /(par2*(an - 1.0_wp)*(an - 2.0_wp))
-                  an = an + 2.0_wp
-               end do
+
+                ! compute the chebyshev moments by means of forward
+                ! recursion.
+
+                an = 4.0_wp
+                do i = 4, 13
+                    an2 = an*an
+                    v(i) = ((an2 - 4.0_wp)*(2.0_wp*(par22 - an2 - an2)*v(i - 1) - &
+                                            ac) + as - par2*(an + 1.0_wp)*(an + 2.0_wp)*v(i - 2)) &
+                           /(par2*(an - 1.0_wp)*(an - 2.0_wp))
+                    an = an + 2.0_wp
+                end do
             else
-!
-!           compute the chebyshev moments as the solutions of a
-!           boundary value problem with 1 initial value (v(3)) and 1
-!           end value (computed using an asymptotic formula).
-!
-               noequ = 25
-               noeq1 = noequ - 1
-               an = 6.0_wp
-               do k = 1, noeq1
-                  an2 = an*an
-                  d(k) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
-                  d2(k) = (an - 1.0_wp)*(an - 2.0_wp)*par2
-                  d1(k + 1) = (an + 3.0_wp)*(an + 4.0_wp)*par2
-                  v(k + 3) = as - (an2 - 4.0_wp)*ac
-                  an = an + 2.0_wp
-               end do
-               an2 = an*an
-               d(noequ) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
-               v(noequ + 3) = as - (an2 - 4.0_wp)*ac
-               v(4) = v(4) - 56.0_wp*par2*v(3)
-               ass = parint*sinpar
-               asap = (((((210.0_wp*par2 - 1.0_wp)*cospar - (105.0_wp* &
-                        par2 - 63.0_wp)*ass)/an2 - (1.0_wp - 15.0_wp*par2) &
-                        *cospar + 15.0_wp*ass)/an2 - cospar + 3.0_wp*ass) &
+
+                ! compute the chebyshev moments as the solutions of a
+                ! boundary value problem with 1 initial value (v(3)) and 1
+                ! end value (computed using an asymptotic formula).
+
+                noequ = 25
+                noeq1 = noequ - 1
+                an = 6.0_wp
+                do k = 1, noeq1
+                    an2 = an*an
+                    d(k) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
+                    d2(k) = (an - 1.0_wp)*(an - 2.0_wp)*par2
+                    d1(k + 1) = (an + 3.0_wp)*(an + 4.0_wp)*par2
+                    v(k + 3) = as - (an2 - 4.0_wp)*ac
+                    an = an + 2.0_wp
+                end do
+                an2 = an*an
+                d(noequ) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
+                v(noequ + 3) = as - (an2 - 4.0_wp)*ac
+                v(4) = v(4) - 56.0_wp*par2*v(3)
+                ass = parint*sinpar
+                asap = (((((210.0_wp*par2 - 1.0_wp)*cospar - (105.0_wp* &
+                                                              par2 - 63.0_wp)*ass)/an2 - (1.0_wp - 15.0_wp*par2) &
+                          *cospar + 15.0_wp*ass)/an2 - cospar + 3.0_wp*ass) &
                         /an2 - cospar)/an2
-               v(noequ + 3) = v(noequ + 3) - 2.0_wp*asap*par2*(an - 1.0_wp) &
-                              *(an - 2.0_wp)
-!
-!           solve the tridiagonal system by means of gaussian
-!           elimination with partial pivoting.
-!
-               call dgtsl(noequ, d1, d, d2, v(4), iers)
+                v(noequ + 3) = v(noequ + 3) - 2.0_wp*asap*par2*(an - 1.0_wp) &
+                               *(an - 2.0_wp)
+
+                ! solve the tridiagonal system by means of gaussian
+                ! elimination with partial pivoting.
+
+                call dgtsl(noequ, d1, d, d2, v(4), iers)
             end if
             do j = 1, 13
-               Chebmo(m, 2*j - 1) = v(j)
+                Chebmo(m, 2*j - 1) = v(j)
             end do
-!
-!           compute the chebyshev moments with respect to sine.
-!
+
+            ! compute the chebyshev moments with respect to sine.
+
             v(1) = 2.0_wp*(sinpar - parint*cospar)/par2
             v(2) = (18.0_wp - 48.0_wp/par2)*sinpar/par2 + &
                    (-2.0_wp + 48.0_wp/par2)*cospar/parint
             ac = -24.0_wp*parint*cospar
             as = -8.0_wp*sinpar
             if (abs(parint) > 24.0_wp) then
-!
-!           compute the chebyshev moments by means of forward recursion.
-!
-               an = 3.0_wp
-               do i = 3, 12
-                  an2 = an*an
-                  v(i) = ((an2 - 4.0_wp)*(2.0_wp*(par22 - an2 - an2)*v(i - 1) + &
-                         as) + ac - par2*(an + 1.0_wp)*(an + 2.0_wp)*v(i - 2)) &
-                         /(par2*(an - 1.0_wp)*(an - 2.0_wp))
-                  an = an + 2.0_wp
-               end do
+
+                ! compute the chebyshev moments by means of forward recursion.
+
+                an = 3.0_wp
+                do i = 3, 12
+                    an2 = an*an
+                    v(i) = ((an2 - 4.0_wp)*(2.0_wp*(par22 - an2 - an2)*v(i - 1) + &
+                                            as) + ac - par2*(an + 1.0_wp)*(an + 2.0_wp)*v(i - 2)) &
+                           /(par2*(an - 1.0_wp)*(an - 2.0_wp))
+                    an = an + 2.0_wp
+                end do
             else
-!
-!           compute the chebyshev moments as the solutions of a boundary
-!           value problem with 1 initial value (v(2)) and 1 end value
-!           (computed using an asymptotic formula).
-!
-               an = 5.0_wp
-               do k = 1, noeq1
-                  an2 = an*an
-                  d(k) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
-                  d2(k) = (an - 1.0_wp)*(an - 2.0_wp)*par2
-                  d1(k + 1) = (an + 3.0_wp)*(an + 4.0_wp)*par2
-                  v(k + 2) = ac + (an2 - 4.0_wp)*as
-                  an = an + 2.0_wp
-               end do
-               an2 = an*an
-               d(noequ) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
-               v(noequ + 2) = ac + (an2 - 4.0_wp)*as
-               v(3) = v(3) - 0.42d+02*par2*v(2)
-               ass = parint*cospar
-               asap = (((((105.0_wp*par2 - 63.0_wp)*ass + (210.0_wp*par2 - &
-                        1.0_wp)*sinpar)/an2 + (15.0_wp*par2 - 1.0_wp) &
-                        *sinpar - 15.0_wp*ass)/an2 - 3.0_wp*ass - sinpar) &
+
+                ! compute the chebyshev moments as the solutions of a boundary
+                ! value problem with 1 initial value (v(2)) and 1 end value
+                ! (computed using an asymptotic formula).
+
+                an = 5.0_wp
+                do k = 1, noeq1
+                    an2 = an*an
+                    d(k) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
+                    d2(k) = (an - 1.0_wp)*(an - 2.0_wp)*par2
+                    d1(k + 1) = (an + 3.0_wp)*(an + 4.0_wp)*par2
+                    v(k + 2) = ac + (an2 - 4.0_wp)*as
+                    an = an + 2.0_wp
+                end do
+                an2 = an*an
+                d(noequ) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
+                v(noequ + 2) = ac + (an2 - 4.0_wp)*as
+                v(3) = v(3) - 0.42d+02*par2*v(2)
+                ass = parint*cospar
+                asap = (((((105.0_wp*par2 - 63.0_wp)*ass + (210.0_wp*par2 - &
+                                                            1.0_wp)*sinpar)/an2 + (15.0_wp*par2 - 1.0_wp) &
+                          *sinpar - 15.0_wp*ass)/an2 - 3.0_wp*ass - sinpar) &
                         /an2 - sinpar)/an2
-               v(noequ + 2) = v(noequ + 2) - 2.0_wp*asap*par2*(an - 1.0_wp) &
-                              *(an - 2.0_wp)
-!
-!           solve the tridiagonal system by means of gaussian
-!           elimination with partial pivoting.
-!
-               call dgtsl(noequ, d1, d, d2, v(3), iers)
+                v(noequ + 2) = v(noequ + 2) - 2.0_wp*asap*par2*(an - 1.0_wp) &
+                               *(an - 2.0_wp)
+
+                ! solve the tridiagonal system by means of gaussian
+                ! elimination with partial pivoting.
+
+                call dgtsl(noequ, d1, d, d2, v(3), iers)
             end if
             do j = 1, 12
-               Chebmo(m, 2*j) = v(j)
+                Chebmo(m, 2*j) = v(j)
             end do
-         end if
-         if (Nrmom < Momcom) m = Nrmom + 1
-         if (Momcom < (Maxp1 - 1) .and. Nrmom >= Momcom) Momcom = Momcom + 1
-!
-!           compute the coefficients of the chebyshev expansions
-!           of degrees 12 and 24 of the function f.
-!
-         fval(1) = 0.5_wp*f(centr + hlgth)
-         fval(13) = f(centr)
-         fval(25) = 0.5_wp*f(centr - hlgth)
-         do i = 2, 12
+        end if
+        if (Nrmom < Momcom) m = Nrmom + 1
+        if (Momcom < (Maxp1 - 1) .and. Nrmom >= Momcom) Momcom = Momcom + 1
+
+        ! compute the coefficients of the chebyshev expansions
+        ! of degrees 12 and 24 of the function f.
+
+        fval(1) = 0.5_wp*f(centr + hlgth)
+        fval(13) = f(centr)
+        fval(25) = 0.5_wp*f(centr - hlgth)
+        do i = 2, 12
             isym = 26 - i
             fval(i) = f(hlgth*x(i - 1) + centr)
             fval(isym) = f(centr - hlgth*x(i - 1))
-         end do
-         call dqcheb(x, fval, cheb12, cheb24)
-!
-!           compute the integral and error estimates.
-!
-         resc12 = cheb12(13)*Chebmo(m, 13)
-         ress12 = 0.0_wp
-         k = 11
-         do j = 1, 6
+        end do
+        call dqcheb(x, fval, cheb12, cheb24)
+
+        ! compute the integral and error estimates.
+
+        resc12 = cheb12(13)*Chebmo(m, 13)
+        ress12 = 0.0_wp
+        k = 11
+        do j = 1, 6
             resc12 = resc12 + cheb12(k)*Chebmo(m, k)
             ress12 = ress12 + cheb12(k + 1)*Chebmo(m, k + 1)
             k = k - 2
-         end do
-         resc24 = cheb24(25)*Chebmo(m, 25)
-         ress24 = 0.0_wp
-         Resabs = abs(cheb24(25))
-         k = 23
-         do j = 1, 12
+        end do
+        resc24 = cheb24(25)*Chebmo(m, 25)
+        ress24 = 0.0_wp
+        Resabs = abs(cheb24(25))
+        k = 23
+        do j = 1, 12
             resc24 = resc24 + cheb24(k)*Chebmo(m, k)
             ress24 = ress24 + cheb24(k + 1)*Chebmo(m, k + 1)
             Resabs = Resabs + abs(cheb24(k)) + abs(cheb24(k + 1))
             k = k - 2
-         end do
-         estc = abs(resc24 - resc12)
-         ests = abs(ress24 - ress12)
-         Resabs = Resabs*abs(hlgth)
-         if (Integr == 2) then
+        end do
+        estc = abs(resc24 - resc12)
+        ests = abs(ress24 - ress12)
+        Resabs = Resabs*abs(hlgth)
+        if (Integr == 2) then
             Result = conc*ress24 + cons*resc24
             Abserr = abs(conc*ests) + abs(cons*estc)
-         else
+        else
             Result = conc*resc24 - cons*ress24
             Abserr = abs(conc*estc) + abs(cons*ests)
-         end if
-      else
-         call dqk15w(f, dqwgtf, Omega, p2, p3, p4, Integr, a, b, Result, Abserr, &
-                     Resabs, Resasc)
-         Neval = 15
-      end if
+        end if
+    else
+        call dqk15w(f, dqwgtf, Omega, p2, p3, p4, Integr, a, b, Result, Abserr, &
+                    Resabs, Resasc)
+        Neval = 15
+    end if
 
-   end subroutine dqc25f
+    end subroutine dqc25f
 !********************************************************************************
 
 !********************************************************************************
