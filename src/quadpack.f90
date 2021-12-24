@@ -17,7 +17,9 @@
 !    gauss-kronrod, infinite intervals, transformation,
 !    extrapolation, singularities at user specified points,
 !    (end-point) singularities, cauchy principal value,
-!    clenshaw-curtis method
+!    clenshaw-curtis method, special-purpose, fourier integral,
+!    integration between zeros with dqawoe,
+!    convergence acceleration with dqelg
 
 module quadpack
 
@@ -2518,255 +2520,201 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  automatic integrator, special-purpose,fourier
-!             integral, integration between zeros with dqawoe,
-!             convergence acceleration with dqelg
-!***author  piessens,robert ,appl. math. & progr. div. - k.u.leuven
-!           de doncker,elise,appl. math & progr. div. - k.u.leuven
-!***purpose  the routine calculates an approximation result to a given
-!            fourier integral i=integral of f(x)*w(x) over (a,infinity)
-!            where w(x) = cos(omega*x) or w(x) = sin(omega*x).
-!            hopefully satisfying following claim for accuracy
-!            abs(i-result)<=epsabs.
-!***description
+!  the routine calculates an approximation result to a given
+!  fourier integral i=integral of `f(x)*w(x)` over `(a,infinity)`
+!  where `w(x) = cos(omega*x)` or `w(x) = sin(omega*x)`.
+!  hopefully satisfying following claim for accuracy
+!  `abs(i-result)<=epsabs`.
 !
-!        computation of fourier integrals
-!
-!
-!        parameters
-!         on entry
-!            f      - real(wp)
-!                     function subprogram defining the integrand
-!                     function f(x). the actual name for f needs to be
-!                     declared external in the driver program.
-!
-!            a      - real(wp)
-!                     lower limit of integration
-!
-!            omega  - real(wp)
-!                     parameter in the integrand weight function
-!
-!            integr - integer
-!                     indicates which of the weight functions is used
-!                     integr = 1      w(x) = cos(omega*x)
-!                     integr = 2      w(x) = sin(omega*x)
-!                     if integr/=1.and.integr/=2, the routine
-!                     will end with ier = 6.
-!
-!            epsabs - real(wp)
-!                     absolute accuracy requested, epsabs>0.
-!                     if epsabs<=0, the routine will end with ier = 6.
-!
-!         on return
-!            result - real(wp)
-!                     approximation to the integral
-!
-!            abserr - real(wp)
-!                     estimate of the modulus of the absolute error,
-!                     which should equal or exceed `abs(i-result)`
-!
-!            neval  - integer
-!                     number of integrand evaluations
-!
-!            ier    - integer
-!                     ier = 0 normal and reliable termination of the
-!                             routine. it is assumed that the requested
-!                             accuracy has been achieved.
-!                     ier>0 abnormal termination of the routine.
-!                             the estimates for integral and error are
-!                             less reliable. it is assumed that the
-!                             requested accuracy has not been achieved.
-!            error messages
-!                    if omega/=0
-!                     ier = 1 maximum number of cycles allowed
-!                             has been achieved, i.e. of subintervals
-!                             (a+(k-1)c,a+kc) where
-!                             c = (2*int(abs(omega))+1)*pi/abs(omega),
-!                             for k = 1, 2, ..., lst.
-!                             one can allow more cycles by increasing
-!                             the value of limlst (and taking the
-!                             according dimension adjustments into
-!                             account). examine the array iwork which
-!                             contains the error flags on the cycles, in
-!                             order to look for eventual local
-!                             integration difficulties.
-!                             if the position of a local difficulty
-!                             can be determined (e.g. singularity,
-!                             discontinuity within the interval) one
-!                             will probably gain from splitting up the
-!                             interval at this point and calling
-!                             appropriate integrators on the subranges.
-!                         = 4 the extrapolation table constructed for
-!                             convergence accelaration of the series
-!                             formed by the integral contributions over
-!                             the cycles, does not converge to within
-!                             the requested accuracy.
-!                             as in the case of ier = 1, it is advised
-!                             to examine the array iwork which contains
-!                             the error flags on the cycles.
-!                         = 6 the input is invalid because
-!                             (integr/=1 and integr/=2) or
-!                              epsabs<=0 or limlst<1 or
-!                              leniw<(limlst+2) or maxp1<1 or
-!                              lenw<(leniw*2+maxp1*25).
-!                              result, abserr, neval, lst are set to
-!                              zero.
-!                         = 7 bad integrand behaviour occurs within
-!                             one or more of the cycles. location and
-!                             type of the difficulty involved can be
-!                             determined from the first lst elements of
-!                             vector iwork.  here lst is the number of
-!                             cycles actually needed (see below).
-!                             iwork(k) = 1 the maximum number of
-!                                          subdivisions (=(leniw-limlst)
-!                                          /2) has been achieved on the
-!                                          k th cycle.
-!                                      = 2 occurrence of roundoff error
-!                                          is detected and prevents the
-!                                          tolerance imposed on the k th
-!                                          cycle, from being achieved
-!                                          on this cycle.
-!                                      = 3 extremely bad integrand
-!                                          behaviour occurs at some
-!                                          points of the k th cycle.
-!                                      = 4 the integration procedure
-!                                          over the k th cycle does
-!                                          not converge (to within the
-!                                          required accuracy) due to
-!                                          roundoff in the extrapolation
-!                                          procedure invoked on this
-!                                          cycle. it is assumed that the
-!                                          result on this interval is
-!                                          the best which can be
-!                                          obtained.
-!                                      = 5 the integral over the k th
-!                                          cycle is probably divergent
-!                                          or slowly convergent. it must
-!                                          be noted that divergence can
-!                                          occur with any other value of
-!                                          iwork(k).
-!                    if omega = 0 and integr = 1,
-!                    the integral is calculated by means of dqagie,
-!                    and ier = iwork(1) (with meaning as described
-!                    for iwork(k),k = 1).
-!
-!         dimensioning parameters
-!            limlst - integer
-!                     limlst gives an upper bound on the number of
-!                     cycles, limlst>=3.
-!                     if limlst<3, the routine will end with ier = 6.
-!
-!            lst    - integer
-!                     on return, lst indicates the number of cycles
-!                     actually needed for the integration.
-!                     if omega = 0, then lst is set to 1.
-!
-!            leniw  - integer
-!                     dimensioning parameter for iwork. on entry,
-!                     (leniw-limlst)/2 equals the maximum number of
-!                     subintervals allowed in the partition of each
-!                     cycle, leniw>=(limlst+2).
-!                     if leniw<(limlst+2), the routine will end with
-!                     ier = 6.
-!
-!            maxp1  - integer
-!                     maxp1 gives an upper bound on the number of
-!                     chebyshev moments which can be stored, i.e. for
-!                     the intervals of lengths abs(b-a)*2**(-l),
-!                     l = 0,1, ..., maxp1-2, maxp1>=1.
-!                     if maxp1<1, the routine will end with ier = 6.
-!            lenw   - integer
-!                     dimensioning parameter for work
-!                     lenw must be at least leniw*2+maxp1*25.
-!                     if lenw<(leniw*2+maxp1*25), the routine will
-!                     end with ier = 6.
-!
-!         work arrays
-!            iwork  - integer
-!                     vector of dimension at least leniw
-!                     on return, iwork(k) for k = 1, 2, ..., lst
-!                     contain the error flags on the cycles.
-!
-!            work   - real(wp)
-!                     vector of dimension at least
-!                     on return,
-!                     work(1), ..., work(lst) contain the integral
-!                      approximations over the cycles,
-!                     work(limlst+1), ..., work(limlst+lst) contain
-!                      the error extimates over the cycles.
-!                     further elements of work have no specific
-!                     meaning for the user.
+!### History
+!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
 
-   subroutine dqawf(f, a, Omega, Integr, Epsabs, Result, Abserr, Neval, Ier, &
-                    Limlst, Lst, Leniw, Maxp1, Lenw, Iwork, Work)
-      implicit none
+    subroutine dqawf(f, a, Omega, Integr, Epsabs, Result, Abserr, Neval, Ier, &
+                     Limlst, Lst, Leniw, Maxp1, Lenw, Iwork, Work)
+    implicit none
 
-      real(wp) a, Abserr, Epsabs, Omega, Result, Work
-      integer Ier, Integr, Iwork, last, Leniw, Lenw, limit, &
-         Limlst, ll2, lvl, Lst, l1, l2, l3, l4, l5, l6, &
-         Maxp1, Neval
-!
-      dimension Iwork(Leniw), Work(Lenw)
-!
-      procedure(func) :: f
-!
-!         check validity of limlst, leniw, maxp1 and lenw.
-!
+    procedure(func) :: f !! function subprogram defining the integrand function f(x).
+    real(wp),intent(in) :: a !! lower limit of integration
+    real(wp),intent(in) :: Omega !! parameter in the integrand weight function
+    integer,intent(in) :: Integr !! indicates which of the weight functions is used:
+                                 !!
+                                 !! * integr = 1 `w(x) = cos(omega*x)`
+                                 !! * integr = 2 `w(x) = sin(omega*x)`
+                                 !!
+                                 !! if `integr/=1 .and. integr/=2`, the routine
+                                 !! will end with ier = 6.
+    real(wp),intent(in) :: Epsabs !! absolute accuracy requested, `epsabs>0`.
+                                  !! if `epsabs<=0`, the routine will end with ier = 6.
+    real(wp),intent(out) :: Result !! approximation to the integral
+    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                   !! which should equal or exceed `abs(i-result)`
+    integer,intent(out) :: Neval !! number of integrand evaluations
+    integer ,intent(out):: Ier !! * ier = 0 normal and reliable termination of the
+                               !!   routine. it is assumed that the requested
+                               !!   accuracy has been achieved.
+                               !! * ier>0 abnormal termination of the routine.
+                               !!   the estimates for integral and error are
+                               !!   less reliable. it is assumed that the
+                               !!   requested accuracy has not been achieved.
+                               !!
+                               !! error messages:
+                               !!
+                               !! `if omega/=0`:
+                               !!
+                               !! * ier = 1 maximum number of cycles allowed
+                               !!   has been achieved, i.e. of subintervals
+                               !!   `(a+(k-1)c,a+kc)` where
+                               !!   `c = (2*int(abs(omega))+1)*pi/abs(omega)`,
+                               !!   for `k = 1, 2, ..., lst`.
+                               !!   one can allow more cycles by increasing
+                               !!   the value of limlst (and taking the
+                               !!   according dimension adjustments into
+                               !!   account). examine the array iwork which
+                               !!   contains the error flags on the cycles, in
+                               !!   order to look for eventual local
+                               !!   integration difficulties.
+                               !!   if the position of a local difficulty
+                               !!   can be determined (e.g. singularity,
+                               !!   discontinuity within the interval) one
+                               !!   will probably gain from splitting up the
+                               !!   interval at this point and calling
+                               !!   appropriate integrators on the subranges.
+                               !! * ier = 4 the extrapolation table constructed for
+                               !!   convergence accelaration of the series
+                               !!   formed by the integral contributions over
+                               !!   the cycles, does not converge to within
+                               !!   the requested accuracy.
+                               !!   as in the case of ier = 1, it is advised
+                               !!   to examine the array iwork which contains
+                               !!   the error flags on the cycles.
+                               !! * ier = 6 the input is invalid because
+                               !!   `(integr/=1 and integr/=2)` or
+                               !!   `epsabs<=0` or `limlst<1` or
+                               !!   `leniw<(limlst+2)` or `maxp1<1` or
+                               !!   `lenw<(leniw*2+maxp1*25)`.
+                               !!   `result`, `abserr`, `neval`, `lst` are set to
+                               !!   zero.
+                               !! * ier = 7 bad integrand behaviour occurs within
+                               !!   one or more of the cycles. location and
+                               !!   type of the difficulty involved can be
+                               !!   determined from the first lst elements of
+                               !!   vector iwork.  here `lst` is the number of
+                               !!   cycles actually needed (see below):
+                               !!
+                               !!    * iwork(k) = 1 the maximum number of
+                               !!      subdivisions `(=(leniw-limlst)/2)` has
+                               !!      been achieved on the `k`th cycle.
+                               !!    * iwork(k) = 2 occurrence of roundoff error
+                               !!      is detected and prevents the
+                               !!      tolerance imposed on the `k`th
+                               !!      cycle, from being achieved
+                               !!      on this cycle.
+                               !!    * iwork(k) = 3 extremely bad integrand
+                               !!      behaviour occurs at some
+                               !!      points of the `k`th cycle.
+                               !!    * iwork(k) = 4 the integration procedure
+                               !!      over the `k`th cycle does
+                               !!      not converge (to within the
+                               !!      required accuracy) due to
+                               !!      roundoff in the extrapolation
+                               !!      procedure invoked on this
+                               !!      cycle. it is assumed that the
+                               !!      result on this interval is
+                               !!      the best which can be
+                               !!      obtained.
+                               !!    * iwork(k) = 5 the integral over the `k`th
+                               !!      cycle is probably divergent
+                               !!      or slowly convergent. it must
+                               !!      be noted that divergence can
+                               !!      occur with any other value of
+                               !!      `iwork(k)`.
+                               !!
+                               !! if `omega = 0` and `integr = 1`,
+                               !! the integral is calculated by means of [[dqagie]],
+                               !! and `ier = iwork(1)` (with meaning as described
+                               !! for `iwork(k),k = 1`).
+    integer,intent(in) :: Limlst !! limlst gives an upper bound on the number of
+                                 !! cycles, `limlst>=3`.
+                                 !! if `limlst<3`, the routine will end with ier = 6.
+    integer,intent(in) :: Lst !! on return, lst indicates the number of cycles
+                              !! actually needed for the integration.
+                              !! if `omega = 0`, then lst is set to 1.
+    integer,intent(in) :: Leniw !! dimensioning parameter for iwork. on entry,
+                                !! `(leniw-limlst)/2` equals the maximum number of
+                                !! subintervals allowed in the partition of each
+                                !! cycle, `leniw>=(limlst+2)`.
+                                !! if `leniw<(limlst+2)`, the routine will end with
+                                !! ier = 6.
+    integer,intent(in) :: Maxp1 !! maxp1 gives an upper bound on the number of
+                                !! chebyshev moments which can be stored, i.e. for
+                                !! the intervals of lengths `abs(b-a)*2**(-l)`,
+                                !! `l = 0,1, ..., maxp1-2, maxp1>=1`.
+                                !! if `maxp1<1`, the routine will end with ier = 6.
+    integer,intent(in) :: Lenw !! dimensioning parameter for `work`.
+                               !! lenw must be at least `leniw*2+maxp1*25`.
+                               !! if `lenw<(leniw*2+maxp1*25)`, the routine will
+                               !! end with ier = 6.
+    integer :: Iwork(Leniw) !! vector of dimension at least `leniw`
+                            !! on return, `iwork(k)` for `k = 1, 2, ..., lst`
+                            !! contain the error flags on the cycles.
+    real(wp) :: Work(Lenw) !! vector of dimension at least `lenw`
+                           !! on return:
+                           !!
+                           !! * work(1), ..., work(lst) contain the integral
+                           !!   approximations over the cycles,
+                           !! * work(limlst+1), ..., work(limlst+lst) contain
+                           !!   the error extimates over the cycles.
+                           !!
+                           !! further elements of work have no specific
+                           !! meaning for the user.
 
-      Ier = 6
-      Neval = 0
-      last = 0
-      Result = 0.0_wp
-      Abserr = 0.0_wp
-      if (Limlst >= 3 .and. Leniw >= (Limlst + 2) .and. Maxp1 >= 1 .and. &
-          Lenw >= (Leniw*2 + Maxp1*25)) then
-!
-!         prepare call for dqawfe
-!
-         limit = (Leniw - Limlst)/2
-         l1 = Limlst + 1
-         l2 = Limlst + l1
-         l3 = limit + l2
-         l4 = limit + l3
-         l5 = limit + l4
-         l6 = limit + l5
-         ll2 = limit + l1
-         call dqawfe(f, a, Omega, Integr, Epsabs, Limlst, limit, Maxp1, Result, &
-                     Abserr, Neval, Ier, Work(1), Work(l1), Iwork(1), Lst, &
-                     Work(l2), Work(l3), Work(l4), Work(l5), Iwork(l1), &
-                     Iwork(ll2), Work(l6))
-!
-!         call error handler if necessary
-!
-         lvl = 0
-      end if
-      if (Ier == 6) lvl = 1
-      if (Ier /= 0) call xerror('abnormal return from dqawf', 26, Ier, lvl)
+    integer :: last, limit, ll2, lvl, &
+               l1, l2, l3, l4, l5, l6
 
-   end subroutine dqawf
+    ! check validity of limlst, leniw, maxp1 and lenw.
+    Ier = 6
+    Neval = 0
+    last = 0
+    Result = 0.0_wp
+    Abserr = 0.0_wp
+    if (Limlst >= 3 .and. Leniw >= (Limlst + 2) .and. Maxp1 >= 1 .and. &
+        Lenw >= (Leniw*2 + Maxp1*25)) then
+
+        ! prepare call for dqawfe
+        limit = (Leniw - Limlst)/2
+        l1 = Limlst + 1
+        l2 = Limlst + l1
+        l3 = limit + l2
+        l4 = limit + l3
+        l5 = limit + l4
+        l6 = limit + l5
+        ll2 = limit + l1
+        call dqawfe(f, a, Omega, Integr, Epsabs, Limlst, limit, Maxp1, Result, &
+                    Abserr, Neval, Ier, Work(1), Work(l1), Iwork(1), Lst, &
+                    Work(l2), Work(l3), Work(l4), Work(l5), Iwork(l1), &
+                    Iwork(ll2), Work(l6))
+
+        ! call error handler if necessary
+        lvl = 0
+    end if
+    if (Ier == 6) lvl = 1
+    if (Ier /= 0) call xerror('abnormal return from dqawf', 26, Ier, lvl)
+
+    end subroutine dqawf
 !********************************************************************************
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  automatic integrator, special-purpose,
-!             fourier integrals,
-!             integration between zeros with dqawoe,
-!             convergence acceleration with dqelg
-!***purpose  the routine calculates an approximation result to a
-!            given fourier integal
-!            i = integral of f(x)*w(x) over (a,infinity)
-!            where w(x)=cos(omega*x) or w(x)=sin(omega*x),
-!            hopefully satisfying following claim for accuracy
-!            abs(i-result)<=epsabs.
-!***description
+!  the routine calculates an approximation result to a
+!  given fourier integal
+!  i = integral of `f(x)*w(x)` over `(a,infinity)`
+!  where `w(x)=cos(omega*x)` or `w(x)=sin(omega*x)`,
+!  hopefully satisfying following claim for accuracy
+!  `abs(i-result)<=epsabs`.
 !
-!        computation of fourier integrals
-!
-!        parameters
+!### History
+!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+
 !         on entry
 !            f      - real(wp)
 !                     function subprogram defining the integrand
@@ -2866,18 +2814,18 @@ module quadpack
 !                             needed (see below).
 !                             ierlst(k) = 1 the maximum number of
 !                                           subdivisions (= limit) has
-!                                           been achieved on the k th
+!                                           been achieved on the `k`th
 !                                           cycle.
 !                                       = 2 occurrence of roundoff error
 !                                           is detected and prevents the
 !                                           tolerance imposed on the
-!                                           k th cycle, from being
+!                                           `k`th cycle, from being
 !                                           achieved.
 !                                       = 3 extremely bad integrand
 !                                           behaviour occurs at some
-!                                           points of the k th cycle.
+!                                           points of the `k`th cycle.
 !                                       = 4 the integration procedure
-!                                           over the k th cycle does
+!                                           over the `k`th cycle does
 !                                           not converge (to within the
 !                                           required accuracy) due to
 !                                           roundoff in the
@@ -2886,7 +2834,7 @@ module quadpack
 !                                           is assumed that the result
 !                                           on this interval is the
 !                                           best which can be obtained.
-!                                       = 5 the integral over the k th
+!                                       = 5 the integral over the `k`th
 !                                           cycle is probably divergent
 !                                           or slowly convergent. it
 !                                           must be noted that
