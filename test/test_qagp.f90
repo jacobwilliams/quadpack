@@ -21,7 +21,7 @@ program test_qagp
                neval,ier,leniw,lenw,last,iwork,work)
 
     ! answer from maxima: quad_qags(abs(x-1/7)^(-0.25)*abs(x-2/3)^(-0.55), x, 0, 1);
-    write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqagp: result, error = ', result, result - 4.253687688108305D0
+    write(*,'(1P,A25,1X,2(E13.6,1X),I6)') 'dqagp: result, error = ', result, result - 4.253687688108305D0, neval
 
 contains
 

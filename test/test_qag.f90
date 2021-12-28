@@ -16,7 +16,7 @@ lenw = limit*4
 call dqag(f,a,b,epsabs,epsrel,key,result,abserr,neval,&
           ier,limit,lenw,last,iwork,work)
 
-write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqag: result, error = ', result, result - 2.0d0/sqrt(3.0d0)
+write(*,'(1P,A25,1X,2(E13.6,1X),I6)') 'dqag: result, error = ', result, result - 2.0d0/sqrt(3.0d0), neval
 
 contains
 

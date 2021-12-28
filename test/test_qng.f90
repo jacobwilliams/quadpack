@@ -12,7 +12,7 @@ epsrel = 1.0d-9
 call dqng(f,a,b,epsabs,epsrel,result,abserr,neval,ier)
 
 ! result from maxima: quad_qags(exp(x)/(x*x+1), x, 0, 1);
-write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqng: result, error = ', result, result - 1.27072413983362d0
+write(*,'(1P,A25,1X,2(E13.6,1X),I6)') 'dqng: result, error = ', result, result - 1.27072413983362d0, neval
 
 contains
 

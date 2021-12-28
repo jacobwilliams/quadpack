@@ -17,7 +17,7 @@ call dqawc(f,a,b,c,epsabs,epsrel,result,abserr,neval,&
            ier,limit,lenw,last,iwork,work)
 
 ! maxima: quad_qawc((1/(x*x+1.0e-4)), x, 0.5, -1, 1);
-write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqawc: result, error = ', result, result - (-628.4617285065623d0)
+write(*,'(1P,A25,1X,2(E13.6,1X),I6)') 'dqawc: result, error = ', result, result - (-628.4617285065623d0), neval
 
 contains
 

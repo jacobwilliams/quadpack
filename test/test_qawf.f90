@@ -22,8 +22,8 @@ call dqawf(f,a,omega,integr,epsabs,result,abserr,neval,&
            ier,limlst,lst,leniw,maxp1,lenw,iwork,work)
 
 ! wolfram alpha: integral of  sin(8*x)*sin(50*x)/(x*sqrt(x)) from 0 to infinity
-write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqawf: result, error = ', &
-                                   result, result - (sqrt(29.0d0*pi)-sqrt(21.0d0*pi))
+write(*,'(1P,A25,1X,2(E13.6,1X),I6)') 'dqawf: result, error = ', &
+                                   result, result - (sqrt(29.0d0*pi)-sqrt(21.0d0*pi)), neval
 
 contains
 

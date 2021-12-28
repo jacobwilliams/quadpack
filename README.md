@@ -199,5 +199,13 @@ integrator available, QAWF.
   * Original SLATEC code from [Netlib](http://www.netlib.org/quadpack/). Last modified 11 Oct 2021.
 
 ### Keywords
-
- * survey of integrators, guidelines for selection,quadpack
+  * survey of integrators, guidelines for selection, quadpack, automatic integrator, general-purpose,
+    integrand examinator, globally adaptive,
+    gauss-kronrod, infinite intervals, transformation,
+    extrapolation, singularities at user specified points,
+    (end-point) singularities, cauchy principal value,
+    clenshaw-curtis method, special-purpose, fourier integral,
+    integration between zeros with dqawoe,
+    convergence acceleration with dqelg,
+    integrand with oscillatory cos or sin factor,
+    (end point) singularities, 25-point clenshaw-curtis integration

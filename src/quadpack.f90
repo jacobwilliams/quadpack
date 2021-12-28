@@ -10,18 +10,6 @@
 !  * Piessens, Robert. Applied Mathematics and Programming Division, K. U. Leuven
 !  * de Doncker, Elise. Applied Mathematics and Programming Division, K. U. Leuven
 !  * Kahaner, D. K., (NBS)
-!
-!### Keywords
-!  * automatic integrator, general-purpose,
-!    integrand examinator, globally adaptive,
-!    gauss-kronrod, infinite intervals, transformation,
-!    extrapolation, singularities at user specified points,
-!    (end-point) singularities, cauchy principal value,
-!    clenshaw-curtis method, special-purpose, fourier integral,
-!    integration between zeros with dqawoe,
-!    convergence acceleration with dqelg,
-!    integrand with oscillatory cos or sin factor,
-!    (end point) singularities, 25-point clenshaw-curtis integration
 
 module quadpack
 
@@ -4692,17 +4680,13 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   810101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  25-point clenshaw-curtis integration
-!***purpose  to compute i = integral of f*w over (bl,br), with error
-!            estimate, where the weight function w has a singular
-!            behaviour of algebraico-logarithmic type at the points
-!            a and/or b. (bl,br) is a part of (a,b).
-!***description
+!  to compute i = integral of f*w over (bl,br), with error
+!  estimate, where the weight function w has a singular
+!  behaviour of algebraico-logarithmic type at the points
+!  a and/or b. (bl,br) is a part of (a,b).
 !
-!        integration rules for integrands having algebraico-logarithmic
-!        end point singularities
+!### History
+!  * SLATEC: date written 810101, revision date 830518 (yymmdd)
 !
 !        parameters
 !           f      - real(wp)
@@ -4759,70 +4743,61 @@ module quadpack
 !           nev    - integer
 !                    number of integrand evaluations
 
-   subroutine dqc25s(f, a, b, Bl, Br, Alfa, Beta, Ri, Rj, Rg, Rh, Result, Abserr, &
-                     Resasc, Integr, Nev)
-      implicit none
+    subroutine dqc25s(f, a, b, Bl, Br, Alfa, Beta, Ri, Rj, Rg, Rh, Result, Abserr, &
+                      Resasc, Integr, Nev)
+    implicit none
 
-      real(wp) a, Abserr, Alfa, b, Beta, Bl, Br, centr, &
-         cheb12, cheb24, dc, factor, &
-         fix, fval, hlgth, resabs, Resasc, Result, &
-         res12, res24, Rg, Rh, Ri, Rj, u, &
-         x
-      integer i, Integr, isym, Nev
-!
-      dimension cheb12(13), cheb24(25), fval(25), Rg(25), Rh(25), &
-         Ri(25), Rj(25), x(11)
-!
-      procedure(func) :: f
-!
-!           the vector x contains the values cos(k*pi/24)
-!           k = 1, ..., 11, to be used for the computation of the
-!           chebyshev series expansion of f.
-!
-      data x(1)/0.991444861373810411144557526928563_wp/
-      data x(2)/0.965925826289068286749743199728897_wp/
-      data x(3)/0.923879532511286756128183189396788_wp/
-      data x(4)/0.866025403784438646763723170752936_wp/
-      data x(5)/0.793353340291235164579776961501299_wp/
-      data x(6)/0.707106781186547524400844362104849_wp/
-      data x(7)/0.608761429008720639416097542898164_wp/
-      data x(8)/0.500000000000000000000000000000000_wp/
-      data x(9)/0.382683432365089771728459984030399_wp/
-      data x(10)/0.258819045102520762348898837624048_wp/
-      data x(11)/0.130526192220051591548406227895489_wp/
-!
-!           list of major variables
-!           -----------------------
-!
-!           fval   - value of the function f at the points
-!                    (br-bl)*0.5*cos(k*pi/24)+(br+bl)*0.5
-!                    k = 0, ..., 24
-!           cheb12 - coefficients of the chebyshev series expansion
-!                    of degree 12, for the function f, in the
-!                    interval (bl,br)
-!           cheb24 - coefficients of the chebyshev series expansion
-!                    of degree 24, for the function f, in the
-!                    interval (bl,br)
-!           res12  - approximation to the integral obtained from cheb12
-!           res24  - approximation to the integral obtained from cheb24
-!           dqwgts - external function subprogram defining
-!                    the four possible weight functions
-!           hlgth  - half-length of the interval (bl,br)
-!           centr  - mid point of the interval (bl,br)
-!
+    procedure(func) :: f
+    real(wp),intent(in) :: a
+    real(wp),intent(in) :: b
+    real(wp),intent(in) :: Bl
+    real(wp),intent(in) :: Br
+    real(wp),intent(in) :: Alfa
+    real(wp),intent(in) :: Beta
+    real(wp),intent(in) :: Ri(25)
+    real(wp),intent(in) :: Rj(25)
+    real(wp),intent(in) :: Rg(25)
+    real(wp),intent(in) :: Rh(25)
+    real(wp),intent(out) :: Result
+    real(wp),intent(out) :: Abserr
+    real(wp),intent(out) :: Resasc
+    integer,intent(in) :: Integr
+    integer,intent(out) :: Nev
+
+    real(wp) :: cheb12(13) !! coefficients of the chebyshev series expansion
+                           !! of degree 12, for the function f, in the
+                           !! interval (bl,br)
+    real(wp) :: cheb24(25) !! coefficients of the chebyshev series expansion
+                           !! of degree 24, for the function f, in the
+                           !! interval (bl,br)
+    real(wp) :: fval(25) !! value of the function f at the points
+                         !! (br-bl)*0.5*cos(k*pi/24)+(br+bl)*0.5
+                         !! k = 0, ..., 24
+    real(wp) :: res12 !! approximation to the integral obtained from cheb12
+    real(wp) :: res24 !! approximation to the integral obtained from cheb24
+    real(wp) :: hlgth !! half-length of the interval (bl,br)
+    real(wp) :: centr !! mid point of the interval (bl,br)
+    real(wp) :: dc, factor, fix, resabs, u
+    integer :: k !! counter for `x`
+    integer :: i, isym
+
+    real(wp),dimension(11),parameter :: x = [ (cos(k*pi/24.0_wp), k = 1, 11) ]
+        !! the vector x contains the values `cos(k*pi/24)`,
+        !! `k = 1, ..., 11`, to be used for the chebyshev series
+        !! expansion of `f`
 
       Nev = 25
       if (Bl == a .and. (Alfa /= 0.0_wp .or. Integr == 2 .or. Integr == 4)) &
          then
-!
+
 !           this part of the program is executed only if a = bl.
 
-!
+
 !           compute the chebyshev series expansion of the
 !           following function
 !           f1 = (0.5*(b+b-br-a)-0.5*(br-a)*x)**beta
 !                  *f(0.5*(br-a)*x+0.5*(br+a))
-!
+
          hlgth = 0.5_wp*(Br - Bl)
          centr = 0.5_wp*(Br + Bl)
          fix = b - centr
@@ -5021,8 +4996,11 @@ module quadpack
 !
 !           if a>bl and b<br, apply the 15-point gauss-kronrod
 !           scheme.
-!
-!
+
+        ! dqwgts - external function subprogram defining
+        ! the four possible weight functions
+
+
          call dqk15w(f, dqwgts, a, b, Alfa, Beta, Integr, Bl, Br, Result, Abserr, &
                      resabs, Resasc)
          Nev = 15
@@ -5185,6 +5163,7 @@ module quadpack
 !***revision date  830518   (yymmdd)
 !***keywords  epsilon algorithm, convergence acceleration,
 !             extrapolation
+
 !***purpose  the routine determines the limit of a given sequence of
 !            approximations, by means of the epsilon algorithm of
 !            p.wynn. an estimate of the absolute error is also given.
@@ -5227,14 +5206,13 @@ module quadpack
    subroutine dqelg(n, Epstab, Result, Abserr, Res3la, Nres)
       implicit none
 
-      real(wp) Abserr, delta1, delta2, delta3, &
-         epsinf, Epstab, &
-         error, err1, err2, err3, e0, e1, e1abs, &
-         e2, e3, res, Result, Res3la, ss, &
-         tol1, tol2, tol3
-      integer i, ib, ib2, ie, indx, k1, k2, k3, n, &
-         newelm, Nres, num
-      dimension Epstab(52), Res3la(3)
+      real(wp) :: Abserr, delta1, delta2, delta3, &
+                  epsinf, Epstab(52), &
+                  error, err1, err2, err3, e0, e1, e1abs, &
+                  e2, e3, res, Result, Res3la(3), ss, &
+                  tol1, tol2, tol3
+      integer :: i, ib, ib2, ie, indx, k1, k2, k3, n, &
+                 newelm, Nres, num
 
       ! JW : this needs to be a module variable...
       ! ... some other dims depends on it (see all the 52's)

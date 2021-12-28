@@ -21,7 +21,7 @@ call dqawo(f,a,b,omega,integr,epsabs,epsrel,result,abserr,&
            neval,ier,leniw,maxp1,lenw,last,iwork,work)
 
 ! result from maxima: quad_qags(exp(-x)*log(x)*cos(10*x), x, 0, 1);
-write(*,'(1P,A25,1X,*(E13.6,1X))') 'dqawo: result, error = ', result, result - (-0.17763920651138d0)
+write(*,'(1P,A25,1X,2(E13.6,1X),I6)') 'dqawo: result, error = ', result, result - (-0.17763920651138d0), neval
 
 contains
 
