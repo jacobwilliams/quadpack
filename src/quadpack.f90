@@ -6871,63 +6871,37 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   820101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  modified chebyshev moments
-!***purpose  this routine computes modified chebsyshev moments. the k-th
-!            modified chebyshev moment is defined as the integral over
-!            (-1,1) of w(x)*t(k,x), where t(k,x) is the chebyshev
-!            polynomial of degree k.
+!  this routine computes modified chebsyshev moments. the k-th
+!  modified chebyshev moment is defined as the integral over
+!  (-1,1) of w(x)*t(k,x), where t(k,x) is the chebyshev
+!  polynomial of degree k.
+!
 !### History
 !  * QUADPACK: date written 820101, revision date 830518 (yymmdd),
-
-!***description
-!
-!        modified chebyshev moments
-!
-!        parameters
-!           alfa   - real(wp)
-!                    parameter in the weight function w(x), alfa>(-1)
-!
-!           beta   - real(wp)
-!                    parameter in the weight function w(x), beta>(-1)
-!
-!           ri     - real(wp)
-!                    vector of dimension 25
-!                    ri(k) is the integral over (-1,1) of
-!                    (1+x)**alfa*t(k-1,x), k = 1, ..., 25.
-!
-!           rj     - real(wp)
-!                    vector of dimension 25
-!                    rj(k) is the integral over (-1,1) of
-!                    (1-x)**beta*t(k-1,x), k = 1, ..., 25.
-!
-!           rg     - real(wp)
-!                    vector of dimension 25
-!                    rg(k) is the integral over (-1,1) of
-!                    (1+x)**alfa*log((1+x)/2)*t(k-1,x), k = 1, ..., 25.
-!
-!           rh     - real(wp)
-!                    vector of dimension 25
-!                    rh(k) is the integral over (-1,1) of
-!                    (1-x)**beta*log((1-x)/2)*t(k-1,x), k = 1, ..., 25.
-!
-!           integr - integer
-!                    input parameter indicating the modified
-!                    moments to be computed
-!                    integr = 1 compute ri, rj
-!                           = 2 compute ri, rj, rg
-!                           = 3 compute ri, rj, rh
-!                           = 4 compute ri, rj, rg, rh
 
    subroutine dqmomo(Alfa, Beta, Ri, Rj, Rg, Rh, Integr)
       implicit none
 
-      real(wp) Alfa, alfp1, alfp2, an, anm1, Beta, betp1, &
-         betp2, ralf, rbet, Rg, Rh, Ri, Rj
-      integer i, im1, Integr
+      real(wp),intent(in) :: Alfa !! parameter in the weight function w(x), alfa>(-1)
+      real(wp),intent(in) :: Beta !! parameter in the weight function w(x), beta>(-1)
+      real(wp),intent(out) :: Ri(25) !! i(k) is the integral over (-1,1) of
+                                     !! (1+x)**alfa*t(k-1,x), k = 1, ..., 25.
+      real(wp),intent(out) :: Rj(25) !! rj(k) is the integral over (-1,1) of
+                                     !! (1-x)**beta*t(k-1,x), k = 1, ..., 25.
+      real(wp),intent(out) :: Rg(25) !! rg(k) is the integral over (-1,1) of
+                                     !! (1+x)**alfa*log((1+x)/2)*t(k-1,x), k = 1, ..., 25.
+      real(wp),intent(out) :: Rh(25) !! rh(k) is the integral over (-1,1) of
+                                     !! (1-x)**beta*log((1-x)/2)*t(k-1,x), k = 1, ..., 25.
+      integer,intent(in) :: Integr !! input parameter indicating the modified
+                                   !! moments to be computed:
+                                   !!
+                                   !! * integr = 1 compute ri, rj
+                                   !! * integr = 2 compute ri, rj, rg
+                                   !! * integr = 3 compute ri, rj, rh
+                                   !! * integr = 4 compute ri, rj, rg, rh
 
-      dimension Rg(25), Rh(25), Ri(25), Rj(25)
+      real(wp) :: alfp1, alfp2, an, anm1, betp1, betp2, ralf, rbet
+      integer :: i, im1
 
       alfp1 = Alfa + 1.0_wp
       betp1 = Beta + 1.0_wp
@@ -6988,6 +6962,7 @@ module quadpack
             Rh(i) = -Rh(i)
          end do
       end if
+
 100   do i = 2, 25, 2
          Rj(i) = -Rj(i)
       end do
