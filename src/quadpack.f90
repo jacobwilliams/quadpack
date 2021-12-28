@@ -10,6 +10,7 @@
 !  * Piessens, Robert. Applied Mathematics and Programming Division, K. U. Leuven
 !  * de Doncker, Elise. Applied Mathematics and Programming Division, K. U. Leuven
 !  * Kahaner, D. K., (NBS)
+!  * Jacob Williams, Dec 2021. Modernized the Fortran 77 code from SLATEC.
 
 module quadpack
 
@@ -7364,103 +7365,81 @@ module quadpack
 
 !********************************************************************************
 !>
+!  this routine maintains the descending ordering in the
+!  list of the local error estimated resulting from the
+!  interval subdivision process. at each call two error
+!  estimates are inserted using the sequential search
+!  method, top-down for the largest error estimate and
+!  bottom-up for the smallest error estimate.
 !
 !### See also
-!  *  dqage,dqagie,dqagpe,dqawse
-!***revision date  810101   (yymmdd)
-!***keywords  sequential sorting
-!***purpose  this routine maintains the descending ordering in the
-!            list of the local error estimated resulting from the
-!            interval subdivision process. at each call two error
-!            estimates are inserted using the sequential search
-!            method, top-down for the largest error estimate and
-!            bottom-up for the smallest error estimate.
-!***description
+!  *  [[dqage]], [[dqagie]], [[dqagpe]], [[dqawse]]
 !
-!           ordering routine
-!           standard fortran subroutine
-!           real(wp) version
-!
-!           parameters (meaning at output)
-!              limit  - integer
-!                       maximum number of error estimates the list
-!                       can contain
-!
-!              last   - integer
-!                       number of error estimates currently in the list
-!
-!              maxerr - integer
-!                       maxerr points to the nrmax-th largest error
-!                       estimate currently in the list
-!
-!              ermax  - real(wp)
-!                       nrmax-th largest error estimate
-!                       ermax = elist(maxerr)
-!
-!              elist  - real(wp)
-!                       vector of dimension last containing
-!                       the error estimates
-!
-!              iord   - integer
-!                       vector of dimension last, the first `k` elements
-!                       of which contain pointers to the error
-!                       estimates, such that
-!                       elist(iord(1)),...,  elist(iord(k))
-!                       form a decreasing sequence, with
-!                       k = last if last<=(limit/2+2), and
-!                       k = limit+1-last otherwise
-!
-!              nrmax  - integer
-!                       maxerr = iord(nrmax)
+!### History
+!  * SLATEC: revision date 810101 (yymmdd)
 
    subroutine dqpsrt(Limit, Last, Maxerr, Ermax, Elist, Iord, Nrmax)
       implicit none
 
-      real(wp) Elist, Ermax, errmax, errmin
-      integer i, ibeg, ido, Iord, isucc, j, jbnd, jupbn, k, &
-         Last, Limit, Maxerr, Nrmax
-      dimension Elist(Last), Iord(Last)
-!
-!           check whether the list contains more than
-!           two error estimates.
-!
+      integer,intent(in) :: Limit !! maximum number of error estimates the list can contain
+      integer,intent(in) :: Last !! number of error estimates currently in the list
+      integer,intent(inout) :: Maxerr !! `maxerr` points to the `nrmax`-th largest error
+                                      !! estimate currently in the list
+      real(wp),intent(out) :: Ermax !! `nrmax`-th largest error estimate
+                                    !! `ermax = elist(maxerr)`
+      real(wp),intent(in) :: Elist(Last) !! vector of dimension `last` containing
+                                         !! the error estimates
+      integer,intent(inout) :: Iord(Last) !! vector of dimension `last`, the first `k` elements
+                                          !! of which contain pointers to the error
+                                          !! estimates, such that
+                                          !! `elist(iord(1)),...,  elist(iord(k))`
+                                          !! form a decreasing sequence, with
+                                          !! `k = last` if `last<=(limit/2+2)`, and
+                                          !! `k = limit+1-last` otherwise
+      integer,intent(inout) :: Nrmax !! `maxerr = iord(nrmax)`
+
+      real(wp) :: errmax, errmin
+      integer :: i, ibeg, ido, isucc, j, jbnd, jupbn, k
+
+      ! check whether the list contains more than
+      ! two error estimates.
 
       if (Last > 2) then
-!
-!           this part of the routine is only executed if, due to a
-!           difficult integrand, subdivision increased the error
-!           estimate. in the normal case the insert procedure should
-!           start after the nrmax-th largest error estimate.
-!
+
+         ! this part of the routine is only executed if, due to a
+         ! difficult integrand, subdivision increased the error
+         ! estimate. in the normal case the insert procedure should
+         ! start after the nrmax-th largest error estimate.
+
          errmax = Elist(Maxerr)
          if (Nrmax /= 1) then
             ido = Nrmax - 1
             do i = 1, ido
                isucc = Iord(Nrmax - 1)
-! ***jump out of do-loop
-               if (errmax <= Elist(isucc)) goto 50
+               ! ***jump out of do-loop
+               if (errmax <= Elist(isucc)) exit
                Iord(Nrmax) = isucc
                Nrmax = Nrmax - 1
             end do
          end if
-!
-!           compute the number of elements in the list to be maintained
-!           in descending order. this number depends on the number of
-!           subdivisions still allowed.
-!
-50       jupbn = Last
+
+         ! compute the number of elements in the list to be maintained
+         ! in descending order. this number depends on the number of
+         ! subdivisions still allowed.
+
+         jupbn = Last
          if (Last > (Limit/2 + 2)) jupbn = Limit + 3 - Last
          errmin = Elist(Last)
-!
-!           insert errmax by traversing the list top-down,
-!           starting comparison from the element elist(iord(nrmax+1)).
-!
+
+         ! insert errmax by traversing the list top-down,
+         ! starting comparison from the element elist(iord(nrmax+1)).
+
          jbnd = jupbn - 1
          ibeg = Nrmax + 1
          if (ibeg <= jbnd) then
             do i = ibeg, jbnd
                isucc = Iord(i)
-! ***jump out of do-loop
+               ! ***jump out of do-loop
                if (errmax >= Elist(isucc)) goto 100
                Iord(i - 1) = isucc
             end do
@@ -7472,24 +7451,24 @@ module quadpack
          Iord(2) = 2
       end if
       goto 300
-!
-!           insert errmin by traversing the list bottom-up.
-!
+
+      ! insert errmin by traversing the list bottom-up.
+
 100   Iord(i - 1) = Maxerr
       k = jbnd
       do j = i, jbnd
          isucc = Iord(k)
-! ***jump out of do-loop
+         ! ***jump out of do-loop
          if (errmin < Elist(isucc)) goto 200
          Iord(k + 1) = isucc
          k = k - 1
       end do
       Iord(i) = Last
       goto 300
+
 200   Iord(k + 1) = Last
-!
-!           set maxerr and ermax.
-!
+
+      ! set maxerr and ermax.
 300   Maxerr = Iord(Nrmax)
       Ermax = Elist(Maxerr)
 
