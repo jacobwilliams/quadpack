@@ -51,7 +51,7 @@ module quadpack
 !  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
    subroutine dqag(f, a, b, Epsabs, Epsrel, Key, Result, Abserr, Neval, Ier, &
                    Limit, Lenw, Last, Iwork, Work)
@@ -190,7 +190,7 @@ module quadpack
 !  `abs(i-reslt)<=max(epsabs,epsrel*abs(i))`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
    subroutine dqage(f, a, b, Epsabs, Epsrel, Key, Limit, Result, Abserr, &
                     Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)
@@ -468,7 +468,7 @@ module quadpack
 !  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
    subroutine dqagi(f, Bound, Inf, Epsabs, Epsrel, Result, Abserr, Neval, &
                     Ier, Limit, Lenw, Last, Iwork, Work)
@@ -616,7 +616,7 @@ module quadpack
 !  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
    subroutine dqagie(f, Bound, Inf, Epsabs, Epsrel, Limit, Result, Abserr, &
                      Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)
@@ -993,7 +993,7 @@ module quadpack
 !  singularities, discontinuities), are provided by the user.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
     subroutine dqagp(f, a, b, Npts2, Points, Epsabs, Epsrel, Result, Abserr, &
                      Neval, Ier, Leniw, Lenw, Last, Iwork, Work)
@@ -1166,7 +1166,7 @@ module quadpack
 !  of the integrand may occur (e.g. singularities, discontinuities),provided by user.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
     subroutine dqagpe(f, a, b, Npts2, Points, Epsabs, Epsrel, Limit, Result, &
                       Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Pts, &
@@ -1628,7 +1628,7 @@ module quadpack
 !  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
     subroutine dqags(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier, &
                      Limit, Lenw, Last, Iwork, Work)
@@ -1768,7 +1768,7 @@ module quadpack
 !  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
     subroutine dqagse(f, a, b, Epsabs, Epsrel, Limit, Result, Abserr, Neval, &
                       Ier, Alist, Blist, Rlist, Elist, Iord, Last)
@@ -2147,7 +2147,7 @@ module quadpack
 !  `abs(i-result)<=max(epsabe,epsrel*abs(i))`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
     subroutine dqawc(f, a, b, c, Epsabs, Epsrel, Result, Abserr, Neval, Ier, &
                      Limit, Lenw, Last, Iwork, Work)
@@ -2273,7 +2273,7 @@ module quadpack
 !  `abs(i-result)<=max(epsabs,epsrel*abs(i))`
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
    subroutine dqawce(f, a, b, c, Epsabs, Epsrel, Limit, Result, Abserr, Neval, &
                      Ier, Alist, Blist, Rlist, Elist, Iord, Last)
@@ -2519,7 +2519,7 @@ module quadpack
 !  `abs(i-result)<=epsabs`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
     subroutine dqawf(f, a, Omega, Integr, Epsabs, Result, Abserr, Neval, Ier, &
                      Limlst, Lst, Leniw, Maxp1, Lenw, Iwork, Work)
@@ -2705,7 +2705,7 @@ module quadpack
 !  `abs(i-result)<=epsabs`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
     subroutine dqawfe(f, a, Omega, Integr, Epsabs, Limlst, Limit, Maxp1, &
                       Result, Abserr, Neval, Ier, Rslst, Erlst, Ierlst, Lst, &
@@ -3017,7 +3017,7 @@ module quadpack
 !  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
     subroutine dqawo(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, &
                     Neval, Ier, Leniw, Maxp1, Lenw, Last, Iwork, Work)
@@ -3189,7 +3189,7 @@ module quadpack
 !  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
 !### History
-!  * SLATEC: date written 800101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd)
 
 
 !        parameters
@@ -4288,7 +4288,7 @@ module quadpack
 !  error estimate, where` w(x) = 1/(x-c)`
 !
 !### History
-!  * SLATEC: date written 810101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 810101, revision date 830518 (yymmdd)
 
     subroutine dqc25c(f, a, b, c, Result, Abserr, Krul, Neval)
     implicit none
@@ -4406,7 +4406,7 @@ module quadpack
 !  method is used.
 !
 !### History
-!  * SLATEC: date written 810101, revision date 211011 (yymmdd)
+!  * QUADPACK: date written 810101, revision date 211011 (yymmdd)
 
     subroutine dqc25f(f, a, b, Omega, Integr, Nrmom, Maxp1, Ksave, Result, &
                      Abserr, Neval, Resabs, Resasc, Momcom, Chebmo)
@@ -4687,7 +4687,7 @@ module quadpack
 !  a and/or b. (bl,br) is a part of (a,b).
 !
 !### History
-!  * SLATEC: date written 810101, revision date 830518 (yymmdd)
+!  * QUADPACK: date written 810101, revision date 830518 (yymmdd)
 !
 !        parameters
 !           f      - real(wp)
@@ -6878,6 +6878,9 @@ module quadpack
 !            modified chebyshev moment is defined as the integral over
 !            (-1,1) of w(x)*t(k,x), where t(k,x) is the chebyshev
 !            polynomial of degree k.
+!### History
+!  * QUADPACK: date written 820101, revision date 830518 (yymmdd),
+
 !***description
 !
 !        modified chebyshev moments
@@ -6932,9 +6935,9 @@ module quadpack
       betp2 = Beta + 2.0_wp
       ralf = 2.0_wp**alfp1
       rbet = 2.0_wp**betp1
-!
-!           compute ri, rj using a forward recurrence relation.
-!
+
+      ! compute ri, rj using a forward recurrence relation.
+
       Ri(1) = ralf/alfp1
       Rj(1) = rbet/betp1
       Ri(2) = Ri(1)*Alfa/alfp2
@@ -6949,9 +6952,9 @@ module quadpack
       end do
       if (Integr /= 1) then
          if (Integr /= 3) then
-!
-!           compute rg using a forward recurrence relation.
-!
+
+            ! compute rg using a forward recurrence relation.
+
             Rg(1) = -Ri(1)/alfp1
             Rg(2) = -(ralf + ralf)/(alfp2*alfp2) - Rg(1)
             an = 2.0_wp
@@ -6966,9 +6969,9 @@ module quadpack
             end do
             if (Integr == 2) goto 100
          end if
-!
-!           compute rh using a forward recurrence relation.
-!
+
+         ! compute rh using a forward recurrence relation.
+
          Rh(1) = -Rj(1)/betp1
          Rh(2) = -(rbet + rbet)/(betp2*betp2) - Rh(1)
          an = 2.0_wp
@@ -6994,262 +6997,228 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  810101   (yymmdd)
-!                  kahaner,david,nbs - modified (2/82)
+!  non-adaptive integration
 !
-!***keywords  automatic integrator, smooth integrand,
-!             non-adaptive, gauss-kronrod(patterson)
-!***purpose  the routine calculates an approximation result to a
-!            given definite integral i = integral of `f` over `(a,b)`,
-!            hopefully satisfying following claim for accuracy
-!            `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
-!***description
+!  the routine calculates an approximation result to a
+!  given definite integral i = integral of `f` over `(a,b)`,
+!  hopefully satisfying following claim for accuracy
+!  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
-! non-adaptive integration
-! real(wp) version
-!
-!           f      - real(wp)
-!                    function subprogram defining the integrand function
-!                    f(x). the actual name for f needs to be declared
-!                    external in the driver program.
-!
-!           a      - real(wp)
-!                    lower limit of integration
-!
-!           b      - real(wp)
-!                    upper limit of integration
-!
-!           epsabs - real(wp)
-!                    absolute accuracy requested
-!           epsrel - real(wp)
-!                    relative accuracy requested
-!                    if `epsabs<=0`
-!                    and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
-!                    the routine will end with ier = 6.
-!
-!         on return
-!           result - real(wp)
-!                    approximation to the integral i
-!                    result is obtained by applying the 21-point
-!                    gauss-kronrod rule (res21) obtained by optimal
-!                    addition of abscissae to the 10-point gauss rule
-!                    (res10), or by applying the 43-point rule (res43)
-!                    obtained by optimal addition of abscissae to the
-!                    21-point gauss-kronrod rule, or by applying the
-!                    87-point rule (res87) obtained by optimal addition
-!                    of abscissae to the 43-point rule.
-!
-!           abserr - real(wp)
-!                    estimate of the modulus of the absolute error,
-!                    which should equal or exceed `abs(i-result)`
-!
-!           neval  - integer
-!                    number of integrand evaluations
-!
-!           ier    - ier = 0 normal and reliable termination of the
-!                            routine. it is assumed that the requested
-!                            accuracy has been achieved.
-!                    ier>0 abnormal termination of the routine. it is
-!                            assumed that the requested accuracy has
-!                            not been achieved.
-!           error messages
-!                    ier = 1 the maximum number of steps has been
-!                            executed. the integral is probably too
-!                            difficult to be calculated by dqng.
-!                        = 6 the input is invalid, because
-!                            epsabs<=0 and
-!                            epsrel<max(50*rel.mach.acc.,0.5e-28_wp).
-!                            result, abserr and neval are set to zero.
+!### History
+!  * QUADPACK: date written 800101, revision date 810101 (yymmdd),
+!    kahaner,david,nbs - modified (2/82)
 
    subroutine dqng(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier)
       implicit none
 
-      real(wp) a, absc, Abserr, b, centr, dhlgth, &
-         Epsabs, &
-         Epsrel, fcentr, fval, fval1, fval2, &
-         fv1, fv2, fv3, fv4, hlgth, Result, res10, &
-         res21, res43, res87, resabs, resasc, reskh, &
-         savfun, w10, w21a, w21b, w43a, &
-         w43b, w87a, w87b, x1, x2, x3, x4
-      integer Ier, ipx, k, l, Neval
-      procedure(func) :: f
-!
-      dimension fv1(5), fv2(5), fv3(5), fv4(5), x1(5), x2(5), &
-         x3(11), x4(22), w10(5), w21a(5), w21b(6), w43a(10) &
-         , w43b(12), w87a(21), w87b(23), savfun(21)
-!
-!           the following data statements contain the
-!           abscissae and weights of the integration rules used.
-!
-!           x1      abscissae common to the 10-, 21-, 43- and 87-
-!                   point rule
-!           x2      abscissae common to the 21-, 43- and 87-point rule
-!           x3      abscissae common to the 43- and 87-point rule
-!           x4      abscissae of the 87-point rule
-!           w10     weights of the 10-point formula
-!           w21a    weights of the 21-point formula for abscissae x1
-!           w21b    weights of the 21-point formula for abscissae x2
-!           w43a    weights of the 43-point formula for abscissae x1, x3
-!           w43b    weights of the 43-point formula for abscissae x3
-!           w87a    weights of the 87-point formula for abscissae x1,
-!                   x2, x3
-!           w87b    weights of the 87-point formula for abscissae x4
-!
-!
-! gauss-kronrod-patterson quadrature coefficients for use in
-! quadpack routine qng.  these coefficients were calculated with
-! 101 decimal digit arithmetic by l. w. fullerton, bell labs, nov 1981.
-!
-      data x1(1)/0.973906528517171720077964012084452_wp/
-      data x1(2)/0.865063366688984510732096688423493_wp/
-      data x1(3)/0.679409568299024406234327365114874_wp/
-      data x1(4)/0.433395394129247190799265943165784_wp/
-      data x1(5)/0.148874338981631210884826001129720_wp/
-      data w10(1)/0.066671344308688137593568809893332_wp/
-      data w10(2)/0.149451349150580593145776339657697_wp/
-      data w10(3)/0.219086362515982043995534934228163_wp/
-      data w10(4)/0.269266719309996355091226921569469_wp/
-      data w10(5)/0.295524224714752870173892994651338_wp/
-!
-      data x2(1)/0.995657163025808080735527280689003_wp/
-      data x2(2)/0.930157491355708226001207180059508_wp/
-      data x2(3)/0.780817726586416897063717578345042_wp/
-      data x2(4)/0.562757134668604683339000099272694_wp/
-      data x2(5)/0.294392862701460198131126603103866_wp/
-      data w21a(1)/0.032558162307964727478818972459390_wp/
-      data w21a(2)/0.075039674810919952767043140916190_wp/
-      data w21a(3)/0.109387158802297641899210590325805_wp/
-      data w21a(4)/0.134709217311473325928054001771707_wp/
-      data w21a(5)/0.147739104901338491374841515972068_wp/
-      data w21b(1)/0.011694638867371874278064396062192_wp/
-      data w21b(2)/0.054755896574351996031381300244580_wp/
-      data w21b(3)/0.093125454583697605535065465083366_wp/
-      data w21b(4)/0.123491976262065851077958109831074_wp/
-      data w21b(5)/0.142775938577060080797094273138717_wp/
-      data w21b(6)/0.149445554002916905664936468389821_wp/
-!
-      data x3(1)/0.999333360901932081394099323919911_wp/
-      data x3(2)/0.987433402908088869795961478381209_wp/
-      data x3(3)/0.954807934814266299257919200290473_wp/
-      data x3(4)/0.900148695748328293625099494069092_wp/
-      data x3(5)/0.825198314983114150847066732588520_wp/
-      data x3(6)/0.732148388989304982612354848755461_wp/
-      data x3(7)/0.622847970537725238641159120344323_wp/
-      data x3(8)/0.499479574071056499952214885499755_wp/
-      data x3(9)/0.364901661346580768043989548502644_wp/
-      data x3(10)/0.222254919776601296498260928066212_wp/
-      data x3(11)/0.074650617461383322043914435796506_wp/
-      data w43a(1)/0.016296734289666564924281974617663_wp/
-      data w43a(2)/0.037522876120869501461613795898115_wp/
-      data w43a(3)/0.054694902058255442147212685465005_wp/
-      data w43a(4)/0.067355414609478086075553166302174_wp/
-      data w43a(5)/0.073870199632393953432140695251367_wp/
-      data w43a(6)/0.005768556059769796184184327908655_wp/
-      data w43a(7)/0.027371890593248842081276069289151_wp/
-      data w43a(8)/0.046560826910428830743339154433824_wp/
-      data w43a(9)/0.061744995201442564496240336030883_wp/
-      data w43a(10)/0.071387267268693397768559114425516_wp/
-      data w43b(1)/0.001844477640212414100389106552965_wp/
-      data w43b(2)/0.010798689585891651740465406741293_wp/
-      data w43b(3)/0.021895363867795428102523123075149_wp/
-      data w43b(4)/0.032597463975345689443882222526137_wp/
-      data w43b(5)/0.042163137935191811847627924327955_wp/
-      data w43b(6)/0.050741939600184577780189020092084_wp/
-      data w43b(7)/0.058379395542619248375475369330206_wp/
-      data w43b(8)/0.064746404951445885544689259517511_wp/
-      data w43b(9)/0.069566197912356484528633315038405_wp/
-      data w43b(10)/0.072824441471833208150939535192842_wp/
-      data w43b(11)/0.074507751014175118273571813842889_wp/
-      data w43b(12)/0.074722147517403005594425168280423_wp/
-!
-      data x4(1)/0.999902977262729234490529830591582_wp/
-      data x4(2)/0.997989895986678745427496322365960_wp/
-      data x4(3)/0.992175497860687222808523352251425_wp/
-      data x4(4)/0.981358163572712773571916941623894_wp/
-      data x4(5)/0.965057623858384619128284110607926_wp/
-      data x4(6)/0.943167613133670596816416634507426_wp/
-      data x4(7)/0.915806414685507209591826430720050_wp/
-      data x4(8)/0.883221657771316501372117548744163_wp/
-      data x4(9)/0.845710748462415666605902011504855_wp/
-      data x4(10)/0.803557658035230982788739474980964_wp/
-      data x4(11)/0.757005730685495558328942793432020_wp/
-      data x4(12)/0.706273209787321819824094274740840_wp/
-      data x4(13)/0.651589466501177922534422205016736_wp/
-      data x4(14)/0.593223374057961088875273770349144_wp/
-      data x4(15)/0.531493605970831932285268948562671_wp/
-      data x4(16)/0.466763623042022844871966781659270_wp/
-      data x4(17)/0.399424847859218804732101665817923_wp/
-      data x4(18)/0.329874877106188288265053371824597_wp/
-      data x4(19)/0.258503559202161551802280975429025_wp/
-      data x4(20)/0.185695396568346652015917141167606_wp/
-      data x4(21)/0.111842213179907468172398359241362_wp/
-      data x4(22)/0.037352123394619870814998165437704_wp/
-      data w87a(1)/0.008148377384149172900002878448190_wp/
-      data w87a(2)/0.018761438201562822243935059003794_wp/
-      data w87a(3)/0.027347451050052286161582829741283_wp/
-      data w87a(4)/0.033677707311637930046581056957588_wp/
-      data w87a(5)/0.036935099820427907614589586742499_wp/
-      data w87a(6)/0.002884872430211530501334156248695_wp/
-      data w87a(7)/0.013685946022712701888950035273128_wp/
-      data w87a(8)/0.023280413502888311123409291030404_wp/
-      data w87a(9)/0.030872497611713358675466394126442_wp/
-      data w87a(10)/0.035693633639418770719351355457044_wp/
-      data w87a(11)/0.000915283345202241360843392549948_wp/
-      data w87a(12)/0.005399280219300471367738743391053_wp/
-      data w87a(13)/0.010947679601118931134327826856808_wp/
-      data w87a(14)/0.016298731696787335262665703223280_wp/
-      data w87a(15)/0.021081568889203835112433060188190_wp/
-      data w87a(16)/0.025370969769253827243467999831710_wp/
-      data w87a(17)/0.029189697756475752501446154084920_wp/
-      data w87a(18)/0.032373202467202789685788194889595_wp/
-      data w87a(19)/0.034783098950365142750781997949596_wp/
-      data w87a(20)/0.036412220731351787562801163687577_wp/
-      data w87a(21)/0.037253875503047708539592001191226_wp/
-      data w87b(1)/0.000274145563762072350016527092881_wp/
-      data w87b(2)/0.001807124155057942948341311753254_wp/
-      data w87b(3)/0.004096869282759164864458070683480_wp/
-      data w87b(4)/0.006758290051847378699816577897424_wp/
-      data w87b(5)/0.009549957672201646536053581325377_wp/
-      data w87b(6)/0.012329447652244853694626639963780_wp/
-      data w87b(7)/0.015010447346388952376697286041943_wp/
-      data w87b(8)/0.017548967986243191099665352925900_wp/
-      data w87b(9)/0.019938037786440888202278192730714_wp/
-      data w87b(10)/0.022194935961012286796332102959499_wp/
-      data w87b(11)/0.024339147126000805470360647041454_wp/
-      data w87b(12)/0.026374505414839207241503786552615_wp/
-      data w87b(13)/0.028286910788771200659968002987960_wp/
-      data w87b(14)/0.030052581128092695322521110347341_wp/
-      data w87b(15)/0.031646751371439929404586051078883_wp/
-      data w87b(16)/0.033050413419978503290785944862689_wp/
-      data w87b(17)/0.034255099704226061787082821046821_wp/
-      data w87b(18)/0.035262412660156681033782717998428_wp/
-      data w87b(19)/0.036076989622888701185500318003895_wp/
-      data w87b(20)/0.036698604498456094498018047441094_wp/
-      data w87b(21)/0.037120549269832576114119958413599_wp/
-      data w87b(22)/0.037334228751935040321235449094698_wp/
-      data w87b(23)/0.037361073762679023410321241766599_wp/
-!
-!           list of major variables
-!           -----------------------
-!
-!           centr  - mid point of the integration interval
-!           hlgth  - half-length of the integration interval
-!           fcentr - function value at mid point
-!           absc   - abscissa
-!           fval   - function value
-!           savfun - array of function values which have already been
-!                    computed
-!           res10  - 10-point gauss result
-!           res21  - 21-point kronrod result
-!           res43  - 43-point result
-!           res87  - 87-point result
-!           resabs - approximation to the integral of abs(f)
-!           resasc - approximation to the integral of abs(f-i/(b-a))
+      procedure(func) :: f !! function subprogram defining the integrand function f(x).
+      real(wp),intent(in) :: a !! lower limit of integration
+      real(wp),intent(in) :: b !! upper limit of integration
+      real(wp),intent(in) :: Epsabs !! absolute accuracy requested
+      real(wp),intent(in) :: Epsrel !! relative accuracy requested
+                                    !! if `epsabs<=0`
+                                    !! and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
+                                    !! the routine will end with ier = 6.
+      real(wp),intent(out) :: Result !! approximation to the integral i
+                                     !! result is obtained by applying the 21-point
+                                     !! gauss-kronrod rule (res21) obtained by optimal
+                                     !! addition of abscissae to the 10-point gauss rule
+                                     !! (res10), or by applying the 43-point rule (res43)
+                                     !! obtained by optimal addition of abscissae to the
+                                     !! 21-point gauss-kronrod rule, or by applying the
+                                     !! 87-point rule (res87) obtained by optimal addition
+                                     !! of abscissae to the 43-point rule.
+      real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                     !! which should equal or exceed `abs(i-result)`
+      integer,intent(out) :: Neval !! number of integrand evaluations
+      integer,intent(out) :: Ier !! * ier = 0 normal and reliable termination of the
+                                 !!   routine. it is assumed that the requested
+                                 !!   accuracy has been achieved.
+                                 !! * ier>0 abnormal termination of the routine. it is
+                                 !!   assumed that the requested accuracy has
+                                 !!   not been achieved.
+                                 !!
+                                 !! error messages:
+                                 !!
+                                 !! * ier = 1 the maximum number of steps has been
+                                 !!   executed. the integral is probably too
+                                 !!   difficult to be calculated by dqng.
+                                 !! * ier = 6 the input is invalid, because
+                                 !!   `epsabs<=0` and
+                                 !!   `epsrel<max(50*rel.mach.acc.,0.5e-28)`.
+                                 !!   `result`, `abserr` and `neval` are set to zero.
 
-!
-!           test on validity of parameters
-!
+      real(wp) :: dhlgth, fval1, fval2, fv1(5), fv2(5), fv3(5), fv4(5), reskh
+      integer :: ipx, k, l
+      real(wp) :: centr !! mid point of the integration interval
+      real(wp) :: hlgth !! half-length of the integration interval
+      real(wp) :: fcentr !! function value at mid point
+      real(wp) :: absc !! abscissa
+      real(wp) :: fval !! function value
+      real(wp) :: savfun(21) !! array of function values which have already been computed
+      real(wp) :: res10 !! 10-point gauss result
+      real(wp) :: res21 !! 21-point kronrod result
+      real(wp) :: res43 !! 43-point result
+      real(wp) :: res87 !! 87-point result
+      real(wp) :: resabs !! approximation to the integral of abs(f)
+      real(wp) :: resasc !! approximation to the integral of abs(f-i/(b-a))
+
+      ! the following data statements contain the
+      ! abscissae and weights of the integration rules used.
+      !
+      ! gauss-kronrod-patterson quadrature coefficients for use in
+      ! quadpack routine qng.  these coefficients were calculated with
+      ! 101 decimal digit arithmetic by l. w. fullerton, bell labs, nov 1981.
+
+      real(wp),dimension(5),parameter :: x1 = [ &
+            0.973906528517171720077964012084452_wp, &
+            0.865063366688984510732096688423493_wp, &
+            0.679409568299024406234327365114874_wp, &
+            0.433395394129247190799265943165784_wp, &
+            0.148874338981631210884826001129720_wp ] !! abscissae common to the 10-, 21-, 43- and 87-point rule
+
+      real(wp),dimension(5),parameter :: w10 = [ &
+            0.066671344308688137593568809893332_wp, &
+            0.149451349150580593145776339657697_wp, &
+            0.219086362515982043995534934228163_wp, &
+            0.269266719309996355091226921569469_wp, &
+            0.295524224714752870173892994651338_wp ] !! weights of the 10-point formula
+
+      real(wp),dimension(5),parameter :: x2 = [ &
+            0.995657163025808080735527280689003_wp, &
+            0.930157491355708226001207180059508_wp, &
+            0.780817726586416897063717578345042_wp, &
+            0.562757134668604683339000099272694_wp, &
+            0.294392862701460198131126603103866_wp ] !! abscissae common to the 21-, 43- and 87-point rule
+
+      real(wp),dimension(5),parameter :: w21a = [ &
+            0.032558162307964727478818972459390_wp, &
+            0.075039674810919952767043140916190_wp, &
+            0.109387158802297641899210590325805_wp, &
+            0.134709217311473325928054001771707_wp, &
+            0.147739104901338491374841515972068_wp ] !! weights of the 21-point formula for abscissae x1
+
+      real(wp),dimension(6),parameter :: w21b = [ &
+            0.011694638867371874278064396062192_wp, &
+            0.054755896574351996031381300244580_wp, &
+            0.093125454583697605535065465083366_wp, &
+            0.123491976262065851077958109831074_wp, &
+            0.142775938577060080797094273138717_wp, &
+            0.149445554002916905664936468389821_wp ] !! weights of the 21-point formula for abscissae x2
+
+      real(wp),dimension(11),parameter :: x3 = [ &
+            0.999333360901932081394099323919911_wp, &
+            0.987433402908088869795961478381209_wp, &
+            0.954807934814266299257919200290473_wp, &
+            0.900148695748328293625099494069092_wp, &
+            0.825198314983114150847066732588520_wp, &
+            0.732148388989304982612354848755461_wp, &
+            0.622847970537725238641159120344323_wp, &
+            0.499479574071056499952214885499755_wp, &
+            0.364901661346580768043989548502644_wp, &
+            0.222254919776601296498260928066212_wp, &
+            0.074650617461383322043914435796506_wp ] !! abscissae common to the 43- and 87-point rule
+
+      real(wp),dimension(10),parameter :: w43a = [ &
+            0.016296734289666564924281974617663_wp, &
+            0.037522876120869501461613795898115_wp, &
+            0.054694902058255442147212685465005_wp, &
+            0.067355414609478086075553166302174_wp, &
+            0.073870199632393953432140695251367_wp, &
+            0.005768556059769796184184327908655_wp, &
+            0.027371890593248842081276069289151_wp, &
+            0.046560826910428830743339154433824_wp, &
+            0.061744995201442564496240336030883_wp, &
+            0.071387267268693397768559114425516_wp ] !! weights of the 43-point formula for abscissae x1, x3
+
+      real(wp),dimension(12),parameter :: w43b = [ &
+            0.001844477640212414100389106552965_wp, &
+            0.010798689585891651740465406741293_wp, &
+            0.021895363867795428102523123075149_wp, &
+            0.032597463975345689443882222526137_wp, &
+            0.042163137935191811847627924327955_wp, &
+            0.050741939600184577780189020092084_wp, &
+            0.058379395542619248375475369330206_wp, &
+            0.064746404951445885544689259517511_wp, &
+            0.069566197912356484528633315038405_wp, &
+            0.072824441471833208150939535192842_wp, &
+            0.074507751014175118273571813842889_wp, &
+            0.074722147517403005594425168280423_wp ] !! weights of the 43-point formula for abscissae x3
+
+      real(wp),dimension(22),parameter :: x4 = [ &
+            0.999902977262729234490529830591582_wp, &
+            0.997989895986678745427496322365960_wp, &
+            0.992175497860687222808523352251425_wp, &
+            0.981358163572712773571916941623894_wp, &
+            0.965057623858384619128284110607926_wp, &
+            0.943167613133670596816416634507426_wp, &
+            0.915806414685507209591826430720050_wp, &
+            0.883221657771316501372117548744163_wp, &
+            0.845710748462415666605902011504855_wp, &
+            0.803557658035230982788739474980964_wp, &
+            0.757005730685495558328942793432020_wp, &
+            0.706273209787321819824094274740840_wp, &
+            0.651589466501177922534422205016736_wp, &
+            0.593223374057961088875273770349144_wp, &
+            0.531493605970831932285268948562671_wp, &
+            0.466763623042022844871966781659270_wp, &
+            0.399424847859218804732101665817923_wp, &
+            0.329874877106188288265053371824597_wp, &
+            0.258503559202161551802280975429025_wp, &
+            0.185695396568346652015917141167606_wp, &
+            0.111842213179907468172398359241362_wp, &
+            0.037352123394619870814998165437704_wp ] !! abscissae of the 87-point rule
+
+      real(wp),dimension(21),parameter :: w87a = [ &
+            0.008148377384149172900002878448190_wp, &
+            0.018761438201562822243935059003794_wp, &
+            0.027347451050052286161582829741283_wp, &
+            0.033677707311637930046581056957588_wp, &
+            0.036935099820427907614589586742499_wp, &
+            0.002884872430211530501334156248695_wp, &
+            0.013685946022712701888950035273128_wp, &
+            0.023280413502888311123409291030404_wp, &
+            0.030872497611713358675466394126442_wp, &
+            0.035693633639418770719351355457044_wp, &
+            0.000915283345202241360843392549948_wp, &
+            0.005399280219300471367738743391053_wp, &
+            0.010947679601118931134327826856808_wp, &
+            0.016298731696787335262665703223280_wp, &
+            0.021081568889203835112433060188190_wp, &
+            0.025370969769253827243467999831710_wp, &
+            0.029189697756475752501446154084920_wp, &
+            0.032373202467202789685788194889595_wp, &
+            0.034783098950365142750781997949596_wp, &
+            0.036412220731351787562801163687577_wp, &
+            0.037253875503047708539592001191226_wp ] !! weights of the 87-point formula for abscissae x1, x2, x3
+
+      real(wp),dimension(23),parameter :: w87b = [ &
+            0.000274145563762072350016527092881_wp, &
+            0.001807124155057942948341311753254_wp, &
+            0.004096869282759164864458070683480_wp, &
+            0.006758290051847378699816577897424_wp, &
+            0.009549957672201646536053581325377_wp, &
+            0.012329447652244853694626639963780_wp, &
+            0.015010447346388952376697286041943_wp, &
+            0.017548967986243191099665352925900_wp, &
+            0.019938037786440888202278192730714_wp, &
+            0.022194935961012286796332102959499_wp, &
+            0.024339147126000805470360647041454_wp, &
+            0.026374505414839207241503786552615_wp, &
+            0.028286910788771200659968002987960_wp, &
+            0.030052581128092695322521110347341_wp, &
+            0.031646751371439929404586051078883_wp, &
+            0.033050413419978503290785944862689_wp, &
+            0.034255099704226061787082821046821_wp, &
+            0.035262412660156681033782717998428_wp, &
+            0.036076989622888701185500318003895_wp, &
+            0.036698604498456094498018047441094_wp, &
+            0.037120549269832576114119958413599_wp, &
+            0.037334228751935040321235449094698_wp, &
+            0.037361073762679023410321241766599_wp ] !! weights of the 87-point formula for abscissae x4
+
+      ! test on validity of parameters
+
       Result = 0.0_wp
       Abserr = 0.0_wp
       Neval = 0
@@ -7262,15 +7231,15 @@ module quadpack
          fcentr = f(centr)
          Neval = 21
          Ier = 1
-!
-!          compute the integral using the 10- and 21-point formula.
-!
+
+         ! compute the integral using the 10- and 21-point formula.
+
          do l = 1, 3
             select case (l)
             case (2)
-!
-!          compute the integral using the 43-point formula.
-!
+
+               ! compute the integral using the 43-point formula.
+
                res43 = w43b(12)*fcentr
                Neval = 43
                do k = 1, 10
@@ -7283,15 +7252,15 @@ module quadpack
                   res43 = res43 + fval*w43b(k)
                   savfun(ipx) = fval
                end do
-!
-!          test for convergence.
-!
+
+              ! test for convergence.
+
                Result = res43*hlgth
                Abserr = abs((res43 - res21)*hlgth)
             case (3)
-!
-!          compute the integral using the 87-point formula.
-!
+
+               ! compute the integral using the 87-point formula.
+
                res87 = w87b(23)*fcentr
                Neval = 87
                do k = 1, 21
@@ -7332,9 +7301,9 @@ module quadpack
                   fv3(k) = fval1
                   fv4(k) = fval2
                end do
-!
-!          test for convergence.
-!
+
+               ! test for convergence.
+
                Result = res21*hlgth
                resabs = resabs*dhlgth
                reskh = 0.5_wp*res21
@@ -7354,7 +7323,7 @@ module quadpack
             if (resabs > uflow/(50.0_wp*epmach)) &
                Abserr = max((epmach*50.0_wp)*resabs, Abserr)
             if (Abserr <= max(Epsabs, Epsrel*abs(Result))) Ier = 0
-! ***jump out of do-loop
+            ! ***jump out of do-loop
             if (Ier == 0) return
          end do
       end if
@@ -7376,7 +7345,7 @@ module quadpack
 !  *  [[dqage]], [[dqagie]], [[dqagpe]], [[dqawse]]
 !
 !### History
-!  * SLATEC: revision date 810101 (yymmdd)
+!  * QUADPACK: revision date 810101 (yymmdd)
 
    subroutine dqpsrt(Limit, Last, Maxerr, Ermax, Elist, Iord, Nrmax)
       implicit none
@@ -7484,7 +7453,7 @@ module quadpack
 !  * [[dqk15w]]
 !
 !### History
-!  * SLATEC: revision date 810101 (yymmdd)
+!  * QUADPACK: revision date 810101 (yymmdd)
 !
 !### Keywords
 !  * weight function, cauchy principal value
@@ -7508,7 +7477,7 @@ module quadpack
 !  * [[dqk15w]]
 !
 !### History
-!  * SLATEC: revision date 810101 (yymmdd)
+!  * QUADPACK: revision date 810101 (yymmdd)
 
    real(wp) function dqwgtf(x, Omega, p2, p3, p4, Integr)
       implicit none
@@ -7535,7 +7504,7 @@ module quadpack
 !  * [[dqk15w]]
 !
 !### History
-!  * SLATEC: revision date 810101 (yymmdd)
+!  * QUADPACK: revision date 810101 (yymmdd)
 
    real(wp) function dqwgts(x, a, b, Alfa, Beta, Integr)
       implicit none

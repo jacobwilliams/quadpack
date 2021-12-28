@@ -208,4 +208,5 @@ integrator available, QAWF.
     integration between zeros with dqawoe,
     convergence acceleration with dqelg,
     integrand with oscillatory cos or sin factor,
-    (end point) singularities, 25-point clenshaw-curtis integration
+    (end point) singularities, 25-point clenshaw-curtis integration,
+    smooth integrand, non-adaptive, gauss-kronrod(patterson)
