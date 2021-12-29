@@ -1635,7 +1635,7 @@ module quadpack
     implicit none
 
     procedure(func) :: f !! function subprogram defining the integrand
-                         !! function f(x).
+                         !! function `f(x)`.
     real(wp),intent(in) :: a !! lower limit of integration
     real(wp),intent(in) :: b !! upper limit of integration
     real(wp),intent(in) :: Epsabs !! absolute accuracy requested
@@ -1775,7 +1775,7 @@ module quadpack
     implicit none
 
     procedure(func) :: f !! function subprogram defining the integrand
-                         !! function f(x).
+                         !! function `f(x)`.
     real(wp),intent(in) :: a !! lower limit of integration
     real(wp),intent(in) :: b !! upper limit of integration
     real(wp),intent(in) :: Epsabs !! absolute accuracy requested
@@ -4413,7 +4413,7 @@ module quadpack
     implicit none
 
     procedure(func) :: f !! function subprogram defining the integrand
-                         !! function f(x).
+                         !! function `f(x)`.
     real(wp),intent(in) :: a !! lower limit of integration
     real(wp),intent(in) :: b !! upper limit of integration
     real(wp),intent(in) :: Omega !! parameter in the weight function
@@ -5650,7 +5650,7 @@ module quadpack
 !           resg   - result of the 7-point gauss formula
 !           resk   - result of the 15-point kronrod formula
 !           reskh  - approximation to the mean value of the transformed
-!                    integrand over `(a,b)`, i.e. to i/(b-a)
+!                    integrand over `(a,b)`, i.e. to `i/(b-a)`
 
       dinf = min(1, Inf)
 !
@@ -6001,10 +6001,10 @@ module quadpack
       centr = 0.5_wp*(a + b)
       hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
-!
-!           compute the 21-point kronrod approximation to
-!           the integral, and estimate the absolute error.
-!
+
+! compute the 21-point kronrod approximation to
+! the integral, and estimate the absolute error.
+
       resg = 0.0_wp
       fc = f(centr)
       resk = wgk(11)*fc
@@ -6053,144 +6053,109 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  31-point gauss-kronrod rules
-!***purpose  to compute i = integral of `f` over `(a,b)` with error
-!                           estimate
-!                       j = integral of `abs(f)` over `(a,b)`
-!***description
+!  31-point gauss-kronrod rules
 !
-!           integration rules
-!           standard fortran subroutine
-!           real(wp) version
+!  to compute i = integral of `f` over `(a,b)` with error
+!  estimate j = integral of `abs(f)` over `(a,b)`
 !
-!           parameters
-!            on entry
-!              f      - real(wp)
-!                       function subprogram defining the integrand
-!                       function f(x). the actual name for f needs to be
-!                       declared external in the calling program.
-!
-!              a      - real(wp)
-!                       lower limit of integration
-!
-!              b      - real(wp)
-!                       upper limit of integration
-!
-!            on return
-!              result - real(wp)
-!                       approximation to the integral i
-!                       `result` is computed by applying the 31-point
-!                       gauss-kronrod rule (resk), obtained by optimal
-!                       addition of abscissae to the 15-point gauss
-!                       rule (resg).
-!
-!              abserr - double precison
-!                       estimate of the modulus of the modulus,
-!                       which should not exceed `abs(i-result)`
-!
-!              resabs - real(wp)
-!                       approximation to the integral j
-!
-!              resasc - real(wp)
-!                       approximation to the integral of `abs(f-i/(b-a))`
-!                       over `(a,b)`
+!### History
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd).
 
    subroutine dqk31(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a, absc, Abserr, b, centr, dhlgth, &
-         fc, fsum, &
-         fval1, fval2, fv1, fv2, hlgth, Resabs, &
-         Resasc, resg, resk, reskh, Result, &
-         wg, wgk, xgk
-      integer j, jtw, jtwm1
-      procedure(func) :: f
-!
-      dimension fv1(15), fv2(15), xgk(16), wgk(16), wg(8)
-!
-!           the abscissae and weights are given for the interval (-1,1).
-!           because of symmetry only the positive abscissae and their
-!           corresponding weights are given.
-!
-!           xgk    - abscissae of the 31-point kronrod rule
-!                    xgk(2), xgk(4), ...  abscissae of the 15-point
-!                    gauss rule
-!                    xgk(1), xgk(3), ...  abscissae which are optimally
-!                    added to the 15-point gauss rule
-!
-!           wgk    - weights of the 31-point kronrod rule
-!
-!           wg     - weights of the 15-point gauss rule
-!
-!
-! gauss quadrature weights and kronrod quadrature abscissae and weights
-! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-! bell labs, nov. 1981.
-!
-      data wg(1)/0.030753241996117268354628393577204_wp/
-      data wg(2)/0.070366047488108124709267416450667_wp/
-      data wg(3)/0.107159220467171935011869546685869_wp/
-      data wg(4)/0.139570677926154314447804794511028_wp/
-      data wg(5)/0.166269205816993933553200860481209_wp/
-      data wg(6)/0.186161000015562211026800561866423_wp/
-      data wg(7)/0.198431485327111576456118326443839_wp/
-      data wg(8)/0.202578241925561272880620199967519_wp/
-!
-      data xgk(1)/0.998002298693397060285172840152271_wp/
-      data xgk(2)/0.987992518020485428489565718586613_wp/
-      data xgk(3)/0.967739075679139134257347978784337_wp/
-      data xgk(4)/0.937273392400705904307758947710209_wp/
-      data xgk(5)/0.897264532344081900882509656454496_wp/
-      data xgk(6)/0.848206583410427216200648320774217_wp/
-      data xgk(7)/0.790418501442465932967649294817947_wp/
-      data xgk(8)/0.724417731360170047416186054613938_wp/
-      data xgk(9)/0.650996741297416970533735895313275_wp/
-      data xgk(10)/0.570972172608538847537226737253911_wp/
-      data xgk(11)/0.485081863640239680693655740232351_wp/
-      data xgk(12)/0.394151347077563369897207370981045_wp/
-      data xgk(13)/0.299180007153168812166780024266389_wp/
-      data xgk(14)/0.201194093997434522300628303394596_wp/
-      data xgk(15)/0.101142066918717499027074231447392_wp/
-      data xgk(16)/0.000000000000000000000000000000000_wp/
-!
-      data wgk(1)/0.005377479872923348987792051430128_wp/
-      data wgk(2)/0.015007947329316122538374763075807_wp/
-      data wgk(3)/0.025460847326715320186874001019653_wp/
-      data wgk(4)/0.035346360791375846222037948478360_wp/
-      data wgk(5)/0.044589751324764876608227299373280_wp/
-      data wgk(6)/0.053481524690928087265343147239430_wp/
-      data wgk(7)/0.062009567800670640285139230960803_wp/
-      data wgk(8)/0.069854121318728258709520077099147_wp/
-      data wgk(9)/0.076849680757720378894432777482659_wp/
-      data wgk(10)/0.083080502823133021038289247286104_wp/
-      data wgk(11)/0.088564443056211770647275443693774_wp/
-      data wgk(12)/0.093126598170825321225486872747346_wp/
-      data wgk(13)/0.096642726983623678505179907627589_wp/
-      data wgk(14)/0.099173598721791959332393173484603_wp/
-      data wgk(15)/0.100769845523875595044946662617570_wp/
-      data wgk(16)/0.101330007014791549017374792767493_wp/
-!
-!
-!           list of major variables
-!           -----------------------
-!           centr  - mid point of the interval
-!           hlgth  - half-length of the interval
-!           absc   - abscissa
-!           fval*  - function value
-!           resg   - result of the 15-point gauss formula
-!           resk   - result of the 31-point kronrod formula
-!           reskh  - approximation to the mean value of `f` over `(a,b)`,
-!                    i.e. to i/(b-a)
+      procedure(func) :: f !! function subprogram defining the integrand
+                           !! function `f(x)`.
+      real(wp),intent(in) :: a !! lower limit of integration
+      real(wp),intent(in) :: b !! upper limit of integration
+      real(wp),intent(out) :: Result !! approximation to the integral i
+                                     !! `result` is computed by applying the 31-point
+                                     !! gauss-kronrod rule (resk), obtained by optimal
+                                     !! addition of abscissae to the 15-point gauss
+                                     !! rule (resg).
+      real(wp),intent(out) :: Abserr !! estimate of the modulus of the modulus,
+                                     !! which should not exceed `abs(i-result)`
+      real(wp),intent(out) :: Resabs !! approximation to the integral j
+      real(wp),intent(out) :: Resasc !! approximation to the integral of `abs(f-i/(b-a))`
+                                     !! over `(a,b)`
+
+      real(wp) :: centr !! mid point of the interval
+      real(wp) :: hlgth !! half-length of the interval
+      real(wp) :: absc !! abscissa
+      real(wp) :: fval1 !! function value
+      real(wp) :: fval2 !! function value
+      real(wp) :: resg !! result of the 15-point gauss formula
+      real(wp) :: resk !! result of the 31-point kronrod formula
+      real(wp) :: reskh !! approximation to the mean value of `f` over `(a,b)`, i.e. to `i/(b-a)`
+      real(wp) :: dhlgth, fc, fsum, fv1(15), fv2(15)
+      integer :: j, jtw, jtwm1
+
+      ! the abscissae and weights are given for the interval (-1,1).
+      ! because of symmetry only the positive abscissae and their
+      ! corresponding weights are given.
+      !
+      ! gauss quadrature weights and kronrod quadrature abscissae and weights
+      ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
+      ! bell labs, nov. 1981.
+
+      real(wp),dimension(8),parameter :: wg = [ &
+            0.030753241996117268354628393577204_wp, &
+            0.070366047488108124709267416450667_wp, &
+            0.107159220467171935011869546685869_wp, &
+            0.139570677926154314447804794511028_wp, &
+            0.166269205816993933553200860481209_wp, &
+            0.186161000015562211026800561866423_wp, &
+            0.198431485327111576456118326443839_wp, &
+            0.202578241925561272880620199967519_wp ] !! weights of the 15-point gauss rule
+
+      real(wp),dimension(16),parameter :: xgk = [ &
+            0.998002298693397060285172840152271_wp, &
+            0.987992518020485428489565718586613_wp, &
+            0.967739075679139134257347978784337_wp, &
+            0.937273392400705904307758947710209_wp, &
+            0.897264532344081900882509656454496_wp, &
+            0.848206583410427216200648320774217_wp, &
+            0.790418501442465932967649294817947_wp, &
+            0.724417731360170047416186054613938_wp, &
+            0.650996741297416970533735895313275_wp, &
+            0.570972172608538847537226737253911_wp, &
+            0.485081863640239680693655740232351_wp, &
+            0.394151347077563369897207370981045_wp, &
+            0.299180007153168812166780024266389_wp, &
+            0.201194093997434522300628303394596_wp, &
+            0.101142066918717499027074231447392_wp, &
+            0.000000000000000000000000000000000_wp ] !! abscissae of the 31-point kronrod rule:
+                                                     !!
+                                                     !! * xgk(2), xgk(4), ...  abscissae of the 15-point
+                                                     !!   gauss rule
+                                                     !! * xgk(1), xgk(3), ...  abscissae which are optimally
+                                                     !!   added to the 15-point gauss rule
+
+      real(wp),dimension(16),parameter :: wgk = [ &
+            0.005377479872923348987792051430128_wp, &
+            0.015007947329316122538374763075807_wp, &
+            0.025460847326715320186874001019653_wp, &
+            0.035346360791375846222037948478360_wp, &
+            0.044589751324764876608227299373280_wp, &
+            0.053481524690928087265343147239430_wp, &
+            0.062009567800670640285139230960803_wp, &
+            0.069854121318728258709520077099147_wp, &
+            0.076849680757720378894432777482659_wp, &
+            0.083080502823133021038289247286104_wp, &
+            0.088564443056211770647275443693774_wp, &
+            0.093126598170825321225486872747346_wp, &
+            0.096642726983623678505179907627589_wp, &
+            0.099173598721791959332393173484603_wp, &
+            0.100769845523875595044946662617570_wp, &
+            0.101330007014791549017374792767493_wp ] !! weights of the 31-point kronrod rule
 
       centr = 0.5_wp*(a + b)
       hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
-!
-!           compute the 31-point kronrod approximation to
-!           the integral, and estimate the absolute error.
-!
+
+      ! compute the 31-point kronrod approximation to
+      ! the integral, and estimate the absolute error.
+
       fc = f(centr)
       resg = wg(8)*fc
       resk = wgk(16)*fc
@@ -6273,7 +6238,7 @@ module quadpack
       real(wp) :: fval2 !! function value
       real(wp) :: resg !! result of the 20-point gauss formula
       real(wp) :: resk !! result of the 41-point kronrod formula
-      real(wp) :: reskh !! approximation to mean value of `f` over `(a,b)`, i.e. to i/(b-a)
+      real(wp) :: reskh !! approximation to mean value of `f` over `(a,b)`, i.e. to `i/(b-a)`
 
       ! the abscissae and weights are given for the interval (-1,1).
       ! because of symmetry only the positive abscissae and their
