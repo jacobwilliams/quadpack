@@ -38,6 +38,19 @@ module quadpack
          implicit none
          real(wp), intent(in) :: x
       end function func
+
+      real(wp) function weight_func(x, a, b, c, d, i)
+         !! weight function interface for [[dqk15w]]
+         import :: wp
+         implicit none
+         real(wp),intent(in) :: x
+         real(wp),intent(in) :: a
+         real(wp),intent(in) :: b
+         real(wp),intent(in) :: c
+         real(wp),intent(in) :: d
+         integer,intent(in) :: i
+      end function weight_func
+
    end interface
 
    contains
@@ -5462,7 +5475,7 @@ module quadpack
 !           resg   - result of the 7-point gauss formula
 !           resk   - result of the 15-point kronrod formula
 !           reskh  - approximation to the mean value of `f` over `(a,b)`,
-!                    i.e. to i/(b-a)
+!                    i.e. to `i/(b-a)`
 
       centr = 0.5_wp*(a + b)
       hlgth = 0.5_wp*(b - a)
@@ -5709,125 +5722,79 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   810101   (yymmdd)
-!***revision date  830518   (mmddyy)
-!***keywords  15-point gauss-kronrod rules
-!***purpose  to compute i = integral of f*w over `(a,b)`, with error
-!                           estimate
-!                       j = integral of abs(f*w) over `(a,b)`
-!***description
+!  15-point gauss-kronrod rules
 !
-!           integration rules
-!           standard fortran subroutine
-!           real(wp) version
+!  to compute i = integral of f*w over `(a,b)`, with error
+!  estimate j = integral of abs(f*w) over `(a,b)`
 !
-!           parameters
-!             on entry
-!              f      - real(wp)
-!                       function subprogram defining the integrand
-!                       function f(x). the actual name for f needs to be
-!                       declared external in the driver program.
-!
-!              w      - real(wp)
-!                       function subprogram defining the integrand
-!                       weight function w(x). the actual name for w
-!                       needs to be declared external in the
-!                       calling program.
-!
-!              p1, p2, p3, p4 - real(wp)
-!                       parameters in the weight function
-!
-!              kp     - integer
-!                       key for indicating the type of weight function
-!
-!              a      - real(wp)
-!                       lower limit of integration
-!
-!              b      - real(wp)
-!                       upper limit of integration
-!
-!            on return
-!              result - real(wp)
-!                       approximation to the integral i
-!                       `result` is computed by applying the 15-point
-!                       kronrod rule (resk) obtained by optimal addition
-!                       of abscissae to the 7-point gauss rule (resg).
-!
-!              abserr - real(wp)
-!                       estimate of the modulus of the absolute error,
-!                       which should equal or exceed `abs(i-result)`
-!
-!              resabs - real(wp)
-!                       approximation to the integral of abs(f)
-!
-!              resasc - real(wp)
-!                       approximation to the integral of `abs(f-i/(b-a))`
+!### History
+!  * QUADPACK: date written 810101, revision date 830518 (yymmdd).
 
    subroutine dqk15w(f, w, p1, p2, p3, p4, Kp, a, b, Result, Abserr, Resabs, &
                      Resasc)
       implicit none
 
-      real(wp) a, absc, absc1, absc2, Abserr, b, centr, &
-         dhlgth, &
-         fc, fsum, fval1, fval2, fv1, fv2, &
-         hlgth, p1, p2, p3, p4, Resabs, Resasc, &
-         resg, resk, reskh, Result, w, wg, &
-         wgk, xgk
-      integer j, jtw, jtwm1, Kp
       procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
-      external :: w
-!
-      dimension fv1(7), fv2(7), xgk(8), wgk(8), wg(4)
-!
-!           the abscissae and weights are given for the interval (-1,1).
-!           because of symmetry only the positive abscissae and their
-!           corresponding weights are given.
-!
-!           xgk    - abscissae of the 15-point gauss-kronrod rule
-!                    xgk(2), xgk(4), ... abscissae of the 7-point
-!                    gauss rule
-!                    xgk(1), xgk(3), ... abscissae which are optimally
-!                    added to the 7-point gauss rule
-!
-!           wgk    - weights of the 15-point gauss-kronrod rule
-!
-!           wg     - weights of the 7-point gauss rule
-!
-      data xgk(1), xgk(2), xgk(3), xgk(4), xgk(5), xgk(6), xgk(7) &
-         , xgk(8)/0.9914553711208126_wp, 0.9491079123427585_wp, &
+      procedure(weight_func) :: w !! function subprogram defining the integrand weight function `w(x)`.
+      real(wp),intent(in) :: p1 !! parameter in the weight function
+      real(wp),intent(in) :: p2 !! parameter in the weight function
+      real(wp),intent(in) :: p3 !! parameter in the weight function
+      real(wp),intent(in) :: p4 !! parameter in the weight function
+      integer,intent(in) :: Kp !! key for indicating the type of weight function
+      real(wp),intent(in) :: a !! lower limit of integration
+      real(wp),intent(in) :: b !! upper limit of integration
+      real(wp),intent(out) :: Result !! approximation to the integral i
+                                     !! `result` is computed by applying the 15-point
+                                     !! kronrod rule (resk) obtained by optimal addition
+                                     !! of abscissae to the 7-point gauss rule (resg).
+      real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                     !! which should equal or exceed `abs(i-result)`
+      real(wp),intent(out) :: Resabs !! approximation to the integral of abs(f)
+      real(wp),intent(out) :: Resasc !! approximation to the integral of `abs(f-i/(b-a))`
+
+      real(wp) :: absc1, absc2, dhlgth, fc, fsum, fv1(7), fv2(7)
+      integer :: j, jtw, jtwm1
+      real(wp) :: centr !! mid point of the interval
+      real(wp) :: hlgth !! half-length of the interval
+      real(wp) :: absc !! abscissa
+      real(wp) :: fval1 !! function value
+      real(wp) :: fval2 !! function value
+      real(wp) :: resg !! result of the 7-point gauss formula
+      real(wp) :: resk !! result of the 15-point kronrod formula
+      real(wp) :: reskh !! approximation to the mean value of f*w over `(a,b)`, i.e. to `i/(b-a)`
+
+      ! the abscissae and weights are given for the interval (-1,1).
+      ! because of symmetry only the positive abscissae and their
+      ! corresponding weights are given.
+
+      real(wp),dimension(8),parameter :: xgk = [ &
+         0.9914553711208126_wp, 0.9491079123427585_wp, &
          0.8648644233597691_wp, 0.7415311855993944_wp, &
          0.5860872354676911_wp, 0.4058451513773972_wp, &
-         0.2077849550078985_wp, 0.0000000000000000_wp/
-!
-      data wgk(1), wgk(2), wgk(3), wgk(4), wgk(5), wgk(6), wgk(7) &
-         , wgk(8)/0.2293532201052922d-01, 0.6309209262997855d-01, &
+         0.2077849550078985_wp, 0.0000000000000000_wp ] !! abscissae of the 15-point gauss-kronrod rule:
+                                                        !!
+                                                        !! * xgk(2), xgk(4), ... abscissae of the 7-point
+                                                        !!   gauss rule
+                                                        !! * xgk(1), xgk(3), ... abscissae which are optimally
+                                                        !!   added to the 7-point gauss rule
+
+      real(wp),dimension(8),parameter :: wgk = [ &
+         0.2293532201052922d-01, 0.6309209262997855d-01, &
          0.1047900103222502_wp, 0.1406532597155259_wp, &
          0.1690047266392679_wp, 0.1903505780647854_wp, &
-         0.2044329400752989_wp, 0.2094821410847278_wp/
-!
-      data wg(1), wg(2), wg(3), wg(4)/0.1294849661688697_wp, &
-         0.2797053914892767_wp, 0.3818300505051189_wp, &
-         0.4179591836734694_wp/
+         0.2044329400752989_wp, 0.2094821410847278_wp ] !! weights of the 15-point gauss-kronrod rule
 
-!           list of major variables
-!           -----------------------
-!
-!           centr  - mid point of the interval
-!           hlgth  - half-length of the interval
-!           absc*  - abscissa
-!           fval*  - function value
-!           resg   - result of the 7-point gauss formula
-!           resk   - result of the 15-point kronrod formula
-!           reskh  - approximation to the mean value of f*w over `(a,b)`,
-!                    i.e. to i/(b-a)
+      real(wp),dimension(4),parameter :: wg = [ &
+         0.1294849661688697_wp, 0.2797053914892767_wp, &
+         0.3818300505051189_wp, 0.4179591836734694_wp ] !! weights of the 7-point gauss rule
 
       centr = 0.5_wp*(a + b)
       hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
-!
-!           compute the 15-point kronrod approximation to the
-!           integral, and estimate the error.
-!
+
+      ! compute the 15-point kronrod approximation to the
+      ! integral, and estimate the error.
+
       fc = f(centr)*w(centr, p1, p2, p3, p4, Kp)
       resg = wg(4)*fc
       resk = wgk(8)*fc
@@ -6450,7 +6417,7 @@ module quadpack
 !           resg   - result of the 25-point gauss formula
 !           resk   - result of the 51-point kronrod formula
 !           reskh  - approximation to the mean value of `f` over `(a,b)`,
-!                    i.e. to i/(b-a)
+!                    i.e. to `i/(b-a)`
 
       centr = 0.5_wp*(a + b)
       hlgth = 0.5_wp*(b - a)
@@ -7257,8 +7224,12 @@ module quadpack
    real(wp) function dqwgtc(x, c, p2, p3, p4, Kp)
       implicit none
 
-      real(wp) :: c, p2, p3, p4, x
-      integer :: Kp
+      real(wp),intent(in) :: c
+      real(wp),intent(in) :: p2
+      real(wp),intent(in) :: p3
+      real(wp),intent(in) :: p4
+      real(wp),intent(in) :: x
+      integer,intent(in) :: Kp
 
       dqwgtc = 1.0_wp/(x - c)
 
@@ -7278,14 +7249,17 @@ module quadpack
    real(wp) function dqwgtf(x, Omega, p2, p3, p4, Integr)
       implicit none
 
-      real(wp) :: Omega, omx, p2, p3, p4, x
-      integer :: Integr
+      real(wp),intent(in) :: x
+      real(wp),intent(in) :: Omega
+      real(wp),intent(in) :: p2
+      real(wp),intent(in) :: p3
+      real(wp),intent(in) :: p4
+      integer,intent(in) :: Integr
 
-      omx = Omega*x
       if (Integr == 2) then
-         dqwgtf = sin(omx)
+         dqwgtf = sin(Omega*x)
       else
-         dqwgtf = cos(omx)
+         dqwgtf = cos(Omega*x)
       end if
 
    end function dqwgtf
@@ -7305,8 +7279,14 @@ module quadpack
    real(wp) function dqwgts(x, a, b, Alfa, Beta, Integr)
       implicit none
 
-      real(wp) :: a, Alfa, b, Beta, bmx, x, xma
-      integer :: Integr
+      real(wp),intent(in) :: x
+      real(wp),intent(in) :: a
+      real(wp),intent(in) :: b
+      real(wp),intent(in) :: Alfa
+      real(wp),intent(in) :: Beta
+      integer,intent(in) :: Integr
+
+      real(wp) :: bmx, xma
 
       xma = x - a
       bmx = b - x
