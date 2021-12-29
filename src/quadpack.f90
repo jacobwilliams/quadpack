@@ -58,7 +58,7 @@ module quadpack
 
       implicit none
 
-      procedure(func) :: f !! function subprogam defining the integrand function f(x).
+      procedure(func) :: f !! function subprogam defining the integrand function `f(x)`.
       real(wp), intent(in) :: a !! lower limit of integration
       real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
                                      !! which should equal or exceed `abs(i-result)`
@@ -196,7 +196,7 @@ module quadpack
                     Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)
       implicit none
 
-      procedure(func) :: f !! function subprogram defining the integrand function f(x).
+      procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
       real(wp), intent(in) :: a !! lower limit of integration
       real(wp), intent(in) :: b !! uppwer limit of integration
       real(wp), intent(in) :: Epsabs !! absolute accuracy requested
@@ -474,7 +474,7 @@ module quadpack
                     Ier, Limit, Lenw, Last, Iwork, Work)
       implicit none
 
-      procedure(func) :: f !! function subprogram defining the integrand function f(x).
+      procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
       real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
                                    !! which should equal or exceed `abs(i-result)`
       real(wp), intent(in) :: Bound !! finite bound of integration range
@@ -622,7 +622,7 @@ module quadpack
                      Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)
       implicit none
 
-      procedure(func) :: f !! function subprogram defining the integrand function f(x).
+      procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
       integer, intent(in) :: Limit !! gives an upper bound on the number of subintervals
                                    !! in the partition of `(a,b)`, `limit>=1`
       real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
@@ -999,7 +999,7 @@ module quadpack
                      Neval, Ier, Leniw, Lenw, Last, Iwork, Work)
     implicit none
 
-    procedure(func) :: f !! function subprogram defining the integrand function f(x).
+    procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
     real(wp),intent(in) :: a !! lower limit of integration
     real(wp),intent(in) :: b !! upper limit of integration
     integer,intent(in) :: Npts2 !! number equal to two more than the number of
@@ -2153,7 +2153,7 @@ module quadpack
                      Limit, Lenw, Last, Iwork, Work)
     implicit none
 
-    procedure(func) :: f !! function subprogram defining the integrand function f(x).
+    procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
     real(wp),intent(in) :: a !! under limit of integration
     real(wp),intent(in) :: b !! upper limit of integration
     real(wp),intent(in) :: c !! parameter in the weight function, `c/=a`, `c/=b`.
@@ -2279,7 +2279,7 @@ module quadpack
                      Ier, Alist, Blist, Rlist, Elist, Iord, Last)
       implicit none
 
-      procedure(func) :: f !! function subprogram defining the integrand function f(x).
+      procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
       real(wp),intent(in) :: a !! lower limit of integration
       real(wp),intent(in) :: b !! upper limit of integration
       real(wp),intent(in) :: Epsabs !! absolute accuracy requested
@@ -2525,7 +2525,7 @@ module quadpack
                      Limlst, Lst, Leniw, Maxp1, Lenw, Iwork, Work)
     implicit none
 
-    procedure(func) :: f !! function subprogram defining the integrand function f(x).
+    procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
     real(wp),intent(in) :: a !! lower limit of integration
     real(wp),intent(in) :: Omega !! parameter in the integrand weight function
     integer,intent(in) :: Integr !! indicates which of the weight functions is used:
@@ -2712,7 +2712,7 @@ module quadpack
                       Alist, Blist, Rlist, Elist, Iord, Nnlog, Chebmo)
     implicit none
 
-    procedure(func) :: f !! function subprogram defining the integrand function f(x).
+    procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
     real(wp),intent(in) :: a !! lower limit of integration
     real(wp),intent(in) :: Omega !! parameter in the weight function
     integer,intent(in) :: Integr !! indicates which weight function is used:
@@ -6650,178 +6650,142 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  61-point gauss-kronrod rules
-!***purpose  to compute i = integral of `f` over `(a,b)` with error
-!                           estimate
-!                       j = integral of abs(f) over (a,b)
-!***description
+!  61-point gauss-kronrod rules
 !
-!        integration rule
+!  to compute i = integral of `f` over `(a,b)` with error
+!  estimate j = integral of `abs(f)` over `(a,b)`.
 !
-!
-!        parameters
-!         on entry
-!           f      - real(wp)
-!                    function subprogram defining the integrand
-!                    function f(x). the actual name for f needs to be
-!                    declared external in the calling program.
-!
-!           a      - real(wp)
-!                    lower limit of integration
-!
-!           b      - real(wp)
-!                    upper limit of integration
-!
-!         on return
-!           result - real(wp)
-!                    approximation to the integral i
-!                    result is computed by applying the 61-point
-!                    kronrod rule (resk) obtained by optimal addition of
-!                    abscissae to the 30-point gauss rule (resg).
-!
-!           abserr - real(wp)
-!                    estimate of the modulus of the absolute error,
-!                    which should equal or exceed `abs(i-result)`
-!
-!           resabs - real(wp)
-!                    approximation to the integral j
-!
-!           resasc - real(wp)
-!                    approximation to the integral of abs(f-i/(b-a))
+!### History
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd),
 
    subroutine dqk61(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a, dabsc, Abserr, b, centr, dhlgth, &
-         fc, fsum, &
-         fval1, fval2, fv1, fv2, hlgth, Resabs, &
-         Resasc, resg, resk, reskh, Result, &
-         wg, wgk, xgk
-      integer j, jtw, jtwm1
-      procedure(func) :: f
-!
-      dimension fv1(30), fv2(30), xgk(31), wgk(31), wg(15)
-!
-!           the abscissae and weights are given for the
-!           interval (-1,1). because of symmetry only the positive
-!           abscissae and their corresponding weights are given.
-!
-!           xgk   - abscissae of the 61-point kronrod rule
-!                   xgk(2), xgk(4)  ... abscissae of the 30-point
-!                   gauss rule
-!                   xgk(1), xgk(3)  ... optimally added abscissae
-!                   to the 30-point gauss rule
-!
-!           wgk   - weights of the 61-point kronrod rule
-!
-!           wg    - weigths of the 30-point gauss rule
-!
-!
-! gauss quadrature weights and kronrod quadrature abscissae and weights
-! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-! bell labs, nov. 1981.
-!
-      data wg(1)/0.007968192496166605615465883474674_wp/
-      data wg(2)/0.018466468311090959142302131912047_wp/
-      data wg(3)/0.028784707883323369349719179611292_wp/
-      data wg(4)/0.038799192569627049596801936446348_wp/
-      data wg(5)/0.048402672830594052902938140422808_wp/
-      data wg(6)/0.057493156217619066481721689402056_wp/
-      data wg(7)/0.065974229882180495128128515115962_wp/
-      data wg(8)/0.073755974737705206268243850022191_wp/
-      data wg(9)/0.080755895229420215354694938460530_wp/
-      data wg(10)/0.086899787201082979802387530715126_wp/
-      data wg(11)/0.092122522237786128717632707087619_wp/
-      data wg(12)/0.096368737174644259639468626351810_wp/
-      data wg(13)/0.099593420586795267062780282103569_wp/
-      data wg(14)/0.101762389748405504596428952168554_wp/
-      data wg(15)/0.102852652893558840341285636705415_wp/
-!
-      data xgk(1)/0.999484410050490637571325895705811_wp/
-      data xgk(2)/0.996893484074649540271630050918695_wp/
-      data xgk(3)/0.991630996870404594858628366109486_wp/
-      data xgk(4)/0.983668123279747209970032581605663_wp/
-      data xgk(5)/0.973116322501126268374693868423707_wp/
-      data xgk(6)/0.960021864968307512216871025581798_wp/
-      data xgk(7)/0.944374444748559979415831324037439_wp/
-      data xgk(8)/0.926200047429274325879324277080474_wp/
-      data xgk(9)/0.905573307699907798546522558925958_wp/
-      data xgk(10)/0.882560535792052681543116462530226_wp/
-      data xgk(11)/0.857205233546061098958658510658944_wp/
-      data xgk(12)/0.829565762382768397442898119732502_wp/
-      data xgk(13)/0.799727835821839083013668942322683_wp/
-      data xgk(14)/0.767777432104826194917977340974503_wp/
-      data xgk(15)/0.733790062453226804726171131369528_wp/
-      data xgk(16)/0.697850494793315796932292388026640_wp/
-      data xgk(17)/0.660061064126626961370053668149271_wp/
-      data xgk(18)/0.620526182989242861140477556431189_wp/
-      data xgk(19)/0.579345235826361691756024932172540_wp/
-      data xgk(20)/0.536624148142019899264169793311073_wp/
-      data xgk(21)/0.492480467861778574993693061207709_wp/
-      data xgk(22)/0.447033769538089176780609900322854_wp/
-      data xgk(23)/0.400401254830394392535476211542661_wp/
-      data xgk(24)/0.352704725530878113471037207089374_wp/
-      data xgk(25)/0.304073202273625077372677107199257_wp/
-      data xgk(26)/0.254636926167889846439805129817805_wp/
-      data xgk(27)/0.204525116682309891438957671002025_wp/
-      data xgk(28)/0.153869913608583546963794672743256_wp/
-      data xgk(29)/0.102806937966737030147096751318001_wp/
-      data xgk(30)/0.051471842555317695833025213166723_wp/
-      data xgk(31)/0.000000000000000000000000000000000_wp/
-!
-      data wgk(1)/0.001389013698677007624551591226760_wp/
-      data wgk(2)/0.003890461127099884051267201844516_wp/
-      data wgk(3)/0.006630703915931292173319826369750_wp/
-      data wgk(4)/0.009273279659517763428441146892024_wp/
-      data wgk(5)/0.011823015253496341742232898853251_wp/
-      data wgk(6)/0.014369729507045804812451432443580_wp/
-      data wgk(7)/0.016920889189053272627572289420322_wp/
-      data wgk(8)/0.019414141193942381173408951050128_wp/
-      data wgk(9)/0.021828035821609192297167485738339_wp/
-      data wgk(10)/0.024191162078080601365686370725232_wp/
-      data wgk(11)/0.026509954882333101610601709335075_wp/
-      data wgk(12)/0.028754048765041292843978785354334_wp/
-      data wgk(13)/0.030907257562387762472884252943092_wp/
-      data wgk(14)/0.032981447057483726031814191016854_wp/
-      data wgk(15)/0.034979338028060024137499670731468_wp/
-      data wgk(16)/0.036882364651821229223911065617136_wp/
-      data wgk(17)/0.038678945624727592950348651532281_wp/
-      data wgk(18)/0.040374538951535959111995279752468_wp/
-      data wgk(19)/0.041969810215164246147147541285970_wp/
-      data wgk(20)/0.043452539701356069316831728117073_wp/
-      data wgk(21)/0.044814800133162663192355551616723_wp/
-      data wgk(22)/0.046059238271006988116271735559374_wp/
-      data wgk(23)/0.047185546569299153945261478181099_wp/
-      data wgk(24)/0.048185861757087129140779492298305_wp/
-      data wgk(25)/0.049055434555029778887528165367238_wp/
-      data wgk(26)/0.049795683427074206357811569379942_wp/
-      data wgk(27)/0.050405921402782346840893085653585_wp/
-      data wgk(28)/0.050881795898749606492297473049805_wp/
-      data wgk(29)/0.051221547849258772170656282604944_wp/
-      data wgk(30)/0.051426128537459025933862879215781_wp/
-      data wgk(31)/0.051494729429451567558340433647099_wp/
-!
-!           list of major variables
-!           -----------------------
-!
-!           centr  - mid point of the interval
-!           hlgth  - half-length of the interval
-!           dabsc  - abscissa
-!           fval*  - function value
-!           resg   - result of the 30-point gauss rule
-!           resk   - result of the 61-point kronrod rule
-!           reskh  - approximation to the mean value of f
-!                    over (a,b), i.e. to i/(b-a)
+      procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
+      real(wp),intent(in) :: a !! lower limit of integration
+      real(wp),intent(in) :: b !! upper limit of integration
+      real(wp),intent(out) :: Result !! approximation to the integral i
+                                     !! result is computed by applying the 61-point
+                                     !! kronrod rule (resk) obtained by optimal addition of
+                                     !! abscissae to the 30-point gauss rule (resg).
+      real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                     !! which should equal or exceed `abs(i-result)`
+      real(wp),intent(out) :: Resabs !! approximation to the integral j
+      real(wp),intent(out) :: Resasc !! approximation to the integral of `abs(f-i/(b-a))`
+
+      real(wp) :: dhlgth, fc, fsum, fv1(30), fv2(30)
+      integer :: j, jtw, jtwm1
+      real(wp) :: centr !! mid point of the interval
+      real(wp) :: hlgth !! half-length of the interval
+      real(wp) :: dabsc !! abscissa
+      real(wp) :: fval1 !! function value
+      real(wp) :: fval2 !! function value
+      real(wp) :: resg !! result of the 30-point gauss rule
+      real(wp) :: resk !! result of the 61-point kronrod rule
+      real(wp) :: reskh !! approximation to the mean value of `f` over `(a,b)`, i.e. to `i/(b-a)`
+
+      ! the abscissae and weights are given for the
+      ! interval (-1,1). because of symmetry only the positive
+      ! abscissae and their corresponding weights are given.
+      !
+      ! gauss quadrature weights and kronrod quadrature abscissae and weights
+      ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
+      ! bell labs, nov. 1981.
+
+      real(wp),dimension(15),parameter :: wg = [ &
+            0.007968192496166605615465883474674_wp, &
+            0.018466468311090959142302131912047_wp, &
+            0.028784707883323369349719179611292_wp, &
+            0.038799192569627049596801936446348_wp, &
+            0.048402672830594052902938140422808_wp, &
+            0.057493156217619066481721689402056_wp, &
+            0.065974229882180495128128515115962_wp, &
+            0.073755974737705206268243850022191_wp, &
+            0.080755895229420215354694938460530_wp, &
+            0.086899787201082979802387530715126_wp, &
+            0.092122522237786128717632707087619_wp, &
+            0.096368737174644259639468626351810_wp, &
+            0.099593420586795267062780282103569_wp, &
+            0.101762389748405504596428952168554_wp, &
+            0.102852652893558840341285636705415_wp ] !! weigths of the 30-point gauss rule
+
+      real(wp),dimension(31),parameter :: xgk = [ &
+            0.999484410050490637571325895705811_wp, &
+            0.996893484074649540271630050918695_wp, &
+            0.991630996870404594858628366109486_wp, &
+            0.983668123279747209970032581605663_wp, &
+            0.973116322501126268374693868423707_wp, &
+            0.960021864968307512216871025581798_wp, &
+            0.944374444748559979415831324037439_wp, &
+            0.926200047429274325879324277080474_wp, &
+            0.905573307699907798546522558925958_wp, &
+            0.882560535792052681543116462530226_wp, &
+            0.857205233546061098958658510658944_wp, &
+            0.829565762382768397442898119732502_wp, &
+            0.799727835821839083013668942322683_wp, &
+            0.767777432104826194917977340974503_wp, &
+            0.733790062453226804726171131369528_wp, &
+            0.697850494793315796932292388026640_wp, &
+            0.660061064126626961370053668149271_wp, &
+            0.620526182989242861140477556431189_wp, &
+            0.579345235826361691756024932172540_wp, &
+            0.536624148142019899264169793311073_wp, &
+            0.492480467861778574993693061207709_wp, &
+            0.447033769538089176780609900322854_wp, &
+            0.400401254830394392535476211542661_wp, &
+            0.352704725530878113471037207089374_wp, &
+            0.304073202273625077372677107199257_wp, &
+            0.254636926167889846439805129817805_wp, &
+            0.204525116682309891438957671002025_wp, &
+            0.153869913608583546963794672743256_wp, &
+            0.102806937966737030147096751318001_wp, &
+            0.051471842555317695833025213166723_wp, &
+            0.000000000000000000000000000000000_wp ] !! abscissae of the 61-point kronrod rule:
+                                                     !!
+                                                     !! * `xgk(2), xgk(4)`  ... abscissae of the 30-point
+                                                     !!   gauss rule
+                                                     !! * `xgk(1), xgk(3)`  ... optimally added abscissae
+                                                     !!   to the 30-point gauss rule
+
+      real(wp),dimension(31),parameter :: wgk = [ &
+            0.001389013698677007624551591226760_wp, &
+            0.003890461127099884051267201844516_wp, &
+            0.006630703915931292173319826369750_wp, &
+            0.009273279659517763428441146892024_wp, &
+            0.011823015253496341742232898853251_wp, &
+            0.014369729507045804812451432443580_wp, &
+            0.016920889189053272627572289420322_wp, &
+            0.019414141193942381173408951050128_wp, &
+            0.021828035821609192297167485738339_wp, &
+            0.024191162078080601365686370725232_wp, &
+            0.026509954882333101610601709335075_wp, &
+            0.028754048765041292843978785354334_wp, &
+            0.030907257562387762472884252943092_wp, &
+            0.032981447057483726031814191016854_wp, &
+            0.034979338028060024137499670731468_wp, &
+            0.036882364651821229223911065617136_wp, &
+            0.038678945624727592950348651532281_wp, &
+            0.040374538951535959111995279752468_wp, &
+            0.041969810215164246147147541285970_wp, &
+            0.043452539701356069316831728117073_wp, &
+            0.044814800133162663192355551616723_wp, &
+            0.046059238271006988116271735559374_wp, &
+            0.047185546569299153945261478181099_wp, &
+            0.048185861757087129140779492298305_wp, &
+            0.049055434555029778887528165367238_wp, &
+            0.049795683427074206357811569379942_wp, &
+            0.050405921402782346840893085653585_wp, &
+            0.050881795898749606492297473049805_wp, &
+            0.051221547849258772170656282604944_wp, &
+            0.051426128537459025933862879215781_wp, &
+            0.051494729429451567558340433647099_wp ] !! weights of the 61-point kronrod rule
 
       centr = 0.5_wp*(b + a)
       hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
-!
-!           compute the 61-point kronrod approximation to the
-!           integral, and estimate the absolute error.
-!
+
+      ! compute the 61-point kronrod approximation to the
+      ! integral, and estimate the absolute error.
 
       resg = 0.0_wp
       fc = f(centr)
@@ -6986,7 +6950,7 @@ module quadpack
    subroutine dqng(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier)
       implicit none
 
-      procedure(func) :: f !! function subprogram defining the integrand function f(x).
+      procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
       real(wp),intent(in) :: a !! lower limit of integration
       real(wp),intent(in) :: b !! upper limit of integration
       real(wp),intent(in) :: Epsabs !! absolute accuracy requested
