@@ -3730,7 +3730,7 @@ module quadpack
 !***author  piessens,robert,appl. math. & progr. div. -k.u.leuven
 !           de doncker,elise,appl. math. & progr. div. - k.u.leuven
 !***purpose  the routine calculates an approximation result to a given
-!            definite integral i = integral of f*w over (a,b),
+!            definite integral i = integral of f*w over `(a,b)`,
 !            (where w shows a singular behaviour at the end points
 !            see parameter integr).
 !            hopefully satisfying following claim for accuracy
@@ -3924,7 +3924,7 @@ module quadpack
 !             algebraico-logarithmic end point singularities,
 !             clenshaw-curtis method
 !***purpose  the routine calculates an approximation result to a given
-!            definite integral i = integral of f*w over (a,b),
+!            definite integral i = integral of f*w over `(a,b)`,
 !            (where w shows a singular behaviour at the end points,
 !            see parameter integr).
 !            hopefully satisfying following claim for accuracy
@@ -5358,7 +5358,7 @@ module quadpack
 !***keywords  15-point gauss-kronrod rules
 !***purpose  to compute i = integral of `f` over `(a,b)`, with error
 !                           estimate
-!                       j = integral of abs(f) over (a,b)
+!                       j = integral of `abs(f)` over `(a,b)`
 !***description
 !
 !           integration rules
@@ -5381,20 +5381,20 @@ module quadpack
 !            on return
 !              result - real(wp)
 !                       approximation to the integral i
-!                       result is computed by applying the 15-point
+!                       `result` is computed by applying the 15-point
 !                       kronrod rule (resk) obtained by optimal addition
 !                       of abscissae to the7-point gauss rule(resg).
 !
 !              abserr - real(wp)
 !                       estimate of the modulus of the absolute error,
-!                       which should not exceed abs(i-result)
+!                       which should not exceed `abs(i-result)`
 !
 !              resabs - real(wp)
 !                       approximation to the integral j
 !
 !              resasc - real(wp)
-!                       approximation to the integral of abs(f-i/(b-a))
-!                       over (a,b)
+!                       approximation to the integral of `abs(f-i/(b-a))`
+!                       over `(a,b)`
 
    subroutine dqk15(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
@@ -5525,8 +5525,8 @@ module quadpack
 !***purpose  the original (infinite integration range is mapped
 !            onto the interval (0,1) and (a,b) is a part of (0,1).
 !            it is the purpose to compute
-!            i = integral of transformed integrand over (a,b),
-!            j = integral of abs(transformed integrand) over (a,b).
+!            i = integral of transformed integrand over `(a,b)`,
+!            j = integral of abs(transformed integrand) over `(a,b)`.
 !***description
 !
 !           integration rule
@@ -5566,7 +5566,7 @@ module quadpack
 !            on return
 !              result - real(wp)
 !                       approximation to the integral i
-!                       result is computed by applying the 15-point
+!                       `result` is computed by applying the 15-point
 !                       kronrod rule(resk) obtained by optimal addition
 !                       of abscissae to the 7-point gauss rule(resg).
 !
@@ -5579,7 +5579,7 @@ module quadpack
 !
 !              resasc - real(wp)
 !                       approximation to the integral of
-!                       abs((transformed integrand)-i/(b-a)) over (a,b)
+!                       abs((transformed integrand)-i/(b-a)) over `(a,b)`
 
    subroutine dqk15i(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
@@ -5650,7 +5650,7 @@ module quadpack
 !           resg   - result of the 7-point gauss formula
 !           resk   - result of the 15-point kronrod formula
 !           reskh  - approximation to the mean value of the transformed
-!                    integrand over (a,b), i.e. to i/(b-a)
+!                    integrand over `(a,b)`, i.e. to i/(b-a)
 
       dinf = min(1, Inf)
 !
@@ -5712,9 +5712,9 @@ module quadpack
 !***date written   810101   (yymmdd)
 !***revision date  830518   (mmddyy)
 !***keywords  15-point gauss-kronrod rules
-!***purpose  to compute i = integral of f*w over (a,b), with error
+!***purpose  to compute i = integral of f*w over `(a,b)`, with error
 !                           estimate
-!                       j = integral of abs(f*w) over (a,b)
+!                       j = integral of abs(f*w) over `(a,b)`
 !***description
 !
 !           integration rules
@@ -5749,7 +5749,7 @@ module quadpack
 !            on return
 !              result - real(wp)
 !                       approximation to the integral i
-!                       result is computed by applying the 15-point
+!                       `result` is computed by applying the 15-point
 !                       kronrod rule (resk) obtained by optimal addition
 !                       of abscissae to the 7-point gauss rule (resg).
 !
@@ -5761,7 +5761,7 @@ module quadpack
 !                       approximation to the integral of abs(f)
 !
 !              resasc - real(wp)
-!                       approximation to the integral of abs(f-i/(b-a))
+!                       approximation to the integral of `abs(f-i/(b-a))`
 
    subroutine dqk15w(f, w, p1, p2, p3, p4, Kp, a, b, Result, Abserr, Resabs, &
                      Resasc)
@@ -5818,7 +5818,7 @@ module quadpack
 !           fval*  - function value
 !           resg   - result of the 7-point gauss formula
 !           resk   - result of the 15-point kronrod formula
-!           reskh  - approximation to the mean value of f*w over (a,b),
+!           reskh  - approximation to the mean value of f*w over `(a,b)`,
 !                    i.e. to i/(b-a)
 
       centr = 0.5_wp*(a + b)
@@ -5885,7 +5885,7 @@ module quadpack
 !***keywords  21-point gauss-kronrod rules
 !***purpose  to compute i = integral of `f` over `(a,b)`, with error
 !                           estimate
-!                       j = integral of abs(f) over (a,b)
+!                       j = integral of `abs(f)` over `(a,b)`
 !***description
 !
 !           integration rules
@@ -5908,20 +5908,20 @@ module quadpack
 !            on return
 !              result - real(wp)
 !                       approximation to the integral i
-!                       result is computed by applying the 21-point
+!                       `result` is computed by applying the 21-point
 !                       kronrod rule (resk) obtained by optimal addition
 !                       of abscissae to the 10-point gauss rule (resg).
 !
 !              abserr - real(wp)
 !                       estimate of the modulus of the absolute error,
-!                       which should not exceed abs(i-result)
+!                       which should not exceed `abs(i-result)`
 !
 !              resabs - real(wp)
 !                       approximation to the integral j
 !
 !              resasc - real(wp)
-!                       approximation to the integral of abs(f-i/(b-a))
-!                       over (a,b)
+!                       approximation to the integral of `abs(f-i/(b-a))`
+!                       over `(a,b)`
 
    subroutine dqk21(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
@@ -6058,7 +6058,7 @@ module quadpack
 !***keywords  31-point gauss-kronrod rules
 !***purpose  to compute i = integral of `f` over `(a,b)` with error
 !                           estimate
-!                       j = integral of abs(f) over (a,b)
+!                       j = integral of `abs(f)` over `(a,b)`
 !***description
 !
 !           integration rules
@@ -6081,21 +6081,21 @@ module quadpack
 !            on return
 !              result - real(wp)
 !                       approximation to the integral i
-!                       result is computed by applying the 31-point
+!                       `result` is computed by applying the 31-point
 !                       gauss-kronrod rule (resk), obtained by optimal
 !                       addition of abscissae to the 15-point gauss
 !                       rule (resg).
 !
 !              abserr - double precison
 !                       estimate of the modulus of the modulus,
-!                       which should not exceed abs(i-result)
+!                       which should not exceed `abs(i-result)`
 !
 !              resabs - real(wp)
 !                       approximation to the integral j
 !
 !              resasc - real(wp)
-!                       approximation to the integral of abs(f-i/(b-a))
-!                       over (a,b)
+!                       approximation to the integral of `abs(f-i/(b-a))`
+!                       over `(a,b)`
 
    subroutine dqk31(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
@@ -6244,7 +6244,7 @@ module quadpack
 !***keywords  41-point gauss-kronrod rules
 !***purpose  to compute i = integral of `f` over `(a,b)`, with error
 !                           estimate
-!                       j = integral of abs(f) over (a,b)
+!                       j = integral of `abs(f)` over `(a,b)`
 !***description
 !
 !           integration rules
@@ -6267,21 +6267,21 @@ module quadpack
 !            on return
 !              result - real(wp)
 !                       approximation to the integral i
-!                       result is computed by applying the 41-point
+!                       `result` is computed by applying the 41-point
 !                       gauss-kronrod rule (resk) obtained by optimal
 !                       addition of abscissae to the 20-point gauss
 !                       rule (resg).
 !
 !              abserr - real(wp)
 !                       estimate of the modulus of the absolute error,
-!                       which should not exceed abs(i-result)
+!                       which should not exceed `abs(i-result)`
 !
 !              resabs - real(wp)
 !                       approximation to the integral j
 !
 !              resasc - real(wp)
 !                       approximation to the integal of abs(f-i/(b-a))
-!                       over (a,b)
+!                       over `(a,b)`
 
    subroutine dqk41(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
@@ -6438,154 +6438,121 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  51-point gauss-kronrod rules
-!***purpose  to compute i = integral of `f` over `(a,b)` with error
-!                           estimate
-!                       j = integral of abs(f) over (a,b)
-!***description
+!  51-point gauss-kronrod rules
 !
-!           integration rules
-!           standard fortran subroutine
-!           real(wp) version
+!  to compute i = integral of `f` over `(a,b)` with error
+!  estimate j = integral of `abs(f)` over `(a,b)`
 !
-!           parameters
-!            on entry
-!              f      - real(wp)
-!                       function subroutine defining the integrand
-!                       function f(x). the actual name for f needs to be
-!                       declared external in the calling program.
-!
-!              a      - real(wp)
-!                       lower limit of integration
-!
-!              b      - real(wp)
-!                       upper limit of integration
-!
-!            on return
-!              result - real(wp)
-!                       approximation to the integral i
-!                       result is computed by applying the 51-point
-!                       kronrod rule (resk) obtained by optimal addition
-!                       of abscissae to the 25-point gauss rule (resg).
-!
-!              abserr - real(wp)
-!                       estimate of the modulus of the absolute error,
-!                       which should not exceed abs(i-result)
-!
-!              resabs - real(wp)
-!                       approximation to the integral j
-!
-!              resasc - real(wp)
-!                       approximation to the integral of abs(f-i/(b-a))
-!                       over (a,b)
+!### History
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd),
 
    subroutine dqk51(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a, absc, Abserr, b, centr, dhlgth, &
-         fc, fsum, &
-         fval1, fval2, fv1, fv2, hlgth, Resabs, &
-         Resasc, resg, resk, reskh, Result, &
-         wg, wgk, xgk
-      integer j, jtw, jtwm1
-      procedure(func) :: f
-!
-      dimension fv1(25), fv2(25), xgk(26), wgk(26), wg(13)
-!
-!           the abscissae and weights are given for the interval (-1,1).
-!           because of symmetry only the positive abscissae and their
-!           corresponding weights are given.
-!
-!           xgk    - abscissae of the 51-point kronrod rule
-!                    xgk(2), xgk(4), ...  abscissae of the 25-point
-!                    gauss rule
-!                    xgk(1), xgk(3), ...  abscissae which are optimally
-!                    added to the 25-point gauss rule
-!
-!           wgk    - weights of the 51-point kronrod rule
-!
-!           wg     - weights of the 25-point gauss rule
-!
-!
-! gauss quadrature weights and kronrod quadrature abscissae and weights
-! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-! bell labs, nov. 1981.
-!
-      data wg(1)/0.011393798501026287947902964113235_wp/
-      data wg(2)/0.026354986615032137261901815295299_wp/
-      data wg(3)/0.040939156701306312655623487711646_wp/
-      data wg(4)/0.054904695975835191925936891540473_wp/
-      data wg(5)/0.068038333812356917207187185656708_wp/
-      data wg(6)/0.080140700335001018013234959669111_wp/
-      data wg(7)/0.091028261982963649811497220702892_wp/
-      data wg(8)/0.100535949067050644202206890392686_wp/
-      data wg(9)/0.108519624474263653116093957050117_wp/
-      data wg(10)/0.114858259145711648339325545869556_wp/
-      data wg(11)/0.119455763535784772228178126512901_wp/
-      data wg(12)/0.122242442990310041688959518945852_wp/
-      data wg(13)/0.123176053726715451203902873079050_wp/
-!
-      data xgk(1)/0.999262104992609834193457486540341_wp/
-      data xgk(2)/0.995556969790498097908784946893902_wp/
-      data xgk(3)/0.988035794534077247637331014577406_wp/
-      data xgk(4)/0.976663921459517511498315386479594_wp/
-      data xgk(5)/0.961614986425842512418130033660167_wp/
-      data xgk(6)/0.942974571228974339414011169658471_wp/
-      data xgk(7)/0.920747115281701561746346084546331_wp/
-      data xgk(8)/0.894991997878275368851042006782805_wp/
-      data xgk(9)/0.865847065293275595448996969588340_wp/
-      data xgk(10)/0.833442628760834001421021108693570_wp/
-      data xgk(11)/0.797873797998500059410410904994307_wp/
-      data xgk(12)/0.759259263037357630577282865204361_wp/
-      data xgk(13)/0.717766406813084388186654079773298_wp/
-      data xgk(14)/0.673566368473468364485120633247622_wp/
-      data xgk(15)/0.626810099010317412788122681624518_wp/
-      data xgk(16)/0.577662930241222967723689841612654_wp/
-      data xgk(17)/0.526325284334719182599623778158010_wp/
-      data xgk(18)/0.473002731445714960522182115009192_wp/
-      data xgk(19)/0.417885382193037748851814394594572_wp/
-      data xgk(20)/0.361172305809387837735821730127641_wp/
-      data xgk(21)/0.303089538931107830167478909980339_wp/
-      data xgk(22)/0.243866883720988432045190362797452_wp/
-      data xgk(23)/0.183718939421048892015969888759528_wp/
-      data xgk(24)/0.122864692610710396387359818808037_wp/
-      data xgk(25)/0.061544483005685078886546392366797_wp/
-      data xgk(26)/0.000000000000000000000000000000000_wp/
-!
-      data wgk(1)/0.001987383892330315926507851882843_wp/
-      data wgk(2)/0.005561932135356713758040236901066_wp/
-      data wgk(3)/0.009473973386174151607207710523655_wp/
-      data wgk(4)/0.013236229195571674813656405846976_wp/
-      data wgk(5)/0.016847817709128298231516667536336_wp/
-      data wgk(6)/0.020435371145882835456568292235939_wp/
-      data wgk(7)/0.024009945606953216220092489164881_wp/
-      data wgk(8)/0.027475317587851737802948455517811_wp/
-      data wgk(9)/0.030792300167387488891109020215229_wp/
-      data wgk(10)/0.034002130274329337836748795229551_wp/
-      data wgk(11)/0.037116271483415543560330625367620_wp/
-      data wgk(12)/0.040083825504032382074839284467076_wp/
-      data wgk(13)/0.042872845020170049476895792439495_wp/
-      data wgk(14)/0.045502913049921788909870584752660_wp/
-      data wgk(15)/0.047982537138836713906392255756915_wp/
-      data wgk(16)/0.050277679080715671963325259433440_wp/
-      data wgk(17)/0.052362885806407475864366712137873_wp/
-      data wgk(18)/0.054251129888545490144543370459876_wp/
-      data wgk(19)/0.055950811220412317308240686382747_wp/
-      data wgk(20)/0.057437116361567832853582693939506_wp/
-      data wgk(21)/0.058689680022394207961974175856788_wp/
-      data wgk(22)/0.059720340324174059979099291932562_wp/
-      data wgk(23)/0.060539455376045862945360267517565_wp/
-      data wgk(24)/0.061128509717053048305859030416293_wp/
-      data wgk(25)/0.061471189871425316661544131965264_wp/
-!       note: wgk (26) was calculated from the values of wgk(1..25)
-      data wgk(26)/0.061580818067832935078759824240066_wp/
-!
-!
-!           list of major variables
-!           -----------------------
-!
+      procedure(func) :: f !! function subroutine defining the integrand function f(x).
+      real(wp),intent(in) :: a !! lower limit of integration
+      real(wp),intent(in) :: b !! upper limit of integration
+      real(wp),intent(out) :: Result !! approximation to the integral i.
+                                     !! `result` is computed by applying the 51-point
+                                     !! kronrod rule (resk) obtained by optimal addition
+                                     !! of abscissae to the 25-point gauss rule (resg).
+      real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                     !! which should not exceed `abs(i-result)`
+      real(wp),intent(out) :: Resabs !! approximation to the integral j
+      real(wp),intent(out) :: Resasc !! approximation to the integral of `abs(f-i/(b-a))`
+                                     !! over `(a,b)`
+
+      real(wp) :: absc, centr, dhlgth, fc, fsum, &
+                  fval1, fval2, fv1(25), fv2(25), hlgth, resg, resk, reskh
+      integer :: j, jtw, jtwm1
+
+      ! the abscissae and weights are given for the interval (-1,1).
+      ! because of symmetry only the positive abscissae and their
+      ! corresponding weights are given.
+      !
+      ! gauss quadrature weights and kronrod quadrature abscissae and weights
+      ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
+      ! bell labs, nov. 1981.
+
+      real(wp),dimension(13),parameter :: wg = [ &
+            0.011393798501026287947902964113235_wp, &
+            0.026354986615032137261901815295299_wp, &
+            0.040939156701306312655623487711646_wp, &
+            0.054904695975835191925936891540473_wp, &
+            0.068038333812356917207187185656708_wp, &
+            0.080140700335001018013234959669111_wp, &
+            0.091028261982963649811497220702892_wp, &
+            0.100535949067050644202206890392686_wp, &
+            0.108519624474263653116093957050117_wp, &
+            0.114858259145711648339325545869556_wp, &
+            0.119455763535784772228178126512901_wp, &
+            0.122242442990310041688959518945852_wp, &
+            0.123176053726715451203902873079050_wp ] !! weights of the 25-point gauss rule
+
+      real(wp),dimension(26),parameter :: xgk = [ &
+            0.999262104992609834193457486540341_wp, &
+            0.995556969790498097908784946893902_wp, &
+            0.988035794534077247637331014577406_wp, &
+            0.976663921459517511498315386479594_wp, &
+            0.961614986425842512418130033660167_wp, &
+            0.942974571228974339414011169658471_wp, &
+            0.920747115281701561746346084546331_wp, &
+            0.894991997878275368851042006782805_wp, &
+            0.865847065293275595448996969588340_wp, &
+            0.833442628760834001421021108693570_wp, &
+            0.797873797998500059410410904994307_wp, &
+            0.759259263037357630577282865204361_wp, &
+            0.717766406813084388186654079773298_wp, &
+            0.673566368473468364485120633247622_wp, &
+            0.626810099010317412788122681624518_wp, &
+            0.577662930241222967723689841612654_wp, &
+            0.526325284334719182599623778158010_wp, &
+            0.473002731445714960522182115009192_wp, &
+            0.417885382193037748851814394594572_wp, &
+            0.361172305809387837735821730127641_wp, &
+            0.303089538931107830167478909980339_wp, &
+            0.243866883720988432045190362797452_wp, &
+            0.183718939421048892015969888759528_wp, &
+            0.122864692610710396387359818808037_wp, &
+            0.061544483005685078886546392366797_wp, &
+            0.000000000000000000000000000000000_wp ] !! abscissae of the 51-point kronrod rule"
+                                                     !!
+                                                     !! * xgk(2), xgk(4), ...  abscissae of the 25-point
+                                                     !!   gauss rule
+                                                     !! * xgk(1), xgk(3), ...  abscissae which are optimally
+                                                     !!   added to the 25-point gauss rule
+
+      real(wp),dimension(26),parameter :: wgk = [ &
+            0.001987383892330315926507851882843_wp, &
+            0.005561932135356713758040236901066_wp, &
+            0.009473973386174151607207710523655_wp, &
+            0.013236229195571674813656405846976_wp, &
+            0.016847817709128298231516667536336_wp, &
+            0.020435371145882835456568292235939_wp, &
+            0.024009945606953216220092489164881_wp, &
+            0.027475317587851737802948455517811_wp, &
+            0.030792300167387488891109020215229_wp, &
+            0.034002130274329337836748795229551_wp, &
+            0.037116271483415543560330625367620_wp, &
+            0.040083825504032382074839284467076_wp, &
+            0.042872845020170049476895792439495_wp, &
+            0.045502913049921788909870584752660_wp, &
+            0.047982537138836713906392255756915_wp, &
+            0.050277679080715671963325259433440_wp, &
+            0.052362885806407475864366712137873_wp, &
+            0.054251129888545490144543370459876_wp, &
+            0.055950811220412317308240686382747_wp, &
+            0.057437116361567832853582693939506_wp, &
+            0.058689680022394207961974175856788_wp, &
+            0.059720340324174059979099291932562_wp, &
+            0.060539455376045862945360267517565_wp, &
+            0.061128509717053048305859030416293_wp, &
+            0.061471189871425316661544131965264_wp, &
+            0.061580818067832935078759824240066_wp ] !! weights of the 51-point kronrod rule.
+                                                     !! note: `wgk(26)` was calculated from
+                                                     !! the values of `wgk(1..25)`
+
+
 !           centr  - mid point of the interval
 !           hlgth  - half-length of the interval
 !           absc   - abscissa
@@ -6598,10 +6565,10 @@ module quadpack
       centr = 0.5_wp*(a + b)
       hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
-!
-!           compute the 51-point kronrod approximation to
-!           the integral, and estimate the absolute error.
-!
+
+      ! compute the 51-point kronrod approximation to
+      ! the integral, and estimate the absolute error.
+
       fc = f(centr)
       resg = wg(13)*fc
       resk = wgk(26)*fc
@@ -6665,7 +6632,7 @@ module quadpack
       real(wp),intent(in) :: a !! lower limit of integration
       real(wp),intent(in) :: b !! upper limit of integration
       real(wp),intent(out) :: Result !! approximation to the integral i
-                                     !! result is computed by applying the 61-point
+                                     !! `result` is computed by applying the 61-point
                                      !! kronrod rule (resk) obtained by optimal addition of
                                      !! abscissae to the 30-point gauss rule (resg).
       real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
@@ -7000,7 +6967,7 @@ module quadpack
       real(wp) :: res43 !! 43-point result
       real(wp) :: res87 !! 87-point result
       real(wp) :: resabs !! approximation to the integral of abs(f)
-      real(wp) :: resasc !! approximation to the integral of abs(f-i/(b-a))
+      real(wp) :: resasc !! approximation to the integral of `abs(f-i/(b-a))`
 
       ! the following data statements contain the
       ! abscissae and weights of the integration rules used.
