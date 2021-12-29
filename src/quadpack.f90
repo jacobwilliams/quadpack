@@ -6239,157 +6239,120 @@ module quadpack
 
 !********************************************************************************
 !>
-!***date written   800101   (yymmdd)
-!***revision date  830518   (yymmdd)
-!***keywords  41-point gauss-kronrod rules
-!***purpose  to compute i = integral of `f` over `(a,b)`, with error
-!                           estimate
-!                       j = integral of `abs(f)` over `(a,b)`
-!***description
+!  41-point gauss-kronrod rules
 !
-!           integration rules
-!           standard fortran subroutine
-!           real(wp) version
+!  to compute i = integral of `f` over `(a,b)`, with error
+!  estimate j = integral of `abs(f)` over `(a,b)`
 !
-!           parameters
-!            on entry
-!              f      - real(wp)
-!                       function subprogram defining the integrand
-!                       function f(x). the actual name for f needs to be
-!                       declared external in the calling program.
-!
-!              a      - real(wp)
-!                       lower limit of integration
-!
-!              b      - real(wp)
-!                       upper limit of integration
-!
-!            on return
-!              result - real(wp)
-!                       approximation to the integral i
-!                       `result` is computed by applying the 41-point
-!                       gauss-kronrod rule (resk) obtained by optimal
-!                       addition of abscissae to the 20-point gauss
-!                       rule (resg).
-!
-!              abserr - real(wp)
-!                       estimate of the modulus of the absolute error,
-!                       which should not exceed `abs(i-result)`
-!
-!              resabs - real(wp)
-!                       approximation to the integral j
-!
-!              resasc - real(wp)
-!                       approximation to the integal of abs(f-i/(b-a))
-!                       over `(a,b)`
+!### History
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd).
 
    subroutine dqk41(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
 
-      real(wp) a, absc, Abserr, b, centr, dhlgth, &
-         fc, fsum, &
-         fval1, fval2, fv1, fv2, hlgth, Resabs, &
-         Resasc, resg, resk, reskh, Result, &
-         wg, wgk, xgk
-      integer j, jtw, jtwm1
-      procedure(func) :: f
-!
-      dimension fv1(20), fv2(20), xgk(21), wgk(21), wg(10)
-!
-!           the abscissae and weights are given for the interval (-1,1).
-!           because of symmetry only the positive abscissae and their
-!           corresponding weights are given.
-!
-!           xgk    - abscissae of the 41-point gauss-kronrod rule
-!                    xgk(2), xgk(4), ...  abscissae of the 20-point
-!                    gauss rule
-!                    xgk(1), xgk(3), ...  abscissae which are optimally
-!                    added to the 20-point gauss rule
-!
-!           wgk    - weights of the 41-point gauss-kronrod rule
-!
-!           wg     - weights of the 20-point gauss rule
-!
-!
-! gauss quadrature weights and kronrod quadrature abscissae and weights
-! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-! bell labs, nov. 1981.
-!
-      data wg(1)/0.017614007139152118311861962351853_wp/
-      data wg(2)/0.040601429800386941331039952274932_wp/
-      data wg(3)/0.062672048334109063569506535187042_wp/
-      data wg(4)/0.083276741576704748724758143222046_wp/
-      data wg(5)/0.101930119817240435036750135480350_wp/
-      data wg(6)/0.118194531961518417312377377711382_wp/
-      data wg(7)/0.131688638449176626898494499748163_wp/
-      data wg(8)/0.142096109318382051329298325067165_wp/
-      data wg(9)/0.149172986472603746787828737001969_wp/
-      data wg(10)/0.152753387130725850698084331955098_wp/
-!
-      data xgk(1)/0.998859031588277663838315576545863_wp/
-      data xgk(2)/0.993128599185094924786122388471320_wp/
-      data xgk(3)/0.981507877450250259193342994720217_wp/
-      data xgk(4)/0.963971927277913791267666131197277_wp/
-      data xgk(5)/0.940822633831754753519982722212443_wp/
-      data xgk(6)/0.912234428251325905867752441203298_wp/
-      data xgk(7)/0.878276811252281976077442995113078_wp/
-      data xgk(8)/0.839116971822218823394529061701521_wp/
-      data xgk(9)/0.795041428837551198350638833272788_wp/
-      data xgk(10)/0.746331906460150792614305070355642_wp/
-      data xgk(11)/0.693237656334751384805490711845932_wp/
-      data xgk(12)/0.636053680726515025452836696226286_wp/
-      data xgk(13)/0.575140446819710315342946036586425_wp/
-      data xgk(14)/0.510867001950827098004364050955251_wp/
-      data xgk(15)/0.443593175238725103199992213492640_wp/
-      data xgk(16)/0.373706088715419560672548177024927_wp/
-      data xgk(17)/0.301627868114913004320555356858592_wp/
-      data xgk(18)/0.227785851141645078080496195368575_wp/
-      data xgk(19)/0.152605465240922675505220241022678_wp/
-      data xgk(20)/0.076526521133497333754640409398838_wp/
-      data xgk(21)/0.000000000000000000000000000000000_wp/
-!
-      data wgk(1)/0.003073583718520531501218293246031_wp/
-      data wgk(2)/0.008600269855642942198661787950102_wp/
-      data wgk(3)/0.014626169256971252983787960308868_wp/
-      data wgk(4)/0.020388373461266523598010231432755_wp/
-      data wgk(5)/0.025882133604951158834505067096153_wp/
-      data wgk(6)/0.031287306777032798958543119323801_wp/
-      data wgk(7)/0.036600169758200798030557240707211_wp/
-      data wgk(8)/0.041668873327973686263788305936895_wp/
-      data wgk(9)/0.046434821867497674720231880926108_wp/
-      data wgk(10)/0.050944573923728691932707670050345_wp/
-      data wgk(11)/0.055195105348285994744832372419777_wp/
-      data wgk(12)/0.059111400880639572374967220648594_wp/
-      data wgk(13)/0.062653237554781168025870122174255_wp/
-      data wgk(14)/0.065834597133618422111563556969398_wp/
-      data wgk(15)/0.068648672928521619345623411885368_wp/
-      data wgk(16)/0.071054423553444068305790361723210_wp/
-      data wgk(17)/0.073030690332786667495189417658913_wp/
-      data wgk(18)/0.074582875400499188986581418362488_wp/
-      data wgk(19)/0.075704497684556674659542775376617_wp/
-      data wgk(20)/0.076377867672080736705502835038061_wp/
-      data wgk(21)/0.076600711917999656445049901530102_wp/
-!
-!
-!           list of major variables
-!           -----------------------
-!
-!           centr  - mid point of the interval
-!           hlgth  - half-length of the interval
-!           absc   - abscissa
-!           fval*  - function value
-!           resg   - result of the 20-point gauss formula
-!           resk   - result of the 41-point kronrod formula
-!           reskh  - approximation to mean value of `f` over `(a,b)`, i.e.
-!                    to i/(b-a)
+      procedure(func) :: f !! function subprogram defining the integrand function f(x).
+      real(wp),intent(in) :: a !! lower limit of integration
+      real(wp),intent(in) :: b !! upper limit of integration
+      real(wp),intent(out) :: Result !! approximation to the integral i
+                                     !! `result` is computed by applying the 41-point
+                                     !! gauss-kronrod rule (resk) obtained by optimal
+                                     !! addition of abscissae to the 20-point gauss
+                                     !! rule (resg).
+      real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                     !! which should not exceed `abs(i-result)`
+      real(wp),intent(out) :: Resabs !! approximation to the integral j
+      real(wp),intent(out) :: Resasc !! approximation to the integal of abs(f-i/(b-a))
+                                     !! over `(a,b)`
+
+      real(wp) :: dhlgth, fc, fsum, fv1(20), fv2(20)
+      integer :: j, jtw, jtwm1
+      real(wp) :: centr !! mid point of the interval
+      real(wp) :: hlgth !! half-length of the interval
+      real(wp) :: absc !! abscissa
+      real(wp) :: fval1 !! function value
+      real(wp) :: fval2 !! function value
+      real(wp) :: resg !! result of the 20-point gauss formula
+      real(wp) :: resk !! result of the 41-point kronrod formula
+      real(wp) :: reskh !! approximation to mean value of `f` over `(a,b)`, i.e. to i/(b-a)
+
+      ! the abscissae and weights are given for the interval (-1,1).
+      ! because of symmetry only the positive abscissae and their
+      ! corresponding weights are given.
+      !
+      ! gauss quadrature weights and kronrod quadrature abscissae and weights
+      ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
+      ! bell labs, nov. 1981.
+
+      real(wp),dimension(10),parameter :: wg = [ &
+            0.017614007139152118311861962351853_wp, &
+            0.040601429800386941331039952274932_wp, &
+            0.062672048334109063569506535187042_wp, &
+            0.083276741576704748724758143222046_wp, &
+            0.101930119817240435036750135480350_wp, &
+            0.118194531961518417312377377711382_wp, &
+            0.131688638449176626898494499748163_wp, &
+            0.142096109318382051329298325067165_wp, &
+            0.149172986472603746787828737001969_wp, &
+            0.152753387130725850698084331955098_wp ] !! weights of the 20-point gauss rule
+
+      real(wp),dimension(21),parameter :: xgk = [ &
+            0.998859031588277663838315576545863_wp, &
+            0.993128599185094924786122388471320_wp, &
+            0.981507877450250259193342994720217_wp, &
+            0.963971927277913791267666131197277_wp, &
+            0.940822633831754753519982722212443_wp, &
+            0.912234428251325905867752441203298_wp, &
+            0.878276811252281976077442995113078_wp, &
+            0.839116971822218823394529061701521_wp, &
+            0.795041428837551198350638833272788_wp, &
+            0.746331906460150792614305070355642_wp, &
+            0.693237656334751384805490711845932_wp, &
+            0.636053680726515025452836696226286_wp, &
+            0.575140446819710315342946036586425_wp, &
+            0.510867001950827098004364050955251_wp, &
+            0.443593175238725103199992213492640_wp, &
+            0.373706088715419560672548177024927_wp, &
+            0.301627868114913004320555356858592_wp, &
+            0.227785851141645078080496195368575_wp, &
+            0.152605465240922675505220241022678_wp, &
+            0.076526521133497333754640409398838_wp, &
+            0.000000000000000000000000000000000_wp ] !! abscissae of the 41-point gauss-kronrod rule:
+                                                     !!
+                                                     !! * xgk(2), xgk(4), ...  abscissae of the 20-point
+                                                     !!   gauss rule
+                                                     !! * xgk(1), xgk(3), ...  abscissae which are optimally
+                                                     !!   added to the 20-point gauss rule
+
+      real(wp),dimension(21),parameter :: wgk = [ &
+            0.003073583718520531501218293246031_wp, &
+            0.008600269855642942198661787950102_wp, &
+            0.014626169256971252983787960308868_wp, &
+            0.020388373461266523598010231432755_wp, &
+            0.025882133604951158834505067096153_wp, &
+            0.031287306777032798958543119323801_wp, &
+            0.036600169758200798030557240707211_wp, &
+            0.041668873327973686263788305936895_wp, &
+            0.046434821867497674720231880926108_wp, &
+            0.050944573923728691932707670050345_wp, &
+            0.055195105348285994744832372419777_wp, &
+            0.059111400880639572374967220648594_wp, &
+            0.062653237554781168025870122174255_wp, &
+            0.065834597133618422111563556969398_wp, &
+            0.068648672928521619345623411885368_wp, &
+            0.071054423553444068305790361723210_wp, &
+            0.073030690332786667495189417658913_wp, &
+            0.074582875400499188986581418362488_wp, &
+            0.075704497684556674659542775376617_wp, &
+            0.076377867672080736705502835038061_wp, &
+            0.076600711917999656445049901530102_wp ] !! weights of the 41-point gauss-kronrod rule
 
       centr = 0.5_wp*(a + b)
       hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
-!
-!           compute the 41-point gauss-kronrod approximation to
-!           the integral, and estimate the absolute error.
-!
+
+      ! compute the 41-point gauss-kronrod approximation to
+      ! the integral, and estimate the absolute error.
+
       resg = 0.0_wp
       fc = f(centr)
       resk = wgk(21)*fc
@@ -6444,7 +6407,7 @@ module quadpack
 !  estimate j = integral of `abs(f)` over `(a,b)`
 !
 !### History
-!  * QUADPACK: date written 800101, revision date 830518 (yymmdd),
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd).
 
    subroutine dqk51(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
@@ -6623,7 +6586,7 @@ module quadpack
 !  estimate j = integral of `abs(f)` over `(a,b)`.
 !
 !### History
-!  * QUADPACK: date written 800101, revision date 830518 (yymmdd),
+!  * QUADPACK: date written 800101, revision date 830518 (yymmdd).
 
    subroutine dqk61(f, a, b, Result, Abserr, Resabs, Resasc)
       implicit none
@@ -6808,7 +6771,7 @@ module quadpack
 !  polynomial of degree k.
 !
 !### History
-!  * QUADPACK: date written 820101, revision date 830518 (yymmdd),
+!  * QUADPACK: date written 820101, revision date 830518 (yymmdd).
 
    subroutine dqmomo(Alfa, Beta, Ri, Rj, Rg, Rh, Integr)
       implicit none
