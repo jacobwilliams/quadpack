@@ -5484,8 +5484,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk - resg)*hlgth)
       if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
-         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
-                             **1.5_wp)
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
       if (Resabs > uflow/(50.0_wp*epmach)) &
          Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
