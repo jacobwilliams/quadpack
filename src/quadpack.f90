@@ -10,7 +10,7 @@
 !  * Piessens, Robert. Applied Mathematics and Programming Division, K. U. Leuven
 !  * de Doncker, Elise. Applied Mathematics and Programming Division, K. U. Leuven
 !  * Kahaner, D. K., (NBS)
-!  * Jacob Williams, Dec 2021. Modernized the Fortran 77 code from SLATEC.
+!  * Jacob Williams, Dec 2021. Modernized the Fortran 77 code from Netlib.
 
 module quadpack
 
@@ -5353,8 +5353,7 @@ module quadpack
       Resabs = Resabs*hlgth
       Abserr = abs((resk - resg)*hlgth)
       if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
-         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
-                             **1.5_wp)
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
       if (Resabs > uflow/(50.0_wp*epmach)) &
          Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
@@ -5478,8 +5477,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk - resg)*hlgth)
       if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
-         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
-                             **1.5_wp)
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
       if (Resabs > uflow/(50.0_wp*epmach)) &
          Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
@@ -5614,8 +5612,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk - resg)*hlgth)
       if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
-         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
-                             **1.5_wp)
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
       if (Resabs > uflow/(50.0_wp*epmach)) &
          Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
@@ -5764,8 +5761,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk - resg)*hlgth)
       if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
-         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
-                             **1.5_wp)
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
       if (Resabs > uflow/(50.0_wp*epmach)) &
          Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
@@ -5926,8 +5922,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk - resg)*hlgth)
       if (Resasc /= 0.0_wp .and. Abserr /= 0._wp) &
-         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
-                             **1.5_wp)
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
       if (Resabs > uflow/(50.0_wp*epmach)) &
          Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
@@ -5960,8 +5955,16 @@ module quadpack
       real(wp),intent(out) :: Resasc !! approximation to the integral of `abs(f-i/(b-a))`
                                      !! over `(a,b)`
 
-      real(wp) :: absc, centr, dhlgth, fc, fsum, &
-                  fval1, fval2, fv1(25), fv2(25), hlgth, resg, resk, reskh
+      real(wp) :: centr !! mid point of the interval
+      real(wp) :: hlgth !! half-length of the interval
+      real(wp) :: absc !! abscissa
+      real(wp) :: fval1 !! function value
+      real(wp) :: fval2 !! function value
+      real(wp) :: resg !! result of the 25-point gauss formula
+      real(wp) :: resk !! result of the 51-point kronrod formula
+      real(wp) :: reskh !! approximation to the mean value of `f` over `(a,b)`, i.e. to `i/(b-a)`
+
+      real(wp) :: dhlgth, fc, fsum, fv1(25), fv2(25)
       integer :: j, jtw, jtwm1
 
       ! the abscissae and weights are given for the interval (-1,1).
@@ -6050,16 +6053,6 @@ module quadpack
                                                      !! note: `wgk(26)` was calculated from
                                                      !! the values of `wgk(1..25)`
 
-
-!           centr  - mid point of the interval
-!           hlgth  - half-length of the interval
-!           absc   - abscissa
-!           fval*  - function value
-!           resg   - result of the 25-point gauss formula
-!           resk   - result of the 51-point kronrod formula
-!           reskh  - approximation to the mean value of `f` over `(a,b)`,
-!                    i.e. to `i/(b-a)`
-
       centr = 0.5_wp*(a + b)
       hlgth = 0.5_wp*(b - a)
       dhlgth = abs(hlgth)
@@ -6105,8 +6098,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk - resg)*hlgth)
       if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
-         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
-                             **1.5_wp)
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
       if (Resabs > uflow/(50.0_wp*epmach)) &
          Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
@@ -6290,8 +6282,7 @@ module quadpack
       Resasc = Resasc*dhlgth
       Abserr = abs((resk - resg)*hlgth)
       if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
-         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc) &
-                             **1.5_wp)
+         Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
       if (Resabs > uflow/(50.0_wp*epmach)) &
          Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
 
@@ -6722,8 +6713,7 @@ module quadpack
                resasc = resasc*dhlgth
             end select
             if (resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
-               Abserr = resasc*min(1.0_wp, (200.0_wp*Abserr/resasc) &
-                                   **1.5_wp)
+               Abserr = resasc*min(1.0_wp, (200.0_wp*Abserr/resasc)**1.5_wp)
             if (resabs > uflow/(50.0_wp*epmach)) &
                Abserr = max((epmach*50.0_wp)*resabs, Abserr)
             if (Abserr <= max(Epsabs, Epsrel*abs(Result))) Ier = 0
