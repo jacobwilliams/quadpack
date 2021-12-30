@@ -31,6 +31,13 @@ module quadpack
    real(wp), parameter :: epmach = d1mach(4) !! the largest relative spacing.
    real(wp), parameter, private :: pi = acos(-1.0_wp)
 
+   integer,parameter :: limexp = 50 !! limexp is the maximum number of elements the epsilon
+                                    !! table can contain. if this number is reached, the upper
+                                    !! diagonal of the epsilon table is deleted.
+                                    !! originally defined in [[dqelg]]. Was moved to be a module
+                                    !! variable since various dimensions in other routines
+                                    !! depend on the value
+
    abstract interface
       real(wp) function func(x)
         !! interface for user-supplied function.
@@ -5172,86 +5179,53 @@ module quadpack
 
 !********************************************************************************
 !>
+!  the routine determines the limit of a given sequence of
+!  approximations, by means of the epsilon algorithm of
+!  p.wynn. an estimate of the absolute error is also given.
+!  the condensed epsilon table is computed. only those
+!  elements needed for the computation of the next diagonal
+!  are preserved.
+!
 !### See also
-!  *  dqagie,dqagoe,dqagpe,dqagse
-!***revision date  830518   (yymmdd)
-!***keywords  epsilon algorithm, convergence acceleration,
-!             extrapolation
-
-!***purpose  the routine determines the limit of a given sequence of
-!            approximations, by means of the epsilon algorithm of
-!            p.wynn. an estimate of the absolute error is also given.
-!            the condensed epsilon table is computed. only those
-!            elements needed for the computation of the next diagonal
-!            are preserved.
-!***description
+!  *  [[dqagie]], [[dqagoe]], [[dqagpe]], [[dqagse]]
 !
-!           epsilon algorithm
-!           standard fortran subroutine
-!           real(wp) version
-!
-!           parameters
-!              n      - integer
-!                       epstab(n) contains the new element in the
-!                       first column of the epsilon table.
-!
-!              epstab - real(wp)
-!                       vector of dimension 52 containing the elements
-!                       of the two lower diagonals of the triangular
-!                       epsilon table. the elements are numbered
-!                       starting at the right-hand corner of the
-!                       triangle.
-!
-!              result - real(wp)
-!                       resulting approximation to the integral
-!
-!              abserr - real(wp)
-!                       estimate of the absolute error computed from
-!                       result and the 3 previous results
-!
-!              res3la - real(wp)
-!                       vector of dimension 3 containing the last 3
-!                       results
-!
-!              nres   - integer
-!                       number of calls to the routine
-!                       (should be zero at first call)
+!### History
+!  * QUADPACK: revision date 830518 (yymmdd).
 
    subroutine dqelg(n, Epstab, Result, Abserr, Res3la, Nres)
       implicit none
 
-      real(wp) :: Abserr, delta1, delta2, delta3, &
-                  epsinf, Epstab(52), &
-                  error, err1, err2, err3, e0, e1, e1abs, &
-                  e2, e3, res, Result, Res3la(3), ss, &
-                  tol1, tol2, tol3
-      integer :: i, ib, ib2, ie, indx, k1, k2, k3, n, &
-                 newelm, Nres, num
+      integer,intent(inout) :: n !! epstab(n) contains the new element in the
+                                 !! first column of the epsilon table.
+      real(wp),intent(out) :: Abserr !! estimate of the absolute error computed from
+                                     !! result and the 3 previous results
+      real(wp),intent(inout) :: Epstab(52) !! vector of dimension 52 containing the elements
+                                           !! of the two lower diagonals of the triangular
+                                           !! epsilon table. the elements are numbered
+                                           !! starting at the right-hand corner of the
+                                           !! triangle.
+      real(wp),intent(out) :: Result !! resulting approximation to the integral
+      real(wp),intent(inout) :: Res3la(3) !! vector of dimension 3 containing the last 3
+                                          !! results
+      integer,intent(inout) :: Nres !! number of calls to the routine
+                                    !! (should be zero at first call)
 
-      ! JW : this needs to be a module variable...
-      ! ... some other dims depends on it (see all the 52's)
-      ! ... Is this dependant on the precision ?
-      ! ... Note that the single precision routine also used 50.
+      real(wp) :: delta1, delta2, delta3, epsinf, &
+                  err1, err2, err3, e0, e1, e1abs, &
+                  e2, e3, res, ss, tol1, tol2, tol3
+      integer :: i, ib, ib2, ie, indx, k1, k2, k3, num
 
-      integer,parameter :: limexp = 50 !! limexp is the maximum number of elements the epsilon
-                                       !! table can contain. if this number is reached, the upper
-                                       !! diagonal of the epsilon table is deleted.
+      integer :: newelm !! number of elements to be computed in the new diagonal
+      real(wp) :: error !! `error = abs(e1-e0)+abs(e2-e1)+abs(new-e2)`
 
-!           list of major variables
-!           -----------------------
-!
-!           e0     - the 4 elements on which the computation of a new
-!           e1       element in the epsilon table is based
-!           e2
-!           e3                 e0
-!                        e3    e1    new
-!                              e2
-!           newelm - number of elements to be computed in the new
-!                    diagonal
-!           error  - error = abs(e1-e0)+abs(e2-e1)+abs(new-e2)
-!           result - the element in the new diagonal with least value
-!                    of error
+      ! result is the element in the new diagonal with least value of error
 
+      ! e0     - the 4 elements on which the computation of a new
+      ! e1       element in the epsilon table is based
+      ! e2
+      ! e3                 e0
+      !              e3    e1    new
+      !                    e2
 
       Nres = Nres + 1
       Abserr = oflow
@@ -5282,23 +5256,17 @@ module quadpack
                delta1 = e1 - e3
                err1 = abs(delta1)
                tol1 = max(e1abs, abs(e3))*epmach
-!
-!           if two elements are very close to each other, omit
-!           a part of the table by adjusting the value of n
-!
+               ! if two elements are very close to each other, omit
+               ! a part of the table by adjusting the value of n
                if (err1 > tol1 .and. err2 > tol2 .and. err3 > tol3) then
                   ss = 1.0_wp/delta1 + 1.0_wp/delta2 - 1.0_wp/delta3
                   epsinf = abs(ss*e1)
-!
-!           test to detect irregular behaviour in the table, and
-!           eventually omit a part of the table adjusting the value
-!           of n.
-!
+                  ! test to detect irregular behaviour in the table, and
+                  ! eventually omit a part of the table adjusting the value
+                  ! of n.
                   if (epsinf > 0.1d-03) then
-!
-!           compute a new element and eventually adjust
-!           the value of result.
-!
+                     ! compute a new element and eventually adjust
+                     ! the value of result.
                      res = e1 + 1.0_wp/ss
                      Epstab(k1) = res
                      k1 = k1 - 2
@@ -5307,29 +5275,28 @@ module quadpack
                         Abserr = error
                         Result = res
                      end if
-                     goto 50
+                     cycle
                   end if
                end if
                n = i + i - 1
-! ***jump out of do-loop
-               goto 100
+               ! ***jump out of do-loop
+               exit
             else
-!
-!           if e0, e1 and e2 are equal to within machine
-!           accuracy, convergence is assumed.
-!           result = e2
-!           abserr = abs(e1-e0)+abs(e2-e1)
-!
+               ! if e0, e1 and e2 are equal to within machine
+               ! accuracy, convergence is assumed.
+               ! result = e2
+               ! abserr = abs(e1-e0)+abs(e2-e1)
                Result = res
                Abserr = err2 + err3
-! ***jump out of do-loop
-               goto 200
+               ! ***jump out of do-loop
+               !goto 200
+               Abserr = max(Abserr, 5.0_wp*epmach*abs(Result))
+               return
             end if
-50       end do
-!
-!           shift the table.
-!
-100      if (n == limexp) n = 2*(limexp/2) - 1
+         end do
+
+         ! shift the table.
+         if (n == limexp) n = 2*(limexp/2) - 1
          ib = 1
          if ((num/2)*2 == num) ib = 2
          ie = newelm + 1
@@ -5346,9 +5313,7 @@ module quadpack
             end do
          end if
          if (Nres >= 4) then
-!
-!           compute error estimate
-!
+            ! compute error estimate
             Abserr = abs(Result - Res3la(3)) + abs(Result - Res3la(2)) &
                      + abs(Result - Res3la(1))
             Res3la(1) = Res3la(2)
@@ -5359,7 +5324,8 @@ module quadpack
             Abserr = oflow
          end if
       end if
-200   Abserr = max(Abserr, 5.0_wp*epmach*abs(Result))
+
+      Abserr = max(Abserr, 5.0_wp*epmach*abs(Result))
 
    end subroutine dqelg
 !********************************************************************************
