@@ -4097,7 +4097,7 @@ module quadpack
 !  principal value integrals
 !
 !  to compute i = integral of `f*w` over `(a,b)` with
-!  error estimate, where` w(x) = 1/(x-c)`
+!  error estimate, where `w(x) = 1/(x-c)`
 !
 !### History
 !  * QUADPACK: date written 810101, revision date 830518 (yymmdd)
@@ -4493,10 +4493,10 @@ module quadpack
 
 !********************************************************************************
 !>
-!  to compute i = integral of f*w over (bl,br), with error
-!  estimate, where the weight function w has a singular
+!  to compute i = integral of `f*w` over `(bl,br)`, with error
+!  estimate, where the weight function `w` has a singular
 !  behaviour of algebraico-logarithmic type at the points
-!  a and/or b. (bl,br) is a part of (a,b).
+!  `a` and/or `b`. `(bl,br)` is a part of `(a,b)`.
 !
 !### History
 !  * QUADPACK: date written 810101, revision date 830518 (yymmdd)
