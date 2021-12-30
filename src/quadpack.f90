@@ -765,13 +765,11 @@ module quadpack
                         !! try to decrease the value of erlarg.
       logical :: noext !! logical variable denoting that extrapolation
                        !! is no longer allowed (true-value)
-      real(wp) :: rlist2(52) !! array of dimension at least (limexp+2),
-                             !! containing the part of the epsilon table
-                             !! which is still needed for further computations.
-                             !! the dimension of `rlist2` is determined by the value of
-                             !! `limexp` in subroutine [[dqelg]].
+      real(wp) :: rlist2(limexp+2) !! array of dimension at least (`limexp+2`),
+                                   !! containing the part of the epsilon table
+                                   !! which is still needed for further computations.
 
-    ! test on validity of parameters
+      ! test on validity of parameters
 
       Ier = 0
       Neval = 0
@@ -1318,12 +1316,9 @@ module quadpack
     real(wp) :: area2, a2, b2, defab2, error2 !! variable for the right subinterval
     real(wp) :: area12 !! `area1 + area2`
     real(wp) :: erro12 !! `error1 + error2`
-    real(wp) :: rlist2(52) !! array of dimension at least `limexp+2`
-                           !! containing the part of the epsilon table which
-                           !! is still needed for further computations.
-                           !! the dimension of `rlist2` is determined by the value of
-                           !! `limexp` in subroutine [[epsalg]] (`rlist2` should be of dimension
-                           !! `(limexp+2)` at least).
+    real(wp) :: rlist2(limexp+2) !! array of dimension at least `limexp+2`
+                                 !! containing the part of the epsilon table which
+                                 !! is still needed for further computations.
     real(wp) :: erlast !! error on the interval currently subdivided
                        !! (before that subdivision has taken place)
     real(wp) :: errsum !! sum of the errors over the subintervals
@@ -1892,12 +1887,9 @@ module quadpack
     real(wp) :: erro12 !! `error1 + error2`
     real(wp) :: area1, a1, b1, defab1, error1 !! variable for the left interval
     real(wp) :: area2, a2, b2, defab2, error2 !! variable for the right interval
-    real(wp) :: rlist2(52) !! array of dimension at least `limexp+2` containing
-                           !! the part of the epsilon table which is still
-                           !! needed for further computations.
-                           !! the dimension of `rlist2` is determined by the value of
-                           !! `limexp` in subroutine [[dqelg]] (`rlist2` should be of dimension
-                           !! `(limexp+2)` at least).
+    real(wp) :: rlist2(limexp+2) !! array of dimension at least `limexp+2` containing
+                                 !! the part of the epsilon table which is still
+                                 !! needed for further computations.
     integer :: maxerr !! pointer to the interval with largest error estimate
     integer :: nres !! number of calls to the extrapolation routine
     integer :: numrl2 !! number of elements currently in `rlist2`. if an
@@ -2875,17 +2867,11 @@ module quadpack
 
     real(wp) :: abseps, correc, dl, dla, drl, ep, eps, fact, p1, reseps, res3la(3)
     integer :: ktmin, l, last, ll, momcom, nev, nres, numrl2
-    real(wp) :: psum(52) !! the dimension of  `psum`  is determined by the value of
-                         !! `limexp` in subroutine [[dqelg]] (`psum` must be of dimension
-                         !! `(limexp+2)` at least).
-                         !!
-                         !! vector of dimension at least `(limexp+2)`
-                         !! (see routine [[dqelg]]).
-                         !! `psum` contains the part of the epsilon table
-                         !! which is still needed for further computations.
-                         !! each element of `psum` is a partial sum of the
-                         !! series which should sum to the value of the
-                         !! integral.
+    real(wp) :: psum(limexp+2) !! `psum` contains the part of the epsilon table
+                               !! which is still needed for further computations.
+                               !! each element of `psum` is a partial sum of the
+                               !! series which should sum to the value of the
+                               !! integral.
     real(wp) :: c1, c2 !! end points of subinterval (of length cycle)
     real(wp) :: cycle !! `(2*int(abs(omega))+1)*pi/abs(omega)`
     real(wp) :: errsum  !! sum of error estimates over the subintervals,
@@ -3407,7 +3393,7 @@ module quadpack
       logical extrap, noext, extall
 !
       dimension Alist(Limit), Blist(Limit), Rlist(Limit), &
-         Elist(Limit), Iord(Limit), rlist2(52), res3la(3), &
+         Elist(Limit), Iord(Limit), rlist2(limexp+2), res3la(3), &
          Chebmo(Maxp1, 25), Nnlog(Limit)
 !
       procedure(func) :: f
@@ -5199,11 +5185,11 @@ module quadpack
                                  !! first column of the epsilon table.
       real(wp),intent(out) :: Abserr !! estimate of the absolute error computed from
                                      !! result and the 3 previous results
-      real(wp),intent(inout) :: Epstab(52) !! vector of dimension 52 containing the elements
-                                           !! of the two lower diagonals of the triangular
-                                           !! epsilon table. the elements are numbered
-                                           !! starting at the right-hand corner of the
-                                           !! triangle.
+      real(wp),intent(inout) :: Epstab(limexp+2) !! vector of dimension 52 containing the elements
+                                                 !! of the two lower diagonals of the triangular
+                                                 !! epsilon table. the elements are numbered
+                                                 !! starting at the right-hand corner of the
+                                                 !! triangle.
       real(wp),intent(out) :: Result !! resulting approximation to the integral
       real(wp),intent(inout) :: Res3la(3) !! vector of dimension 3 containing the last 3
                                           !! results
