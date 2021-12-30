@@ -4782,52 +4782,41 @@ contains
 
 !********************************************************************************
 !>
+!  chebyshev series expansion
+!
+!  this routine computes the chebyshev series expansion
+!  of degrees 12 and 24 of a function using a
+!  fast fourier transform method
+!
+!  * `f(x) = sum(k=1,..,13)` `(cheb12(k)*t(k-1,x))`
+!  * `f(x) = sum(k=1,..,25)` `(cheb24(k)*t(k-1,x))`
+!
+!  where `t(k,x)` is the chebyshev polynomial of degree `k`.
+!
 !### See also
-!  *  dqc25c,dqc25f,dqc25s
-!***revision date  830518   (yymmdd)
-!***keywords  chebyshev series expansion, fast fourier transform
-!***purpose  this routine computes the chebyshev series expansion
-!            of degrees 12 and 24 of a function using a
-!            fast fourier transform method
-!            f(x) = sum(k=1,..,13) (cheb12(k)*t(k-1,x)),
-!            f(x) = sum(k=1,..,25) (cheb24(k)*t(k-1,x)),
-!            where t(k,x) is the chebyshev polynomial of degree k.
-!***description
+!  * [[dqc25c]], [[dqc25f]], [[dqc25s]]
 !
-!        chebyshev series expansion
-!
-!        parameters
-!          on entry
-!           x      - real(wp)
-!                    vector of dimension 11 containing the
-!                    values cos(k*pi/24), k = 1, ..., 11
-!
-!           fval   - real(wp)
-!                    vector of dimension 25 containing the
-!                    function values at the points
-!                    (b+a+(b-a)*cos(k*pi/24))/2, k = 0, ...,24,
-!                    where (a,b) is the approximation interval.
-!                    fval(1) and fval(25) are divided by two
-!                    (these values are destroyed at output).
-!
-!          on return
-!           cheb12 - real(wp)
-!                    vector of dimension 13 containing the
-!                    chebyshev coefficients for degree 12
-!
-!           cheb24 - real(wp)
-!                    vector of dimension 25 containing the
-!                    chebyshev coefficients for degree 24
+!### History
+!  * QUADPACK: revision date 830518 (yymmdd)
 
     subroutine dqcheb(x, Fval, Cheb12, Cheb24)
         implicit none
 
-        real(wp) alam, alam1, alam2, Cheb12, Cheb24, Fval, &
-            part1, part2, part3, v, x
-        integer i, j
-!
-        dimension Cheb12(13), Cheb24(25), Fval(25), v(12), x(11)
-!
+        real(wp), intent(in) :: x(11) !! vector of dimension 11 containing the
+                                      !! values `cos(k*pi/24), k = 1, ..., 11`
+        real(wp), intent(inout) :: Fval(25) !! vector of dimension 25 containing the
+                                            !! function values at the points
+                                            !! `(b+a+(b-a)*cos(k*pi/24))/2, k = 0, ...,24`,
+                                            !! where `(a,b)` is the approximation interval.
+                                            !! `fval(1)` and `fval(25)` are divided by two
+                                            !! (these values are destroyed at output).
+        real(wp), intent(out) :: Cheb12(13) !! vector of dimension 13 containing the
+                                            !! chebyshev coefficients for degree 12
+        real(wp), intent(out) :: Cheb24(25) !! vector of dimension 25 containing the
+                                            !! chebyshev coefficients for degree 24
+
+        real(wp) :: alam, alam1, alam2, part1, part2, part3, v(12)
+        integer :: i, j
 
         do i = 1, 12
             j = 26 - i

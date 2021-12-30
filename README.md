@@ -210,4 +210,5 @@ integrator available, QAWF.
     integrand with oscillatory cos or sin factor,
     (end point) singularities, 25-point clenshaw-curtis integration,
     smooth integrand, non-adaptive, gauss-kronrod (patterson),
-    epsilon algorithm, algebraico-logarithmic end point singularities
+    epsilon algorithm, algebraico-logarithmic end point singularities,
+    chebyshev series expansion, fast fourier transform
