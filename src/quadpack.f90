@@ -4500,82 +4500,45 @@ module quadpack
 !
 !### History
 !  * QUADPACK: date written 810101, revision date 830518 (yymmdd)
-!
-!        parameters
-!           f      - real(wp)
-!                    function subprogram defining the integrand
-!                    f(x). the actual name for f needs to be declared
-!                    external  in the driver program.
-!
-!           a      - real(wp)
-!                    left end point of the original interval
-!
-!           b      - real(wp)
-!                    right end point of the original interval, b>a
-!
-!           bl     - real(wp)
-!                    lower limit of integration, bl>=a
-!
-!           br     - real(wp)
-!                    upper limit of integration, br<=b
-!
-!           alfa   - real(wp)
-!                    parameter in the weight function
-!
-!           beta   - real(wp)
-!                    parameter in the weight function
-!
-!           ri,rj,rg,rh - real(wp)
-!                    modified chebyshev moments for the application
-!                    of the generalized clenshaw-curtis
-!                    method (computed in subroutine dqmomo)
-!
-!           result - real(wp)
-!                    approximation to the integral
-!                    result is computed by using a generalized
-!                    clenshaw-curtis method if b1 = a or br = b.
-!                    in all other cases the 15-point kronrod
-!                    rule is applied, obtained by optimal addition of
-!                    abscissae to the 7-point gauss rule.
-!
-!           abserr - real(wp)
-!                    estimate of the modulus of the absolute error,
-!                    which should equal or exceed `abs(i-result)`
-!
-!           resasc - real(wp)
-!                    approximation to the integral of abs(f*w-i/(b-a))
-!
-!           integr - integer
-!                    which determines the weight function
-!                    = 1   w(x) = (x-a)**alfa*(b-x)**beta
-!                    = 2   w(x) = (x-a)**alfa*(b-x)**beta*log(x-a)
-!                    = 3   w(x) = (x-a)**alfa*(b-x)**beta*log(b-x)
-!                    = 4   w(x) = (x-a)**alfa*(b-x)**beta*log(x-a)*
-!                                 log(b-x)
-!
-!           nev    - integer
-!                    number of integrand evaluations
 
     subroutine dqc25s(f, a, b, Bl, Br, Alfa, Beta, Ri, Rj, Rg, Rh, Result, Abserr, &
                       Resasc, Integr, Nev)
     implicit none
 
-    procedure(func) :: f
-    real(wp),intent(in) :: a
-    real(wp),intent(in) :: b
-    real(wp),intent(in) :: Bl
-    real(wp),intent(in) :: Br
-    real(wp),intent(in) :: Alfa
-    real(wp),intent(in) :: Beta
-    real(wp),intent(in) :: Ri(25)
-    real(wp),intent(in) :: Rj(25)
-    real(wp),intent(in) :: Rg(25)
-    real(wp),intent(in) :: Rh(25)
-    real(wp),intent(out) :: Result
-    real(wp),intent(out) :: Abserr
-    real(wp),intent(out) :: Resasc
-    integer,intent(in) :: Integr
-    integer,intent(out) :: Nev
+    procedure(func) :: f !! function subprogram defining the integrand f(x).
+    real(wp),intent(in) :: a !! left end point of the original interval
+    real(wp),intent(in) :: b !! right end point of the original interval, `b>a`
+    real(wp),intent(in) :: Bl !! lower limit of integration, `bl>=a`
+    real(wp),intent(in) :: Br !! upper limit of integration, `br<=b`
+    real(wp),intent(in) :: Alfa !! parameter in the weight function
+    real(wp),intent(in) :: Beta !! parameter in the weight function
+    real(wp),intent(in) :: Ri(25) !! modified chebyshev moments for the application
+                                  !! of the generalized clenshaw-curtis
+                                  !! method (computed in subroutine dqmomo)
+    real(wp),intent(in) :: Rj(25) !! modified chebyshev moments for the application
+                                  !! of the generalized clenshaw-curtis
+                                  !! method (computed in subroutine dqmomo)
+    real(wp),intent(in) :: Rg(25) !! modified chebyshev moments for the application
+                                  !! of the generalized clenshaw-curtis
+                                  !! method (computed in subroutine dqmomo)
+    real(wp),intent(in) :: Rh(25) !! modified chebyshev moments for the application
+                                  !! of the generalized clenshaw-curtis
+                                  !! method (computed in subroutine dqmomo)
+    real(wp),intent(out) :: Result !! approximation to the integral
+                                   !! result is computed by using a generalized
+                                   !! clenshaw-curtis method if `b1 = a` or `br = b`.
+                                   !! in all other cases the 15-point kronrod
+                                   !! rule is applied, obtained by optimal addition of
+                                   !! abscissae to the 7-point gauss rule.
+    real(wp),intent(out) :: Abserr !! estimate of the modulus of the absolute error,
+                                   !! which should equal or exceed `abs(i-result)`
+    real(wp),intent(out) :: Resasc !! approximation to the integral of abs(f*w-i/(b-a))
+    integer,intent(in) :: Integr !! which determines the weight function
+                                 !! * = 1  `w(x) = (x-a)**alfa*(b-x)**beta`
+                                 !! * = 2  `w(x) = (x-a)**alfa*(b-x)**beta*log(x-a)`
+                                 !! * = 3  `w(x) = (x-a)**alfa*(b-x)**beta*log(b-x)`
+                                 !! * = 4  `w(x) = (x-a)**alfa*(b-x)**beta*log(x-a)*log(b-x)`
+    integer,intent(out) :: Nev !! number of integrand evaluations
 
     real(wp) :: cheb12(13) !! coefficients of the chebyshev series expansion
                            !! of degree 12, for the function f, in the
@@ -4603,13 +4566,12 @@ module quadpack
       if (Bl == a .and. (Alfa /= 0.0_wp .or. Integr == 2 .or. Integr == 4)) &
          then
 
-!           this part of the program is executed only if a = bl.
+         ! this part of the program is executed only if a = bl.
 
-
-!           compute the chebyshev series expansion of the
-!           following function
-!           f1 = (0.5*(b+b-br-a)-0.5*(br-a)*x)**beta
-!                  *f(0.5*(br-a)*x+0.5*(br+a))
+         ! compute the chebyshev series expansion of the
+         ! following function
+         ! f1 = (0.5*(b+b-br-a)-0.5*(br-a)*x)**beta
+         !      *f(0.5*(br-a)*x+0.5*(br+a))
 
          hlgth = 0.5_wp*(Br - Bl)
          centr = 0.5_wp*(Br + Bl)
@@ -4629,11 +4591,11 @@ module quadpack
          res12 = 0.0_wp
          res24 = 0.0_wp
          if (Integr > 2) then
-!
-!           compute the chebyshev series expansion of the
-!           following function
-!           f4 = f1*log(0.5*(b+b-br-a)-0.5*(br-a)*x)
-!
+
+            ! compute the chebyshev series expansion of the
+            ! following function
+            ! f4 = f1*log(0.5*(b+b-br-a)-0.5*(br-a)*x)
+
             fval(1) = fval(1)*log(fix - hlgth)
             fval(13) = fval(13)*log(fix)
             fval(25) = fval(25)*log(fix + hlgth)
@@ -4644,9 +4606,9 @@ module quadpack
                fval(isym) = fval(isym)*log(fix + u)
             end do
             call dqcheb(x, fval, cheb12, cheb24)
-!
-!           integr = 3  (or 4)
-!
+
+            ! integr = 3  (or 4)
+
             do i = 1, 13
                res12 = res12 + cheb12(i)*Ri(i)
                res24 = res24 + cheb24(i)*Ri(i)
@@ -4655,9 +4617,9 @@ module quadpack
                res24 = res24 + cheb24(i)*Ri(i)
             end do
             if (Integr /= 3) then
-!
-!           integr = 4
-!
+
+               ! integr = 4
+
                dc = log(Br - Bl)
                Result = res24*dc
                Abserr = abs((res24 - res12)*dc)
@@ -4673,9 +4635,9 @@ module quadpack
             end if
          else
             call dqcheb(x, fval, cheb12, cheb24)
-!
-!           integr = 1  (or 2)
-!
+
+            ! integr = 1  (or 2)
+
             do i = 1, 13
                res12 = res12 + cheb12(i)*Ri(i)
                res24 = res24 + cheb24(i)*Ri(i)
@@ -4684,9 +4646,9 @@ module quadpack
                res24 = res24 + cheb24(i)*Ri(i)
             end do
             if (Integr /= 1) then
-!
-!           integr = 2
-!
+
+               ! integr = 2
+
                dc = log(Br - Bl)
                Result = res24*dc
                Abserr = abs((res24 - res12)*dc)
@@ -4704,15 +4666,14 @@ module quadpack
          Result = (Result + res24)*factor
          Abserr = (Abserr + abs(res24 - res12))*factor
       elseif (Br == b .and. (Beta /= 0.0_wp .or. Integr == 3 .or. Integr == 4)) then
-!
-!           this part of the program is executed only if b = br.
 
-!
-!           compute the chebyshev series expansion of the
-!           following function
-!           f2 = (0.5*(b+bl-a-a)+0.5*(b-bl)*x)**alfa
-!                *f(0.5*(b-bl)*x+0.5*(b+bl))
-!
+         ! this part of the program is executed only if b = br.
+
+         ! compute the chebyshev series expansion of the
+         ! following function
+         ! f2 = (0.5*(b+bl-a-a)+0.5*(b-bl)*x)**alfa
+         !      *f(0.5*(b-bl)*x+0.5*(b+bl))
+
          hlgth = 0.5_wp*(Br - Bl)
          centr = 0.5_wp*(Br + Bl)
          fix = centr - a
@@ -4731,11 +4692,11 @@ module quadpack
          res12 = 0.0_wp
          res24 = 0.0_wp
          if (Integr == 2 .or. Integr == 4) then
-!
-!           compute the chebyshev series expansion of the
-!           following function
-!           f3 = f2*log(0.5*(b-bl)*x+0.5*(b+bl-a-a))
-!
+
+            ! compute the chebyshev series expansion of the
+            ! following function
+            ! f3 = f2*log(0.5*(b-bl)*x+0.5*(b+bl-a-a))
+
             fval(1) = fval(1)*log(hlgth + fix)
             fval(13) = fval(13)*log(fix)
             fval(25) = fval(25)*log(fix - hlgth)
@@ -4746,9 +4707,9 @@ module quadpack
                fval(isym) = fval(isym)*log(fix - u)
             end do
             call dqcheb(x, fval, cheb12, cheb24)
-!
-!           integr = 2  (or 4)
-!
+
+            ! integr = 2  (or 4)
+
             do i = 1, 13
                res12 = res12 + cheb12(i)*Rj(i)
                res24 = res24 + cheb24(i)*Rj(i)
@@ -4762,9 +4723,9 @@ module quadpack
                Abserr = abs((res24 - res12)*dc)
                res12 = 0.0_wp
                res24 = 0.0_wp
-!
-!           integr = 4
-!
+
+               ! integr = 4
+
                do i = 1, 13
                   res12 = res12 + cheb12(i)*Rh(i)
                   res24 = res24 + cheb24(i)*Rh(i)
@@ -4774,9 +4735,9 @@ module quadpack
                end do
             end if
          else
-!
-!           integr = 1  (or 3)
-!
+
+            ! integr = 1  (or 3)
+
             call dqcheb(x, fval, cheb12, cheb24)
             do i = 1, 13
                res12 = res12 + cheb12(i)*Rj(i)
@@ -4786,9 +4747,9 @@ module quadpack
                res24 = res24 + cheb24(i)*Rj(i)
             end do
             if (Integr /= 1) then
-!
-!           integr = 3
-!
+
+              ! integr = 3
+
                dc = log(Br - Bl)
                Result = res24*dc
                Abserr = abs((res24 - res12)*dc)
@@ -4806,13 +4767,12 @@ module quadpack
          Result = (Result + res24)*factor
          Abserr = (Abserr + abs(res24 - res12))*factor
       else
-!
-!           if a>bl and b<br, apply the 15-point gauss-kronrod
-!           scheme.
+
+        ! if a>bl and b<br, apply the 15-point gauss-kronrod
+        ! scheme.
 
         ! dqwgts - external function subprogram defining
         ! the four possible weight functions
-
 
          call dqk15w(f, dqwgts, a, b, Alfa, Beta, Integr, Bl, Br, Result, Abserr, &
                      resabs, Resasc)
