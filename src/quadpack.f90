@@ -26,17 +26,17 @@ module quadpack
                                                   log10(real(radix(1.0_wp), &
                                                   kind(1.0_wp)))] !! machine constants
 
-   real(wp), parameter :: uflow = d1mach(1) !! the smallest positive magnitude.
-   real(wp), parameter :: oflow = d1mach(2) !! the largest positive magnitude.
-   real(wp), parameter :: epmach = d1mach(4) !! the largest relative spacing.
-   real(wp), parameter, private :: pi = acos(-1.0_wp)
+   real(wp),parameter,private :: uflow = d1mach(1) !! the smallest positive magnitude.
+   real(wp),parameter,private :: oflow = d1mach(2) !! the largest positive magnitude.
+   real(wp),parameter,private :: epmach = d1mach(4) !! the largest relative spacing.
+   real(wp),parameter,private :: pi = acos(-1.0_wp)
 
-   integer,parameter :: limexp = 50 !! limexp is the maximum number of elements the epsilon
-                                    !! table can contain. if this number is reached, the upper
-                                    !! diagonal of the epsilon table is deleted.
-                                    !! originally defined in [[dqelg]]. Was moved to be a module
-                                    !! variable since various dimensions in other routines
-                                    !! depend on the value
+   integer,parameter,private :: limexp = 50 !! limexp is the maximum number of elements the epsilon
+                                            !! table can contain. if this number is reached, the upper
+                                            !! diagonal of the epsilon table is deleted.
+                                            !! originally defined in [[dqelg]]. Was moved to be a module
+                                            !! variable since various dimensions in other routines
+                                            !! depend on the value
 
    abstract interface
       real(wp) function func(x)
