@@ -9,25 +9,10 @@ keywords = ["quadrature"]
 [build]
 auto-executables = false
 auto-examples = false
-auto-tests = false
+auto-tests = true
 
 [library]
 source-dir = "src"
 
 [install]
 library = true
-
-[[test]]
-name = "single"
-source-dir = "test"
-main = "quadpack_tests_single.F90"
-
-[[test]]
-name = "double"
-source-dir = "test"
-main = "quadpack_tests_double.F90"
-
-[[test]]
-name = "quad"
-source-dir = "test"
-main = "quadpack_tests_quad.F90"
