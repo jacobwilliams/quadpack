@@ -1,10 +1,11 @@
 
 !********************************************************************************
 !>
-!  Modernized QUADPACK
+!  Modernized QUADPACK: a Fortran subroutine package for the numerical
+!  computation of definite one-dimensional integrals
 !
 !### References
-!  * Original version on NETLIB: http://www.netlib.org/quadpack/
+!  * Original version on [Netlib](http://www.netlib.org/quadpack/)
 !
 !### Authors
 !  * Piessens, Robert. Applied Mathematics and Programming Division, K. U. Leuven
@@ -12,33 +13,39 @@
 !  * Kahaner, D. K., (NBS)
 !  * Jacob Williams, Dec 2021. Modernized the Fortran 77 code from Netlib.
 
+#ifndef MOD_INCLUDE
 module quadpack
-
-    use iso_fortran_env, only: wp => real64
+    use iso_fortran_env, only: wp => real64 ! double precision by default
+#endif
 
     implicit none
 
-    real(wp), dimension(5), parameter :: d1mach = [tiny(1.0_wp), &
-                                                   huge(1.0_wp), &
-                                                   real(radix(1.0_wp), &
-                                                   kind(1.0_wp))**(-digits(1.0_wp)), &
-                                                   epsilon(1.0_wp), &
-                                                   log10(real(radix(1.0_wp), &
-                                                   kind(1.0_wp)))] !! machine constants
+    private
+
+    integer, parameter, public :: quadpack_RK = wp !! the real kind used in this module
+
+    real(wp), dimension(5), parameter, private :: d1mach = [tiny(1.0_wp), &
+                                                            huge(1.0_wp), &
+                                                            real(radix(1.0_wp), &
+                                                            kind(1.0_wp))**(-digits(1.0_wp)), &
+                                                            epsilon(1.0_wp), &
+                                                            log10(real(radix(1.0_wp), &
+                                                            kind(1.0_wp)))] !! machine constants
 
     real(wp), parameter, private :: uflow = d1mach(1) !! the smallest positive magnitude.
     real(wp), parameter, private :: oflow = d1mach(2) !! the largest positive magnitude.
     real(wp), parameter, private :: epmach = d1mach(4) !! the largest relative spacing.
     real(wp), parameter, private :: pi = acos(-1.0_wp) !! pi
 
-    integer, parameter, private :: limexp = 50 !! limexp is the maximum number of elements the epsilon
-                                            !! table can contain. if this number is reached, the upper
-                                            !! diagonal of the epsilon table is deleted.
-                                            !! originally defined in [[dqelg]]. Was moved to be a module
-                                            !! variable since various dimensions in other routines
-                                            !! depend on the value
+    integer, parameter, private :: limexp = 50 !! `limexp` is the maximum number of elements the epsilon
+                                               !! table can contain. if this number is reached, the upper
+                                               !! diagonal of the epsilon table is deleted.
+                                               !! originally defined in [[dqelg]]. Was moved to be a module
+                                               !! variable since various dimensions in other routines
+                                               !! depend on the value
 
     abstract interface
+
         real(wp) function func(x)
         !! interface for user-supplied function.
             import :: wp
@@ -60,11 +67,18 @@ module quadpack
 
     end interface
 
-contains
+    public :: dqag, dqage, dqagi, dqagie, dqagp, dqagpe, dqags, &
+              dqagse, dqawc, dqawce, dqawf, dqawfe, dqawo, dqawoe, dqaws, &
+              dqawse, dqc25c, dqc25f, dqc25s, dqcheb, dqk15, dqk15i, &
+              dqk15w, dqk21, dqk31, dqk41, dqk51, dqk61, dqmomo, dqng
+
+    contains
 !********************************************************************************
 
 !********************************************************************************
 !>
+!  1D globally adaptive integrator using Gauss-Kronrod quadrature, oscillating integrand
+!
 !  the routine calculates an approximation result to a given
 !  definite integral i = integral of `f` over `(a,b)`,
 !  hopefully satisfying following claim for accuracy
@@ -204,6 +218,8 @@ contains
 
 !********************************************************************************
 !>
+!  same as [[dqag]] but provides more information and control
+!
 !  the routine calculates an approximation result to a given
 !  definite integral i = integral of `f` over `(a,b)`,
 !  hopefully satisfying following claim for accuracy
@@ -476,6 +492,8 @@ contains
 
 !********************************************************************************
 !>
+!  1D globally adaptive integrator, infinite intervals
+!
 !  the routine calculates an approximation result to a given
 !  integral with one of the following forms:
 !
@@ -624,6 +642,8 @@ contains
 
 !********************************************************************************
 !>
+!  same as [[dqagi]] but provides more information and control
+!
 !  the routine calculates an approximation result to a given
 !  integral with one of the following forms:
 !
@@ -1002,6 +1022,8 @@ contains
 
 !********************************************************************************
 !>
+!  1D globally adaptive integrator, singularities or discontinuities
+!
 !  the routine calculates an approximation result to a given
 !  definite integral i = integral of `f` over `(a,b)`,
 !  hopefully satisfying following claim for accuracy
@@ -1176,6 +1198,8 @@ contains
 
 !********************************************************************************
 !>
+!  same as [[dqagp]] but provides more information and control
+!
 !  the routine calculates an approximation result to a given
 !  definite integral i = integral of `f` over `(a,b)`, hopefully
 !  satisfying following claim for accuracy `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
@@ -1306,7 +1330,7 @@ contains
                                              !! `abs(bb-aa) = abs(p2-p1)*2**(-l)`.
 
         real(wp) :: a, abseps, b, correc, defabs, &
-                    dres, ertest, resa, esabs, reseps, Result, &
+                    dres, ertest, resa, reseps, Result, &
                     res3la(3), sign, temp, resabs
         integer :: i, id, ierro, ind1, ind2, ip1, iroff1, &
                    iroff2, iroff3, j, jlow, jupbnd, k, ksgn, ktmin, &
@@ -1636,6 +1660,8 @@ contains
 
 !********************************************************************************
 !>
+!  1D globally adaptive integrator using interval subdivision and extrapolation
+!
 !  the routine calculates an approximation result to a given
 !  definite integral i = integral of `f` over `(a,b)`,
 !  hopefully satisfying following claim for accuracy
@@ -1776,6 +1802,8 @@ contains
 
 !********************************************************************************
 !>
+!  same as [[dqags]] but provides more information and control
+!
 !  the routine calculates an approximation result to a given
 !  definite integral i = integral of `f` over `(a,b)`,
 !  hopefully satisfying following claim for accuracy
@@ -2151,6 +2179,8 @@ contains
 
 !********************************************************************************
 !>
+!  compute Cauchy principal value of `f(x)/(x-c)` over a finite interval
+!
 !  the routine calculates an approximation result to a
 !  cauchy principal value i = integral of `f*w` over `(a,b)`
 !  `(w(x) = 1/((x-c), c/=a, c/=b)`, hopefully satisfying
@@ -2277,6 +2307,8 @@ contains
 
 !********************************************************************************
 !>
+!  same as [[dqawc]] but provides more information and control
+!
 !  the routine calculates an approximation result to a
 !  cauchy principal value i = integral of `f*w` over `(a,b)`
 !  `(w(x) = 1/(x-c), (c/=a, c/=b)`, hopefully satisfying
@@ -2523,6 +2555,8 @@ contains
 
 !********************************************************************************
 !>
+!  Fourier sine/cosine transform for user supplied interval `a` to `infinity`
+!
 !  the routine calculates an approximation result to a given
 !  fourier integral i=integral of `f(x)*w(x)` over `(a,infinity)`
 !  where `w(x) = cos(omega*x)` or `w(x) = sin(omega*x)`.
@@ -2707,6 +2741,8 @@ contains
 
 !********************************************************************************
 !>
+!  same as [[dqawf]] but provides more information and control
+!
 !  the routine calculates an approximation result to a
 !  given fourier integal
 !  i = integral of `f(x)*w(x)` over `(a,infinity)`
@@ -3014,6 +3050,9 @@ contains
 
 !********************************************************************************
 !>
+!  1D integration of `cos(omega*x)*f(x)` or `sin(omega*x)*f(x)`
+!  over a finite interval, adaptive subdivision with extrapolation
+!
 !  the routine calculates an approximation result to a given
 !  definite integral i=integral of `f(x)*w(x)` over `(a,b)`
 !  where `w(x) = cos(omega*x)` or `w(x) = sin(omega*x)`,
@@ -3185,6 +3224,8 @@ contains
 
 !********************************************************************************
 !>
+!  same as [[dqawo]] but provides more information and control
+!
 !  the routine calculates an approximation result to a given
 !  definite integral
 !  i = integral of `f(x)*w(x)` over `(a,b)`
@@ -3648,13 +3689,12 @@ contains
 
 !********************************************************************************
 !>
-!  integration of functions having algebraico-logarithmic
-!  end point singularities.
+!  1D integration of functions with powers and or logs over a finite interval
 !
 !  the routine calculates an approximation result to a given
-!  definite integral i = integral of f*w over `(a,b)`,
-!  (where w shows a singular behaviour at the end points
-!  see parameter integr).
+!  definite integral i = integral of `f*w` over `(a,b)`,
+!  (where `w` shows a singular behaviour at the end points
+!  see parameter `integr`).
 !  hopefully satisfying following claim for accuracy
 !  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
 !
@@ -3798,8 +3838,7 @@ contains
 
 !********************************************************************************
 !>
-!  integration of functions having algebraico-logarithmic
-!  end point singularities
+!  same as [[dqaws]] but provides more information and control
 !
 !  the routine calculates an approximation result to a given
 !  definite integral i = integral of f*w over `(a,b)`,
@@ -4091,8 +4130,7 @@ contains
 
 !********************************************************************************
 !>
-!  integration rules for the computation of cauchy
-!  principal value integrals
+!  1D integral for Cauchy principal values using a 25 point quadrature rule
 !
 !  to compute i = integral of `f*w` over `(a,b)` with
 !  error estimate, where `w(x) = 1/(x-c)`
@@ -4107,8 +4145,8 @@ contains
         real(wp), intent(in) :: a !! left end point of the integration interval
         real(wp), intent(in) :: b !! right end point of the integration interval, `b>a`
         real(wp), intent(in) :: c !! parameter in the weight function
-        real(wp), intent(out) :: Result !! approximation to the integral
-                                        !! result is computed by using a generalized
+        real(wp), intent(out) :: Result !! approximation to the integral.
+                                        !! `result` is computed by using a generalized
                                         !! clenshaw-curtis method if `c` lies within ten percent
                                         !! of the integration interval. in the other case the
                                         !! 15-point kronrod rule obtained by optimal addition
@@ -4208,6 +4246,8 @@ contains
 
 !********************************************************************************
 !>
+!  1D integral for sin/cos integrand using a 25 point quadrature rule
+!
 !  to compute the integral i=integral of `f(x)` over `(a,b)`
 !  where `w(x) = cos(omega*x)` or `w(x)=sin(omega*x)` and to
 !  compute j = integral of `abs(f)` over `(a,b)`. for small value
@@ -4416,7 +4456,7 @@ contains
                     an2 = an*an
                     d(noequ) = -2.0_wp*(an2 - 4.0_wp)*(par22 - an2 - an2)
                     v(noequ + 2) = ac + (an2 - 4.0_wp)*as
-                    v(3) = v(3) - 0.42d+02*par2*v(2)
+                    v(3) = v(3) - 42.0_wp*par2*v(2)
                     ass = parint*cospar
                     asap = (((((105.0_wp*par2 - 63.0_wp)*ass + (210.0_wp*par2 - &
                             1.0_wp)*sinpar)/an2 + (15.0_wp*par2 - 1.0_wp) &
@@ -4491,6 +4531,8 @@ contains
 
 !********************************************************************************
 !>
+!  25-point clenshaw-curtis integration
+!
 !  to compute i = integral of `f*w` over `(bl,br)`, with error
 !  estimate, where the weight function `w` has a singular
 !  behaviour of algebraico-logarithmic type at the points
@@ -4512,18 +4554,18 @@ contains
         real(wp), intent(in) :: Beta !! parameter in the weight function
         real(wp), intent(in) :: Ri(25) !! modified chebyshev moments for the application
                                        !! of the generalized clenshaw-curtis
-                                       !! method (computed in subroutine dqmomo)
+                                       !! method (computed in subroutine [[dqmomo]])
         real(wp), intent(in) :: Rj(25) !! modified chebyshev moments for the application
                                        !! of the generalized clenshaw-curtis
-                                       !! method (computed in subroutine dqmomo)
+                                       !! method (computed in subroutine [[dqmomo]])
         real(wp), intent(in) :: Rg(25) !! modified chebyshev moments for the application
                                        !! of the generalized clenshaw-curtis
-                                       !! method (computed in subroutine dqmomo)
+                                       !! method (computed in subroutine [[dqmomo]])
         real(wp), intent(in) :: Rh(25) !! modified chebyshev moments for the application
                                        !! of the generalized clenshaw-curtis
-                                       !! method (computed in subroutine dqmomo)
+                                       !! method (computed in subroutine [[dqmomo]])
         real(wp), intent(out) :: Result !! approximation to the integral
-                                        !! result is computed by using a generalized
+                                        !! `result` is computed by using a generalized
                                         !! clenshaw-curtis method if `b1 = a` or `br = b`.
                                         !! in all other cases the 15-point kronrod
                                         !! rule is applied, obtained by optimal addition of
@@ -5071,7 +5113,8 @@ contains
 
 !********************************************************************************
 !>
-!  15-point gauss-kronrod rules
+!  estimate 1D integral on finite interval using a 15 point gauss-kronrod
+!  rule and give error estimate, non-automatic
 !
 !  to compute i = integral of `f` over `(a,b)`, with error
 !  estimate j = integral of `abs(f)` over `(a,b)`
@@ -5198,7 +5241,8 @@ contains
 
 !********************************************************************************
 !>
-!  15-point transformed gauss-kronrod rules
+!  estimate 1D integral on (semi)infinite interval using a 15 point
+!  gauss-kronrod quadrature rule, non-automatic
 !
 !  the original (infinite integration range is mapped
 !  onto the interval (0,1) and (a,b) is a part of (0,1).
@@ -5349,10 +5393,11 @@ contains
 
 !********************************************************************************
 !>
-!  15-point gauss-kronrod rules
+!  estimate 1D integral with special singular weight functions using
+!  a 15 point gauss-kronrod quadrature rule
 !
-!  to compute i = integral of f*w over `(a,b)`, with error
-!  estimate j = integral of abs(f*w) over `(a,b)`
+!  to compute i = integral of `f*w` over `(a,b)`, with error
+!  estimate j = integral of `abs(f*w)` over `(a,b)`
 !
 !### History
 !  * QUADPACK: date written 810101, revision date 830518 (yymmdd).
@@ -5406,7 +5451,7 @@ contains
                                                                                            !!   added to the 7-point gauss rule
 
         real(wp), dimension(8), parameter :: wgk = [ &
-                                             0.2293532201052922d-01, 0.6309209262997855d-01, &
+                                             0.2293532201052922e-01_wp, 0.6309209262997855e-01_wp, &
                                              0.1047900103222502_wp, 0.1406532597155259_wp, &
                                              0.1690047266392679_wp, 0.1903505780647854_wp, &
                                              0.2044329400752989_wp, 0.2094821410847278_wp] !! weights of the 15-point gauss-kronrod rule
@@ -5473,7 +5518,8 @@ contains
 
 !********************************************************************************
 !>
-!  21-point gauss-kronrod rules
+!  estimate 1D integral on finite interval using a 21 point
+!  gauss-kronrod rule and give error estimate, non-automatic
 !
 !  to compute i = integral of `f` over `(a,b)`, with error
 !  estimate j = integral of `abs(f)` over `(a,b)`
@@ -5608,7 +5654,8 @@ contains
 
 !********************************************************************************
 !>
-!  31-point gauss-kronrod rules
+!  estimate 1D integral on finite interval using a 31 point
+!  gauss-kronrod rule and give error estimate, non-automatic
 !
 !  to compute i = integral of `f` over `(a,b)` with error
 !  estimate j = integral of `abs(f)` over `(a,b)`
@@ -5757,7 +5804,8 @@ contains
 
 !********************************************************************************
 !>
-!  41-point gauss-kronrod rules
+!  estimate 1D integral on finite interval using a 41 point
+!  gauss-kronrod rule and give error estimate, non-automatic
 !
 !  to compute i = integral of `f` over `(a,b)`, with error
 !  estimate j = integral of `abs(f)` over `(a,b)`
@@ -5918,7 +5966,8 @@ contains
 
 !********************************************************************************
 !>
-!  51-point gauss-kronrod rules
+!  estimate 1D integral on finite interval using a 51 point
+!  gauss-kronrod rule and give error estimate, non-automatic
 !
 !  to compute i = integral of `f` over `(a,b)` with error
 !  estimate j = integral of `abs(f)` over `(a,b)`
@@ -6003,7 +6052,7 @@ contains
                                               0.183718939421048892015969888759528_wp, &
                                               0.122864692610710396387359818808037_wp, &
                                               0.061544483005685078886546392366797_wp, &
-                                              0.000000000000000000000000000000000_wp] !! abscissae of the 51-point kronrod rule"
+                                              0.000000000000000000000000000000000_wp] !! abscissae of the 51-point kronrod rule
                                                                                       !!
                                                                                       !! * xgk(2), xgk(4), ...  abscissae of the 25-point
                                                                                       !!   gauss rule
@@ -6094,7 +6143,8 @@ contains
 
 !********************************************************************************
 !>
-!  61-point gauss-kronrod rules
+!  estimate 1D integral on finite interval using a 61 point
+!  gauss-kronrod rule and give error estimate, non-automatic
 !
 !  to compute i = integral of `f` over `(a,b)` with error
 !  estimate j = integral of `abs(f)` over `(a,b)`.
@@ -6278,10 +6328,12 @@ contains
 
 !********************************************************************************
 !>
-!  this routine computes modified chebsyshev moments. the k-th
+!  1D integration of `k`-th degree Chebyshev polynomial times a function with singularities
+!
+!  this routine computes modified chebsyshev moments. the `k`-th
 !  modified chebyshev moment is defined as the integral over
-!  (-1,1) of w(x)*t(k,x), where t(k,x) is the chebyshev
-!  polynomial of degree k.
+!  `(-1,1)` of `w(x)*t(k,x)`, where `t(k,x)` is the chebyshev
+!  polynomial of degree `k`.
 !
 !### History
 !  * QUADPACK: date written 820101, revision date 830518 (yymmdd).
@@ -6379,7 +6431,7 @@ contains
 
 !********************************************************************************
 !>
-!  non-adaptive integration
+!  1D non-adaptive automatic integrator
 !
 !  the routine calculates an approximation result to a
 !  given definite integral i = integral of `f` over `(a,b)`,
@@ -7040,9 +7092,8 @@ contains
 !  * Jacob Williams, Dec 2021 : rewrite simple version for new quadpack
 !
 !### References
-!  * Jones R.E., Kahaner D.K., "Xerror, the slatec error-
-!    handling package", sand82-0800, sandia laboratories,
-!    1982.
+!  * Jones R.E., Kahaner D.K., "Xerror, the slatec error-handling package",
+!    sand82-0800, sandia laboratories, 1982.
 
     subroutine xerror(messg, nmessg, nerr, level)
         implicit none
@@ -7068,6 +7119,8 @@ contains
     end subroutine xerror
 !********************************************************************************
 
+#ifndef MOD_INCLUDE
 !********************************************************************************
 end module quadpack
 !********************************************************************************
+#endif
