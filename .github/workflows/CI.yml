@@ -51,10 +51,10 @@ jobs:
         --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
 
     - name: Compile
-      run: fpm build
+      run: fpm build -flag "-I././src"
 
     - name: Test
-      run: fpm test
+      run: fpm test -flag "-I././src -I././test"
 
     - name: Build documentation
       run: ford ./quadpack.md
