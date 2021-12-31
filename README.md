@@ -1,13 +1,42 @@
-A work in progress to modernize the [QUADPACK](http://www.netlib.org/quadpack/) library.
+Modern Fortran QUADPACK Library.
 
 ### Description
 
 QUADPACK is a FORTRAN subroutine package for the numerical
-computation of definite one-dimensional integrals. For precise guidelines involving the use of each routine in
-particular, we refer to the extensive introductory comments
-within each routine.
+computation of definite one-dimensional integrals.
+### Overview
 
-### Survey
+The original QUADPACK code has been extensively refactored:
+
+* It has been converted from FORTRAN 77 fixed form to modern free form syntax. This includes elimination of most GOTOs and other obsolescent language features.
+* It is now a single stand-alone module, and has no dependencies on any other code from SLATEC or LINPACK.
+* The SLATEC docstrings have been converted to [Ford](https://github.com/Fortran-FOSS-Programmers/ford) style, which allows for auto-generation of the API docs.
+* Some typos have been corrected in the comments.
+* General code cleanup and formatting.
+* Added automated unit test in GitHub CI.
+* The separate routines for single and double precision versions have been eliminated. The module uses double precision (`real64`) variables by default. However, it can be instantiated to use any real kind. For example, to create a single precision version using some preprocessing trickery:
+
+  ```fortran
+  module quadpack_single
+  use iso_fortran_env, only: wp => real32
+  #define MOD_INCLUDE=1
+  #include "quadpack.F90"
+  end module quadpack_single
+  ```
+
+Note that this version includes the recent (Oct 2021) updates (see [here](https://github.com/scipy/scipy/issues/14807) and [here](https://github.com/scipy/scipy/pull/14836)) reported by the Scipy project.
+
+### To do
+
+Items on the TODO list:
+
+* Remove the last remaining GOTOs.
+* Additional docstring cleanups.
+* Added more unit tests.
+* In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.
+* Figure out the best way to have the single, double, and quad versions included in the library by default. See the `archive` folder for an attempt at this. However, for some reason it didn't work in the GitHub CI.
+
+### Survey of procedures
 
 The following list gives an overview of the QUADPACK integrators.
 The routine names for the DOUBLE PRECISION versions are preceded
@@ -189,6 +218,10 @@ Such quadrature problems include the Fourier transform as
 a special case. Yet for the latter we have an automatic
 integrator available, QAWF.
 
+### License
+
+The original Quadpack was a public domain work of the United States government. The modifications are released under a permissive (BSD-3) license.
+
 ### See also
 
   * R. Piessens, E. deDoncker-Kapenga, C. Uberhuber, D. Kahaner
@@ -197,6 +230,10 @@ integrator available, QAWF.
     515.43/Q1S 100394Z
   * Paola Favati, Grazia Lotti, Francesco Romani, [Algorithm 691: Improving QUADPACK automatic integration routines](https://dl.acm.org/doi/abs/10.1145/108556.108580), ACM Transactions on Mathematical Software, Volume 17, Issue 2, June 1991, pp 218-232.
   * Original SLATEC code from [Netlib](http://www.netlib.org/quadpack/). Last modified 11 Oct 2021.
+
+### Other versions
+
+There are other versions of Quadpack out there. There are at least two projects to provide module interface to the unmodified Fortran 77 code (see [nshaffer/modern_quadpack](https://github.com/nshaffer/modern_quadpack) and [ivan-pi/quadpack](https://github.com/ivan-pi/quadpack)). The license for these are not specified.  Another fixed to free conversion can be found at [John Burkardt's site](https://people.math.sc.edu/Burkardt/f_src/quadpack_double/quadpack_double.f90) (this is not an aggressive modernization though and also has an LGPL license). Also note that the Quadpack code in [SLATEC](http://www.netlib.org/slatec/src/) is slightly modified from the stand-alone one at [Netlib](http://www.netlib.org/quadpack/). It is not known if these modifications were anything significant.
 
 ### Keywords
   * survey of integrators, guidelines for selection,
