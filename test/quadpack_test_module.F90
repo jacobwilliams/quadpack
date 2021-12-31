@@ -1,5 +1,5 @@
 #ifndef MOD_INCLUDE
-    module quadpack_test_module
+module quadpack_test_module
     use quadpack, wp => quadpack_RK
 #endif
 
@@ -8,37 +8,37 @@
     public
 
     real(wp), parameter :: epsabs = 0.0_wp
-    real(wp), parameter :: epsrel = 10**( log10(epsilon(1.0_wp)) / 2.0_wp )
+    real(wp), parameter :: epsrel = 10**(log10(epsilon(1.0_wp))/2.0_wp)
 
 contains
 
     subroutine check_result(routine, value, answer, neval)
         implicit none
-        character(len=*),intent(in) :: routine
-        real(wp),intent(in) :: value
-        real(wp),intent(in) :: answer
-        integer,intent(in) :: neval
+
+        character(len=*), intent(in) :: routine
+        real(wp), intent(in) :: value
+        real(wp), intent(in) :: answer
+        integer, intent(in) :: neval
 
         write (*, '(1P,A25,1X,2(E13.6,1X),I6)') routine, value, abs(value - answer), neval
 
-        if (abs(value-answer)>epsrel) error stop 'TEST FAILED'
+        if (abs(value - answer) > epsrel) error stop 'TEST FAILED'
 
     end subroutine check_result
 
     subroutine test_qag
         implicit none
 
-        real(wp) :: a, abserr, b, result, work
-        integer :: ier, iwork, key, last, lenw, limit, neval
-        dimension iwork(100), work(400)
+        real(wp), parameter :: a = 0.0_wp
+        real(wp), parameter :: b = 1.0_wp
+        integer, parameter :: key = 6
+        integer, parameter :: limit = 100
+        integer, parameter :: lenw = limit*4
+        real(wp), parameter :: answer = 2.0_wp/sqrt(3.0_wp)
 
-        real(wp),parameter :: answer = 2.0_wp/sqrt(3.0_wp)
+        real(wp) :: abserr, result, work(400)
+        integer :: ier, iwork(100), last, neval
 
-        a = 0.0_wp
-        b = 1.0_wp
-        key = 6
-        limit = 100
-        lenw = limit*4
         call dqag(f, a, b, epsabs, epsrel, key, result, abserr, neval, &
                   ier, limit, lenw, last, iwork, work)
 
@@ -58,17 +58,16 @@ contains
     subroutine test_qagi
         implicit none
 
-        real(wp) abserr, boun, result, work
-        integer ier, inf, iwork, last, lenw, limit, neval
-        dimension iwork(100), work(400)
-
         real(wp), parameter :: pi = acos(-1.0_wp)
-        real(wp),parameter :: answer = sqrt(2.0_wp)*pi*log(2.0_wp)
+        real(wp), parameter :: boun = 0.0_wp
+        integer, parameter :: inf = 1
+        integer, parameter :: limit = 100
+        integer, parameter :: lenw = limit*4
+        real(wp), parameter :: answer = sqrt(2.0_wp)*pi*log(2.0_wp)
 
-        boun = 0.0_wp
-        inf = 1
-        limit = 100
-        lenw = limit*4
+        real(wp) :: abserr, result, work(400)
+        integer :: ier, iwork(100), last, neval
+
         call dqagi(f, boun, inf, epsabs, epsrel, result, abserr, neval, &
                    ier, limit, lenw, last, iwork, work)
 
@@ -92,17 +91,17 @@ contains
         integer, parameter :: limit = 100
         integer, parameter :: leniw = limit*2 + npts2
         integer, parameter :: lenw = limit*4 + npts2
+        real(wp), parameter :: a = 0.0_wp
+        real(wp), parameter :: b = 1.0_wp
+        real(wp), parameter :: answer = 4.253687688108305_wp
+        real(wp), dimension(npts2), parameter :: points = [1.0_wp/7.0_wp, &
+                                                           2.0_wp/3.0_wp, &
+                                                           0.0_wp, &
+                                                           0.0_wp]
 
-        real(wp),parameter :: answer = 4.253687688108305_wp
+        real(wp) :: abserr, result, work(lenw)
+        integer :: ier, iwork(leniw), last, neval
 
-        real(wp) a, abserr, b, points, result, work
-        integer ier, iwork, last, neval
-        dimension iwork(leniw), points(npts2), work(lenw)
-
-        a = 0.0_wp
-        b = 1.0_wp
-        points(1) = 1.0_wp/7.0_wp
-        points(2) = 2.0_wp/3.0_wp
         call dqagp(f, a, b, npts2, points, epsabs, epsrel, result, abserr, &
                    neval, ier, leniw, lenw, last, iwork, work)
 
@@ -114,7 +113,7 @@ contains
         real(wp) function f(x)
             implicit none
             real(wp), intent(in) :: x
-            f = 0.0d+00
+            f = 0.0_wp
             if (x /= 1.0_wp/7.0_wp .and. x /= 2.0_wp/3.0_wp) f = &
                 abs(x - 1.0_wp/7.0_wp)**(-0.25_wp)* &
                 abs(x - 2.0_wp/3.0_wp)**(-0.55_wp)
@@ -126,16 +125,15 @@ contains
     subroutine test_qags
         implicit none
 
-        real(wp) a, abserr, b, result, work
-        integer ier, iwork, last, lenw, limit, neval
-        dimension iwork(100), work(400)
+        real(wp), parameter :: a = 0.0_wp
+        real(wp), parameter :: b = 1.0_wp
+        integer, parameter :: limit = 100
+        integer, parameter :: lenw = limit*4
+        real(wp), parameter :: answer = 2.0_wp
 
-        real(wp),parameter :: answer = 2.0_wp
+        real(wp) :: abserr, result, work(400)
+        integer :: ier, iwork(100), last, neval
 
-        a = 0.0_wp
-        b = 1.0_wp
-        limit = 100
-        lenw = limit*4
         call dqags(f, a, b, epsabs, epsrel, result, abserr, neval, ier, &
                    limit, lenw, last, iwork, work)
 
@@ -155,19 +153,18 @@ contains
     subroutine test_qawc
         implicit none
 
-        real(wp) a, abserr, b, c, result, work
-        integer ier, iwork, last, lenw, limit, neval
-        dimension iwork(100), work(400)
+        real(wp), parameter :: a = -1.0_wp
+        real(wp), parameter :: b = 1.0_wp
+        real(wp), parameter :: c = 0.5_wp
+        integer, parameter :: limit = 100
+        integer, parameter :: lenw = limit*4
+        real(wp), parameter :: answer = -628.4617285065623_wp
 
-        real(wp),parameter :: answer = -628.4617285065623_wp
+        real(wp) :: abserr, result, work(400)
+        integer :: ier, iwork(100), last, neval
 
-        a = -1.0_wp
-        b = 1.0_wp
-        c = 0.5_wp
-        limit = 100
-        lenw = limit*4
-        call dqawc(f, a, b, c, epsabs, epsrel, result, abserr, neval, &
-                   ier, limit, lenw, last, iwork, work)
+        call dqawc(f, a, b, c, epsabs, epsrel, result, abserr, &
+                   neval, ier, limit, lenw, last, iwork, work)
 
         ! maxima: quad_qawc((1/(x*x+1.0e-4)), x, 0.5, -1, 1);
         call check_result('dqawc', result, answer, neval)
@@ -185,22 +182,20 @@ contains
     subroutine test_qawf
         implicit none
 
-        real(wp) a, abserr, result, omega, work
-        integer ier, integr, iwork, last, leniw, lenw, limit, limlst, &
-            lst, maxp1, neval
-        dimension iwork(250), work(1025)
-
         real(wp), parameter :: pi = acos(-1.0_wp)
-        real(wp),parameter :: answer = sqrt(29.0_wp*pi) - sqrt(21.0_wp*pi)
+        real(wp), parameter :: a = 0.0_wp
+        real(wp), parameter :: omega = 8.0_wp
+        integer, parameter :: integr = 2
+        integer, parameter :: limlst = 50
+        integer, parameter :: limit = 100
+        integer, parameter :: leniw = limit*2 + limlst
+        integer, parameter :: maxp1 = 21
+        integer, parameter :: lenw = leniw*2 + maxp1*25
+        real(wp), parameter :: answer = sqrt(29.0_wp*pi) - sqrt(21.0_wp*pi)
 
-        a = 0.0_wp
-        omega = 8.0_wp
-        integr = 2
-        limlst = 50
-        limit = 100
-        leniw = limit*2 + limlst
-        maxp1 = 21
-        lenw = leniw*2 + maxp1*25
+        real(wp) :: abserr, result, work(1025)
+        integer :: ier, iwork(250), last, lst, neval
+
         call dqawf(f, a, omega, integr, epsrel, result, abserr, neval, &
                    ier, limlst, lst, leniw, maxp1, lenw, iwork, work)
 
@@ -224,20 +219,18 @@ contains
     subroutine test_qawo
         implicit none
 
-        real(wp) a, abserr, b, result, omega, work
-        integer ier, integr, iwork, last, leniw, lenw, limit, maxp1, neval
-        dimension iwork(200), work(925)
+        real(wp), parameter :: a = 0.0_wp
+        real(wp), parameter :: b = 1.0_wp
+        real(wp), parameter :: omega = 10.0_wp
+        integer, parameter :: integr = 1
+        integer, parameter :: limit = 100
+        integer, parameter :: leniw = limit*2
+        integer, parameter :: maxp1 = 21
+        integer, parameter :: lenw = limit*4 + maxp1*25
+        real(wp), parameter :: answer = -0.17763920651138_wp
 
-        real(wp),parameter :: answer = -0.17763920651138_wp
-
-        a = 0.0_wp
-        b = 1.0_wp
-        omega = 10.0_wp
-        integr = 1
-        limit = 100
-        leniw = limit*2
-        maxp1 = 21
-        lenw = limit*4 + maxp1*25
+        real(wp) :: abserr, result, work(925)
+        integer :: ier, iwork(200), last, neval
 
         call dqawo(f, a, b, omega, integr, epsabs, epsrel, result, abserr, &
                    neval, ier, leniw, maxp1, lenw, last, iwork, work)
@@ -291,13 +284,13 @@ contains
     subroutine test_qng
         implicit none
 
-        real(wp) a, abserr, b, result
-        integer ier, neval
-
+        real(wp), parameter :: a = 0.0_wp
+        real(wp), parameter :: b = 1.0_wp
         real(wp), parameter :: answer = 1.27072413983362_wp
 
-        a = 0.0_wp
-        b = 1.0_wp
+        real(wp) :: abserr, result
+        integer :: ier, neval
+
         call dqng(f, a, b, epsabs, epsrel, result, abserr, neval, ier)
 
         ! result from maxima: quad_qags(exp(x)/(x*x+1), x, 0, 1);
@@ -311,8 +304,8 @@ contains
             return
         end function f
 
-        end subroutine test_qng
+    end subroutine test_qng
 
 #ifndef MOD_INCLUDE
-    end module quadpack_test_module
+end module quadpack_test_module
 #endif
