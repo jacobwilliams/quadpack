@@ -2634,8 +2634,8 @@ module quadpack
                                    !! * ier = 7 bad integrand behaviour occurs within
                                    !!   one or more of the cycles. location and
                                    !!   type of the difficulty involved can be
-                                   !!   determined from the first lst elements of
-                                   !!   vector iwork.  here `lst` is the number of
+                                   !!   determined from the first `lst` elements of
+                                   !!   vector `iwork`.  here `lst` is the number of
                                    !!   cycles actually needed (see below):
                                    !!
                                    !!    * iwork(k) = 1 the maximum number of
@@ -2831,8 +2831,8 @@ module quadpack
                                     !! * ier = 7 bad integrand behaviour occurs within one
                                     !!   or more of the cycles. location and type
                                     !!   of the difficulty involved can be
-                                    !!   determined from the vector ierlst. here
-                                    !!   lst is the number of cycles actually
+                                    !!   determined from the vector `ierlst`. here
+                                    !!   `lst` is the number of cycles actually
                                     !!   needed (see below):
                                     !!
                                     !!    * ierlst(k) = 1 the maximum number of
@@ -3768,7 +3768,7 @@ module quadpack
                                     !! * ier = 6 the input is invalid, because
                                     !!   `b<=a` or `alfa<=(-1)` or `beta<=(-1)` or
                                     !!   or `integr<1` or `integr>4` or
-                                    !!   `(epsabs<=0 and epsrel<max(50*rel.mach.acc.,0.5d-28))`
+                                    !!   `(epsabs<=0 and epsrel<max(50*rel.mach.acc.,0.5e-28))`
                                     !!   or `limit<2` or `lenw<limit*4`.
                                     !!   `result`, `abserr`, `neval`, `last` are set to
                                     !!   zero. except when `lenw` or `limit` is invalid
@@ -5045,7 +5045,7 @@ module quadpack
                         ! test to detect irregular behaviour in the table, and
                         ! eventually omit a part of the table adjusting the value
                         ! of n.
-                        if (epsinf > 0.1d-03) then
+                        if (epsinf > 0.1e-03_wp) then
                             ! compute a new element and eventually adjust
                             ! the value of result.
                             res = e1 + 1.0_wp/ss
