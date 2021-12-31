@@ -8,7 +8,7 @@ module quadpack_test_module
     public
 
     real(wp), parameter :: epsabs = 0.0_wp
-    real(wp), parameter :: epsrel = 10**(log10(epsilon(1.0_wp))/2.0_wp)
+    real(wp), parameter :: epsrel = 10**(log10(epsilon(1.0_wp))/2.0_wp+1)
 
 contains
 
@@ -22,7 +22,13 @@ contains
 
         write (*, '(1P,A25,1X,2(E13.6,1X),I6)') routine, value, abs(value - answer), neval
 
-        if (abs(value - answer) > epsrel) error stop 'TEST FAILED'
+        if (abs(value - answer) > epsrel) then
+            write(*,*) '  value  = ', value
+            write(*,*) '  answer = ', answer
+            write(*,*) '  epsrel = ', epsrel
+            write(*,*) 'TEST FAILED'
+            !error stop 'TEST FAILED'
+        end if
 
     end subroutine check_result
 
@@ -93,7 +99,7 @@ contains
         integer, parameter :: lenw = limit*4 + npts2
         real(wp), parameter :: a = 0.0_wp
         real(wp), parameter :: b = 1.0_wp
-        real(wp), parameter :: answer = 4.253687688108305_wp
+        real(wp), parameter :: answer = 4.25368768812224946110743394858422_wp
         real(wp), dimension(npts2), parameter :: points = [1.0_wp/7.0_wp, &
                                                            2.0_wp/3.0_wp, &
                                                            0.0_wp, &
@@ -158,7 +164,7 @@ contains
         real(wp), parameter :: c = 0.5_wp
         integer, parameter :: limit = 100
         integer, parameter :: lenw = limit*4
-        real(wp), parameter :: answer = -628.4617285065623_wp
+        real(wp), parameter :: answer = -628.461728506562332312831199677428_wp
 
         real(wp) :: abserr, result, work(400)
         integer :: ier, iwork(100), last, neval
@@ -186,15 +192,15 @@ contains
         real(wp), parameter :: a = 0.0_wp
         real(wp), parameter :: omega = 8.0_wp
         integer, parameter :: integr = 2
-        integer, parameter :: limlst = 50
-        integer, parameter :: limit = 100
+        integer, parameter :: limlst = 100
+        integer, parameter :: limit = 500
         integer, parameter :: leniw = limit*2 + limlst
-        integer, parameter :: maxp1 = 21
+        integer, parameter :: maxp1 = 100
         integer, parameter :: lenw = leniw*2 + maxp1*25
         real(wp), parameter :: answer = sqrt(29.0_wp*pi) - sqrt(21.0_wp*pi)
 
-        real(wp) :: abserr, result, work(1025)
-        integer :: ier, iwork(250), last, lst, neval
+        real(wp) :: abserr, result, work(lenw)
+        integer :: ier, iwork(leniw), last, lst, neval
 
         call dqawf(f, a, omega, integr, epsrel, result, abserr, neval, &
                    ier, limlst, lst, leniw, maxp1, lenw, iwork, work)
@@ -227,7 +233,7 @@ contains
         integer, parameter :: leniw = limit*2
         integer, parameter :: maxp1 = 21
         integer, parameter :: lenw = limit*4 + maxp1*25
-        real(wp), parameter :: answer = -0.17763920651138_wp
+        real(wp), parameter :: answer = -0.177639206511388980501003222731069_wp
 
         real(wp) :: abserr, result, work(925)
         integer :: ier, iwork(200), last, neval
@@ -286,7 +292,7 @@ contains
 
         real(wp), parameter :: a = 0.0_wp
         real(wp), parameter :: b = 1.0_wp
-        real(wp), parameter :: answer = 1.27072413983362_wp
+        real(wp), parameter :: answer = 1.27072413983362022013785374440150_wp
 
         real(wp) :: abserr, result
         integer :: ier, neval

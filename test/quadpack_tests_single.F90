@@ -6,4 +6,4 @@ program quadpack_tests_single
     write(*,*) ''
 #define MOD_INCLUDE=1
 #include "quadpack_tests.F90"
-    end program quadpack_tests_single
+end program quadpack_tests_single

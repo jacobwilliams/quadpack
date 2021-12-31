@@ -18,11 +18,16 @@ source-dir = "src"
 library = true
 
 [[test]]
+name = "single"
+source-dir = "test"
+main = "quadpack_tests_single.F90"
+
+[[test]]
 name = "double"
 source-dir = "test"
 main = "quadpack_tests_double.F90"
 
 [[test]]
-name = "single"
+name = "quad"
 source-dir = "test"
-main = "quadpack_tests_single.F90"
+main = "quadpack_tests_quad.F90"
