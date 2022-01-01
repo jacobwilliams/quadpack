@@ -4163,9 +4163,9 @@ module quadpack
         real(wp) :: fval(25) !! value of the function `f` at the points
                              !! `cos(k*pi/24)`, `k = 0, ..., 24`
         real(wp) :: cheb12(13) !! chebyshev series expansion coefficients,
-                               !! for the function f, of degree 12
+                               !! for the function `f`, of degree 12
         real(wp) :: cheb24(25) !! chebyshev series expansion coefficients,
-                               !! for the function f, of degree 24
+                               !! for the function `f`, of degree 24
         real(wp) :: res12 !! approximation to the integral corresponding
                           !! to the use of cheb12
         real(wp) :: res24 !! approximation to the integral corresponding
@@ -4312,7 +4312,7 @@ module quadpack
                                !! of degree 12, for the function `f`, in the
                                !! interval `(a,b)`
         real(wp) :: cheb24(25) !! coefficients of the chebyshev series expansion
-                               !! of degree 24, for the function f, in the
+                               !! of degree 24, for the function `f`, in the
                                !! interval `(a,b)`
         real(wp) :: resc12 !! approximation to the integral of
                            !! `cos(0.5*(b-a)*omega*x)*f(0.5*(b-a)*x+0.5*(b+a))`
@@ -4581,18 +4581,18 @@ module quadpack
         integer, intent(out) :: Nev !! number of integrand evaluations
 
         real(wp) :: cheb12(13) !! coefficients of the chebyshev series expansion
-                               !! of degree 12, for the function f, in the
-                               !! interval (bl,br)
+                               !! of degree 12, for the function `f`, in the
+                               !! interval `(bl,br)`
         real(wp) :: cheb24(25) !! coefficients of the chebyshev series expansion
-                               !! of degree 24, for the function f, in the
-                               !! interval (bl,br)
+                               !! of degree 24, for the function `f`, in the
+                               !! interval `(bl,br)`
         real(wp) :: fval(25) !! value of the function f at the points
-                             !! (br-bl)*0.5*cos(k*pi/24)+(br+bl)*0.5
-                             !! k = 0, ..., 24
-        real(wp) :: res12 !! approximation to the integral obtained from cheb12
-        real(wp) :: res24 !! approximation to the integral obtained from cheb24
-        real(wp) :: hlgth !! half-length of the interval (bl,br)
-        real(wp) :: centr !! mid point of the interval (bl,br)
+                             !! `(br-bl)*0.5*cos(k*pi/24)+(br+bl)*0.5`
+                             !! `k = 0, ..., 24`
+        real(wp) :: res12 !! approximation to the integral obtained from `cheb12`
+        real(wp) :: res24 !! approximation to the integral obtained from `cheb24`
+        real(wp) :: hlgth !! half-length of the interval `(bl,br)`
+        real(wp) :: centr !! mid point of the interval `(bl,br)`
         integer :: k !! counter for `x`
         real(wp) :: dc, factor, fix, resabs, u
         integer :: i, isym
