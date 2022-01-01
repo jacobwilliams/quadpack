@@ -145,14 +145,15 @@ computation of definite one-dimensional integrals.</p>
 <li>Some typos have been corrected in the comments.</li>
 <li>General code cleanup and formatting.</li>
 <li>Added automated unit testing in GitHub CI.</li>
-<li>The separate routines for single and double precision versions have been eliminated. The module uses double precision (<code>real64</code>) variables by default. However, it can be instantiated to use any real kind. For example, to create a single precision version using some preprocessing trickery:</li>
+<li>The separate routines for single and double precision versions have been eliminated. The module uses double precision (<code>real64</code>) variables by default. However, it can be instantiated to use any real kind using some preprocessing trickery. For example, to create a single precision version:</li>
 </ul>
-<p><code>fortran
-  module quadpack_single
-  use iso_fortran_env, only: wp =&gt; real32
-  #define MOD_INCLUDE=1
-  #include "quadpack.F90"
-  end module quadpack_single</code></p>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">module </span><span class="n">quadpack_single</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">wp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">real32</span><span class="w"></span>
+<span class="w">  </span><span class="err">#</span><span class="n">define</span><span class="w"> </span><span class="n">MOD_INCLUDE</span><span class="o">=</span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="err">#</span><span class="k">include</span><span class="w"> </span><span class="s2">&quot;quadpack.F90&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end module </span><span class="n">quadpack_single</span><span class="w"></span>
+</code></pre></div>
+
 <p>Note that this version includes the recent (Oct 2021) updates (see <a href="https://github.com/scipy/scipy/issues/14807">here</a> and <a href="https://github.com/scipy/scipy/pull/14836">here</a>) reported by the Scipy project.</p>
 <h3>To do list</h3>
 <ul>
