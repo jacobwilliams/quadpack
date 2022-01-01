@@ -3216,7 +3216,7 @@ module quadpack
             lvl = 0
         end if
 
-        if (Ier == 6) lvl = 0
+        if (Ier == 6) lvl = 1
         if (Ier /= 0) call xerror('abnormal return from dqawo', 26, Ier, lvl)
 
     end subroutine dqawo
