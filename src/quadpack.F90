@@ -67,7 +67,7 @@ module quadpack
 
     end interface
 
-#if defined(EXPORT_REAL)
+#if defined(EXPORT_REAL) && !defined(__GFORTRAN__)
     ! export the single precision names (qag, etc.)
     generic, public :: qag => dqag
     generic, public :: qage => dqage
@@ -99,7 +99,7 @@ module quadpack
     generic, public :: qk61 => dqk61
     generic, public :: qmomo => dqmomo
     generic, public :: qng => dqng
-#elif defined(EXPORT_QUAD)
+#elif defined(EXPORT_QUAD) && !defined(__GFORTRAN__)
     ! export the quad precision names (qqag, etc.)
     generic, public :: qqag => dqag
     generic, public :: qqage => dqage
