@@ -1,4 +1,7 @@
-Modern Fortran QUADPACK Library.
+![quadpack2](media/logo.png)
+============
+
+A Modernized QUADPACK Library.
 
 ### Description
 
@@ -26,15 +29,28 @@ The original QUADPACK code has been extensively refactored:
 
 Note that this version includes the recent (Oct 2021) updates (see [here](https://github.com/scipy/scipy/issues/14807) and [here](https://github.com/scipy/scipy/pull/14836)) reported by the Scipy project.
 
-### To do
+### To do list
 
-Items on the TODO list:
+ - [ ] Remove the last remaining GOTOs.
+ - [ ] Additional docstring cleanups.
+ - [ ] Added more unit tests.
+ - [ ] In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.
+ - [ ] Figure out the best way to have the single, double, and quad versions included in the library by default. See the `archive` folder for an attempt at this. However, for some reason it didn't work in the GitHub CI.
 
-* Remove the last remaining GOTOs.
-* Additional docstring cleanups.
-* Added more unit tests.
-* In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.
-* Figure out the best way to have the single, double, and quad versions included in the library by default. See the `archive` folder for an attempt at this. However, for some reason it didn't work in the GitHub CI.
+### Compiling
+
+A [Fortran Package Manager](https://github.com/fortran-lang/fpm) manifest file is included, so that the library and test cases can be compiled with FPM. For example:
+
+```
+fpm build --profile release
+fpm test --profile release
+```
+
+To use `quadpack` within your fpm project, add the following to your `fpm.toml` file:
+```toml
+[dependencies]
+quadpack = { git="https://github.com/jacobwilliams/quadpack.git" }
+```
 
 ### Survey of procedures
 
