@@ -12,7 +12,7 @@ computation of definite one-dimensional integrals.
 
 ### Overview
 
-The original QUADPACK code has been extensively refactored:
+The original QUADPACK code (written in the early 1980s) has been extensively refactored:
 
 * It has been converted from FORTRAN 77 fixed form to modern free form syntax. This includes elimination of most GOTOs and other obsolescent language features.
 * It is now a single stand-alone module, and has no dependencies on any other code from SLATEC or LINPACK.
@@ -288,7 +288,7 @@ The API documentation for the current `master` branch can be found [here](https:
 
 The original Quadpack was a public domain work of the United States government. The modifications are released under a permissive (BSD-3) license.
 
-### See also
+### References
 
   * R. Piessens, E. deDoncker-Kapenga, C. Uberhuber, D. Kahaner
     [Quadpack: a Subroutine Package for Automatic Integration](https://link.springer.com/book/10.1007/978-3-642-61786-7)
