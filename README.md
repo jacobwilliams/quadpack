@@ -117,8 +117,8 @@ by the letter D.
          integrand.
 
 - **QAGS** : Is an integrator based on globally adaptive interval
-         subdivision in connection with extrapolation (de Doncker,
-         1978) by the Epsilon algorithm ([Wynn, 1956](https://www.jstor.org/stable/2002183)).
+         subdivision in connection with extrapolation ([de Doncker,
+         1978](https://dl.acm.org/doi/10.1145/1053402.1053403)) by the Epsilon algorithm ([Wynn, 1956](https://www.jstor.org/stable/2002183)).
 
 - **QAGP** : Serves the same purposes as QAGS, but also allows
          for eventual user-supplied information, i.e. the
