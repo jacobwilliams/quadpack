@@ -141,10 +141,10 @@ computation of definite one-dimensional integrals.</p>
 <ul>
 <li>It has been converted from FORTRAN 77 fixed form to modern free form syntax. This includes elimination of most GOTOs and other obsolescent language features.</li>
 <li>It is now a single stand-alone module, and has no dependencies on any other code from SLATEC or LINPACK.</li>
-<li>The SLATEC docstrings have been converted to <a href="https://github.com/Fortran-FOSS-Programmers/ford">Ford</a> style, which allows for auto-generation of the API docs.</li>
+<li>The SLATEC docstrings have been converted to <a href="https://github.com/Fortran-FOSS-Programmers/ford">Ford</a> style, which allows for auto-generation of the <a href="https://jacobwilliams.github.io/quadpack/">API docs</a>.</li>
 <li>Some typos have been corrected in the comments.</li>
 <li>General code cleanup and formatting.</li>
-<li>Added automated unit test in GitHub CI.</li>
+<li>Added automated unit testing in GitHub CI.</li>
 <li>The separate routines for single and double precision versions have been eliminated. The module uses double precision (<code>real64</code>) variables by default. However, it can be instantiated to use any real kind. For example, to create a single precision version using some preprocessing trickery:</li>
 </ul>
 <p><code>fortran
@@ -181,7 +181,7 @@ by the letter D.</p>
 <li>
 <p><strong>QNG</strong>  : Is a simple non-adaptive automatic integrator, based on
          a sequence of rules with increasing degree of algebraic
-         precision (Patterson, 1968).</p>
+         precision (<a href="https://www.ams.org/journals/mcom/1968-22-104/S0025-5718-68-99866-9/S0025-5718-68-99866-9.pdf">Patterson, 1968</a>).</p>
 </li>
 <li>
 <p><strong>QAG</strong>  : Is a simple globally adaptive integrator using the
@@ -195,7 +195,7 @@ by the letter D.</p>
 <li>
 <p><strong>QAGS</strong> : Is an integrator based on globally adaptive interval
          subdivision in connection with extrapolation (de Doncker,
-         1978) by the Epsilon algorithm (Wynn, 1956).</p>
+         1978) by the Epsilon algorithm (<a href="https://www.jstor.org/stable/2002183">Wynn, 1956</a>).</p>
 </li>
 <li>
 <p><strong>QAGP</strong> : Serves the same purposes as QAGS, but also allows
@@ -224,8 +224,8 @@ by the letter D.</p>
 <p><strong>QAWF</strong> : Calculates the Fourier cosine or Fourier sine
          transform of <code>F(X)</code>, for user-supplied interval <code>(A,INFINITY)</code>, <code>OMEGA</code>, and <code>F</code>. The procedure of QAWO is
          used on successive finite intervals, and convergence
-         acceleration by means of the Epsilon algorithm (Wynn,
-         1956) is applied to the series of the integral
+         acceleration by means of the Epsilon algorithm (<a href="https://www.jstor.org/stable/2002183">Wynn,
+         1956</a>) is applied to the series of the integral
          contributions.</p>
 </li>
 <li>
