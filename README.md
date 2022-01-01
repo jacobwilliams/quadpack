@@ -55,6 +55,49 @@ To use `quadpack` within your fpm project, add the following to your `fpm.toml` 
 quadpack = { git="https://github.com/jacobwilliams/quadpack.git" }
 ```
 
+### Example
+
+A simple example is given here (see the `test` folder for more examples):
+
+```fortran
+subroutine test_qag
+  implicit none
+
+  real(wp), parameter :: a = 0.0_wp
+  real(wp), parameter :: b = 1.0_wp
+  integer, parameter :: key = 6
+  integer, parameter :: limit = 100
+  integer, parameter :: lenw = limit*4
+  real(wp), parameter :: answer = 2.0_wp/sqrt(3.0_wp)
+
+  real(wp) :: abserr, result, work(lenw)
+  integer :: ier, iwork(limit), last, neval
+
+  call dqag(f, a, b, epsabs, epsrel, key, result, &
+            abserr, neval, ier, limit, lenw, last, &
+            iwork, work)
+
+  write(*,'(1P,A,1X,*(E13.6,1X))') &
+        'result, error = ', result, abs(result-answer)
+
+contains
+
+  real(wp) function f(x)
+    implicit none
+    real(wp), intent(in) :: x
+    real(wp), parameter :: pi = acos(-1.0_wp)
+    f = 2.0_wp/(2.0_wp + sin(10.0_wp*pi*x))
+  end function f
+
+end subroutine test_qag
+```
+
+Which outputs:
+
+```text
+ result, error = 1.154701E+00 2.220446E-16
+```
+
 ### Survey of procedures
 
 The following list gives an overview of the QUADPACK integrators.
