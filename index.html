@@ -1,1 +1,531 @@
-My GitHub Page
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="Modern Fortran QUADPACK">
+    
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="./favicon.png">
+
+    <title> quadpack </title>
+
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/pygments.css" rel="stylesheet">
+    <link href="./css/font-awesome.min.css" rel="stylesheet">
+    <link href="./css/local.css" rel="stylesheet">
+    
+    <link  href="./tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="./js/jquery-2.1.3.min.js"></script>
+    <script src="./js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="./index.html">quadpack </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="./sourcefile/quadpack.f90.html">Source File</a></li>
+        
+        
+        
+            <li><a href="./lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="./lists/procedures.html">Procedures</a></li>
+        
+               
+               
+        
+        
+            </ul>
+        
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="./sourcefile/quadpack.f90.html">Source File</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="./lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="./lists/procedures.html">Procedures</a></li>
+
+                             
+
+
+
+          </ul>
+        
+        <form action="./search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <p>Modern Fortran QUADPACK</p>
+        	 
+	<p> Find us on&hellip;</p>
+        <p>
+			 
+          <a class="btn btn-lg btn-primary" href="https://github.com/jacobwilliams/quadpack" role="button">GitHub</a>
+			 
+			 
+			 
+			 
+			 
+	         
+			 
+        </p>
+      </div>
+
+      <div class="row" id='text'>
+		  
+        <div class="col-md-8">
+		  
+          <h1>quadpack</h1>
+          <h1><img alt="quadpack2" src="media/logo.png"></h1>
+<p><img alt="Build Status" src="https://github.com/jacobwilliams/quadpack/actions/workflows/CI.yml/badge.svg"></p>
+<p>A Modernized QUADPACK Library.</p>
+<h3>Description</h3>
+<p>QUADPACK is a FORTRAN subroutine package for the numerical
+computation of definite one-dimensional integrals.</p>
+<h3>Overview</h3>
+<p>The original QUADPACK code has been extensively refactored:</p>
+<ul>
+<li>It has been converted from FORTRAN 77 fixed form to modern free form syntax. This includes elimination of most GOTOs and other obsolescent language features.</li>
+<li>It is now a single stand-alone module, and has no dependencies on any other code from SLATEC or LINPACK.</li>
+<li>The SLATEC docstrings have been converted to <a href="https://github.com/Fortran-FOSS-Programmers/ford">Ford</a> style, which allows for auto-generation of the API docs.</li>
+<li>Some typos have been corrected in the comments.</li>
+<li>General code cleanup and formatting.</li>
+<li>Added automated unit test in GitHub CI.</li>
+<li>The separate routines for single and double precision versions have been eliminated. The module uses double precision (<code>real64</code>) variables by default. However, it can be instantiated to use any real kind. For example, to create a single precision version using some preprocessing trickery:</li>
+</ul>
+<p><code>fortran
+  module quadpack_single
+  use iso_fortran_env, only: wp =&gt; real32
+  #define MOD_INCLUDE=1
+  #include "quadpack.F90"
+  end module quadpack_single</code></p>
+<p>Note that this version includes the recent (Oct 2021) updates (see <a href="https://github.com/scipy/scipy/issues/14807">here</a> and <a href="https://github.com/scipy/scipy/pull/14836">here</a>) reported by the Scipy project.</p>
+<h3>To do list</h3>
+<ul>
+<li>[ ] Remove the last remaining GOTOs.</li>
+<li>[ ] Additional docstring cleanups.</li>
+<li>[ ] Added more unit tests.</li>
+<li>[ ] In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.</li>
+<li>[ ] Figure out the best way to have the single, double, and quad versions included in the library by default. See the <code>archive</code> folder for an attempt at this. However, for some reason it didn't work in the GitHub CI.</li>
+</ul>
+<h3>Compiling</h3>
+<p>A <a href="https://github.com/fortran-lang/fpm">Fortran Package Manager</a> manifest file is included, so that the library and test cases can be compiled with FPM. For example:</p>
+<div class="codehilite"><pre><span></span><code>fpm build --profile release
+fpm test --profile release
+</code></pre></div>
+
+<p>To use <code>quadpack</code> within your fpm project, add the following to your <code>fpm.toml</code> file:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[dependencies]</span><span class="w"></span>
+<span class="n">quadpack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">git</span><span class="o">=</span><span class="s">&quot;https://github.com/jacobwilliams/quadpack.git&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<h3>Survey of procedures</h3>
+<p>The following list gives an overview of the QUADPACK integrators.
+The routine names for the DOUBLE PRECISION versions are preceded
+by the letter D.</p>
+<ul>
+<li>
+<p><strong>QNG</strong>  : Is a simple non-adaptive automatic integrator, based on
+         a sequence of rules with increasing degree of algebraic
+         precision (Patterson, 1968).</p>
+</li>
+<li>
+<p><strong>QAG</strong>  : Is a simple globally adaptive integrator using the
+         strategy of Aind (Piessens, 1973). It is possible to
+         choose between 6 pairs of Gauss-Kronrod quadrature
+         formulae for the rule evaluation component. The pairs
+         of high degree of precision are suitable for handling
+         integration difficulties due to a strongly oscillating
+         integrand.</p>
+</li>
+<li>
+<p><strong>QAGS</strong> : Is an integrator based on globally adaptive interval
+         subdivision in connection with extrapolation (de Doncker,
+         1978) by the Epsilon algorithm (Wynn, 1956).</p>
+</li>
+<li>
+<p><strong>QAGP</strong> : Serves the same purposes as QAGS, but also allows
+         for eventual user-supplied information, i.e. the
+         abscissae of internal singularities, discontinuities
+         and other difficulties of the integrand function.
+         The algorithm is a modification of that in QAGS.</p>
+</li>
+<li>
+<p><strong>QAGI</strong> : Handles integration over infinite intervals. The
+         infinite range is mapped onto a finite interval and
+         then the same strategy as in QAGS is applied.</p>
+</li>
+<li>
+<p><strong>QAWO</strong> : Is a routine for the integration of <code>COS(OMEGA*X)*F(X)</code>
+         or <code>SIN(OMEGA*X)*F(X)</code> over a finite interval <code>(A,B)</code>.
+         <code>OMEGA</code> is is specified by the user
+         The rule evaluation component is based on the
+         modified Clenshaw-Curtis technique.
+         An adaptive subdivision scheme is used connected with
+         an extrapolation procedure, which is a modification
+         of that in QAGS and provides the possibility to deal
+         even with singularities in F.</p>
+</li>
+<li>
+<p><strong>QAWF</strong> : Calculates the Fourier cosine or Fourier sine
+         transform of <code>F(X)</code>, for user-supplied interval <code>(A,INFINITY)</code>, <code>OMEGA</code>, and <code>F</code>. The procedure of QAWO is
+         used on successive finite intervals, and convergence
+         acceleration by means of the Epsilon algorithm (Wynn,
+         1956) is applied to the series of the integral
+         contributions.</p>
+</li>
+<li>
+<p><strong>QAWS</strong> : Integrates <code>W(X)*F(X)</code> over <code>(A,B)</code> with <code>A&lt;B</code> finite,
+         and   <code>W(X) = ((X-A)**ALFA)*((B-X)**BETA)*V(X)</code>
+         where <code>V(X) = 1 or LOG(X-A) or LOG(B-X)</code>
+                        or <code>LOG(X-A)*LOG(B-X)</code>
+         and   <code>ALFA&gt;(-1), BETA&gt;(-1)</code>.
+         The user specifies <code>A</code>, <code>B</code>, <code>ALFA</code>, <code>BETA</code> and the type of
+         the function <code>V</code>.
+         A globally adaptive subdivision strategy is applied,
+         with modified Clenshaw-Curtis integration on the
+         subintervals which contain <code>A</code> or <code>B</code>.</p>
+</li>
+<li>
+<p><strong>QAWC</strong> : Computes the Cauchy Principal Value of <code>F(X)/(X-C)</code>
+         over a finite interval <code>(A,B)</code> and for
+         user-determined <code>C</code>.
+         The strategy is globally adaptive, and modified
+         Clenshaw-Curtis integration is used on the subranges
+         which contain the point <code>X = C</code>.</p>
+</li>
+</ul>
+<p>Each of the routines above also has a "more detailed" version
+with a name ending in E, as QAGE.  These provide more
+information and control than the easier versions.</p>
+<p>The preceding routines are all automatic.  That is, the user
+inputs his problem and an error tolerance.  The routine
+attempts to perform the integration to within the requested
+absolute or relative error.
+   There are, in addition, a number of non-automatic integrators.
+These are most useful when the problem is such that the
+user knows that a fixed rule will provide the accuracy
+required.  Typically they return an error estimate but make
+no attempt to satisfy any particular input error request.</p>
+<ul>
+<li><strong>QK15</strong>, <strong>QK21</strong>, <strong>QK31</strong>, <strong>QK41</strong>, <strong>QK51</strong>, <strong>QK61</strong>:
+       Estimate the integral on [a,b] using 15, 21,..., 61
+       point rule and return an error estimate.</li>
+<li><strong>QK15I</strong>: 15 point rule for (semi)infinite interval.</li>
+<li><strong>QK15W</strong>: 15 point rule for special singular weight functions.</li>
+<li><strong>QC25C</strong>: 25 point rule for Cauchy Principal Values</li>
+<li><strong>QC25F</strong>: 25 point rule for sin/cos integrand.</li>
+<li><strong>QMOMO</strong>: Integrates k-th degree Chebyshev polynomial times
+        function with various explicit singularities.</li>
+</ul>
+<h3>Guidelines for the use of QUADPACK</h3>
+<p>Here it is not our purpose to investigate the question when
+automatic quadrature should be used. We shall rather attempt
+to help the user who already made the decision to use QUADPACK,
+with selecting an appropriate routine or a combination of
+several routines for handling his problem.</p>
+<p>For both quadrature over finite and over infinite intervals,
+one of the first questions to be answered by the user is
+related to the amount of computer time he wants to spend,
+versus his -own- time which would be needed, for example, for
+manual subdivision of the interval or other analytic
+manipulations.</p>
+<ol>
+<li>
+<p>The user may not care about computer time, or not be
+willing to do any analysis of the problem. especially when
+only one or a few integrals must be calculated, this attitude
+can be perfectly reasonable. In this case it is clear that
+either the most sophisticated of the routines for finite
+intervals, QAGS, must be used, or its analogue for infinite
+intervals, GAGI. These routines are able to cope with
+rather difficult, even with improper integrals.
+This way of proceeding may be expensive. But the integrator
+is supposed to give you an answer in return, with additional
+information in the case of a failure, through its error
+estimate and flag. Yet it must be stressed that the programs
+cannot be totally reliable.</p>
+</li>
+<li>
+<p>The user may want to examine the integrand function.
+If bad local difficulties occur, such as a discontinuity, a
+singularity, derivative singularity or high peak at one or
+more points within the interval, the first advice is to
+split up the interval at these points. The integrand must
+then be examined over each of the subintervals separately,
+so that a suitable integrator can be selected for each of
+them. If this yields problems involving relative accuracies
+to be imposed on -finite- subintervals, one can make use of
+QAGP, which must be provided with the positions of the local
+difficulties. However, if strong singularities are present
+and a high accuracy is requested, application of QAGS on the
+subintervals may yield a better result.</p>
+</li>
+</ol>
+<p>For quadrature over finite intervals we thus dispose of QAGS
+and
+- QNG for well-behaved integrands,
+- QAG for functions with an oscillating behaviour of a non
+    specific type,
+- QAWO for functions, eventually singular, containing a
+    factor <code>COS(OMEGA*X)</code> or <code>SIN(OMEGA*X)</code> where OMEGA is known,
+- QAWS for integrands with Algebraico-Logarithmic end point
+    singularities of known type,
+- QAWC for Cauchy Principal Values.</p>
+<h3>Remark</h3>
+<p>On return, the work arrays in the argument lists of the
+adaptive integrators contain information about the interval
+subdivision process and hence about the integrand behaviour:
+the end points of the subintervals, the local integral
+contributions and error estimates, and eventually other
+characteristics. For this reason, and because of its simple
+globally adaptive nature, the routine QAG in particular is
+well-suited for integrand examination. Difficult spots can
+be located by investigating the error estimates on the
+subintervals.</p>
+<p>For infinite intervals we provide only one general-purpose
+routine, QAGI. It is based on the QAGS algorithm applied
+after a transformation of the original interval into (0,1).
+Yet it may eventuate that another type of transformation is
+more appropriate, or one might prefer to break up the
+original interval and use QAGI only on the infinite part
+and so on. These kinds of actions suggest a combined use of
+different QUADPACK integrators. Note that, when the only
+difficulty is an integrand singularity at the finite
+integration limit, it will in general not be necessary to
+break up the interval, as QAGI deals with several types of
+singularity at the boundary point of the integration range.
+It also handles slowly convergent improper integrals, on
+the condition that the integrand does not oscillate over
+the entire infinite interval. If it does we would advise
+to sum succeeding positive and negative contributions to
+the integral -e.g. integrate between the zeros- with one
+or more of the finite-range integrators, and apply
+convergence acceleration eventually by means of QUADPACK
+subroutine QELG which implements the Epsilon algorithm.
+Such quadrature problems include the Fourier transform as
+a special case. Yet for the latter we have an automatic
+integrator available, QAWF.</p>
+<h3>Documentation</h3>
+<p>The API documentation for the current <code>master</code> branch can be found <a href="https://jacobwilliams.github.io/quadpack/">here</a>.  This is generated by processing the source files with <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>.</p>
+<h3>License</h3>
+<p>The original Quadpack was a public domain work of the United States government. The modifications are released under a permissive (BSD-3) license.</p>
+<h3>See also</h3>
+<ul>
+<li>R. Piessens, E. deDoncker-Kapenga, C. Uberhuber, D. Kahaner
+    <a href="https://link.springer.com/book/10.1007/978-3-642-61786-7">Quadpack: a Subroutine Package for Automatic Integration</a>
+    Springer Verlag, 1983. Series in Computational Mathematics v.1
+    515.43/Q1S 100394Z</li>
+<li>Paola Favati, Grazia Lotti, Francesco Romani, <a href="https://dl.acm.org/doi/abs/10.1145/108556.108580">Algorithm 691: Improving QUADPACK automatic integration routines</a>, ACM Transactions on Mathematical Software, Volume 17, Issue 2, June 1991, pp 218-232.</li>
+<li>Original SLATEC code from <a href="http://www.netlib.org/quadpack/">Netlib</a>. Last modified 11 Oct 2021.</li>
+</ul>
+<h3>Other versions</h3>
+<p>There are other versions of Quadpack out there. There are at least two projects to provide module interface to the unmodified Fortran 77 code (see <a href="https://github.com/nshaffer/modern_quadpack">nshaffer/modern_quadpack</a> and <a href="https://github.com/ivan-pi/quadpack">ivan-pi/quadpack</a>). The license for these are not specified.  Another fixed to free conversion can be found at <a href="https://people.math.sc.edu/Burkardt/f_src/quadpack_double/quadpack_double.f90">John Burkardt's site</a> (this is not an aggressive modernization though and also has an LGPL license). Also note that the Quadpack code in <a href="http://www.netlib.org/slatec/src/">SLATEC</a> is slightly modified from the stand-alone one at <a href="http://www.netlib.org/quadpack/">Netlib</a>. It is not known if these modifications were anything significant.</p>
+<h3>See also</h3>
+<ul>
+<li><a href="https://github.com/jacobwilliams/quadrature-fortran">quadrature-fortran</a></li>
+</ul>
+<h3>Keywords</h3>
+<ul>
+<li>survey of integrators, guidelines for selection,
+    quadpack, automatic integrator, general-purpose,
+    integrand examinator, globally adaptive,
+    gauss-kronrod, infinite intervals, transformation,
+    extrapolation, singularities at user specified points,
+    (end-point) singularities, cauchy principal value,
+    clenshaw-curtis method, special-purpose, fourier integral,
+    integration between zeros, convergence acceleration,
+    integrand with oscillatory cos or sin factor,
+    (end point) singularities, 25-point clenshaw-curtis integration,
+    smooth integrand, non-adaptive, gauss-kronrod (patterson),
+    epsilon algorithm, algebraico-logarithmic end point singularities,
+    chebyshev series expansion, fast fourier transform</li>
+</ul>
+        </div>
+		  
+        <div class="col-md-4">
+	  <div class="well">
+          <h2>Developer Info</h2>
+          <h4>Jacob Williams</h4>
+          
+          
+			   
+            <div class="text-center"><div class="btn-group" role="group">
+              
+              
+              
+              <a class="btn btn-lg btn-primary" href="https://github.com/jacobwilliams"><i class="fa fa-github fa-lg"></i></a>
+              
+              
+				  
+              
+              
+              
+              
+            </div></div>
+            
+       </div>
+       </div>
+       
+      </div>
+      
+      
+      
+      
+      
+      
+		
+        
+      <div class="row">
+        
+        <div class="col-xs-6 col-sm-4">
+              <h3>Source Files</h3>
+              <ul>
+                    <li><a href='./sourcefile/quadpack.f90.html'>quadpack.f90</a></li>
+                  </ul>
+          </div>
+        
+          
+		  <div class="col-xs-6 col-sm-4">
+              <h3>Modules</h3>
+              <ul>
+                    <li><a href='./module/quadpack.html'>quadpack</a></li>
+                  </ul>
+          </div>
+          
+          
+		  <div class="col-xs-6 col-sm-4">
+              <h3>Procedures</h3>
+              <ul>
+                    <li><a href='./proc/dqag.html'>dqag</a></li>
+                  
+                    <li><a href='./proc/dqage.html'>dqage</a></li>
+                  
+                    <li><a href='./proc/dqagi.html'>dqagi</a></li>
+                  
+                    <li><a href='./proc/dqagie.html'>dqagie</a></li>
+                  
+                    <li><a href='./proc/dqagp.html'>dqagp</a></li>
+                  
+                    <li><a href='./proc/dqagpe.html'>dqagpe</a></li>
+                  
+                    <li><a href='./proc/dqags.html'>dqags</a></li>
+                  
+                    <li><a href='./proc/dqagse.html'>dqagse</a></li>
+                  
+                    <li><a href='./proc/dqawc.html'>dqawc</a></li>
+                  
+                    <li><a href='./proc/dqawce.html'>dqawce</a></li>
+                  </ul>
+          </div>
+          
+          
+      </div>
+      
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>quadpack was developed by Jacob Williams<br>&copy; 2022 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
+            
+          </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="./js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="./tipuesearch/tipuesearch_content.js"></script>
+    <script src="./tipuesearch/tipuesearch_set.js"></script>
+    <script src="./tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
