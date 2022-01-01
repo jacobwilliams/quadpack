@@ -13,6 +13,7 @@ auto-tests = true
 
 [library]
 source-dir = "src"
+include-dir = "src"
 
 [install]
 library = true
