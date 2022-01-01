@@ -3,7 +3,6 @@
 
 ![Build Status](https://github.com/jacobwilliams/quadpack/actions/workflows/CI.yml/badge.svg)
 
-
 A Modernized QUADPACK Library.
 
 ### Description
@@ -17,10 +16,10 @@ The original QUADPACK code has been extensively refactored:
 
 * It has been converted from FORTRAN 77 fixed form to modern free form syntax. This includes elimination of most GOTOs and other obsolescent language features.
 * It is now a single stand-alone module, and has no dependencies on any other code from SLATEC or LINPACK.
-* The SLATEC docstrings have been converted to [Ford](https://github.com/Fortran-FOSS-Programmers/ford) style, which allows for auto-generation of the API docs.
+* The SLATEC docstrings have been converted to [Ford](https://github.com/Fortran-FOSS-Programmers/ford) style, which allows for auto-generation of the [API docs](https://jacobwilliams.github.io/quadpack/).
 * Some typos have been corrected in the comments.
 * General code cleanup and formatting.
-* Added automated unit test in GitHub CI.
+* Added automated unit testing in GitHub CI.
 * The separate routines for single and double precision versions have been eliminated. The module uses double precision (`real64`) variables by default. However, it can be instantiated to use any real kind. For example, to create a single precision version using some preprocessing trickery:
 
   ```fortran
@@ -64,7 +63,7 @@ by the letter D.
 
 - **QNG**  : Is a simple non-adaptive automatic integrator, based on
          a sequence of rules with increasing degree of algebraic
-         precision (Patterson, 1968).
+         precision ([Patterson, 1968](https://www.ams.org/journals/mcom/1968-22-104/S0025-5718-68-99866-9/S0025-5718-68-99866-9.pdf)).
 
 - **QAG**  : Is a simple globally adaptive integrator using the
          strategy of Aind (Piessens, 1973). It is possible to
@@ -76,7 +75,7 @@ by the letter D.
 
 - **QAGS** : Is an integrator based on globally adaptive interval
          subdivision in connection with extrapolation (de Doncker,
-         1978) by the Epsilon algorithm (Wynn, 1956).
+         1978) by the Epsilon algorithm ([Wynn, 1956](https://www.jstor.org/stable/2002183)).
 
 - **QAGP** : Serves the same purposes as QAGS, but also allows
          for eventual user-supplied information, i.e. the
@@ -101,8 +100,8 @@ by the letter D.
 - **QAWF** : Calculates the Fourier cosine or Fourier sine
          transform of `F(X)`, for user-supplied interval `(A,INFINITY)`, `OMEGA`, and `F`. The procedure of QAWO is
          used on successive finite intervals, and convergence
-         acceleration by means of the Epsilon algorithm (Wynn,
-         1956) is applied to the series of the integral
+         acceleration by means of the Epsilon algorithm ([Wynn,
+         1956](https://www.jstor.org/stable/2002183)) is applied to the series of the integral
          contributions.
 
 - **QAWS** : Integrates `W(X)*F(X)` over `(A,B)` with `A<B` finite,
