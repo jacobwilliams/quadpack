@@ -1108,7 +1108,7 @@ module quadpack
                                     !!   the integration range or
                                     !!   `(epsabs<=0 and epsrel<max(50*rel.mach.acc.,0.5e-28))`
                                     !!   `result`, `abserr`, `neval`, `last` are set to
-                                    !!   zero. exept when `leniw` or `lenw` or `npts2` is
+                                    !!   zero. except when `leniw` or `lenw` or `npts2` is
                                     !!   invalid, `iwork(1)`, `iwork(limit+1)`,
                                     !!   `work(limit*2+1) and work(limit*3+1)`
                                     !!   are set to zero.
@@ -1749,7 +1749,7 @@ module quadpack
                                     !! if `lenw<limit*4`, the routine will end
                                     !! with ier = 6.
         integer, intent(out) :: Last !! on return, `last` equals the number of subintervals
-                                     !! produced in the subdivision process, detemines the
+                                     !! produced in the subdivision process, determines the
                                      !! number of significant elements actually in the `work`
                                      !! arrays.
         integer :: Iwork(Limit) !! vector of dimension at least `limit`, the first `k`
@@ -2242,7 +2242,7 @@ module quadpack
                                     !!   (`epsabs<=0` and `epsrel<max(50*rel.mach.acc.,0.5e-28)`)
                                     !!   or `limit<1` or `lenw<limit*4`.
                                     !!   `esult`, `abserr`, `neval`, `last` are set to
-                                    !!   zero. exept when `lenw` or `limit` is invalid,
+                                    !!   zero. except when `lenw` or `limit` is invalid,
                                     !!   `iwork(1)`, `work(limit*2+1)` and
                                     !!   `work(limit*3+1)` are set to zero, `work(1)`
                                     !!   is set to a and `work(limit+1)` to `b`.
@@ -5256,7 +5256,7 @@ module quadpack
     subroutine dqk15i(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)
         implicit none
 
-        procedure(func) :: f !! fuction subprogram defining the integrand function `f(x)`.
+        procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
         real(wp), intent(in) :: Boun !! finite bound of original integration
                                      !! range (set to zero if inf = +2)
         real(wp), intent(in) :: a !! lower limit for integration over subrange of (0,1)
