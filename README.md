@@ -20,15 +20,15 @@ The original QUADPACK code has been extensively refactored:
 * Some typos have been corrected in the comments.
 * General code cleanup and formatting.
 * Added automated unit testing in GitHub CI.
-* The separate routines for single and double precision versions have been eliminated. The module uses double precision (`real64`) variables by default. However, it can be instantiated to use any real kind. For example, to create a single precision version using some preprocessing trickery:
+* The separate routines for single and double precision versions have been eliminated. The module uses double precision (`real64`) variables by default. However, it can be instantiated to use any real kind using some preprocessing trickery. For example, to create a single precision version:
 
-  ```fortran
+```fortran
   module quadpack_single
   use iso_fortran_env, only: wp => real32
   #define MOD_INCLUDE=1
   #include "quadpack.F90"
   end module quadpack_single
-  ```
+```
 
 Note that this version includes the recent (Oct 2021) updates (see [here](https://github.com/scipy/scipy/issues/14807) and [here](https://github.com/scipy/scipy/pull/14836)) reported by the Scipy project.
 
