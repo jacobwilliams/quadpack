@@ -163,6 +163,7 @@ computation of definite one-dimensional integrals.</p>
 <li>[ ] In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.</li>
 <li>[ ] Figure out the best way to have the single, double, and quad versions included in the library by default. See the <code>archive</code> folder for an attempt at this. However, for some reason it didn't work in the GitHub CI.</li>
 <li>[ ] Reconsider the <code>error stop</code> in <code>xerror</code> for fatal errors. Probably the library shouldn't be stopping the calling problem.</li>
+<li>[ ] Make sure we have incorporated all the fixes from SciPy. See <a href="https://github.com/scipy/scipy/commits/v1.6.3/scipy/integrate/quadpack">here</a></li>
 </ul>
 <h3>Compiling</h3>
 <p>A <a href="https://github.com/fortran-lang/fpm">Fortran Package Manager</a> manifest file is included, so that the library and test cases can be compiled with FPM. For example:</p>
