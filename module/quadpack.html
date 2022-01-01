@@ -1511,11 +1511,10 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
         divergence can occur with any other value
         of ier.</li>
 <li>ier = 6 the input is invalid, because
-        <code>(epsabs&lt;=0 and
-        epsrel&lt;max(50*rel.mach.acc.,0.5e-28))
-        or limit&lt;1 or leniw&lt;limit*4</code>.
+        <code>(epsabs&lt;=0 and epsrel&lt;max(50*rel.mach.acc.,0.5e-28))</code>
+        or <code>limit&lt;1</code> or <code>leniw&lt;limit*4</code>.
         <code>result</code>, <code>abserr</code>, <code>neval</code>, <code>last</code> are set to
-        zero. exept when limit or leniw is
+        zero. except when <code>limit</code> or <code>leniw</code> is
         invalid, <code>iwork(1)</code>, <code>work(limit*2+1)</code> and
         <code>work(limit*3+1)</code> are set to zero, <code>work(1)</code>
         is set to <code>a</code> and <code>work(limit+1)</code> to <code>b</code>.</li>
