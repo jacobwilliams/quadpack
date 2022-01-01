@@ -7,6 +7,7 @@ A Modernized QUADPACK Library.
 
 QUADPACK is a FORTRAN subroutine package for the numerical
 computation of definite one-dimensional integrals.
+
 ### Overview
 
 The original QUADPACK code has been extensively refactored:
@@ -250,6 +251,10 @@ The original Quadpack was a public domain work of the United States government. 
 ### Other versions
 
 There are other versions of Quadpack out there. There are at least two projects to provide module interface to the unmodified Fortran 77 code (see [nshaffer/modern_quadpack](https://github.com/nshaffer/modern_quadpack) and [ivan-pi/quadpack](https://github.com/ivan-pi/quadpack)). The license for these are not specified.  Another fixed to free conversion can be found at [John Burkardt's site](https://people.math.sc.edu/Burkardt/f_src/quadpack_double/quadpack_double.f90) (this is not an aggressive modernization though and also has an LGPL license). Also note that the Quadpack code in [SLATEC](http://www.netlib.org/slatec/src/) is slightly modified from the stand-alone one at [Netlib](http://www.netlib.org/quadpack/). It is not known if these modifications were anything significant.
+
+### See also
+
+ * [quadrature-fortran](https://github.com/jacobwilliams/quadrature-fortran)
 
 ### Keywords
   * survey of integrators, guidelines for selection,
