@@ -4,5 +4,6 @@ module quadpack_quad
     !!
 use iso_fortran_env, only: wp => real128
 #define MOD_INCLUDE=1
+#define EXPORT_QUAD=1
 #include "quadpack.F90"
 end module quadpack_quad

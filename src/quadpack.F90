@@ -67,10 +67,77 @@ module quadpack
 
     end interface
 
+#if defined(EXPORT_REAL)
+    ! export the single precision names (qag, etc.)
+    generic, public :: qag => dqag
+    generic, public :: qage => dqage
+    generic, public :: qagi => dqagi
+    generic, public :: qagie => dqagie
+    generic, public :: qagp => dqagp
+    generic, public :: qagpe => dqagpe
+    generic, public :: qags => dqags
+    generic, public :: qagse => dqagse
+    generic, public :: qawc => dqawc
+    generic, public :: qawce => dqawce
+    generic, public :: qawf => dqawf
+    generic, public :: qawfe => dqawfe
+    generic, public :: qawo => dqawo
+    generic, public :: qawoe => dqawoe
+    generic, public :: qaws => dqaws
+    generic, public :: qawse => dqawse
+    generic, public :: qc25c => dqc25c
+    generic, public :: qc25f => dqc25f
+    generic, public :: qc25s => dqc25s
+    generic, public :: qcheb => dqcheb
+    generic, public :: qk15 => dqk15
+    generic, public :: qk15i => dqk15i
+    generic, public :: qk15w => dqk15w
+    generic, public :: qk21 => dqk21
+    generic, public :: qk31 => dqk31
+    generic, public :: qk41 => dqk41
+    generic, public :: qk51 => dqk51
+    generic, public :: qk61 => dqk61
+    generic, public :: qmomo => dqmomo
+    generic, public :: qng => dqng
+#elif defined(EXPORT_QUAD)
+    ! export the quad precision names (qqag, etc.)
+    generic, public :: qqag => dqag
+    generic, public :: qqage => dqage
+    generic, public :: qqagi => dqagi
+    generic, public :: qqagie => dqagie
+    generic, public :: qqagp => dqagp
+    generic, public :: qqagpe => dqagpe
+    generic, public :: qqags => dqags
+    generic, public :: qqagse => dqagse
+    generic, public :: qqawc => dqawc
+    generic, public :: qqawce => dqawce
+    generic, public :: qqawf => dqawf
+    generic, public :: qqawfe => dqawfe
+    generic, public :: qqawo => dqawo
+    generic, public :: qqawoe => dqawoe
+    generic, public :: qqaws => dqaws
+    generic, public :: qqawse => dqawse
+    generic, public :: qqc25c => dqc25c
+    generic, public :: qqc25f => dqc25f
+    generic, public :: qqc25s => dqc25s
+    generic, public :: qqcheb => dqcheb
+    generic, public :: qqk15 => dqk15
+    generic, public :: qqk15i => dqk15i
+    generic, public :: qqk15w => dqk15w
+    generic, public :: qqk21 => dqk21
+    generic, public :: qqk31 => dqk31
+    generic, public :: qqk41 => dqk41
+    generic, public :: qqk51 => dqk51
+    generic, public :: qqk61 => dqk61
+    generic, public :: qqmomo => dqmomo
+    generic, public :: qqng => dqng
+#else
+    ! by default, the double precision names are exported  (dqag, etc.)
     public :: dqag, dqage, dqagi, dqagie, dqagp, dqagpe, dqags, &
               dqagse, dqawc, dqawce, dqawf, dqawfe, dqawo, dqawoe, dqaws, &
               dqawse, dqc25c, dqc25f, dqc25s, dqcheb, dqk15, dqk15i, &
               dqk15w, dqk21, dqk31, dqk41, dqk51, dqk61, dqmomo, dqng
+#endif
 
     contains
 !********************************************************************************

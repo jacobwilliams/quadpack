@@ -1,5 +1,35 @@
 module quadpack_test_module_quad
-    use quadpack_quad, wp => quadpack_RK
+    use quadpack_quad, wp => quadpack_RK, &
+                       dqag => qqag, &
+                       dqage => qqage, &
+                       dqagi => qqagi, &
+                       dqagie => qqagie, &
+                       dqagp => qqagp, &
+                       dqagpe => qqagpe, &
+                       dqags => qqags, &
+                       dqagse => qqagse, &
+                       dqawc => qqawc, &
+                       dqawce => qqawce, &
+                       dqawf => qqawf, &
+                       dqawfe => qqawfe, &
+                       dqawo => qqawo, &
+                       dqawoe => qqawoe, &
+                       dqaws => qqaws, &
+                       dqawse => qqawse, &
+                       dqc25c => qqc25c, &
+                       dqc25f => qqc25f, &
+                       dqc25s => qqc25s, &
+                       dqcheb => qqcheb, &
+                       dqk15 => qqk15, &
+                       dqk15i => qqk15i, &
+                       dqk15w => qqk15w, &
+                       dqk21 => qqk21, &
+                       dqk31 => qqk31, &
+                       dqk41 => qqk41, &
+                       dqk51 => qqk51, &
+                       dqk61 => qqk61, &
+                       dqmomo => qqmomo, &
+                       dqng => qqng
 #define MOD_INCLUDE=1
 #include "quadpack_test_module.F90"
     end module quadpack_test_module_quad
