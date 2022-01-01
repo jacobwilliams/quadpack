@@ -39,6 +39,7 @@ Note that this version includes the recent (Oct 2021) updates (see [here](https:
  - [ ] Added more unit tests.
  - [ ] In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.
  - [ ] Figure out the best way to have the single, double, and quad versions included in the library by default. See the `archive` folder for an attempt at this. However, for some reason it didn't work in the GitHub CI.
+ - [ ] Reconsider the `error stop` in `xerror` for fatal errors. Probably the library shouldn't be stopping the calling problem.
 
 ### Compiling
 
