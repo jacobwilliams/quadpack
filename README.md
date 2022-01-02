@@ -26,7 +26,7 @@ The original QUADPACK code (written in the early 1980s) has been extensively ref
   module quadpack_single
   use iso_fortran_env, only: wp => real32
   #define MOD_INCLUDE=1
-  #include "quadpack.F90"
+  #include "quadpack_generic.F90"
   end module quadpack_single
 ```
 

@@ -3,7 +3,7 @@
     use quadpack_test_module
     implicit none
     write(*,*) ''
-    write(*,*) ' quadpack_tests : Default'
+    write(*,*) ' quadpack_tests : Default (kind=',wp,')'
     write(*,*) ''
 #endif
 
