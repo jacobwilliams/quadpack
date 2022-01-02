@@ -312,6 +312,89 @@ contains
 
     end subroutine test_qng
 
+
+    subroutine test_C
+        !! Tests from:
+        !!
+        !! * David H. Bailey, Karthik Jeyabalan, and Xiaoye S. Li,
+        !!   "A Comparison of Three High-Precision Quadrature Schemes",
+        !!   Experimental Mathematics 14:3
+        implicit none
+
+        real(wp), parameter :: a = 0.0_wp
+        real(wp), parameter :: b = 1.0_wp
+        integer, parameter :: key = 6
+        integer, parameter :: limit = 100
+        integer, parameter :: lenw = limit*4
+        real(wp), parameter :: pi = acos(-1.0_wp)
+
+        real(wp) :: abserr, result, work(lenw), aa, answer
+        integer :: ier, iwork(limit), last, neval
+
+        aa = 1.0_wp
+        answer = pi/4.0_wp - pi*sqrt(2.0_wp)/2.0_wp + &
+                 3.0_wp*sqrt(2.0_wp)*atan(sqrt(2.0_wp))/2.0_wp
+        call dqag(f, a, b, epsabs, epsrel, key, result, abserr, neval, &
+                  ier, limit, lenw, last, iwork, work)
+        call check_result('dqag C(1)', result, answer, neval)
+
+        ! test cases 1-4:
+        answer = 0.25_wp
+        call dqag(f1, a, b, epsabs, epsrel, key, result, abserr, neval, &
+                  ier, limit, lenw, last, iwork, work)
+        call check_result('dqag f1', result, answer, neval)
+
+        answer = (pi - 2.0_wp + 2.0_wp * log(2.0_wp)) / 12.0_wp
+        call dqag(f2, a, b, epsabs, epsrel, key, result, abserr, neval, &
+                  ier, limit, lenw, last, iwork, work)
+        call check_result('dqag f2', result, answer, neval)
+
+        answer = (exp(pi/2.0_wp) - 1.0_wp) / 2.0_wp
+        call dqag(f3, 0.0_wp, pi/2.0_wp, epsabs, epsrel, key, result, abserr, neval, &
+                  ier, limit, lenw, last, iwork, work)
+        call check_result('dqag f3', result, answer, neval)
+
+        answer = 5.0_wp * pi**2 / 96.0_wp
+        call dqag(f4, a, b, epsabs, epsrel, key, result, abserr, neval, &
+                  ier, limit, lenw, last, iwork, work)
+        call check_result('dqag f4', result, answer, neval)
+
+    contains
+
+        real(wp) function f(x)
+            implicit none
+            real(wp), intent(in) :: x
+            f = atan(sqrt(x**2+aa**2))/(sqrt(x**2+aa**2)*(x**2+1.0_wp))
+        end function f
+
+        real(wp) function f1(x)
+            implicit none
+            real(wp), intent(in) :: x
+            f1 = x * log(1.0_wp + x)
+        end function f1
+
+        real(wp) function f2(x)
+            implicit none
+            real(wp), intent(in) :: x
+            f2 = x**2 * atan(x)
+        end function f2
+
+        real(wp) function f3(x)
+            implicit none
+            real(wp), intent(in) :: x
+            f3 = exp(x) * cos(x)
+        end function f3
+
+        real(wp) function f4(x)
+            implicit none
+            real(wp), intent(in) :: x
+            f4 = atan(sqrt(2.0_wp + x**2)) / ((1.0_wp + x**2)*sqrt(2.0_wp + x**2))
+        end function f4
+
+    end subroutine test_C
+
+
+
 #ifndef MOD_INCLUDE
 end module quadpack_test_module
 #endif
