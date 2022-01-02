@@ -393,8 +393,6 @@ contains
 
     end subroutine test_C
 
-
-
 #ifndef MOD_INCLUDE
 end module quadpack_test_module
 #endif
