@@ -36,11 +36,9 @@ Note that this version includes the recent (Oct 2021) updates (see [here](https:
 
  - [ ] Remove the last remaining GOTOs.
  - [ ] Additional docstring cleanups.
- - [ ] Added more unit tests.
+ - [ ] Add more unit tests.
  - [ ] In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.
- - [ ] Figure out the best way to have the single, double, and quad versions included in the library by default. See the `archive` folder for an attempt at this. However, for some reason it didn't work in the GitHub CI.
  - [ ] Reconsider the `error stop` in `xerror` for fatal errors. Probably the library shouldn't be stopping the calling problem.
- - [ ] Make sure we have incorporated all the fixes from SciPy. See [here](https://github.com/scipy/scipy/commits/v1.6.3/scipy/integrate/quadpack)
 
 ### Compiling
 
@@ -63,6 +61,8 @@ A simple example is given here (see the `test` folder for more examples):
 
 ```fortran
 subroutine test_qag
+  import quadpack, only: dqag
+  use iso_fortran_env, only: wp => real64 ! double precision
   implicit none
 
   real(wp), parameter :: a = 0.0_wp
