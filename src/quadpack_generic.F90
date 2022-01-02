@@ -14,7 +14,7 @@
 !  * Jacob Williams, Dec 2021. Modernized the Fortran 77 code from Netlib.
 
 #ifndef MOD_INCLUDE
-module quadpack
+module quadpack_generic
     use iso_fortran_env, only: wp => real64 ! double precision by default
 #endif
 
@@ -7121,6 +7121,6 @@ module quadpack
 
 #ifndef MOD_INCLUDE
 !********************************************************************************
-end module quadpack
+end module quadpack_generic
 !********************************************************************************
 #endif
