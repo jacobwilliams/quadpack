@@ -337,27 +337,37 @@ contains
         call dqag(f, a, b, epsabs, epsrel, key, result, abserr, neval, &
                   ier, limit, lenw, last, iwork, work)
         call check_result('dqag C(1)', result, answer, neval)
+        call dqng(f, a, b, epsabs, epsrel, result, abserr, neval, ier)
+        call check_result('dqng C(1)', result, answer, neval)
 
         ! test cases 1-4:
         answer = 0.25_wp
         call dqag(f1, a, b, epsabs, epsrel, key, result, abserr, neval, &
                   ier, limit, lenw, last, iwork, work)
         call check_result('dqag f1', result, answer, neval)
+        call dqng(f1, a, b, epsabs, epsrel, result, abserr, neval, ier)
+        call check_result('dqng f1', result, answer, neval)
 
         answer = (pi - 2.0_wp + 2.0_wp * log(2.0_wp)) / 12.0_wp
         call dqag(f2, a, b, epsabs, epsrel, key, result, abserr, neval, &
                   ier, limit, lenw, last, iwork, work)
         call check_result('dqag f2', result, answer, neval)
+        call dqng(f2, a, b, epsabs, epsrel, result, abserr, neval, ier)
+        call check_result('dqng f2', result, answer, neval)
 
         answer = (exp(pi/2.0_wp) - 1.0_wp) / 2.0_wp
         call dqag(f3, 0.0_wp, pi/2.0_wp, epsabs, epsrel, key, result, abserr, neval, &
                   ier, limit, lenw, last, iwork, work)
         call check_result('dqag f3', result, answer, neval)
+        call dqng(f3, 0.0_wp, pi/2.0_wp, epsabs, epsrel, result, abserr, neval, ier)
+        call check_result('dqng f3', result, answer, neval)
 
         answer = 5.0_wp * pi**2 / 96.0_wp
         call dqag(f4, a, b, epsabs, epsrel, key, result, abserr, neval, &
                   ier, limit, lenw, last, iwork, work)
         call check_result('dqag f4', result, answer, neval)
+        call dqng(f4, a, b, epsabs, epsrel, result, abserr, neval, ier)
+        call check_result('dqng f4', result, answer, neval)
 
     contains
 
