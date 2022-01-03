@@ -471,8 +471,8 @@ if limit&lt;1, the routine will end with ier = 6.</p></td>
   
   <td></td><td>::</td>
   <td><strong>Lenw</strong></td><td><p>dimensioning parameter for <code>work</code>
-lenw must be at least limit<em>4.
-if lenw&lt;limit</em>4, the routine will end with
+<code>lenw</code> must be at least <code>limit*4</code>.
+if <code>lenw&lt;limit*4</code>, the routine will end with
 ier = 6.</p></td>
   
 </tr>
@@ -624,8 +624,8 @@ work(limit<em>3+1), ..., work(limit</em>3+last) contain
 <span class="w">                                       </span><span class="c">!! the routine will end with ier = 6.</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Result</span><span class="w"> </span><span class="c">!! approximation to the integral</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Lenw</span><span class="w"> </span><span class="c">!! dimensioning parameter for `work`</span>
-<span class="w">                                    </span><span class="c">!! lenw must be at least limit*4.</span>
-<span class="w">                                    </span><span class="c">!! if lenw&lt;limit*4, the routine will end with</span>
+<span class="w">                                    </span><span class="c">!! `lenw` must be at least `limit*4`.</span>
+<span class="w">                                    </span><span class="c">!! if `lenw&lt;limit*4`, the routine will end with</span>
 <span class="w">                                    </span><span class="c">!! ier = 6.</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Limit</span><span class="w"> </span><span class="c">!! dimensioning parameter for `iwork`</span>
 <span class="w">                                     </span><span class="c">!! limit determines the maximum number of subintervals</span>

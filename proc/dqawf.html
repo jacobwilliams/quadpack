@@ -549,7 +549,7 @@ if <code>maxp1&lt;1</code>, the routine will end with ier = 6.</p></td>
   
   <td></td><td>::</td>
   <td><strong>Lenw</strong></td><td><p>dimensioning parameter for <code>work</code>.
-lenw must be at least <code>leniw*2+maxp1*25</code>.
+<code>lenw</code> must be at least <code>leniw*2+maxp1*25</code>.
 if <code>lenw&lt;(leniw*2+maxp1*25)</code>, the routine will
 end with ier = 6.</p></td>
   
@@ -785,7 +785,7 @@ meaning for the user.</p></td>
 <span class="w">                                     </span><span class="c">!! `l = 0,1, ..., maxp1-2, maxp1&gt;=1`.</span>
 <span class="w">                                     </span><span class="c">!! if `maxp1&lt;1`, the routine will end with ier = 6.</span>
 <span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Lenw</span><span class="w"> </span><span class="c">!! dimensioning parameter for `work`.</span>
-<span class="w">                                    </span><span class="c">!! lenw must be at least `leniw*2+maxp1*25`.</span>
+<span class="w">                                    </span><span class="c">!! `lenw` must be at least `leniw*2+maxp1*25`.</span>
 <span class="w">                                    </span><span class="c">!! if `lenw&lt;(leniw*2+maxp1*25)`, the routine will</span>
 <span class="w">                                    </span><span class="c">!! end with ier = 6.</span>
 <span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Iwork</span><span class="p">(</span><span class="n">Leniw</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `leniw`</span>

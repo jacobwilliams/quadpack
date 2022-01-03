@@ -105,8 +105,8 @@ module quadpack_generic
                                        !! the routine will end with ier = 6.
         real(wp), intent(out) :: Result !! approximation to the integral
         integer, intent(in) :: Lenw !! dimensioning parameter for `work`
-                                    !! lenw must be at least limit*4.
-                                    !! if lenw<limit*4, the routine will end with
+                                    !! `lenw` must be at least `limit*4`.
+                                    !! if `lenw<limit*4`, the routine will end with
                                     !! ier = 6.
         integer, intent(in) :: Limit !! dimensioning parameter for `iwork`
                                      !! limit determines the maximum number of subintervals
@@ -2687,7 +2687,7 @@ module quadpack_generic
                                      !! `l = 0,1, ..., maxp1-2, maxp1>=1`.
                                      !! if `maxp1<1`, the routine will end with ier = 6.
         integer, intent(in) :: Lenw !! dimensioning parameter for `work`.
-                                    !! lenw must be at least `leniw*2+maxp1*25`.
+                                    !! `lenw` must be at least `leniw*2+maxp1*25`.
                                     !! if `lenw<(leniw*2+maxp1*25)`, the routine will
                                     !! end with ier = 6.
         integer :: Iwork(Leniw) !! vector of dimension at least `leniw`

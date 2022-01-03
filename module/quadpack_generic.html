@@ -744,8 +744,8 @@ if limit&lt;1, the routine will end with ier = 6.</p></td>
   
   <td></td><td>::</td>
   <td><strong>Lenw</strong></td><td><p>dimensioning parameter for <code>work</code>
-lenw must be at least limit<em>4.
-if lenw&lt;limit</em>4, the routine will end with
+<code>lenw</code> must be at least <code>limit*4</code>.
+if <code>lenw&lt;limit*4</code>, the routine will end with
 ier = 6.</p></td>
   
 </tr>
@@ -4494,7 +4494,7 @@ if <code>maxp1&lt;1</code>, the routine will end with ier = 6.</p></td>
   
   <td></td><td>::</td>
   <td><strong>Lenw</strong></td><td><p>dimensioning parameter for <code>work</code>.
-lenw must be at least <code>leniw*2+maxp1*25</code>.
+<code>lenw</code> must be at least <code>leniw*2+maxp1*25</code>.
 if <code>lenw&lt;(leniw*2+maxp1*25)</code>, the routine will
 end with ier = 6.</p></td>
   
