@@ -20,7 +20,7 @@ The original QUADPACK code (written in the early 1980s) has been extensively ref
 * Some typos have been corrected in the comments.
 * General code cleanup and formatting.
 * Added automated unit testing in GitHub CI.
-* The separate routines for single and double precision versions have been eliminated. The library now exports a single (`real32`), double (`real64`) and quadruple (`real128`) precision interface using the same code by employing an preprocessing scheme.
+* The separate routines for single and double precision versions have been eliminated. The library now exports a single (`real32`), double (`real64`) and quadruple (`real128`) precision interface using the same code by employing a preprocessor scheme.
 
 Note that this version includes the recent (Oct 2021) updates (see [here](https://github.com/scipy/scipy/issues/14807) and [here](https://github.com/scipy/scipy/pull/14836)) reported by the Scipy project.
 
