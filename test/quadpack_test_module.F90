@@ -10,7 +10,29 @@ module quadpack_test_module
     real(wp), parameter :: epsabs = 0.0_wp
     real(wp), parameter :: epsrel = 10**(log10(epsilon(1.0_wp))/2.0_wp+1)
 
+    abstract interface
+        real(wp) function func(x)
+            import
+            implicit none
+            real(wp), intent(in) :: x
+        end function func
+    end interface
+
 contains
+
+    pure real(wp) function Catalan()
+        !! Catalan's constant
+        integer :: k
+        real(wp) :: term
+        Catalan = 0.0_wp
+        k = 0
+        do
+            term = (-1)**k / (2.0_wp*k + 1.0_wp)**2
+            if (Catalan == Catalan + term) exit
+            Catalan = Catalan + term
+            k = k + 1
+        end do
+    end function Catalan
 
     subroutine check_result(routine, value, answer, neval)
         implicit none
@@ -20,14 +42,14 @@ contains
         real(wp), intent(in) :: answer
         integer, intent(in) :: neval
 
-        write (*, '(1P,A25,1X,2(E13.6,1X),I6)') routine, value, abs(value - answer), neval
+        write (*, '(1P,A25,1X,2(E13.6,1X),I6)') &
+            routine, value, abs(value - answer), neval
 
         if (abs(value - answer) > epsrel) then
             write(*,*) '  value  = ', value
             write(*,*) '  answer = ', answer
             write(*,*) '  epsrel = ', epsrel
             write(*,*) 'TEST FAILED'
-            !error stop 'TEST FAILED'
         end if
 
     end subroutine check_result
@@ -312,7 +334,6 @@ contains
 
     end subroutine test_qng
 
-
     subroutine test_C
         !! Tests from:
         !!
@@ -321,59 +342,96 @@ contains
         !!   Experimental Mathematics 14:3
         implicit none
 
-        real(wp), parameter :: a = 0.0_wp
-        real(wp), parameter :: b = 1.0_wp
         integer, parameter :: key = 6
         integer, parameter :: limit = 100
         integer, parameter :: lenw = limit*4
         real(wp), parameter :: pi = acos(-1.0_wp)
 
-        real(wp) :: abserr, result, work(lenw), aa, answer
-        integer :: ier, iwork(limit), last, neval
+        procedure(func), pointer :: test_func
+        real(wp) :: a, b, abserr, result, work(lenw), answer, G
+        integer :: ier, iwork(limit), last, neval, i
+        character(len=:), allocatable :: casename
 
-        aa = 1.0_wp
-        answer = pi/4.0_wp - pi*sqrt(2.0_wp)/2.0_wp + &
-                 3.0_wp*sqrt(2.0_wp)*atan(sqrt(2.0_wp))/2.0_wp
-        call dqag(f, a, b, epsabs, epsrel, key, result, abserr, neval, &
-                  ier, limit, lenw, last, iwork, work)
-        call check_result('dqag C(1)', result, answer, neval)
-        call dqng(f, a, b, epsabs, epsrel, result, abserr, neval, ier)
-        call check_result('dqng C(1)', result, answer, neval)
+        G = Catalan()
 
-        ! test cases 1-4:
-        answer = 0.25_wp
-        call dqag(f1, a, b, epsabs, epsrel, key, result, abserr, neval, &
-                  ier, limit, lenw, last, iwork, work)
-        call check_result('dqag f1', result, answer, neval)
-        call dqng(f1, a, b, epsabs, epsrel, result, abserr, neval, ier)
-        call check_result('dqng f1', result, answer, neval)
-
-        answer = (pi - 2.0_wp + 2.0_wp * log(2.0_wp)) / 12.0_wp
-        call dqag(f2, a, b, epsabs, epsrel, key, result, abserr, neval, &
-                  ier, limit, lenw, last, iwork, work)
-        call check_result('dqag f2', result, answer, neval)
-        call dqng(f2, a, b, epsabs, epsrel, result, abserr, neval, ier)
-        call check_result('dqng f2', result, answer, neval)
-
-        answer = (exp(pi/2.0_wp) - 1.0_wp) / 2.0_wp
-        call dqag(f3, 0.0_wp, pi/2.0_wp, epsabs, epsrel, key, result, abserr, neval, &
-                  ier, limit, lenw, last, iwork, work)
-        call check_result('dqag f3', result, answer, neval)
-        call dqng(f3, 0.0_wp, pi/2.0_wp, epsabs, epsrel, result, abserr, neval, ier)
-        call check_result('dqng f3', result, answer, neval)
-
-        answer = 5.0_wp * pi**2 / 96.0_wp
-        call dqag(f4, a, b, epsabs, epsrel, key, result, abserr, neval, &
-                  ier, limit, lenw, last, iwork, work)
-        call check_result('dqag f4', result, answer, neval)
-        call dqng(f4, a, b, epsabs, epsrel, result, abserr, neval, ier)
-        call check_result('dqng f4', result, answer, neval)
+        do i = 1, 8
+            select case (i)
+            case(1)
+                casename = 'C(1)'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => f
+                answer = pi/4.0_wp - pi*sqrt(2.0_wp)/2.0_wp + &
+                         3.0_wp*sqrt(2.0_wp)*atan(sqrt(2.0_wp))/2.0_wp
+            case(2)
+                casename = 'f1'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => f1
+                answer = 0.25_wp
+            case(3)
+                casename = 'f2'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => f2
+                answer = (pi - 2.0_wp + 2.0_wp * log(2.0_wp)) / 12.0_wp
+            case(4)
+                casename = 'f3'
+                a = 0.0_wp
+                b = pi/2.0_wp
+                test_func => f3
+                answer = (exp(pi/2.0_wp) - 1.0_wp) / 2.0_wp
+            case(5)
+                casename = 'f4'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => f4
+                answer = 5.0_wp * pi**2 / 96.0_wp
+            case(6)
+                casename = 'i1'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => i1
+                answer = pi**2*(2.0_wp - sqrt(2.0_wp)) / 32.0_wp
+            case(7)
+                casename = 'i2'
+                a = 0.0_wp
+                b = pi / 4.0_wp
+                test_func => i2
+                answer = -pi**2 / 16.0_wp + pi * log(2.0_wp) / 4.0_wp + G
+            case(8)
+                casename = 'i3'
+                a = 0.0_wp
+                b = pi
+                test_func => i3
+                answer = pi**2 / 4.0_wp
+            end select
+            call test_case(casename, test_func, a, b, answer)
+        end do
 
     contains
+
+        subroutine test_case(casename, f, a, b, answer)
+            implicit none
+            character(len=*),intent(in) :: casename
+            procedure(func) :: f
+            real(wp),intent(in) :: a
+            real(wp),intent(in) :: b
+            real(wp),intent(in) :: answer
+
+            call dqag(f, a, b, epsabs, epsrel, key, result, abserr, neval, &
+                      ier, limit, lenw, last, iwork, work)
+            call check_result('dqag '//casename, result, answer, neval)
+
+            call dqng(f, a, b, epsabs, epsrel, result, abserr, neval, ier)
+            call check_result('dqng '//casename, result, answer, neval)
+
+        end subroutine test_case
 
         real(wp) function f(x)
             implicit none
             real(wp), intent(in) :: x
+            real(wp), parameter :: aa = 1.0_wp
             f = atan(sqrt(x**2+aa**2))/(sqrt(x**2+aa**2)*(x**2+1.0_wp))
         end function f
 
@@ -401,7 +459,99 @@ contains
             f4 = atan(sqrt(2.0_wp + x**2)) / ((1.0_wp + x**2)*sqrt(2.0_wp + x**2))
         end function f4
 
+        real(wp) function i1(x)
+            implicit none
+            real(wp), intent(in) :: x
+            i1 = (x**2 * log(x)) / ((x**2-1.0_wp)*(x**4+1.0_wp))
+        end function i1
+
+        real(wp) function i2(x)
+            implicit none
+            real(wp), intent(in) :: x
+            i2 = x**2 / sin(x)**2
+        end function i2
+
+        real(wp) function i3(x)
+            implicit none
+            real(wp), intent(in) :: x
+            i3 =  (x * sin(x)) / (1 + cos(x)**2)
+        end function i3
+
     end subroutine test_C
+
+    subroutine test_G
+        !! Catalan's constant integrals
+        !! See: https://en.wikipedia.org/wiki/Catalan%27s_constant
+        implicit none
+
+        integer, parameter :: key = 6
+        integer, parameter :: limit = 200
+        integer, parameter :: lenw = limit*4
+        real(wp), parameter :: pi = acos(-1.0_wp)
+
+        procedure(func), pointer :: test_func
+        real(wp) :: a, b, abserr, result, work(lenw), G
+        integer :: ier, iwork(limit), last, neval, i
+        character(len=:), allocatable :: casename
+
+        G = Catalan()
+
+        do i = 2, 2
+            select case (i)
+            case(1)
+                casename = 'g1'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => g1
+            case(2)
+                casename = 'g2'
+                a = 0.0_wp
+                b = pi / 4.0_wp
+                test_func => g2
+            case(3)
+                casename = 'g3'
+                a = - pi / 2.0_wp
+                b = pi / 2.0_wp
+                test_func => g3
+            end select
+            call test_case(casename, test_func, a, b, G)
+        end do
+
+    contains
+
+        subroutine test_case(casename, f, a, b, answer)
+            implicit none
+            character(len=*),intent(in) :: casename
+            procedure(func) :: f
+            real(wp),intent(in) :: a
+            real(wp),intent(in) :: b
+            real(wp),intent(in) :: answer
+
+            call dqag(f, a, b, epsabs, epsrel, key, result, abserr, neval, &
+                      ier, limit, lenw, last, iwork, work)
+            call check_result('dqag '//casename, result, answer, neval)
+
+            call dqng(f, a, b, epsabs, epsrel, result, abserr, neval, ier)
+            call check_result('dqng '//casename, result, answer, neval)
+
+        end subroutine test_case
+
+        real(wp) function g1(x)
+            real(wp), intent(in) :: x
+            g1 = - log(x) / (1.0_wp + x**2)
+        end function g1
+
+        real(wp) function g2(x)
+            real(wp), intent(in) :: x
+            g2 = x / (sin(x)*cos(x))
+        end function g2
+
+        real(wp) function g3(x)
+            real(wp), intent(in) :: x
+            g3 = x / sin(x) / 4.0_wp
+        end function g3
+
+    end subroutine test_G
 
 #ifndef MOD_INCLUDE
 end module quadpack_test_module

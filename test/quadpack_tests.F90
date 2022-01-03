@@ -17,6 +17,7 @@
     call test_qaws()
     call test_qng()
     call test_C()
+    call test_G()
 
 #ifndef MOD_INCLUDE
     end program quadpack_tests
