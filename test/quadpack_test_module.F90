@@ -9,6 +9,7 @@ module quadpack_test_module
 
     real(wp), parameter :: epsabs = 0.0_wp
     real(wp), parameter :: epsrel = 10**(log10(epsilon(1.0_wp))/2.0_wp+1)
+    real(wp), parameter :: G = 0.915965594177219015054603514932384110774_wp !! Catalan's constant
 
     abstract interface
         real(wp) function func(x)
@@ -20,19 +21,19 @@ module quadpack_test_module
 
 contains
 
-    pure real(wp) function Catalan()
-        !! Catalan's constant
-        integer :: k
-        real(wp) :: term
-        Catalan = 0.0_wp
-        k = 0
-        do
-            term = (-1)**k / (2.0_wp*k + 1.0_wp)**2
-            if (Catalan == Catalan + term) exit
-            Catalan = Catalan + term
-            k = k + 1
-        end do
-    end function Catalan
+    ! pure real(wp) function Catalan()
+    !     !! Catalan's constant
+    !     integer :: k
+    !     real(wp) :: term
+    !     Catalan = 0.0_wp
+    !     k = 0
+    !     do
+    !         term = (-1)**k / (2.0_wp*k + 1.0_wp)**2
+    !         if (Catalan == Catalan + term) exit
+    !         Catalan = Catalan + term
+    !         k = k + 1
+    !     end do
+    ! end function Catalan
 
     subroutine check_result(routine, value, answer, neval)
         implicit none
@@ -348,11 +349,9 @@ contains
         real(wp), parameter :: pi = acos(-1.0_wp)
 
         procedure(func), pointer :: test_func
-        real(wp) :: a, b, abserr, result, work(lenw), answer, G
+        real(wp) :: a, b, abserr, result, work(lenw), answer
         integer :: ier, iwork(limit), last, neval, i
         character(len=:), allocatable :: casename
-
-        G = Catalan()
 
         do i = 1, 8
             select case (i)
@@ -490,11 +489,9 @@ contains
         real(wp), parameter :: pi = acos(-1.0_wp)
 
         procedure(func), pointer :: test_func
-        real(wp) :: a, b, abserr, result, work(lenw), G
+        real(wp) :: a, b, abserr, result, work(lenw)
         integer :: ier, iwork(limit), last, neval, i
         character(len=:), allocatable :: casename
-
-        G = Catalan()
 
         do i = 2, 2
             select case (i)
