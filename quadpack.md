@@ -12,10 +12,12 @@ docmark_alt:
 docmark: !
 display: public
 source: true
-graph: true
+graph: false
 exclude_dir: ./tests
 exclude: quadpack_single.F90
          quadpack_double.F90
+         quadpack_quad.F90
+         quadpack.F90
 extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
 
 {!README.md!}

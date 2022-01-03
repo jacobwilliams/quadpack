@@ -3,7 +3,7 @@
     use quadpack_test_module
     implicit none
     write(*,*) ''
-    write(*,*) ' quadpack_tests : Default'
+    write(*,*) ' quadpack_tests : Default (kind=',wp,')'
     write(*,*) ''
 #endif
 
@@ -16,6 +16,8 @@
     call test_qawo()
     call test_qaws()
     call test_qng()
+    call test_C()
+    call test_G()
 
 #ifndef MOD_INCLUDE
     end program quadpack_tests
