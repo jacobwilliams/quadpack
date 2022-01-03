@@ -14,7 +14,7 @@
 !  * Jacob Williams, Dec 2021. Modernized the Fortran 77 code from Netlib.
 
 #ifndef MOD_INCLUDE
-module quadpack
+module quadpack_generic
     use iso_fortran_env, only: wp => real64 ! double precision by default
 #endif
 
@@ -67,6 +67,7 @@ module quadpack
 
     end interface
 
+    ! by default, the double precision names are exported  (dqag, etc.)
     public :: dqag, dqage, dqagi, dqagie, dqagp, dqagpe, dqags, &
               dqagse, dqawc, dqawce, dqawf, dqawfe, dqawo, dqawoe, dqaws, &
               dqawse, dqc25c, dqc25f, dqc25s, dqcheb, dqk15, dqk15i, &
@@ -163,15 +164,14 @@ module quadpack
                                     !!         at some points of the integration
                                     !!         interval.
                                     !! * ier = 6 the input is invalid, because
-                                    !!         (epsabs<=0 and
-                                    !!          epsrel<max(50*rel.mach.acc.,0.5e-28_wp))
-                                    !!         or limit<1 or lenw<limit*4.
-                                    !!         result, abserr, neval, last are set
+                                    !!         `(epsabs<=0 and epsrel<max(50*rel.mach.acc.,0.5e-28_wp))`
+                                    !!         or `limit<1` or `lenw<limit*4`.
+                                    !!         `result`, `abserr`, `neval`, `last` are set
                                     !!         to zero.
-                                    !!         except when lenw is invalid, iwork(1),
-                                    !!         work(limit*2+1) and work(limit*3+1) are
-                                    !!         set to zero, work(1) is set to a and
-                                    !!         work(limit+1) to b.
+                                    !!         except when lenw is invalid, `iwork(1)`,
+                                    !!         `work(limit*2+1)` and `work(limit*3+1)` are
+                                    !!         set to zero, `work(1)` is set to a and
+                                    !!         `work(limit+1)` to `b`.
         integer, intent(in) :: Key !! key for choice of local integration rule.
                                    !! a gauss-kronrod pair is used with:
                                    !!
@@ -7120,6 +7120,6 @@ module quadpack
 
 #ifndef MOD_INCLUDE
 !********************************************************************************
-end module quadpack
+end module quadpack_generic
 !********************************************************************************
 #endif

@@ -57,7 +57,7 @@
         <ul class="dropdown-menu">
           
               
-            <li><a href="./sourcefile/quadpack.f90.html">Source File</a></li>
+            <li><a href="./sourcefile/quadpack_generic.f90.html">Source File</a></li>
         
         
         
@@ -76,7 +76,7 @@
             </li>
 
 
-<li class="visible-xs hidden-sm visible-lg"><a href="./sourcefile/quadpack.f90.html">Source File</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="./sourcefile/quadpack_generic.f90.html">Source File</a></li>
 
 
 
@@ -145,25 +145,16 @@ computation of definite one-dimensional integrals.</p>
 <li>Some typos have been corrected in the comments.</li>
 <li>General code cleanup and formatting.</li>
 <li>Added automated unit testing in GitHub CI.</li>
-<li>The separate routines for single and double precision versions have been eliminated. The module uses double precision (<code>real64</code>) variables by default. However, it can be instantiated to use any real kind using some preprocessing trickery. For example, to create a single precision version:</li>
+<li>The separate routines for single and double precision versions have been eliminated. The library now exports a single (<code>real32</code>), double (<code>real64</code>) and quadruple (<code>real128</code>) precision interface using the same code by employing a preprocessor scheme.</li>
 </ul>
-<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">module </span><span class="n">quadpack_single</span><span class="w"></span>
-<span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">wp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">real32</span><span class="w"></span>
-<span class="w">  </span><span class="err">#</span><span class="n">define</span><span class="w"> </span><span class="n">MOD_INCLUDE</span><span class="o">=</span><span class="mi">1</span><span class="w"></span>
-<span class="w">  </span><span class="err">#</span><span class="k">include</span><span class="w"> </span><span class="s2">&quot;quadpack.F90&quot;</span><span class="w"></span>
-<span class="w">  </span><span class="k">end module </span><span class="n">quadpack_single</span><span class="w"></span>
-</code></pre></div>
-
 <p>Note that this version includes the recent (Oct 2021) updates (see <a href="https://github.com/scipy/scipy/issues/14807">here</a> and <a href="https://github.com/scipy/scipy/pull/14836">here</a>) reported by the Scipy project.</p>
 <h3>To do list</h3>
 <ul>
 <li>[ ] Remove the last remaining GOTOs.</li>
 <li>[ ] Additional docstring cleanups.</li>
-<li>[ ] Added more unit tests.</li>
+<li>[ ] Add more unit tests.</li>
 <li>[ ] In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.</li>
-<li>[ ] Figure out the best way to have the single, double, and quad versions included in the library by default. See the <code>archive</code> folder for an attempt at this. However, for some reason it didn't work in the GitHub CI.</li>
 <li>[ ] Reconsider the <code>error stop</code> in <code>xerror</code> for fatal errors. Probably the library shouldn't be stopping the calling problem.</li>
-<li>[ ] Make sure we have incorporated all the fixes from SciPy. See <a href="https://github.com/scipy/scipy/commits/v1.6.3/scipy/integrate/quadpack">here</a></li>
 </ul>
 <h3>Compiling</h3>
 <p>A <a href="https://github.com/fortran-lang/fpm">Fortran Package Manager</a> manifest file is included, so that the library and test cases can be compiled with FPM. For example:</p>
@@ -179,6 +170,8 @@ fpm test --profile release
 <h3>Example</h3>
 <p>A simple example is given here (see the <code>test</code> folder for more examples):</p>
 <div class="codehilite"><pre><span></span><code><span class="k">subroutine </span><span class="n">test_qag</span><span class="w"></span>
+<span class="w">  </span><span class="k">import </span><span class="n">quadpack</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dqag</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">wp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">real64</span><span class="w"> </span><span class="c">! double precision</span>
 <span class="w">  </span><span class="k">implicit none</span>
 
 <span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
@@ -216,8 +209,8 @@ fpm test --profile release
 
 <h3>Survey of procedures</h3>
 <p>The following list gives an overview of the QUADPACK integrators.
-The routine names for the DOUBLE PRECISION versions are preceded
-by the letter D.</p>
+The routine names for the double precision versions are preceded
+by the letter <code>D</code>, and the quadruple precision versions are preceded by <code>Q</code>.</p>
 <ul>
 <li>
 <p><strong>QNG</strong>  : Is a simple non-adaptive automatic integrator, based on
@@ -402,7 +395,7 @@ Such quadrature problems include the Fourier transform as
 a special case. Yet for the latter we have an automatic
 integrator available, QAWF.</p>
 <h3>Documentation</h3>
-<p>The API documentation for the current <code>master</code> branch can be found <a href="https://jacobwilliams.github.io/quadpack/">here</a>.  This is generated by processing the source files with <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>.</p>
+<p>The API documentation for the current <code>master</code> branch can be found <a href="https://jacobwilliams.github.io/quadpack/">here</a>.  This is generated by processing the source files with <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>. Note that the procedures listed in the API documentation are the double precision version (<code>DQNG</code>, etc.)</p>
 <h3>License</h3>
 <p>The original Quadpack was a public domain work of the United States government. The modifications are released under a permissive (BSD-3) license.</p>
 <h3>References</h3>
@@ -476,7 +469,7 @@ integrator available, QAWF.</p>
         <div class="col-xs-6 col-sm-4">
               <h3>Source Files</h3>
               <ul>
-                    <li><a href='./sourcefile/quadpack.f90.html'>quadpack.f90</a></li>
+                    <li><a href='./sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
                   </ul>
           </div>
         
@@ -484,7 +477,7 @@ integrator available, QAWF.</p>
 		  <div class="col-xs-6 col-sm-4">
               <h3>Modules</h3>
               <ul>
-                    <li><a href='./module/quadpack.html'>quadpack</a></li>
+                    <li><a href='./module/quadpack_generic.html'>quadpack_generic</a></li>
                   </ul>
           </div>
           
