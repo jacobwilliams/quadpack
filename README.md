@@ -53,7 +53,7 @@ A simple example is given here (see the `test` folder for more examples):
 
 ```fortran
 subroutine test_qag
-  import quadpack, only: dqag
+  use quadpack, only: dqag
   use iso_fortran_env, only: wp => real64 ! double precision
   implicit none
 
