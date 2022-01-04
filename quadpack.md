@@ -12,7 +12,7 @@ docmark_alt:
 docmark: !
 display: public
 source: true
-graph: false
+graph: true
 exclude_dir: ./tests
 exclude: quadpack_single.F90
          quadpack_double.F90
