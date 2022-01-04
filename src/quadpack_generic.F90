@@ -5171,9 +5171,9 @@ module quadpack_generic
                                              0.207784955007898467600689403773245_wp, &
                                              0.000000000000000000000000000000000_wp] !! abscissae of the 15-point kronrod rule:
                                                                                      !!
-                                                                                     !! * xgk(2), xgk(4), ...  abscissae of the 7-point
+                                                                                     !! * xgk(2), xgk(4), ... abscissae of the 7-point
                                                                                      !!   gauss rule
-                                                                                     !! * xgk(1), xgk(3), ...  abscissae which are optimally
+                                                                                     !! * xgk(1), xgk(3), ... abscissae which are optimally
                                                                                      !!   added to the 7-point gauss rule
 
         real(wp), dimension(8), parameter :: wgk = [ &
@@ -5259,8 +5259,8 @@ module quadpack_generic
         procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
         real(wp), intent(in) :: Boun !! finite bound of original integration
                                      !! range (set to zero if inf = +2)
-        real(wp), intent(in) :: a !! lower limit for integration over subrange of (0,1)
-        real(wp), intent(in) :: b !! upper limit for integration over subrange of (0,1)
+        real(wp), intent(in) :: a !! lower limit for integration over subrange of `(0,1)`
+        real(wp), intent(in) :: b !! upper limit for integration over subrange of `(0,1)`
         integer, intent(in) :: Inf !! * if inf = -1, the original interval is
                                    !!   `(-infinity,bound)`,
                                    !! * if inf = +1, the original interval is
@@ -5301,13 +5301,13 @@ module quadpack_generic
         ! their corresponding weights are given.
 
         real(wp), dimension(8), parameter :: wg = [ &
-                                             0.0_wp, &
+                                             0.000000000000000000000000000000000_wp, &
                                              0.129484966168869693270611432679082_wp, &
-                                             0.0_wp, &
+                                             0.000000000000000000000000000000000_wp, &
                                              0.279705391489276667901467771423780_wp, &
-                                             0.0_wp, &
+                                             0.000000000000000000000000000000000_wp, &
                                              0.381830050505118944950369775488975_wp, &
-                                             0.0_wp, &
+                                             0.000000000000000000000000000000000_wp, &
                                              0.417959183673469387755102040816327_wp] !! weights of the 7-point gauss rule, corresponding
                                                                                      !! to the abscissae `xgk(2), xgk(4), ...`.
                                                                                      !! `wg(1), wg(3), ...` are set to zero.
@@ -5324,7 +5324,7 @@ module quadpack_generic
                                                                                      !!
                                                                                      !! * xgk(2), xgk(4), ... abscissae of the 7-point
                                                                                      !!   gauss rule
-                                                                                     !! * xgk(1), xgk(3), ...  abscissae which are optimally
+                                                                                     !! * xgk(1), xgk(3), ... abscissae which are optimally
                                                                                      !!   added to the 7-point gauss rule
 
         real(wp), dimension(8), parameter :: wgk = [ &
@@ -5439,25 +5439,35 @@ module quadpack_generic
         ! corresponding weights are given.
 
         real(wp), dimension(8), parameter :: xgk = [ &
-                                             0.9914553711208126_wp, 0.9491079123427585_wp, &
-                                             0.8648644233597691_wp, 0.7415311855993944_wp, &
-                                             0.5860872354676911_wp, 0.4058451513773972_wp, &
-                                             0.2077849550078985_wp, 0.0000000000000000_wp] !! abscissae of the 15-point gauss-kronrod rule:
-                                                                                           !!
-                                                                                           !! * xgk(2), xgk(4), ... abscissae of the 7-point
-                                                                                           !!   gauss rule
-                                                                                           !! * xgk(1), xgk(3), ... abscissae which are optimally
-                                                                                           !!   added to the 7-point gauss rule
+                                             0.991455371120812639206854697526329_wp, &
+                                             0.949107912342758524526189684047851_wp, &
+                                             0.864864423359769072789712788640926_wp, &
+                                             0.741531185599394439863864773280788_wp, &
+                                             0.586087235467691130294144838258730_wp, &
+                                             0.405845151377397166906606412076961_wp, &
+                                             0.207784955007898467600689403773245_wp, &
+                                             0.000000000000000000000000000000000_wp] !! abscissae of the 15-point gauss-kronrod rule:
+                                                                                     !!
+                                                                                     !! * xgk(2), xgk(4), ... abscissae of the 7-point
+                                                                                     !!   gauss rule
+                                                                                     !! * xgk(1), xgk(3), ... abscissae which are optimally
+                                                                                     !!   added to the 7-point gauss rule
 
         real(wp), dimension(8), parameter :: wgk = [ &
-                                             0.2293532201052922e-01_wp, 0.6309209262997855e-01_wp, &
-                                             0.1047900103222502_wp, 0.1406532597155259_wp, &
-                                             0.1690047266392679_wp, 0.1903505780647854_wp, &
-                                             0.2044329400752989_wp, 0.2094821410847278_wp] !! weights of the 15-point gauss-kronrod rule
+                                             0.022935322010529224963732008058970_wp, &
+                                             0.063092092629978553290700663189204_wp, &
+                                             0.104790010322250183839876322541518_wp, &
+                                             0.140653259715525918745189590510238_wp, &
+                                             0.169004726639267902826583426598550_wp, &
+                                             0.190350578064785409913256402421014_wp, &
+                                             0.204432940075298892414161999234649_wp, &
+                                             0.209482141084727828012999174891714_wp] !! weights of the 15-point gauss-kronrod rule
 
         real(wp), dimension(4), parameter :: wg = [ &
-                                             0.1294849661688697_wp, 0.2797053914892767_wp, &
-                                             0.3818300505051189_wp, 0.4179591836734694_wp] !! weights of the 7-point gauss rule
+                                             0.129484966168869693270611432679082_wp, &
+                                             0.279705391489276667901467771423780_wp, &
+                                             0.381830050505118944950369775488975_wp, &
+                                             0.417959183673469387755102040816327_wp] !! weights of the 7-point gauss rule
 
         centr = 0.5_wp*(a + b)
         hlgth = 0.5_wp*(b - a)
