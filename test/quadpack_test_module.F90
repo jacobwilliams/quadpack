@@ -43,14 +43,16 @@ contains
         real(wp), intent(in) :: answer
         integer, intent(in) :: neval
 
-        write (*, '(1P,A25,1X,2(E13.6,1X),I6)') &
-            routine, value, abs(value - answer), neval
-
         if (abs(value - answer) > epsrel) then
-            write(*,*) '  value  = ', value
-            write(*,*) '  answer = ', answer
-            write(*,*) '  epsrel = ', epsrel
-            write(*,*) 'TEST FAILED'
+            write (*, '(1P,A25,1X,2(E13.6,1X),I6,1X,A)') &
+                    routine, value, abs(value - answer), neval, 'FAILED'
+                ! write(*,*) '  value  = ', value
+                ! write(*,*) '  answer = ', answer
+                ! write(*,*) '  epsrel = ', epsrel
+                ! write(*,*) 'TEST FAILED'
+        else
+            write (*, '(1P,A25,1X,2(E13.6,1X),I6)') &
+                    routine, value, abs(value - answer), neval
         end if
 
     end subroutine check_result
