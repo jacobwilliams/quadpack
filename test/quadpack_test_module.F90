@@ -62,18 +62,22 @@ contains
 
         real(wp), parameter :: a = 0.0_wp
         real(wp), parameter :: b = 1.0_wp
-        integer, parameter :: key = 6
         integer, parameter :: limit = 100
         integer, parameter :: lenw = limit*4
         real(wp), parameter :: answer = 2.0_wp/sqrt(3.0_wp)
 
-        real(wp) :: abserr, result, work(400)
-        integer :: ier, iwork(100), last, neval
+        real(wp) :: abserr, result, work(lenw)
+        integer :: ier, iwork(limit), last, neval, key
+        character(len=1),dimension(6) :: keystr=['1','2','3','4','5','6']
 
-        call dqag(f, a, b, epsabs, epsrel, key, result, abserr, neval, &
-                  ier, limit, lenw, last, iwork, work)
+        do key = 1, 6
 
-        call check_result('dqag', result, answer, neval)
+            call dqag(f, a, b, epsabs, epsrel, key, result, abserr, neval, &
+                    ier, limit, lenw, last, iwork, work)
+
+            call check_result('dqag-'//keystr(key), result, answer, neval)
+
+        end do
 
     contains
 
@@ -345,69 +349,71 @@ contains
         !!   Experimental Mathematics 14:3
         implicit none
 
-        integer, parameter :: key = 6
         integer, parameter :: limit = 100
         integer, parameter :: lenw = limit*4
         real(wp), parameter :: pi = acos(-1.0_wp)
 
         procedure(func), pointer :: test_func
         real(wp) :: a, b, abserr, result, work(lenw), answer
-        integer :: ier, iwork(limit), last, neval, i
+        integer :: ier, iwork(limit), last, neval, i, key
         character(len=:), allocatable :: casename
+        character(len=1),dimension(6) :: keystr=['1','2','3','4','5','6']
 
-        do i = 1, 8
-            select case (i)
-            case(1)
-                casename = 'C(1)'
-                a = 0.0_wp
-                b = 1.0_wp
-                test_func => f
-                answer = pi/4.0_wp - pi*sqrt(2.0_wp)/2.0_wp + &
-                         3.0_wp*sqrt(2.0_wp)*atan(sqrt(2.0_wp))/2.0_wp
-            case(2)
-                casename = 'f1'
-                a = 0.0_wp
-                b = 1.0_wp
-                test_func => f1
-                answer = 0.25_wp
-            case(3)
-                casename = 'f2'
-                a = 0.0_wp
-                b = 1.0_wp
-                test_func => f2
-                answer = (pi - 2.0_wp + 2.0_wp * log(2.0_wp)) / 12.0_wp
-            case(4)
-                casename = 'f3'
-                a = 0.0_wp
-                b = pi/2.0_wp
-                test_func => f3
-                answer = (exp(pi/2.0_wp) - 1.0_wp) / 2.0_wp
-            case(5)
-                casename = 'f4'
-                a = 0.0_wp
-                b = 1.0_wp
-                test_func => f4
-                answer = 5.0_wp * pi**2 / 96.0_wp
-            case(6)
-                casename = 'i1'
-                a = 0.0_wp
-                b = 1.0_wp
-                test_func => i1
-                answer = pi**2*(2.0_wp - sqrt(2.0_wp)) / 32.0_wp
-            case(7)
-                casename = 'i2'
-                a = 0.0_wp
-                b = pi / 4.0_wp
-                test_func => i2
-                answer = -pi**2 / 16.0_wp + pi * log(2.0_wp) / 4.0_wp + G
-            case(8)
-                casename = 'i3'
-                a = 0.0_wp
-                b = pi
-                test_func => i3
-                answer = pi**2 / 4.0_wp
-            end select
-            call test_case(casename, test_func, a, b, answer)
+        do key = 1, 6
+            do i = 1, 8
+                select case (i)
+                case(1)
+                    casename = 'C(1)'
+                    a = 0.0_wp
+                    b = 1.0_wp
+                    test_func => f
+                    answer = pi/4.0_wp - pi*sqrt(2.0_wp)/2.0_wp + &
+                            3.0_wp*sqrt(2.0_wp)*atan(sqrt(2.0_wp))/2.0_wp
+                case(2)
+                    casename = 'f1'
+                    a = 0.0_wp
+                    b = 1.0_wp
+                    test_func => f1
+                    answer = 0.25_wp
+                case(3)
+                    casename = 'f2'
+                    a = 0.0_wp
+                    b = 1.0_wp
+                    test_func => f2
+                    answer = (pi - 2.0_wp + 2.0_wp * log(2.0_wp)) / 12.0_wp
+                case(4)
+                    casename = 'f3'
+                    a = 0.0_wp
+                    b = pi/2.0_wp
+                    test_func => f3
+                    answer = (exp(pi/2.0_wp) - 1.0_wp) / 2.0_wp
+                case(5)
+                    casename = 'f4'
+                    a = 0.0_wp
+                    b = 1.0_wp
+                    test_func => f4
+                    answer = 5.0_wp * pi**2 / 96.0_wp
+                case(6)
+                    casename = 'i1'
+                    a = 0.0_wp
+                    b = 1.0_wp
+                    test_func => i1
+                    answer = pi**2*(2.0_wp - sqrt(2.0_wp)) / 32.0_wp
+                case(7)
+                    casename = 'i2'
+                    a = 0.0_wp
+                    b = pi / 4.0_wp
+                    test_func => i2
+                    answer = -pi**2 / 16.0_wp + pi * log(2.0_wp) / 4.0_wp + G
+                case(8)
+                    casename = 'i3'
+                    a = 0.0_wp
+                    b = pi
+                    test_func => i3
+                    answer = pi**2 / 4.0_wp
+                end select
+                call test_case(casename//'-'//keystr(key), test_func, a, b, answer)
+            end do
         end do
 
     contains
