@@ -312,20 +312,20 @@ module quadpack_generic
         integer, intent(out) :: Iord(Limit) !! vector of dimension at least `limit`, the first `k`
                                             !! elements of which are pointers to the
                                             !! error estimates over the subintervals,
-                                            !! such that elist(iord(1)), ...,
-                                            !! elist(iord(k)) form a decreasing sequence,
-                                            !! with k = last if last<=(limit/2+2), and
-                                            !! k = limit+1-last otherwise
+                                            !! such that `elist(iord(1))`, ...,
+                                            !! `elist(iord(k))` form a decreasing sequence,
+                                            !! with `k = last` if `last<=(limit/2+2)`, and
+                                            !! `k = limit+1-last` otherwise
         integer, intent(out) :: Last !! number of subintervals actually produced in the
                                      !! subdivision process
 
         real(wp) :: area1, a1, b1, defab1, error1 !! variable for the left subinterval
         real(wp) :: area2, a2, b2, defab2, error2 !! variable for the right subinterval
         real(wp) :: area !! sum of the integrals over the subintervals
-        real(wp) :: area12 !! area1 + area2
-        real(wp) :: erro12 !! error1 + error2
+        real(wp) :: area12 !! `area1 + area2`
+        real(wp) :: erro12 !! `error1 + error2`
         real(wp) :: errsum !! sum of the errors over the subintervals
-        real(wp) :: errmax !! elist(maxerr)
+        real(wp) :: errmax !! `elist(maxerr)`
         real(wp) :: errbnd !! requested accuracy `max(epsabs,epsrel*abs(result))`
         integer :: maxerr !! pointer to the interval with largest error estimate
         real(wp) :: resabs, defabs
@@ -1511,12 +1511,12 @@ module quadpack_generic
             errsum = errsum + erro12 - errmax
             area = area + area12 - Rlist(maxerr)
             if (defab1 /= error1 .and. defab2 /= error2) then
-            if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) .and. &
-                erro12 >= 0.99_wp*errmax) then
-                if (extrap) iroff2 = iroff2 + 1
-                if (.not. extrap) iroff1 = iroff1 + 1
-            end if
-            if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
+                if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) .and. &
+                    erro12 >= 0.99_wp*errmax) then
+                    if (extrap) iroff2 = iroff2 + 1
+                    if (.not. extrap) iroff1 = iroff1 + 1
+                end if
+                if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
             end if
             Level(maxerr) = levcur
             Level(Last) = levcur
