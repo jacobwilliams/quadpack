@@ -2696,9 +2696,9 @@ module quadpack_generic
         real(wp) :: Work(Lenw) !! vector of dimension at least `lenw`
                                !! on return:
                                !!
-                               !! * work(1), ..., work(lst) contain the integral
+                               !! * `work(1), ..., work(lst)` contain the integral
                                !!   approximations over the cycles,
-                               !! * work(limlst+1), ..., work(limlst+lst) contain
+                               !! * `work(limlst+1), ..., work(limlst+lst)` contain
                                !!   the error extimates over the cycles.
                                !!
                                !! further elements of work have no specific
@@ -2795,16 +2795,16 @@ module quadpack_generic
                                     !!
                                     !! if `omega/=0`:
                                     !!
-                                    !! * ier = 1 maximum number of  cycles  allowed
+                                    !! * ier = 1 maximum number of `cycles` allowed
                                     !!   has been achieved., i.e. of subintervals
-                                    !!   (a+(k-1)c,a+kc) where
-                                    !!   c = (2*int(abs(omega))+1)*pi/abs(omega),
-                                    !!   for k = 1, 2, ..., lst.
+                                    !!   `(a+(k-1)c,a+kc)` where
+                                    !!   `c = (2*int(abs(omega))+1)*pi/abs(omega)`,
+                                    !!   for `k = 1, 2, ..., lst`.
                                     !!   one can allow more cycles by increasing
                                     !!   the value of limlst (and taking the
                                     !!   according dimension adjustments into
                                     !!   account).
-                                    !!   examine the array iwork which contains
+                                    !!   examine the array `iwork` which contains
                                     !!   the error flags on the cycles, in order to
                                     !!   look for eventual local integration
                                     !!   difficulties. if the position of a local
@@ -2820,12 +2820,12 @@ module quadpack_generic
                                     !!   the cycles, does not converge to within
                                     !!   the requested accuracy. as in the case of
                                     !!   ier = 1, it is advised to examine the
-                                    !!   array iwork which contains the error
+                                    !!   array `iwork` which contains the error
                                     !!   flags on the cycles.
                                     !! * ier = 6 the input is invalid because
-                                    !!   (integr/=1 and integr/=2) or
-                                    !!   epsabs<=0 or limlst<3.
-                                    !!   result, abserr, neval, lst are set
+                                    !!   (`integr/=1` and `integr/=2`) or
+                                    !!   `epsabs<=0` or `limlst<3`.
+                                    !!   `result`, `abserr`, `neval`, `lst` are set
                                     !!   to zero.
                                     !! * ier = 7 bad integrand behaviour occurs within one
                                     !!   or more of the cycles. location and type
@@ -2868,22 +2868,22 @@ module quadpack_generic
                                     !! the integral is calculated by means of [[dqagie]]
                                     !! and `ier = ierlst(1)` (with meaning as described
                                     !! for `ierlst(k), k = 1`).
-        real(wp), intent(out) :: Rslst(Limlst) !! vector of dimension at least limlst
-                                               !! rslst(k) contains the integral contribution
-                                               !! over the interval (a+(k-1)c,a+kc) where
-                                               !! c = (2*int(abs(omega))+1)*pi/abs(omega),
-                                               !! k = 1, 2, ..., lst.
-                                               !! note that, if omega = 0, rslst(1) contains
-                                               !! the value of the integral over (a,infinity).
-        real(wp), intent(out) :: Erlst(Limlst) !! vector of dimension at least limlst
-                                               !! erlst(k) contains the error estimate corresponding
-                                               !! with rslst(k).
-        integer, intent(out) :: Ierlst(Limlst) !! vector of dimension at least limlst
-                                               !! ierlst(k) contains the error flag corresponding
-                                               !! with rslst(k). for the meaning of the local error
-                                               !! flags see description of output parameter ier.
+        real(wp), intent(out) :: Rslst(Limlst) !! vector of dimension at least `limlst`
+                                               !! `rslst(k)` contains the integral contribution
+                                               !! over the interval `(a+(k-1)c,a+kc)` where
+                                               !! `c = (2*int(abs(omega))+1)*pi/abs(omega)`,
+                                               !! `k = 1, 2, ..., lst`.
+                                               !! note that, if `omega = 0`, `rslst(1)` contains
+                                               !! the value of the integral over `(a,infinity)`.
+        real(wp), intent(out) :: Erlst(Limlst) !! vector of dimension at least `limlst`
+                                               !! `erlst(k)` contains the error estimate corresponding
+                                               !! with `rslst(k)`.
+        integer, intent(out) :: Ierlst(Limlst) !! vector of dimension at least `limlst`
+                                               !! `ierlst(k)` contains the error flag corresponding
+                                               !! with `rslst(k)`. for the meaning of the local error
+                                               !! flags see description of output parameter `ier`.
         integer, intent(out) :: Lst !! number of subintervals needed for the integration
-                                    !! if omega = 0 then lst is set to 1.
+                                    !! if `omega = 0` then lst is set to 1.
         real(wp), intent(out) :: Alist(Limit) !! vector of dimension at least `limit`
         real(wp), intent(out) :: Blist(Limit) !! vector of dimension at least `limit`
         real(wp), intent(out) :: Rlist(Limit) !! vector of dimension at least `limit`
