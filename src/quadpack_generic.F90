@@ -5949,7 +5949,7 @@ module quadpack_generic
         Resabs = Resabs*dhlgth
         Resasc = Resasc*dhlgth
         Abserr = abs((resk - resg)*hlgth)
-        if (Resasc /= 0.0_wp .and. Abserr /= 0._wp) &
+        if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
             Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
         if (Resabs > uflow/(50.0_wp*epmach)) &
             Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
@@ -6158,7 +6158,7 @@ module quadpack_generic
         integer :: j, jtw, jtwm1
         real(wp) :: centr !! mid point of the interval
         real(wp) :: hlgth !! half-length of the interval
-        real(wp) :: dabsc !! abscissa
+        real(wp) :: absc !! abscissa
         real(wp) :: fval1 !! function value
         real(wp) :: fval2 !! function value
         real(wp) :: resg !! result of the 30-point gauss rule
@@ -6270,9 +6270,9 @@ module quadpack_generic
         Resabs = abs(resk)
         do j = 1, 15
             jtw = j*2
-            dabsc = hlgth*xgk(jtw)
-            fval1 = f(centr - dabsc)
-            fval2 = f(centr + dabsc)
+            absc = hlgth*xgk(jtw)
+            fval1 = f(centr - absc)
+            fval2 = f(centr + absc)
             fv1(jtw) = fval1
             fv2(jtw) = fval2
             fsum = fval1 + fval2
@@ -6282,9 +6282,9 @@ module quadpack_generic
         end do
         do j = 1, 15
             jtwm1 = j*2 - 1
-            dabsc = hlgth*xgk(jtwm1)
-            fval1 = f(centr - dabsc)
-            fval2 = f(centr + dabsc)
+            absc = hlgth*xgk(jtwm1)
+            fval1 = f(centr - absc)
+            fval2 = f(centr + absc)
             fv1(jtwm1) = fval1
             fv2(jtwm1) = fval2
             fsum = fval1 + fval2
@@ -6519,6 +6519,9 @@ module quadpack_generic
                                              1.42775938577060080797094273138717060886e-1_wp, &
                                              1.49445554002916905664936468389821203745e-1_wp] !! weights of the 21-point formula for abscissae x2
 
+        ! 43 and 87 coefficients are computed via the algorithm in the quadpack
+        ! manual, section 2.2.2.
+        !TODO: They need to be regenerated with the same precision as the others.
         real(wp), dimension(11), parameter :: x3 = [ &
                                               0.999333360901932081394099323919911_wp, &
                                               0.987433402908088869795961478381209_wp, &
