@@ -436,6 +436,9 @@ contains
             call dqng(f, a, b, epsabs, epsrel, result, abserr, neval, ier)
             call check_result('dqng '//casename, result, answer, neval)
 
+            call dquad(f, a, b, result, epsrel, neval, ier)
+            call check_result('dquad '//casename, result, answer, neval)
+
         end subroutine test_case
 
         real(wp) function f(x)
