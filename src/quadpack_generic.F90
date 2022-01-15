@@ -7102,8 +7102,9 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
     integer :: k !! `results(k)` holds the value of the integral to the
                  !! specified relative accuracy.
 
+    !>
     ! abscissae and weights of quadrature rules are stacked in
-    ! array *p* in the order in which they are needed.
+    ! array `p` in the order in which they are needed.
     real(wp),dimension(381),parameter :: p = [  0.77459666924148337704e+00_wp, &
                                                 0.55555555555555555556e+00_wp, &
                                                 0.88888888888888888889e+00_wp, &
