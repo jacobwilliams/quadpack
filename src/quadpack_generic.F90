@@ -7071,10 +7071,6 @@ module quadpack_generic
 !    to quadrature formulae" by t.n.l. patterson, maths. comp.
 !    vol 22,847-856,1968.
 !  * QUAD From [NSWC Mathematical Library](https://github.com/jacobwilliams/nswc)
-!  * J Burkardt, [Gauss-Patterson Quadrature Rules](https://people.sc.fsu.edu/~jburkardt/f77_src/patterson_rule/patterson_rule.html)
-!
-!@todo Update coefficients to quad precision.
-!@note Could also add the 511 coefficients.
 
 subroutine dquad(f, a, b, result, epsil, npts, icheck)
     implicit none
@@ -7082,9 +7078,8 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
     procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
     real(wp),intent(in) :: a !! lower limit of integration.
     real(wp),intent(in) :: b !! upper limit of integration.
-    real(wp),intent(out) :: result !! this array holds the results obtained by
-                                   !! the 1,3,7, etc., point formulae. the number of
-                                   !! formulae computed depends on `epsil`.
+    real(wp),intent(out) :: result !! the value of the integral to the
+                                   !! specified relative accuracy.
     real(wp),intent(in) :: epsil !! relative accuracy required. when the relative
                                  !! difference of two successive formulae does not
                                  !! exceed `epsil` the last formula computed is taken
