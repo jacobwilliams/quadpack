@@ -21,8 +21,9 @@ The original QUADPACK code (written in the early 1980s) has been extensively ref
 * General code cleanup and formatting.
 * Added automated unit testing in GitHub CI.
 * The separate routines for single and double precision versions have been eliminated. The library now exports a single (`real32`), double (`real64`) and quadruple (`real128`) precision interface using the same code by employing a preprocessor scheme.
-
-Note that this version includes the recent (Oct 2021) updates (see [here](https://github.com/scipy/scipy/issues/14807) and [here](https://github.com/scipy/scipy/pull/14836)) reported by the Scipy project.
+* New procedures not present in the original QUADPACK have been added.
+* The coefficients have been regenerated with full quadruple precision. *(Note: this has not yet been done for all the coefficients in **DQNG**)*
+* Some bugs have been fixed in the original code. Note that this version includes the recent (Oct 2021) updates (see [here](https://github.com/scipy/scipy/issues/14807) and [here](https://github.com/scipy/scipy/pull/14836)) reported by the Scipy project.
 
 ### To do list
 
@@ -182,6 +183,12 @@ no attempt to satisfy any particular input error request.
   * **QC25F**: 25 point rule for sin/cos integrand.
   * **QMOMO**: Integrates k-th degree Chebyshev polynomial times
         function with various explicit singularities.
+
+### Other procedures
+
+The following procedures were not in the original QUADPACK, but are included in the new library:
+
+- **QUAD** : The result is obtained using a sequence of 1, 3, 7, 15, 31, 63, 127, and 255 point interlacing formulae. The formulae are based on the optimal extension of the 3-point gauss formula. See: [Patterson, 1968](https://www.ams.org/journals/mcom/1968-22-104/S0025-5718-68-99866-9/S0025-5718-68-99866-9.pdf). See also **QNG**. This code is based on QUAD from [NSWC Mathematical Library](https://github.com/jacobwilliams/nswc), with the addition of full quadruple-precision coefficients.
 
 ### Guidelines for the use of QUADPACK
 
