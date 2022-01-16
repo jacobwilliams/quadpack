@@ -190,6 +190,8 @@ The following procedures were not in the original QUADPACK, but are included in 
 
 - **QUAD** : The result is obtained using a sequence of 1, 3, 7, 15, 31, 63, 127, and 255 point interlacing formulae. The formulae are based on the optimal extension of the 3-point gauss formula. See: [Patterson, 1968](https://www.ams.org/journals/mcom/1968-22-104/S0025-5718-68-99866-9/S0025-5718-68-99866-9.pdf). See also **QNG**. This code is based on QUAD from [NSWC Mathematical Library](https://github.com/jacobwilliams/nswc), with the addition of full quadruple-precision coefficients.
 
+- **DAVINT** : Integrates a function tabulated at arbitrarily spaced abscissas using overlapping parabolas. This procedure was originally from [SLATEC](http://www.netlib.org/slatec/src/davint.f).
+
 ### Guidelines for the use of QUADPACK
 
 Here it is not our purpose to investigate the question when

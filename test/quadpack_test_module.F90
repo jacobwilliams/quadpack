@@ -564,6 +564,51 @@ contains
 
     end subroutine test_G
 
+    subroutine test_davint
+        !! Test of [[davint]]
+        implicit none
+
+        real(wp) :: a, b, result, ans
+        integer :: ier, neval, i, n
+        character(len=:), allocatable :: casename
+        real(wp),dimension(:),allocatable :: x
+        real(wp),dimension(:),allocatable :: y
+
+        do i = 1, 1
+            select case (i)
+            case(1)
+                ! just a 4x4 square, integral is 16
+                casename = 'square'
+                a = 0.0_wp
+                b = 4.0_wp
+                n = 4
+                if (allocated(x)) deallocate(x)
+                if (allocated(y)) deallocate(y)
+                allocate(x(n)); allocate(y(n))
+                x = real([1,2,3,4], wp)
+                y = real([4,4,4,4], wp)
+                ans = 16.0_wp
+            end select
+            call test_case(casename, a, b, ans)
+        end do
+
+    contains
+
+        subroutine test_case(casename, a, b, answer)
+            implicit none
+            character(len=*),intent(in) :: casename
+            real(wp),intent(in) :: a
+            real(wp),intent(in) :: b
+            real(wp),intent(in) :: answer
+
+            call davint(x,y,n,a,b,result,ier)
+            neval = 0 ! this one doesn't have a function
+            call check_result('davint '//casename, result, answer, neval)
+
+        end subroutine test_case
+
+    end subroutine test_davint
+
 #ifndef MOD_INCLUDE
 end module quadpack_test_module
 #endif

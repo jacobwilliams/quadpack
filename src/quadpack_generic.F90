@@ -73,6 +73,7 @@ module quadpack_generic
               dqawse, dqc25c, dqc25f, dqc25s, dqcheb, dqk15, dqk15i, &
               dqk15w, dqk21, dqk31, dqk41, dqk51, dqk61, dqmomo, dqng
     public :: dquad
+    public :: davint
 
     contains
 !********************************************************************************
@@ -212,7 +213,7 @@ module quadpack_generic
             lvl = 0
         end if
         if (Ier == 6) lvl = 1
-        if (Ier /= 0) call xerror('abnormal return from dqag ', 26, Ier, lvl)
+        if (Ier /= 0) call xerror('abnormal return from dqag ', Ier, lvl)
 
     end subroutine dqag
 !********************************************************************************
@@ -635,7 +636,7 @@ module quadpack_generic
             lvl = 0
         end if
         if (Ier == 6) lvl = 1
-        if (Ier /= 0) call xerror('abnormal return from dqagi', 26, Ier, lvl)
+        if (Ier /= 0) call xerror('abnormal return from dqagi', Ier, lvl)
 
     end subroutine dqagi
 !********************************************************************************
@@ -1191,7 +1192,7 @@ module quadpack_generic
         end if
 
         if (Ier == 6) lvl = 1
-        if (Ier /= 0) call xerror('abnormal return from dqagp', 26, Ier, lvl)
+        if (Ier /= 0) call xerror('abnormal return from dqagp', Ier, lvl)
 
     end subroutine dqagp
 !********************************************************************************
@@ -1795,7 +1796,7 @@ module quadpack_generic
             lvl = 0
         end if
         if (Ier == 6) lvl = 1
-        if (Ier /= 0) call xerror('abnormal return from dqags', 26, Ier, lvl)
+        if (Ier /= 0) call xerror('abnormal return from dqags', Ier, lvl)
 
     end subroutine dqags
 !********************************************************************************
@@ -2300,7 +2301,7 @@ module quadpack_generic
             lvl = 0
         end if
         if (Ier == 6) lvl = 1
-        if (Ier /= 0) call xerror('abnormal return from dqawc', 26, Ier, lvl)
+        if (Ier /= 0) call xerror('abnormal return from dqawc', Ier, lvl)
 
     end subroutine dqawc
 !********************************************************************************
@@ -2734,7 +2735,7 @@ module quadpack_generic
             lvl = 0
         end if
         if (Ier == 6) lvl = 1
-        if (Ier /= 0) call xerror('abnormal return from dqawf', 26, Ier, lvl)
+        if (Ier /= 0) call xerror('abnormal return from dqawf', Ier, lvl)
 
     end subroutine dqawf
 !********************************************************************************
@@ -3217,7 +3218,7 @@ module quadpack_generic
         end if
 
         if (Ier == 6) lvl = 1
-        if (Ier /= 0) call xerror('abnormal return from dqawo', 26, Ier, lvl)
+        if (Ier /= 0) call xerror('abnormal return from dqawo', Ier, lvl)
 
     end subroutine dqawo
 !********************************************************************************
@@ -3831,7 +3832,7 @@ module quadpack_generic
             lvl = 0
         end if
         if (ier == 6) lvl = 1
-        if (ier /= 0) call xerror('abnormal return from dqaws', 26, ier, lvl)
+        if (ier /= 0) call xerror('abnormal return from dqaws', ier, lvl)
 
     end subroutine dqaws
 !********************************************************************************
@@ -6743,7 +6744,7 @@ module quadpack_generic
                 if (Ier == 0) return
             end do
         end if
-        call xerror('abnormal return from dqng ', 26, Ier, 0)
+        call xerror('abnormal return from dqng ', Ier, 0)
 
     end subroutine dqng
 !********************************************************************************
@@ -7542,6 +7543,195 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
 
 !********************************************************************************
 !>
+!  Integrate a function tabulated at arbitrarily spaced
+!  abscissas using overlapping parabolas.
+!
+!  DAVINT integrates a function tabulated at arbitrarily spaced
+!  abscissas.  The limits of integration need not coincide
+!  with the tabulated abscissas.
+!
+!  A method of overlapping parabolas fitted to the data is used
+!  provided that there are at least 3 abscissas between the
+!  limits of integration.  DAVINT also handles two special cases.
+!  If the limits of integration are equal, DAVINT returns a
+!  result of zero regardless of the number of tabulated values.
+!  If there are only two function values, DAVINT uses the
+!  trapezoid rule.
+!
+!  DAVINT is documented completely in SC-M-69-335
+!  Original program from *Numerical Integration* by Davis & Rabinowitz
+!  Adaptation and modifications by Rondall E Jones.
+!
+!### References
+!  * R. E. Jones, Approximate integrator of functions
+!    tabulated at arbitrarily spaced abscissas,
+!    Report SC-M-69-335, Sandia Laboratories, 1969.
+!
+!### Author
+!  * Jones, R. E., (SNLA)
+!
+!***REVISION HISTORY  (YYMMDD)
+!  * 690901  DATE WRITTEN
+!  * 890831  Modified array declarations.  (WRB)
+!  * 890831  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 900315  CALLs to XERROR changed to CALLs to XERMSG.  (THJ)
+!  * 920501  Reformatted the REFERENCES section.  (WRB)
+!  * Jacob Williams, Jan 2022 : modernized this procedure. added quad-precision coefficients.
+
+    subroutine davint(x,y,n,xlo,xup,ans,ierr)
+
+    implicit none
+
+    real(wp),dimension(:),intent(in) :: x !! array of abscissas, which must be in increasing order.
+    real(wp),dimension(:),intent(in) :: y !! array of function values. i.e., `y(i)=func(x(i))`
+    integer,intent(in) :: n !! The integer number of function values supplied.
+                            !! `N >= 2` unless `XLO = XUP`.
+    real(wp),intent(in) :: xlo !! lower limit of integration
+    real(wp),intent(in) :: xup !! upper limit of integration.  Must have `XLO <= XUP`
+    real(wp),intent(out) :: ans !! computed approximate value of integral
+    integer,intent(out) :: ierr !! A status code:
+                                !!
+                                !! * Normal Code
+                                !!    * =1 Means the requested integration was performed.
+                                !! * Abnormal Codes
+                                !!    * =2 Means `XUP` was less than `XLO`.
+                                !!    * =3 Means the number of `X(I)` between `XLO` and `XUP`
+                                !!      (inclusive) was less than 3 and neither of the two
+                                !!      special cases described in the abstract occurred.
+                                !!      No integration was performed.
+                                !!    * =4 Means the restriction `X(I+1)>X(I)` was violated.
+                                !!    * =5 Means the number `N` of function values was < 2.
+                                !!
+                                !! ANS is set to zero if `IERR` = 2, 3, 4, or 5.
+
+    integer :: i , inlft , inrt , istart , istop
+    real(wp) :: a , b , c , ca , cb , cc , fl , fr , r3 , &
+                rp5 , slope , sum , syl , syl2 , syl3 , syu , &
+                syu2 , syu3 , term1 , term2 , term3 , x1 , &
+                x12 , x13 , x2 , x23 , x3
+
+    ierr = 1
+    ans = 0.0_wp
+
+    ! error checks and trivial cases:
+    if (xlo == xup) return
+    if (xlo > xup) then
+        ierr = 2
+        call xerror('the upper limit of integration was not greater '//&
+                    'than the lower limit.',4,1)
+        return
+    end if
+    if (n < 2) then
+        ierr = 5
+        call xerror('less than two function values were supplied.', &
+                     4,1)
+        return
+    end if
+    do i = 2 , n
+        if ( x(i)<=x(i-1) ) then
+            ierr = 4
+            call xerror('the abscissas were not strictly increasing.  must have '&
+                        //'x(i-1) < x(i) for all i.',4,1)
+            return
+        end if
+        if ( x(i)>xup ) exit
+    enddo
+
+    if ( n<3 ) then
+
+        ! special n=2 case
+        slope = (y(2)-y(1))/(x(2)-x(1))
+        fl = y(1) + slope*(xlo-x(1))
+        fr = y(2) + slope*(xup-x(2))
+        ans = 0.5_wp*(fl+fr)*(xup-xlo)
+
+    elseif ( x(n-2)<xlo ) then
+
+        ierr = 3
+        call xerror('there were less than three function values '&
+                    //'between the limits of integration.',4,1)
+
+    elseif ( x(3)<=xup ) then
+
+        i = 1
+        do
+            if ( x(i)>=xlo ) then
+                inlft = i
+                i = n
+                do
+                    if ( x(i)<=xup ) then
+                        inrt = i
+                        if ( (inrt-inlft)>=2 ) then
+                            istart = inlft
+                            if ( inlft==1 ) istart = 2
+                            istop = inrt
+                            if ( inrt==n ) istop = n - 1
+                            r3 = 3.0_wp
+                            rp5 = 0.5_wp
+                            sum = 0.0_wp
+                            syl = xlo
+                            syl2 = syl*syl
+                            syl3 = syl2*syl
+                            do i = istart , istop
+                                x1 = x(i-1)
+                                x2 = x(i)
+                                x3 = x(i+1)
+                                x12 = x1 - x2
+                                x13 = x1 - x3
+                                x23 = x2 - x3
+                                term1 = y(i-1)/(x12*x13)
+                                term2 = -y(i)/(x12*x23)
+                                term3 = y(i+1)/(x13*x23)
+                                a = term1 + term2 + term3
+                                b = -(x2+x3)*term1 - (x1+x3)*term2 - (x1+x2)*term3
+                                c = x2*x3*term1 + x1*x3*term2 + x1*x2*term3
+                                if ( i>istart ) then
+                                    ca = 0.5_wp*(a+ca)
+                                    cb = 0.5_wp*(b+cb)
+                                    cc = 0.5_wp*(c+cc)
+                                else
+                                    ca = a
+                                    cb = b
+                                    cc = c
+                                endif
+                                syu = x2
+                                syu2 = syu*syu
+                                syu3 = syu2*syu
+                                sum = sum + ca*(syu3-syl3)/r3 + cb*rp5*(syu2-syl2) + cc*(syu-syl)
+                                ca = a
+                                cb = b
+                                cc = c
+                                syl = syu
+                                syl2 = syu2
+                                syl3 = syu3
+                            enddo
+                            syu = xup
+                            ans = sum + ca*(syu**3-syl3)/r3 + cb*rp5*(syu**2-syl2) + cc*(syu-syl)
+                        else
+                            ierr = 3
+                            call xerror('there were less than three function values '&
+                                        //'between the limits of integration.',4,1)
+                        endif
+                        return
+                    endif
+                    i = i - 1
+                end do
+            endif
+            i = i + 1
+        end do
+
+    else
+        ierr = 3
+        call xerror('there were less than three function values '&
+                    //'between the limits of integration.',4,1)
+    endif
+
+    end subroutine davint
+!********************************************************************************
+
+!********************************************************************************
+!>
 !  XERROR processes a diagnostic message, in a manner
 !  determined by the value of LEVEL and the current value
 !  of the library error control flag, KONTRL.
@@ -7549,10 +7739,10 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
 !
 !     Examples
 !```fortran
-!  call xerror('smooth -- num was zero.',23,1,2)
-!  call xerror('integ  -- less than full accuracy achieved.',43,2,1)
-!  call xerror('rooter -- actual zero of f found before interval fully collapsed.',65,3,0)
-!  call xerror('exp    -- underflows being set to zero.',39,1,-1)
+!  call xerror('smooth -- num was zero.',1,2)
+!  call xerror('integ  -- less than full accuracy achieved.',2,1)
+!  call xerror('rooter -- actual zero of f found before interval fully collapsed.',3,0)
+!  call xerror('exp    -- underflows being set to zero.',1,-1)
 !```
 !
 !### History
@@ -7564,11 +7754,10 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
 !  * Jones R.E., Kahaner D.K., "Xerror, the slatec error-handling package",
 !    sand82-0800, sandia laboratories, 1982.
 
-    subroutine xerror(messg, nmessg, nerr, level)
+    subroutine xerror(messg, nerr, level)
         implicit none
 
         character(len=*), intent(in) :: messg !! message to be processed
-        integer, intent(in) :: nmessg !! the actual number of characters in MESSG
         integer, intent(in) :: nerr  !! the error number associated with this message.
                                      !! NERR must not be zero.
         integer, intent(in) :: level !! error category:
@@ -7582,7 +7771,7 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
 
         !call xerrwv(messg,nmessg,nerr,level,0,0,0,0,0.,0.)
 
-        write (*, *) nerr, messg(1:nmessg)
+        write (*, *) nerr, messg
         if (level == 2) error stop
 
     end subroutine xerror
