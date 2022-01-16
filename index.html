@@ -146,8 +146,10 @@ computation of definite one-dimensional integrals.</p>
 <li>General code cleanup and formatting.</li>
 <li>Added automated unit testing in GitHub CI.</li>
 <li>The separate routines for single and double precision versions have been eliminated. The library now exports a single (<code>real32</code>), double (<code>real64</code>) and quadruple (<code>real128</code>) precision interface using the same code by employing a preprocessor scheme.</li>
+<li>New procedures not present in the original QUADPACK have been added.</li>
+<li>The coefficients have been regenerated with full quadruple precision. <em>(Note: this has not yet been done for all the coefficients in </em><em>DQNG</em><em>)</em></li>
+<li>Some bugs have been fixed in the original code. Note that this version includes the recent (Oct 2021) updates (see <a href="https://github.com/scipy/scipy/issues/14807">here</a> and <a href="https://github.com/scipy/scipy/pull/14836">here</a>) reported by the Scipy project.</li>
 </ul>
-<p>Note that this version includes the recent (Oct 2021) updates (see <a href="https://github.com/scipy/scipy/issues/14807">here</a> and <a href="https://github.com/scipy/scipy/pull/14836">here</a>) reported by the Scipy project.</p>
 <h3>To do list</h3>
 <ul>
 <li>[ ] Remove the last remaining GOTOs.</li>
@@ -305,6 +307,11 @@ no attempt to satisfy any particular input error request.</p>
 <li><strong>QC25F</strong>: 25 point rule for sin/cos integrand.</li>
 <li><strong>QMOMO</strong>: Integrates k-th degree Chebyshev polynomial times
         function with various explicit singularities.</li>
+</ul>
+<h3>Other procedures</h3>
+<p>The following procedures were not in the original QUADPACK, but are included in the new library:</p>
+<ul>
+<li><strong>QUAD</strong> : The result is obtained using a sequence of 1, 3, 7, 15, 31, 63, 127, and 255 point interlacing formulae. The formulae are based on the optimal extension of the 3-point gauss formula. See: <a href="https://www.ams.org/journals/mcom/1968-22-104/S0025-5718-68-99866-9/S0025-5718-68-99866-9.pdf">Patterson, 1968</a>. See also <strong>QNG</strong>. This code is based on QUAD from <a href="https://github.com/jacobwilliams/nswc">NSWC Mathematical Library</a>, with the addition of full quadruple-precision coefficients.</li>
 </ul>
 <h3>Guidelines for the use of QUADPACK</h3>
 <p>Here it is not our purpose to investigate the question when

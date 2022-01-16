@@ -72,6 +72,7 @@ module quadpack_generic
               dqagse, dqawc, dqawce, dqawf, dqawfe, dqawo, dqawoe, dqaws, &
               dqawse, dqc25c, dqc25f, dqc25s, dqcheb, dqk15, dqk15i, &
               dqk15w, dqk21, dqk31, dqk41, dqk51, dqk61, dqmomo, dqng
+    public :: dquad
 
     contains
 !********************************************************************************
@@ -312,20 +313,20 @@ module quadpack_generic
         integer, intent(out) :: Iord(Limit) !! vector of dimension at least `limit`, the first `k`
                                             !! elements of which are pointers to the
                                             !! error estimates over the subintervals,
-                                            !! such that elist(iord(1)), ...,
-                                            !! elist(iord(k)) form a decreasing sequence,
-                                            !! with k = last if last<=(limit/2+2), and
-                                            !! k = limit+1-last otherwise
+                                            !! such that `elist(iord(1))`, ...,
+                                            !! `elist(iord(k))` form a decreasing sequence,
+                                            !! with `k = last` if `last<=(limit/2+2)`, and
+                                            !! `k = limit+1-last` otherwise
         integer, intent(out) :: Last !! number of subintervals actually produced in the
                                      !! subdivision process
 
         real(wp) :: area1, a1, b1, defab1, error1 !! variable for the left subinterval
         real(wp) :: area2, a2, b2, defab2, error2 !! variable for the right subinterval
         real(wp) :: area !! sum of the integrals over the subintervals
-        real(wp) :: area12 !! area1 + area2
-        real(wp) :: erro12 !! error1 + error2
+        real(wp) :: area12 !! `area1 + area2`
+        real(wp) :: erro12 !! `error1 + error2`
         real(wp) :: errsum !! sum of the errors over the subintervals
-        real(wp) :: errmax !! elist(maxerr)
+        real(wp) :: errmax !! `elist(maxerr)`
         real(wp) :: errbnd !! requested accuracy `max(epsabs,epsrel*abs(result))`
         integer :: maxerr !! pointer to the interval with largest error estimate
         real(wp) :: resabs, defabs
@@ -1511,12 +1512,12 @@ module quadpack_generic
             errsum = errsum + erro12 - errmax
             area = area + area12 - Rlist(maxerr)
             if (defab1 /= error1 .and. defab2 /= error2) then
-            if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) .and. &
-                erro12 >= 0.99_wp*errmax) then
-                if (extrap) iroff2 = iroff2 + 1
-                if (.not. extrap) iroff1 = iroff1 + 1
-            end if
-            if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
+                if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) .and. &
+                    erro12 >= 0.99_wp*errmax) then
+                    if (extrap) iroff2 = iroff2 + 1
+                    if (.not. extrap) iroff1 = iroff1 + 1
+                end if
+                if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
             end if
             Level(maxerr) = levcur
             Level(Last) = levcur
@@ -2696,9 +2697,9 @@ module quadpack_generic
         real(wp) :: Work(Lenw) !! vector of dimension at least `lenw`
                                !! on return:
                                !!
-                               !! * work(1), ..., work(lst) contain the integral
+                               !! * `work(1), ..., work(lst)` contain the integral
                                !!   approximations over the cycles,
-                               !! * work(limlst+1), ..., work(limlst+lst) contain
+                               !! * `work(limlst+1), ..., work(limlst+lst)` contain
                                !!   the error extimates over the cycles.
                                !!
                                !! further elements of work have no specific
@@ -2795,16 +2796,16 @@ module quadpack_generic
                                     !!
                                     !! if `omega/=0`:
                                     !!
-                                    !! * ier = 1 maximum number of  cycles  allowed
+                                    !! * ier = 1 maximum number of `cycles` allowed
                                     !!   has been achieved., i.e. of subintervals
-                                    !!   (a+(k-1)c,a+kc) where
-                                    !!   c = (2*int(abs(omega))+1)*pi/abs(omega),
-                                    !!   for k = 1, 2, ..., lst.
+                                    !!   `(a+(k-1)c,a+kc)` where
+                                    !!   `c = (2*int(abs(omega))+1)*pi/abs(omega)`,
+                                    !!   for `k = 1, 2, ..., lst`.
                                     !!   one can allow more cycles by increasing
                                     !!   the value of limlst (and taking the
                                     !!   according dimension adjustments into
                                     !!   account).
-                                    !!   examine the array iwork which contains
+                                    !!   examine the array `iwork` which contains
                                     !!   the error flags on the cycles, in order to
                                     !!   look for eventual local integration
                                     !!   difficulties. if the position of a local
@@ -2820,12 +2821,12 @@ module quadpack_generic
                                     !!   the cycles, does not converge to within
                                     !!   the requested accuracy. as in the case of
                                     !!   ier = 1, it is advised to examine the
-                                    !!   array iwork which contains the error
+                                    !!   array `iwork` which contains the error
                                     !!   flags on the cycles.
                                     !! * ier = 6 the input is invalid because
-                                    !!   (integr/=1 and integr/=2) or
-                                    !!   epsabs<=0 or limlst<3.
-                                    !!   result, abserr, neval, lst are set
+                                    !!   (`integr/=1` and `integr/=2`) or
+                                    !!   `epsabs<=0` or `limlst<3`.
+                                    !!   `result`, `abserr`, `neval`, `lst` are set
                                     !!   to zero.
                                     !! * ier = 7 bad integrand behaviour occurs within one
                                     !!   or more of the cycles. location and type
@@ -2868,22 +2869,22 @@ module quadpack_generic
                                     !! the integral is calculated by means of [[dqagie]]
                                     !! and `ier = ierlst(1)` (with meaning as described
                                     !! for `ierlst(k), k = 1`).
-        real(wp), intent(out) :: Rslst(Limlst) !! vector of dimension at least limlst
-                                               !! rslst(k) contains the integral contribution
-                                               !! over the interval (a+(k-1)c,a+kc) where
-                                               !! c = (2*int(abs(omega))+1)*pi/abs(omega),
-                                               !! k = 1, 2, ..., lst.
-                                               !! note that, if omega = 0, rslst(1) contains
-                                               !! the value of the integral over (a,infinity).
-        real(wp), intent(out) :: Erlst(Limlst) !! vector of dimension at least limlst
-                                               !! erlst(k) contains the error estimate corresponding
-                                               !! with rslst(k).
-        integer, intent(out) :: Ierlst(Limlst) !! vector of dimension at least limlst
-                                               !! ierlst(k) contains the error flag corresponding
-                                               !! with rslst(k). for the meaning of the local error
-                                               !! flags see description of output parameter ier.
+        real(wp), intent(out) :: Rslst(Limlst) !! vector of dimension at least `limlst`
+                                               !! `rslst(k)` contains the integral contribution
+                                               !! over the interval `(a+(k-1)c,a+kc)` where
+                                               !! `c = (2*int(abs(omega))+1)*pi/abs(omega)`,
+                                               !! `k = 1, 2, ..., lst`.
+                                               !! note that, if `omega = 0`, `rslst(1)` contains
+                                               !! the value of the integral over `(a,infinity)`.
+        real(wp), intent(out) :: Erlst(Limlst) !! vector of dimension at least `limlst`
+                                               !! `erlst(k)` contains the error estimate corresponding
+                                               !! with `rslst(k)`.
+        integer, intent(out) :: Ierlst(Limlst) !! vector of dimension at least `limlst`
+                                               !! `ierlst(k)` contains the error flag corresponding
+                                               !! with `rslst(k)`. for the meaning of the local error
+                                               !! flags see description of output parameter `ier`.
         integer, intent(out) :: Lst !! number of subintervals needed for the integration
-                                    !! if omega = 0 then lst is set to 1.
+                                    !! if `omega = 0` then lst is set to 1.
         real(wp), intent(out) :: Alist(Limit) !! vector of dimension at least `limit`
         real(wp), intent(out) :: Blist(Limit) !! vector of dimension at least `limit`
         real(wp), intent(out) :: Rlist(Limit) !! vector of dimension at least `limit`
@@ -5150,41 +5151,37 @@ module quadpack_generic
         ! the abscissae and weights are given for the interval (-1,1).
         ! because of symmetry only the positive abscissae and their
         ! corresponding weights are given.
-        !
-        ! gauss quadrature weights and kronrod quadrature abscissae and weights
-        ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-        ! bell labs, nov. 1981.
 
         real(wp), dimension(4), parameter :: wg = [ &
-                                             0.129484966168869693270611432679082_wp, &
-                                             0.279705391489276667901467771423780_wp, &
-                                             0.381830050505118944950369775488975_wp, &
-                                             0.417959183673469387755102040816327_wp] !! weights of the 7-point gauss rule
+                                             1.29484966168869693270611432679082018329e-1_wp, &
+                                             2.79705391489276667901467771423779582487e-1_wp, &
+                                             3.81830050505118944950369775488975133878e-1_wp, &
+                                             4.17959183673469387755102040816326530612e-1_wp] !! weights of the 7-point gauss rule
 
         real(wp), dimension(8), parameter :: xgk = [ &
-                                             0.991455371120812639206854697526329_wp, &
-                                             0.949107912342758524526189684047851_wp, &
-                                             0.864864423359769072789712788640926_wp, &
-                                             0.741531185599394439863864773280788_wp, &
-                                             0.586087235467691130294144838258730_wp, &
-                                             0.405845151377397166906606412076961_wp, &
-                                             0.207784955007898467600689403773245_wp, &
-                                             0.000000000000000000000000000000000_wp] !! abscissae of the 15-point kronrod rule:
-                                                                                     !!
-                                                                                     !! * xgk(2), xgk(4), ... abscissae of the 7-point
-                                                                                     !!   gauss rule
-                                                                                     !! * xgk(1), xgk(3), ... abscissae which are optimally
-                                                                                     !!   added to the 7-point gauss rule
+                                             9.91455371120812639206854697526328516642e-1_wp, &
+                                             9.49107912342758524526189684047851262401e-1_wp, &
+                                             8.64864423359769072789712788640926201211e-1_wp, &
+                                             7.41531185599394439863864773280788407074e-1_wp, &
+                                             5.86087235467691130294144838258729598437e-1_wp, &
+                                             4.05845151377397166906606412076961463347e-1_wp, &
+                                             2.07784955007898467600689403773244913480e-1_wp, &
+                                             0.00000000000000000000000000000000000000e0_wp] !! abscissae of the 15-point kronrod rule:
+                                                                                            !!
+                                                                                            !! * xgk(2), xgk(4), ... abscissae of the 7-point
+                                                                                            !!   gauss rule
+                                                                                            !! * xgk(1), xgk(3), ... abscissae which are optimally
+                                                                                            !!   added to the 7-point gauss rule
 
         real(wp), dimension(8), parameter :: wgk = [ &
-                                             0.022935322010529224963732008058970_wp, &
-                                             0.063092092629978553290700663189204_wp, &
-                                             0.104790010322250183839876322541518_wp, &
-                                             0.140653259715525918745189590510238_wp, &
-                                             0.169004726639267902826583426598550_wp, &
-                                             0.190350578064785409913256402421014_wp, &
-                                             0.204432940075298892414161999234649_wp, &
-                                             0.209482141084727828012999174891714_wp] !! weights of the 15-point kronrod rule
+                                             2.29353220105292249637320080589695919936e-2_wp, &
+                                             6.30920926299785532907006631892042866651e-2_wp, &
+                                             1.04790010322250183839876322541518017444e-1_wp, &
+                                             1.40653259715525918745189590510237920400e-1_wp, &
+                                             1.69004726639267902826583426598550284106e-1_wp, &
+                                             1.90350578064785409913256402421013682826e-1_wp, &
+                                             2.04432940075298892414161999234649084717e-1_wp, &
+                                             2.09482141084727828012999174891714263698e-1_wp] !! weights of the 15-point kronrod rule
 
         centr = 0.5_wp*(a + b)
         hlgth = 0.5_wp*(b - a)
@@ -5301,41 +5298,41 @@ module quadpack_generic
         ! their corresponding weights are given.
 
         real(wp), dimension(8), parameter :: wg = [ &
-                                             0.000000000000000000000000000000000_wp, &
-                                             0.129484966168869693270611432679082_wp, &
-                                             0.000000000000000000000000000000000_wp, &
-                                             0.279705391489276667901467771423780_wp, &
-                                             0.000000000000000000000000000000000_wp, &
-                                             0.381830050505118944950369775488975_wp, &
-                                             0.000000000000000000000000000000000_wp, &
-                                             0.417959183673469387755102040816327_wp] !! weights of the 7-point gauss rule, corresponding
-                                                                                     !! to the abscissae `xgk(2), xgk(4), ...`.
-                                                                                     !! `wg(1), wg(3), ...` are set to zero.
+                                             0.00000000000000000000000000000000000000e0_wp, &
+                                             1.29484966168869693270611432679082018329e-1_wp, &
+                                             0.00000000000000000000000000000000000000e0_wp, &
+                                             2.79705391489276667901467771423779582487e-1_wp, &
+                                             0.00000000000000000000000000000000000000e0_wp, &
+                                             3.81830050505118944950369775488975133878e-1_wp, &
+                                             0.00000000000000000000000000000000000000e0_wp, &
+                                             4.17959183673469387755102040816326530612e-1_wp] !! weights of the 7-point gauss rule, corresponding
+                                                                                             !! to the abscissae `xgk(2), xgk(4), ...`.
+                                                                                             !! `wg(1), wg(3), ...` are set to zero.
 
         real(wp), dimension(8), parameter :: xgk = [ &
-                                             0.991455371120812639206854697526329_wp, &
-                                             0.949107912342758524526189684047851_wp, &
-                                             0.864864423359769072789712788640926_wp, &
-                                             0.741531185599394439863864773280788_wp, &
-                                             0.586087235467691130294144838258730_wp, &
-                                             0.405845151377397166906606412076961_wp, &
-                                             0.207784955007898467600689403773245_wp, &
-                                             0.000000000000000000000000000000000_wp] !! abscissae of the 15-point kronrod rule:
-                                                                                     !!
-                                                                                     !! * xgk(2), xgk(4), ... abscissae of the 7-point
-                                                                                     !!   gauss rule
-                                                                                     !! * xgk(1), xgk(3), ... abscissae which are optimally
-                                                                                     !!   added to the 7-point gauss rule
+                                             9.91455371120812639206854697526328516642e-1_wp, &
+                                             9.49107912342758524526189684047851262401e-1_wp, &
+                                             8.64864423359769072789712788640926201211e-1_wp, &
+                                             7.41531185599394439863864773280788407074e-1_wp, &
+                                             5.86087235467691130294144838258729598437e-1_wp, &
+                                             4.05845151377397166906606412076961463347e-1_wp, &
+                                             2.07784955007898467600689403773244913480e-1_wp, &
+                                             0.00000000000000000000000000000000000000e0_wp] !! abscissae of the 15-point kronrod rule:
+                                                                                            !!
+                                                                                            !! * xgk(2), xgk(4), ... abscissae of the 7-point
+                                                                                            !!   gauss rule
+                                                                                            !! * xgk(1), xgk(3), ... abscissae which are optimally
+                                                                                            !!   added to the 7-point gauss rule
 
         real(wp), dimension(8), parameter :: wgk = [ &
-                                             0.022935322010529224963732008058970_wp, &
-                                             0.063092092629978553290700663189204_wp, &
-                                             0.104790010322250183839876322541518_wp, &
-                                             0.140653259715525918745189590510238_wp, &
-                                             0.169004726639267902826583426598550_wp, &
-                                             0.190350578064785409913256402421014_wp, &
-                                             0.204432940075298892414161999234649_wp, &
-                                             0.209482141084727828012999174891714_wp] !! weights of the 15-point kronrod rule
+                                             2.29353220105292249637320080589695919936e-2_wp, &
+                                             6.30920926299785532907006631892042866651e-2_wp, &
+                                             1.04790010322250183839876322541518017444e-1_wp, &
+                                             1.40653259715525918745189590510237920400e-1_wp, &
+                                             1.69004726639267902826583426598550284106e-1_wp, &
+                                             1.90350578064785409913256402421013682826e-1_wp, &
+                                             2.04432940075298892414161999234649084717e-1_wp, &
+                                             2.09482141084727828012999174891714263698e-1_wp] !! weights of the 15-point kronrod rule
 
         dinf = min(1, Inf)
         centr = 0.5_wp*(a + b)
@@ -5439,35 +5436,35 @@ module quadpack_generic
         ! corresponding weights are given.
 
         real(wp), dimension(8), parameter :: xgk = [ &
-                                             0.991455371120812639206854697526329_wp, &
-                                             0.949107912342758524526189684047851_wp, &
-                                             0.864864423359769072789712788640926_wp, &
-                                             0.741531185599394439863864773280788_wp, &
-                                             0.586087235467691130294144838258730_wp, &
-                                             0.405845151377397166906606412076961_wp, &
-                                             0.207784955007898467600689403773245_wp, &
-                                             0.000000000000000000000000000000000_wp] !! abscissae of the 15-point gauss-kronrod rule:
-                                                                                     !!
-                                                                                     !! * xgk(2), xgk(4), ... abscissae of the 7-point
-                                                                                     !!   gauss rule
-                                                                                     !! * xgk(1), xgk(3), ... abscissae which are optimally
-                                                                                     !!   added to the 7-point gauss rule
+                                             9.91455371120812639206854697526328516642e-1_wp, &
+                                             9.49107912342758524526189684047851262401e-1_wp, &
+                                             8.64864423359769072789712788640926201211e-1_wp, &
+                                             7.41531185599394439863864773280788407074e-1_wp, &
+                                             5.86087235467691130294144838258729598437e-1_wp, &
+                                             4.05845151377397166906606412076961463347e-1_wp, &
+                                             2.07784955007898467600689403773244913480e-1_wp, &
+                                             0.00000000000000000000000000000000000000e0_wp] !! abscissae of the 15-point kronrod rule:
+                                                                                            !!
+                                                                                            !! * xgk(2), xgk(4), ... abscissae of the 7-point
+                                                                                            !!   gauss rule
+                                                                                            !! * xgk(1), xgk(3), ... abscissae which are optimally
+                                                                                            !!   added to the 7-point gauss rule
 
         real(wp), dimension(8), parameter :: wgk = [ &
-                                             0.022935322010529224963732008058970_wp, &
-                                             0.063092092629978553290700663189204_wp, &
-                                             0.104790010322250183839876322541518_wp, &
-                                             0.140653259715525918745189590510238_wp, &
-                                             0.169004726639267902826583426598550_wp, &
-                                             0.190350578064785409913256402421014_wp, &
-                                             0.204432940075298892414161999234649_wp, &
-                                             0.209482141084727828012999174891714_wp] !! weights of the 15-point gauss-kronrod rule
+                                             2.29353220105292249637320080589695919936e-2_wp, &
+                                             6.30920926299785532907006631892042866651e-2_wp, &
+                                             1.04790010322250183839876322541518017444e-1_wp, &
+                                             1.40653259715525918745189590510237920400e-1_wp, &
+                                             1.69004726639267902826583426598550284106e-1_wp, &
+                                             1.90350578064785409913256402421013682826e-1_wp, &
+                                             2.04432940075298892414161999234649084717e-1_wp, &
+                                             2.09482141084727828012999174891714263698e-1_wp] !! weights of the 15-point kronrod rule
 
         real(wp), dimension(4), parameter :: wg = [ &
-                                             0.129484966168869693270611432679082_wp, &
-                                             0.279705391489276667901467771423780_wp, &
-                                             0.381830050505118944950369775488975_wp, &
-                                             0.417959183673469387755102040816327_wp] !! weights of the 7-point gauss rule
+                                             1.29484966168869693270611432679082018329e-1_wp, &
+                                             2.79705391489276667901467771423779582487e-1_wp, &
+                                             3.81830050505118944950369775488975133878e-1_wp, &
+                                             4.17959183673469387755102040816326530612e-1_wp] !! weights of the 7-point gauss rule
 
         centr = 0.5_wp*(a + b)
         hlgth = 0.5_wp*(b - a)
@@ -5566,48 +5563,44 @@ module quadpack_generic
         ! the abscissae and weights are given for the interval (-1,1).
         ! because of symmetry only the positive abscissae and their
         ! corresponding weights are given.
-        !
-        ! gauss quadrature weights and kronrod quadrature abscissae and weights
-        ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-        ! bell labs, nov. 1981.
 
         real(wp), dimension(5), parameter :: wg = [ &
-                                             0.066671344308688137593568809893332_wp, &
-                                             0.149451349150580593145776339657697_wp, &
-                                             0.219086362515982043995534934228163_wp, &
-                                             0.269266719309996355091226921569469_wp, &
-                                             0.295524224714752870173892994651338_wp] !! weights of the 10-point gauss rule
+                                             6.66713443086881375935688098933317928579e-2_wp, &
+                                             1.49451349150580593145776339657697332403e-1_wp, &
+                                             2.19086362515982043995534934228163192459e-1_wp, &
+                                             2.69266719309996355091226921569469352860e-1_wp, &
+                                             2.95524224714752870173892994651338329421e-1_wp] !! weights of the 10-point gauss rule
 
         real(wp), dimension(11), parameter :: xgk = [ &
-                                              0.995657163025808080735527280689003_wp, &
-                                              0.973906528517171720077964012084452_wp, &
-                                              0.930157491355708226001207180059508_wp, &
-                                              0.865063366688984510732096688423493_wp, &
-                                              0.780817726586416897063717578345042_wp, &
-                                              0.679409568299024406234327365114874_wp, &
-                                              0.562757134668604683339000099272694_wp, &
-                                              0.433395394129247190799265943165784_wp, &
-                                              0.294392862701460198131126603103866_wp, &
-                                              0.148874338981631210884826001129720_wp, &
-                                              0.000000000000000000000000000000000_wp] !! abscissae of the 21-point kronrod rule:
-                                                                                      !!
-                                                                                      !! * xgk(2), xgk(4), ...  abscissae of the 10-point
-                                                                                      !!   gauss rule
-                                                                                      !! * xgk(1), xgk(3), ...  abscissae which are optimally
-                                                                                      !!   added to the 10-point gauss rule
+                                              9.95657163025808080735527280689002847921e-1_wp, &
+                                              9.73906528517171720077964012084452053428e-1_wp, &
+                                              9.30157491355708226001207180059508346225e-1_wp, &
+                                              8.65063366688984510732096688423493048528e-1_wp, &
+                                              7.80817726586416897063717578345042377163e-1_wp, &
+                                              6.79409568299024406234327365114873575769e-1_wp, &
+                                              5.62757134668604683339000099272694140843e-1_wp, &
+                                              4.33395394129247190799265943165784162200e-1_wp, &
+                                              2.94392862701460198131126603103865566163e-1_wp, &
+                                              1.48874338981631210884826001129719984618e-1_wp, &
+                                              0.00000000000000000000000000000000000000e0_wp] !! abscissae of the 21-point kronrod rule:
+                                                                                             !!
+                                                                                             !! * xgk(2), xgk(4), ...  abscissae of the 10-point
+                                                                                             !!   gauss rule
+                                                                                             !! * xgk(1), xgk(3), ...  abscissae which are optimally
+                                                                                             !!   added to the 10-point gauss rule
 
         real(wp), dimension(11), parameter :: wgk = [ &
-                                              0.011694638867371874278064396062192_wp, &
-                                              0.032558162307964727478818972459390_wp, &
-                                              0.054755896574351996031381300244580_wp, &
-                                              0.075039674810919952767043140916190_wp, &
-                                              0.093125454583697605535065465083366_wp, &
-                                              0.109387158802297641899210590325805_wp, &
-                                              0.123491976262065851077958109831074_wp, &
-                                              0.134709217311473325928054001771707_wp, &
-                                              0.142775938577060080797094273138717_wp, &
-                                              0.147739104901338491374841515972068_wp, &
-                                              0.149445554002916905664936468389821_wp] !! weights of the 21-point kronrod rule
+                                              1.16946388673718742780643960621920483962e-2_wp, &
+                                              3.25581623079647274788189724593897606174e-2_wp, &
+                                              5.47558965743519960313813002445801763737e-2_wp, &
+                                              7.50396748109199527670431409161900093952e-2_wp, &
+                                              9.31254545836976055350654650833663443900e-2_wp, &
+                                              1.09387158802297641899210590325804960272e-1_wp, &
+                                              1.23491976262065851077958109831074159512e-1_wp, &
+                                              1.34709217311473325928054001771706832761e-1_wp, &
+                                              1.42775938577060080797094273138717060886e-1_wp, &
+                                              1.47739104901338491374841515972068045524e-1_wp, &
+                                              1.49445554002916905664936468389821203745e-1_wp] !! weights of the 21-point kronrod rule
 
         centr = 0.5_wp*(a + b)
         hlgth = 0.5_wp*(b - a)
@@ -5703,61 +5696,57 @@ module quadpack_generic
         ! the abscissae and weights are given for the interval (-1,1).
         ! because of symmetry only the positive abscissae and their
         ! corresponding weights are given.
-        !
-        ! gauss quadrature weights and kronrod quadrature abscissae and weights
-        ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-        ! bell labs, nov. 1981.
 
         real(wp), dimension(8), parameter :: wg = [ &
-                                             0.030753241996117268354628393577204_wp, &
-                                             0.070366047488108124709267416450667_wp, &
-                                             0.107159220467171935011869546685869_wp, &
-                                             0.139570677926154314447804794511028_wp, &
-                                             0.166269205816993933553200860481209_wp, &
-                                             0.186161000015562211026800561866423_wp, &
-                                             0.198431485327111576456118326443839_wp, &
-                                             0.202578241925561272880620199967519_wp] !! weights of the 15-point gauss rule
+                                             3.07532419961172683546283935772044177217e-2_wp, &
+                                             7.03660474881081247092674164506673384667e-2_wp, &
+                                             1.07159220467171935011869546685869303416e-1_wp, &
+                                             1.39570677926154314447804794511028322521e-1_wp, &
+                                             1.66269205816993933553200860481208811131e-1_wp, &
+                                             1.86161000015562211026800561866422824506e-1_wp, &
+                                             1.98431485327111576456118326443839324819e-1_wp, &
+                                             2.02578241925561272880620199967519314839e-1_wp] !! weights of the 15-point gauss rule
 
         real(wp), dimension(16), parameter :: xgk = [ &
-                                              0.998002298693397060285172840152271_wp, &
-                                              0.987992518020485428489565718586613_wp, &
-                                              0.967739075679139134257347978784337_wp, &
-                                              0.937273392400705904307758947710209_wp, &
-                                              0.897264532344081900882509656454496_wp, &
-                                              0.848206583410427216200648320774217_wp, &
-                                              0.790418501442465932967649294817947_wp, &
-                                              0.724417731360170047416186054613938_wp, &
-                                              0.650996741297416970533735895313275_wp, &
-                                              0.570972172608538847537226737253911_wp, &
-                                              0.485081863640239680693655740232351_wp, &
-                                              0.394151347077563369897207370981045_wp, &
-                                              0.299180007153168812166780024266389_wp, &
-                                              0.201194093997434522300628303394596_wp, &
-                                              0.101142066918717499027074231447392_wp, &
-                                              0.000000000000000000000000000000000_wp] !! abscissae of the 31-point kronrod rule:
-                                                                                      !!
-                                                                                      !! * xgk(2), xgk(4), ...  abscissae of the 15-point
-                                                                                      !!   gauss rule
-                                                                                      !! * xgk(1), xgk(3), ...  abscissae which are optimally
-                                                                                      !!   added to the 15-point gauss rule
+                                              9.98002298693397060285172840152271209073e-1_wp, &
+                                              9.87992518020485428489565718586612581147e-1_wp, &
+                                              9.67739075679139134257347978784337225283e-1_wp, &
+                                              9.37273392400705904307758947710209471244e-1_wp, &
+                                              8.97264532344081900882509656454495882832e-1_wp, &
+                                              8.48206583410427216200648320774216851366e-1_wp, &
+                                              7.90418501442465932967649294817947346862e-1_wp, &
+                                              7.24417731360170047416186054613938009631e-1_wp, &
+                                              6.50996741297416970533735895313274692547e-1_wp, &
+                                              5.70972172608538847537226737253910641238e-1_wp, &
+                                              4.85081863640239680693655740232350612866e-1_wp, &
+                                              3.94151347077563369897207370981045468363e-1_wp, &
+                                              2.99180007153168812166780024266388962662e-1_wp, &
+                                              2.01194093997434522300628303394596207813e-1_wp, &
+                                              1.01142066918717499027074231447392338787e-1_wp, &
+                                              0.00000000000000000000000000000000000000e0_wp] !! abscissae of the 31-point kronrod rule:
+                                                                                             !!
+                                                                                             !! * xgk(2), xgk(4), ...  abscissae of the 15-point
+                                                                                             !!   gauss rule
+                                                                                             !! * xgk(1), xgk(3), ...  abscissae which are optimally
+                                                                                             !!   added to the 15-point gauss rule
 
         real(wp), dimension(16), parameter :: wgk = [ &
-                                              0.005377479872923348987792051430128_wp, &
-                                              0.015007947329316122538374763075807_wp, &
-                                              0.025460847326715320186874001019653_wp, &
-                                              0.035346360791375846222037948478360_wp, &
-                                              0.044589751324764876608227299373280_wp, &
-                                              0.053481524690928087265343147239430_wp, &
-                                              0.062009567800670640285139230960803_wp, &
-                                              0.069854121318728258709520077099147_wp, &
-                                              0.076849680757720378894432777482659_wp, &
-                                              0.083080502823133021038289247286104_wp, &
-                                              0.088564443056211770647275443693774_wp, &
-                                              0.093126598170825321225486872747346_wp, &
-                                              0.096642726983623678505179907627589_wp, &
-                                              0.099173598721791959332393173484603_wp, &
-                                              0.100769845523875595044946662617570_wp, &
-                                              0.101330007014791549017374792767493_wp] !! weights of the 31-point kronrod rule
+                                              5.37747987292334898779205143012764981831e-3_wp, &
+                                              1.50079473293161225383747630758072680946e-2_wp, &
+                                              2.54608473267153201868740010196533593973e-2_wp, &
+                                              3.53463607913758462220379484783600481226e-2_wp, &
+                                              4.45897513247648766082272993732796902233e-2_wp, &
+                                              5.34815246909280872653431472394302967716e-2_wp, &
+                                              6.20095678006706402851392309608029321904e-2_wp, &
+                                              6.98541213187282587095200770991474757860e-2_wp, &
+                                              7.68496807577203788944327774826590067221e-2_wp, &
+                                              8.30805028231330210382892472861037896016e-2_wp, &
+                                              8.85644430562117706472754436937743032123e-2_wp, &
+                                              9.31265981708253212254868727473457185619e-2_wp, &
+                                              9.66427269836236785051799076275893351367e-2_wp, &
+                                              9.91735987217919593323931734846031310596e-2_wp, &
+                                              1.00769845523875595044946662617569721916e-1_wp, &
+                                              1.01330007014791549017374792767492546771e-1_wp] !! weights of the 31-point kronrod rule
 
         centr = 0.5_wp*(a + b)
         hlgth = 0.5_wp*(b - a)
@@ -5853,73 +5842,69 @@ module quadpack_generic
         ! the abscissae and weights are given for the interval (-1,1).
         ! because of symmetry only the positive abscissae and their
         ! corresponding weights are given.
-        !
-        ! gauss quadrature weights and kronrod quadrature abscissae and weights
-        ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-        ! bell labs, nov. 1981.
 
         real(wp), dimension(10), parameter :: wg = [ &
-                                              0.017614007139152118311861962351853_wp, &
-                                              0.040601429800386941331039952274932_wp, &
-                                              0.062672048334109063569506535187042_wp, &
-                                              0.083276741576704748724758143222046_wp, &
-                                              0.101930119817240435036750135480350_wp, &
-                                              0.118194531961518417312377377711382_wp, &
-                                              0.131688638449176626898494499748163_wp, &
-                                              0.142096109318382051329298325067165_wp, &
-                                              0.149172986472603746787828737001969_wp, &
-                                              0.152753387130725850698084331955098_wp] !! weights of the 20-point gauss rule
+                                              1.76140071391521183118619623518528163621e-2_wp, &
+                                              4.06014298003869413310399522749321098791e-2_wp, &
+                                              6.26720483341090635695065351870416063516e-2_wp, &
+                                              8.32767415767047487247581432220462061002e-2_wp, &
+                                              1.01930119817240435036750135480349876167e-1_wp, &
+                                              1.18194531961518417312377377711382287005e-1_wp, &
+                                              1.31688638449176626898494499748163134916e-1_wp, &
+                                              1.42096109318382051329298325067164933035e-1_wp, &
+                                              1.49172986472603746787828737001969436693e-1_wp, &
+                                              1.52753387130725850698084331955097593492e-1_wp] !! weights of the 20-point gauss rule
 
         real(wp), dimension(21), parameter :: xgk = [ &
-                                              0.998859031588277663838315576545863_wp, &
-                                              0.993128599185094924786122388471320_wp, &
-                                              0.981507877450250259193342994720217_wp, &
-                                              0.963971927277913791267666131197277_wp, &
-                                              0.940822633831754753519982722212443_wp, &
-                                              0.912234428251325905867752441203298_wp, &
-                                              0.878276811252281976077442995113078_wp, &
-                                              0.839116971822218823394529061701521_wp, &
-                                              0.795041428837551198350638833272788_wp, &
-                                              0.746331906460150792614305070355642_wp, &
-                                              0.693237656334751384805490711845932_wp, &
-                                              0.636053680726515025452836696226286_wp, &
-                                              0.575140446819710315342946036586425_wp, &
-                                              0.510867001950827098004364050955251_wp, &
-                                              0.443593175238725103199992213492640_wp, &
-                                              0.373706088715419560672548177024927_wp, &
-                                              0.301627868114913004320555356858592_wp, &
-                                              0.227785851141645078080496195368575_wp, &
-                                              0.152605465240922675505220241022678_wp, &
-                                              0.076526521133497333754640409398838_wp, &
-                                              0.000000000000000000000000000000000_wp] !! abscissae of the 41-point gauss-kronrod rule:
-                                                                                      !!
-                                                                                      !! * xgk(2), xgk(4), ...  abscissae of the 20-point
-                                                                                      !!   gauss rule
-                                                                                      !! * xgk(1), xgk(3), ...  abscissae which are optimally
-                                                                                      !!   added to the 20-point gauss rule
+                                              9.98859031588277663838315576545863010000e-1_wp, &
+                                              9.93128599185094924786122388471320278223e-1_wp, &
+                                              9.81507877450250259193342994720216944567e-1_wp, &
+                                              9.63971927277913791267666131197277221912e-1_wp, &
+                                              9.40822633831754753519982722212443380274e-1_wp, &
+                                              9.12234428251325905867752441203298113049e-1_wp, &
+                                              8.78276811252281976077442995113078466711e-1_wp, &
+                                              8.39116971822218823394529061701520685330e-1_wp, &
+                                              7.95041428837551198350638833272787942959e-1_wp, &
+                                              7.46331906460150792614305070355641590311e-1_wp, &
+                                              6.93237656334751384805490711845931533386e-1_wp, &
+                                              6.36053680726515025452836696226285936743e-1_wp, &
+                                              5.75140446819710315342946036586425132814e-1_wp, &
+                                              5.10867001950827098004364050955250998425e-1_wp, &
+                                              4.43593175238725103199992213492640107840e-1_wp, &
+                                              3.73706088715419560672548177024927237396e-1_wp, &
+                                              3.01627868114913004320555356858592260615e-1_wp, &
+                                              2.27785851141645078080496195368574624743e-1_wp, &
+                                              1.52605465240922675505220241022677527912e-1_wp, &
+                                              7.65265211334973337546404093988382110048e-2_wp, &
+                                              0.00000000000000000000000000000000000000e0_wp] !! abscissae of the 41-point gauss-kronrod rule:
+                                                                                             !!
+                                                                                             !! * xgk(2), xgk(4), ...  abscissae of the 20-point
+                                                                                             !!   gauss rule
+                                                                                             !! * xgk(1), xgk(3), ...  abscissae which are optimally
+                                                                                             !!   added to the 20-point gauss rule
 
         real(wp), dimension(21), parameter :: wgk = [ &
-                                              0.003073583718520531501218293246031_wp, &
-                                              0.008600269855642942198661787950102_wp, &
-                                              0.014626169256971252983787960308868_wp, &
-                                              0.020388373461266523598010231432755_wp, &
-                                              0.025882133604951158834505067096153_wp, &
-                                              0.031287306777032798958543119323801_wp, &
-                                              0.036600169758200798030557240707211_wp, &
-                                              0.041668873327973686263788305936895_wp, &
-                                              0.046434821867497674720231880926108_wp, &
-                                              0.050944573923728691932707670050345_wp, &
-                                              0.055195105348285994744832372419777_wp, &
-                                              0.059111400880639572374967220648594_wp, &
-                                              0.062653237554781168025870122174255_wp, &
-                                              0.065834597133618422111563556969398_wp, &
-                                              0.068648672928521619345623411885368_wp, &
-                                              0.071054423553444068305790361723210_wp, &
-                                              0.073030690332786667495189417658913_wp, &
-                                              0.074582875400499188986581418362488_wp, &
-                                              0.075704497684556674659542775376617_wp, &
-                                              0.076377867672080736705502835038061_wp, &
-                                              0.076600711917999656445049901530102_wp] !! weights of the 41-point gauss-kronrod rule
+                                              3.07358371852053150121829324603098748803e-3_wp, &
+                                              8.60026985564294219866178795010234725213e-3_wp, &
+                                              1.46261692569712529837879603088683561639e-2_wp, &
+                                              2.03883734612665235980102314327547051228e-2_wp, &
+                                              2.58821336049511588345050670961531429995e-2_wp, &
+                                              3.12873067770327989585431193238007378878e-2_wp, &
+                                              3.66001697582007980305572407072110084875e-2_wp, &
+                                              4.16688733279736862637883059368947380440e-2_wp, &
+                                              4.64348218674976747202318809261075168421e-2_wp, &
+                                              5.09445739237286919327076700503449486648e-2_wp, &
+                                              5.51951053482859947448323724197773291948e-2_wp, &
+                                              5.91114008806395723749672206485942171364e-2_wp, &
+                                              6.26532375547811680258701221742549805858e-2_wp, &
+                                              6.58345971336184221115635569693979431472e-2_wp, &
+                                              6.86486729285216193456234118853678017155e-2_wp, &
+                                              7.10544235534440683057903617232101674129e-2_wp, &
+                                              7.30306903327866674951894176589131127606e-2_wp, &
+                                              7.45828754004991889865814183624875286161e-2_wp, &
+                                              7.57044976845566746595427753766165582634e-2_wp, &
+                                              7.63778676720807367055028350380610018008e-2_wp, &
+                                              7.66007119179996564450499015301017408279e-2_wp] !! weights of the 41-point gauss-kronrod rule
 
         centr = 0.5_wp*(a + b)
         hlgth = 0.5_wp*(b - a)
@@ -5965,7 +5950,7 @@ module quadpack_generic
         Resabs = Resabs*dhlgth
         Resasc = Resasc*dhlgth
         Abserr = abs((resk - resg)*hlgth)
-        if (Resasc /= 0.0_wp .and. Abserr /= 0._wp) &
+        if (Resasc /= 0.0_wp .and. Abserr /= 0.0_wp) &
             Abserr = Resasc*min(1.0_wp, (200.0_wp*Abserr/Resasc)**1.5_wp)
         if (Resabs > uflow/(50.0_wp*epmach)) &
             Abserr = max((epmach*50.0_wp)*Resabs, Abserr)
@@ -6015,88 +6000,82 @@ module quadpack_generic
         ! the abscissae and weights are given for the interval (-1,1).
         ! because of symmetry only the positive abscissae and their
         ! corresponding weights are given.
-        !
-        ! gauss quadrature weights and kronrod quadrature abscissae and weights
-        ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-        ! bell labs, nov. 1981.
 
         real(wp), dimension(13), parameter :: wg = [ &
-                                              0.011393798501026287947902964113235_wp, &
-                                              0.026354986615032137261901815295299_wp, &
-                                              0.040939156701306312655623487711646_wp, &
-                                              0.054904695975835191925936891540473_wp, &
-                                              0.068038333812356917207187185656708_wp, &
-                                              0.080140700335001018013234959669111_wp, &
-                                              0.091028261982963649811497220702892_wp, &
-                                              0.100535949067050644202206890392686_wp, &
-                                              0.108519624474263653116093957050117_wp, &
-                                              0.114858259145711648339325545869556_wp, &
-                                              0.119455763535784772228178126512901_wp, &
-                                              0.122242442990310041688959518945852_wp, &
-                                              0.123176053726715451203902873079050_wp] !! weights of the 25-point gauss rule
+                                              1.13937985010262879479029641132347736033e-2_wp, &
+                                              2.63549866150321372619018152952991449360e-2_wp, &
+                                              4.09391567013063126556234877116459536608e-2_wp, &
+                                              5.49046959758351919259368915404733241601e-2_wp, &
+                                              6.80383338123569172071871856567079685547e-2_wp, &
+                                              8.01407003350010180132349596691113022902e-2_wp, &
+                                              9.10282619829636498114972207028916533810e-2_wp, &
+                                              1.00535949067050644202206890392685826988e-1_wp, &
+                                              1.08519624474263653116093957050116619340e-1_wp, &
+                                              1.14858259145711648339325545869555808641e-1_wp, &
+                                              1.19455763535784772228178126512901047390e-1_wp, &
+                                              1.22242442990310041688959518945851505835e-1_wp, &
+                                              1.23176053726715451203902873079050142438e-1_wp] !! weights of the 25-point gauss rule
 
         real(wp), dimension(26), parameter :: xgk = [ &
-                                              0.999262104992609834193457486540341_wp, &
-                                              0.995556969790498097908784946893902_wp, &
-                                              0.988035794534077247637331014577406_wp, &
-                                              0.976663921459517511498315386479594_wp, &
-                                              0.961614986425842512418130033660167_wp, &
-                                              0.942974571228974339414011169658471_wp, &
-                                              0.920747115281701561746346084546331_wp, &
-                                              0.894991997878275368851042006782805_wp, &
-                                              0.865847065293275595448996969588340_wp, &
-                                              0.833442628760834001421021108693570_wp, &
-                                              0.797873797998500059410410904994307_wp, &
-                                              0.759259263037357630577282865204361_wp, &
-                                              0.717766406813084388186654079773298_wp, &
-                                              0.673566368473468364485120633247622_wp, &
-                                              0.626810099010317412788122681624518_wp, &
-                                              0.577662930241222967723689841612654_wp, &
-                                              0.526325284334719182599623778158010_wp, &
-                                              0.473002731445714960522182115009192_wp, &
-                                              0.417885382193037748851814394594572_wp, &
-                                              0.361172305809387837735821730127641_wp, &
-                                              0.303089538931107830167478909980339_wp, &
-                                              0.243866883720988432045190362797452_wp, &
-                                              0.183718939421048892015969888759528_wp, &
-                                              0.122864692610710396387359818808037_wp, &
-                                              0.061544483005685078886546392366797_wp, &
-                                              0.000000000000000000000000000000000_wp] !! abscissae of the 51-point kronrod rule
-                                                                                      !!
-                                                                                      !! * xgk(2), xgk(4), ...  abscissae of the 25-point
-                                                                                      !!   gauss rule
-                                                                                      !! * xgk(1), xgk(3), ...  abscissae which are optimally
-                                                                                      !!   added to the 25-point gauss rule
+                                              9.99262104992609834193457486540340593705e-1_wp, &
+                                              9.95556969790498097908784946893901617258e-1_wp, &
+                                              9.88035794534077247637331014577406227072e-1_wp, &
+                                              9.76663921459517511498315386479594067745e-1_wp, &
+                                              9.61614986425842512418130033660167241692e-1_wp, &
+                                              9.42974571228974339414011169658470531905e-1_wp, &
+                                              9.20747115281701561746346084546330631575e-1_wp, &
+                                              8.94991997878275368851042006782804954175e-1_wp, &
+                                              8.65847065293275595448996969588340088203e-1_wp, &
+                                              8.33442628760834001421021108693569569461e-1_wp, &
+                                              7.97873797998500059410410904994306569409e-1_wp, &
+                                              7.59259263037357630577282865204360976388e-1_wp, &
+                                              7.17766406813084388186654079773297780598e-1_wp, &
+                                              6.73566368473468364485120633247622175883e-1_wp, &
+                                              6.26810099010317412788122681624517881020e-1_wp, &
+                                              5.77662930241222967723689841612654067396e-1_wp, &
+                                              5.26325284334719182599623778158010178037e-1_wp, &
+                                              4.73002731445714960522182115009192041332e-1_wp, &
+                                              4.17885382193037748851814394594572487093e-1_wp, &
+                                              3.61172305809387837735821730127640667422e-1_wp, &
+                                              3.03089538931107830167478909980339329200e-1_wp, &
+                                              2.43866883720988432045190362797451586406e-1_wp, &
+                                              1.83718939421048892015969888759528415785e-1_wp, &
+                                              1.22864692610710396387359818808036805532e-1_wp, &
+                                              6.15444830056850788865463923667966312817e-2_wp, &
+                                              0.00000000000000000000000000000000000000e0_wp] !! abscissae of the 51-point kronrod rule
+                                                                                             !!
+                                                                                             !! * xgk(2), xgk(4), ...  abscissae of the 25-point
+                                                                                             !!   gauss rule
+                                                                                             !! * xgk(1), xgk(3), ...  abscissae which are optimally
+                                                                                             !!   added to the 25-point gauss rule
 
         real(wp), dimension(26), parameter :: wgk = [ &
-                                              0.001987383892330315926507851882843_wp, &
-                                              0.005561932135356713758040236901066_wp, &
-                                              0.009473973386174151607207710523655_wp, &
-                                              0.013236229195571674813656405846976_wp, &
-                                              0.016847817709128298231516667536336_wp, &
-                                              0.020435371145882835456568292235939_wp, &
-                                              0.024009945606953216220092489164881_wp, &
-                                              0.027475317587851737802948455517811_wp, &
-                                              0.030792300167387488891109020215229_wp, &
-                                              0.034002130274329337836748795229551_wp, &
-                                              0.037116271483415543560330625367620_wp, &
-                                              0.040083825504032382074839284467076_wp, &
-                                              0.042872845020170049476895792439495_wp, &
-                                              0.045502913049921788909870584752660_wp, &
-                                              0.047982537138836713906392255756915_wp, &
-                                              0.050277679080715671963325259433440_wp, &
-                                              0.052362885806407475864366712137873_wp, &
-                                              0.054251129888545490144543370459876_wp, &
-                                              0.055950811220412317308240686382747_wp, &
-                                              0.057437116361567832853582693939506_wp, &
-                                              0.058689680022394207961974175856788_wp, &
-                                              0.059720340324174059979099291932562_wp, &
-                                              0.060539455376045862945360267517565_wp, &
-                                              0.061128509717053048305859030416293_wp, &
-                                              0.061471189871425316661544131965264_wp, &
-                                              0.061580818067832935078759824240066_wp] !! weights of the 51-point kronrod rule.
-                                                                                      !! note: `wgk(26)` was calculated from
-                                                                                      !! the values of `wgk(1..25)`
+                                              1.98738389233031592650785188284340988943e-3_wp, &
+                                              5.56193213535671375804023690106552207018e-3_wp, &
+                                              9.47397338617415160720771052365532387165e-3_wp, &
+                                              1.32362291955716748136564058469762380776e-2_wp, &
+                                              1.68478177091282982315166675363363158404e-2_wp, &
+                                              2.04353711458828354565682922359389736788e-2_wp, &
+                                              2.40099456069532162200924891648810813929e-2_wp, &
+                                              2.74753175878517378029484555178110786148e-2_wp, &
+                                              3.07923001673874888911090202152285856009e-2_wp, &
+                                              3.40021302743293378367487952295512032257e-2_wp, &
+                                              3.71162714834155435603306253676198759960e-2_wp, &
+                                              4.00838255040323820748392844670756464014e-2_wp, &
+                                              4.28728450201700494768957924394951611020e-2_wp, &
+                                              4.55029130499217889098705847526603930437e-2_wp, &
+                                              4.79825371388367139063922557569147549836e-2_wp, &
+                                              5.02776790807156719633252594334400844406e-2_wp, &
+                                              5.23628858064074758643667121378727148874e-2_wp, &
+                                              5.42511298885454901445433704598756068261e-2_wp, &
+                                              5.59508112204123173082406863827473468203e-2_wp, &
+                                              5.74371163615678328535826939395064719948e-2_wp, &
+                                              5.86896800223942079619741758567877641398e-2_wp, &
+                                              5.97203403241740599790992919325618538354e-2_wp, &
+                                              6.05394553760458629453602675175654271623e-2_wp, &
+                                              6.11285097170530483058590304162927119227e-2_wp, &
+                                              6.14711898714253166615441319652641775865e-2_wp, &
+                                              6.15808180678329350787598242400645531904e-2_wp] !! weights of the 51-point kronrod rule.
 
         centr = 0.5_wp*(a + b)
         hlgth = 0.5_wp*(b - a)
@@ -6180,7 +6159,7 @@ module quadpack_generic
         integer :: j, jtw, jtwm1
         real(wp) :: centr !! mid point of the interval
         real(wp) :: hlgth !! half-length of the interval
-        real(wp) :: dabsc !! abscissa
+        real(wp) :: absc !! abscissa
         real(wp) :: fval1 !! function value
         real(wp) :: fval2 !! function value
         real(wp) :: resg !! result of the 30-point gauss rule
@@ -6190,98 +6169,94 @@ module quadpack_generic
         ! the abscissae and weights are given for the
         ! interval (-1,1). because of symmetry only the positive
         ! abscissae and their corresponding weights are given.
-        !
-        ! gauss quadrature weights and kronrod quadrature abscissae and weights
-        ! as evaluated with 80 decimal digit arithmetic by l. w. fullerton,
-        ! bell labs, nov. 1981.
 
         real(wp), dimension(15), parameter :: wg = [ &
-                                              0.007968192496166605615465883474674_wp, &
-                                              0.018466468311090959142302131912047_wp, &
-                                              0.028784707883323369349719179611292_wp, &
-                                              0.038799192569627049596801936446348_wp, &
-                                              0.048402672830594052902938140422808_wp, &
-                                              0.057493156217619066481721689402056_wp, &
-                                              0.065974229882180495128128515115962_wp, &
-                                              0.073755974737705206268243850022191_wp, &
-                                              0.080755895229420215354694938460530_wp, &
-                                              0.086899787201082979802387530715126_wp, &
-                                              0.092122522237786128717632707087619_wp, &
-                                              0.096368737174644259639468626351810_wp, &
-                                              0.099593420586795267062780282103569_wp, &
-                                              0.101762389748405504596428952168554_wp, &
-                                              0.102852652893558840341285636705415_wp] !! weigths of the 30-point gauss rule
+                                              7.96819249616660561546588347467362245048e-3_wp, &
+                                              1.84664683110909591423021319120472690962e-2_wp, &
+                                              2.87847078833233693497191796112920436396e-2_wp, &
+                                              3.87991925696270495968019364463476920332e-2_wp, &
+                                              4.84026728305940529029381404228075178153e-2_wp, &
+                                              5.74931562176190664817216894020561287971e-2_wp, &
+                                              6.59742298821804951281285151159623612374e-2_wp, &
+                                              7.37559747377052062682438500221907341538e-2_wp, &
+                                              8.07558952294202153546949384605297308759e-2_wp, &
+                                              8.68997872010829798023875307151257025768e-2_wp, &
+                                              9.21225222377861287176327070876187671969e-2_wp, &
+                                              9.63687371746442596394686263518098650964e-2_wp, &
+                                              9.95934205867952670627802821035694765299e-2_wp, &
+                                              1.01762389748405504596428952168554044633e-1_wp, &
+                                              1.02852652893558840341285636705415043868e-1_wp] !! weigths of the 30-point gauss rule
 
         real(wp), dimension(31), parameter :: xgk = [ &
-                                              0.999484410050490637571325895705811_wp, &
-                                              0.996893484074649540271630050918695_wp, &
-                                              0.991630996870404594858628366109486_wp, &
-                                              0.983668123279747209970032581605663_wp, &
-                                              0.973116322501126268374693868423707_wp, &
-                                              0.960021864968307512216871025581798_wp, &
-                                              0.944374444748559979415831324037439_wp, &
-                                              0.926200047429274325879324277080474_wp, &
-                                              0.905573307699907798546522558925958_wp, &
-                                              0.882560535792052681543116462530226_wp, &
-                                              0.857205233546061098958658510658944_wp, &
-                                              0.829565762382768397442898119732502_wp, &
-                                              0.799727835821839083013668942322683_wp, &
-                                              0.767777432104826194917977340974503_wp, &
-                                              0.733790062453226804726171131369528_wp, &
-                                              0.697850494793315796932292388026640_wp, &
-                                              0.660061064126626961370053668149271_wp, &
-                                              0.620526182989242861140477556431189_wp, &
-                                              0.579345235826361691756024932172540_wp, &
-                                              0.536624148142019899264169793311073_wp, &
-                                              0.492480467861778574993693061207709_wp, &
-                                              0.447033769538089176780609900322854_wp, &
-                                              0.400401254830394392535476211542661_wp, &
-                                              0.352704725530878113471037207089374_wp, &
-                                              0.304073202273625077372677107199257_wp, &
-                                              0.254636926167889846439805129817805_wp, &
-                                              0.204525116682309891438957671002025_wp, &
-                                              0.153869913608583546963794672743256_wp, &
-                                              0.102806937966737030147096751318001_wp, &
-                                              0.051471842555317695833025213166723_wp, &
-                                              0.000000000000000000000000000000000_wp] !! abscissae of the 61-point kronrod rule:
-                                                                                      !!
-                                                                                      !! * `xgk(2), xgk(4)`  ... abscissae of the 30-point
-                                                                                      !!   gauss rule
-                                                                                      !! * `xgk(1), xgk(3)`  ... optimally added abscissae
-                                                                                      !!   to the 30-point gauss rule
+                                              9.99484410050490637571325895705810819469e-1_wp, &
+                                              9.96893484074649540271630050918695283341e-1_wp, &
+                                              9.91630996870404594858628366109485724851e-1_wp, &
+                                              9.83668123279747209970032581605662801940e-1_wp, &
+                                              9.73116322501126268374693868423706884888e-1_wp, &
+                                              9.60021864968307512216871025581797662930e-1_wp, &
+                                              9.44374444748559979415831324037439121586e-1_wp, &
+                                              9.26200047429274325879324277080474004086e-1_wp, &
+                                              9.05573307699907798546522558925958319569e-1_wp, &
+                                              8.82560535792052681543116462530225590057e-1_wp, &
+                                              8.57205233546061098958658510658943856821e-1_wp, &
+                                              8.29565762382768397442898119732501916439e-1_wp, &
+                                              7.99727835821839083013668942322683240736e-1_wp, &
+                                              7.67777432104826194917977340974503131695e-1_wp, &
+                                              7.33790062453226804726171131369527645669e-1_wp, &
+                                              6.97850494793315796932292388026640068382e-1_wp, &
+                                              6.60061064126626961370053668149270753038e-1_wp, &
+                                              6.20526182989242861140477556431189299207e-1_wp, &
+                                              5.79345235826361691756024932172540495907e-1_wp, &
+                                              5.36624148142019899264169793311072794164e-1_wp, &
+                                              4.92480467861778574993693061207708795644e-1_wp, &
+                                              4.47033769538089176780609900322854000162e-1_wp, &
+                                              4.00401254830394392535476211542660633611e-1_wp, &
+                                              3.52704725530878113471037207089373860654e-1_wp, &
+                                              3.04073202273625077372677107199256553531e-1_wp, &
+                                              2.54636926167889846439805129817805107883e-1_wp, &
+                                              2.04525116682309891438957671002024709524e-1_wp, &
+                                              1.53869913608583546963794672743255920419e-1_wp, &
+                                              1.02806937966737030147096751318000592472e-1_wp, &
+                                              5.14718425553176958330252131667225737491e-2_wp, &
+                                              0.00000000000000000000000000000000000000e0_wp] !! abscissae of the 61-point kronrod rule:
+                                                                                             !!
+                                                                                             !! * `xgk(2), xgk(4)`  ... abscissae of the 30-point
+                                                                                             !!   gauss rule
+                                                                                             !! * `xgk(1), xgk(3)`  ... optimally added abscissae
+                                                                                             !!   to the 30-point gauss rule
 
         real(wp), dimension(31), parameter :: wgk = [ &
-                                              0.001389013698677007624551591226760_wp, &
-                                              0.003890461127099884051267201844516_wp, &
-                                              0.006630703915931292173319826369750_wp, &
-                                              0.009273279659517763428441146892024_wp, &
-                                              0.011823015253496341742232898853251_wp, &
-                                              0.014369729507045804812451432443580_wp, &
-                                              0.016920889189053272627572289420322_wp, &
-                                              0.019414141193942381173408951050128_wp, &
-                                              0.021828035821609192297167485738339_wp, &
-                                              0.024191162078080601365686370725232_wp, &
-                                              0.026509954882333101610601709335075_wp, &
-                                              0.028754048765041292843978785354334_wp, &
-                                              0.030907257562387762472884252943092_wp, &
-                                              0.032981447057483726031814191016854_wp, &
-                                              0.034979338028060024137499670731468_wp, &
-                                              0.036882364651821229223911065617136_wp, &
-                                              0.038678945624727592950348651532281_wp, &
-                                              0.040374538951535959111995279752468_wp, &
-                                              0.041969810215164246147147541285970_wp, &
-                                              0.043452539701356069316831728117073_wp, &
-                                              0.044814800133162663192355551616723_wp, &
-                                              0.046059238271006988116271735559374_wp, &
-                                              0.047185546569299153945261478181099_wp, &
-                                              0.048185861757087129140779492298305_wp, &
-                                              0.049055434555029778887528165367238_wp, &
-                                              0.049795683427074206357811569379942_wp, &
-                                              0.050405921402782346840893085653585_wp, &
-                                              0.050881795898749606492297473049805_wp, &
-                                              0.051221547849258772170656282604944_wp, &
-                                              0.051426128537459025933862879215781_wp, &
-                                              0.051494729429451567558340433647099_wp] !! weights of the 61-point kronrod rule
+                                              1.38901369867700762455159122675969968105e-3, &
+                                              3.89046112709988405126720184451550327852e-3, &
+                                              6.63070391593129217331982636975016813363e-3, &
+                                              9.27327965951776342844114689202436042127e-3, &
+                                              1.18230152534963417422328988532505928963e-2, &
+                                              1.43697295070458048124514324435800101958e-2, &
+                                              1.69208891890532726275722894203220923686e-2, &
+                                              1.94141411939423811734089510501284558514e-2, &
+                                              2.18280358216091922971674857383389934015e-2, &
+                                              2.41911620780806013656863707252320267604e-2, &
+                                              2.65099548823331016106017093350754143665e-2, &
+                                              2.87540487650412928439787853543342111447e-2, &
+                                              3.09072575623877624728842529430922726353e-2, &
+                                              3.29814470574837260318141910168539275106e-2, &
+                                              3.49793380280600241374996707314678750972e-2, &
+                                              3.68823646518212292239110656171359677370e-2, &
+                                              3.86789456247275929503486515322810502509e-2, &
+                                              4.03745389515359591119952797524681142161e-2, &
+                                              4.19698102151642461471475412859697577901e-2, &
+                                              4.34525397013560693168317281170732580746e-2, &
+                                              4.48148001331626631923555516167232437574e-2, &
+                                              4.60592382710069881162717355593735805947e-2, &
+                                              4.71855465692991539452614781810994864829e-2, &
+                                              4.81858617570871291407794922983045926058e-2, &
+                                              4.90554345550297788875281653672381736059e-2, &
+                                              4.97956834270742063578115693799423285392e-2, &
+                                              5.04059214027823468408930856535850289022e-2, &
+                                              5.08817958987496064922974730498046918534e-2, &
+                                              5.12215478492587721706562826049442082511e-2, &
+                                              5.14261285374590259338628792157812598296e-2, &
+                                              5.14947294294515675583404336470993075327e-2] !! weights of the 61-point kronrod rule
 
         centr = 0.5_wp*(b + a)
         hlgth = 0.5_wp*(b - a)
@@ -6296,9 +6271,9 @@ module quadpack_generic
         Resabs = abs(resk)
         do j = 1, 15
             jtw = j*2
-            dabsc = hlgth*xgk(jtw)
-            fval1 = f(centr - dabsc)
-            fval2 = f(centr + dabsc)
+            absc = hlgth*xgk(jtw)
+            fval1 = f(centr - absc)
+            fval2 = f(centr + absc)
             fv1(jtw) = fval1
             fv2(jtw) = fval2
             fsum = fval1 + fval2
@@ -6308,9 +6283,9 @@ module quadpack_generic
         end do
         do j = 1, 15
             jtwm1 = j*2 - 1
-            dabsc = hlgth*xgk(jtwm1)
-            fval1 = f(centr - dabsc)
-            fval2 = f(centr + dabsc)
+            absc = hlgth*xgk(jtwm1)
+            fval1 = f(centr - absc)
+            fval2 = f(centr + absc)
             fv1(jtwm1) = fval1
             fv2(jtwm1) = fval2
             fsum = fval1 + fval2
@@ -6508,47 +6483,46 @@ module quadpack_generic
 
         ! the following data statements contain the
         ! abscissae and weights of the integration rules used.
-        !
-        ! gauss-kronrod-patterson quadrature coefficients for use in
-        ! quadpack routine qng.  these coefficients were calculated with
-        ! 101 decimal digit arithmetic by l. w. fullerton, bell labs, nov 1981.
 
         real(wp), dimension(5), parameter :: x1 = [ &
-                                             0.973906528517171720077964012084452_wp, &
-                                             0.865063366688984510732096688423493_wp, &
-                                             0.679409568299024406234327365114874_wp, &
-                                             0.433395394129247190799265943165784_wp, &
-                                             0.148874338981631210884826001129720_wp] !! abscissae common to the 10-, 21-, 43- and 87-point rule
+                                             9.73906528517171720077964012084452053428e-1_wp, &
+                                             8.65063366688984510732096688423493048528e-1_wp, &
+                                             6.79409568299024406234327365114873575769e-1_wp, &
+                                             4.33395394129247190799265943165784162200e-1_wp, &
+                                             1.48874338981631210884826001129719984618e-1_wp] !! abscissae common to the 10-, 21-, 43- and 87-point rule
 
         real(wp), dimension(5), parameter :: w10 = [ &
-                                             0.066671344308688137593568809893332_wp, &
-                                             0.149451349150580593145776339657697_wp, &
-                                             0.219086362515982043995534934228163_wp, &
-                                             0.269266719309996355091226921569469_wp, &
-                                             0.295524224714752870173892994651338_wp] !! weights of the 10-point formula
+                                             6.66713443086881375935688098933317928579e-2_wp, &
+                                             1.49451349150580593145776339657697332403e-1_wp, &
+                                             2.19086362515982043995534934228163192459e-1_wp, &
+                                             2.69266719309996355091226921569469352860e-1_wp, &
+                                             2.95524224714752870173892994651338329421e-1_wp] !! weights of the 10-point formula
 
         real(wp), dimension(5), parameter :: x2 = [ &
-                                             0.995657163025808080735527280689003_wp, &
-                                             0.930157491355708226001207180059508_wp, &
-                                             0.780817726586416897063717578345042_wp, &
-                                             0.562757134668604683339000099272694_wp, &
-                                             0.294392862701460198131126603103866_wp] !! abscissae common to the 21-, 43- and 87-point rule
+                                             9.95657163025808080735527280689002847921e-1_wp, &
+                                             9.30157491355708226001207180059508346225e-1_wp, &
+                                             7.80817726586416897063717578345042377163e-1_wp, &
+                                             5.62757134668604683339000099272694140843e-1_wp, &
+                                             2.94392862701460198131126603103865566163e-1_wp] !! abscissae common to the 21-, 43- and 87-point rule
 
         real(wp), dimension(5), parameter :: w21a = [ &
-                                             0.032558162307964727478818972459390_wp, &
-                                             0.075039674810919952767043140916190_wp, &
-                                             0.109387158802297641899210590325805_wp, &
-                                             0.134709217311473325928054001771707_wp, &
-                                             0.147739104901338491374841515972068_wp] !! weights of the 21-point formula for abscissae x1
+                                             3.25581623079647274788189724593897606174e-2_wp, &
+                                             7.50396748109199527670431409161900093952e-2_wp, &
+                                             1.09387158802297641899210590325804960272e-1_wp, &
+                                             1.34709217311473325928054001771706832761e-1_wp, &
+                                             1.47739104901338491374841515972068045524e-1_wp] !! weights of the 21-point formula for abscissae x1
 
         real(wp), dimension(6), parameter :: w21b = [ &
-                                             0.011694638867371874278064396062192_wp, &
-                                             0.054755896574351996031381300244580_wp, &
-                                             0.093125454583697605535065465083366_wp, &
-                                             0.123491976262065851077958109831074_wp, &
-                                             0.142775938577060080797094273138717_wp, &
-                                             0.149445554002916905664936468389821_wp] !! weights of the 21-point formula for abscissae x2
+                                             1.16946388673718742780643960621920483962e-2_wp, &
+                                             5.47558965743519960313813002445801763737e-2_wp, &
+                                             9.31254545836976055350654650833663443900e-2_wp, &
+                                             1.23491976262065851077958109831074159512e-1_wp, &
+                                             1.42775938577060080797094273138717060886e-1_wp, &
+                                             1.49445554002916905664936468389821203745e-1_wp] !! weights of the 21-point formula for abscissae x2
 
+        ! 43 and 87 coefficients are computed via the algorithm in the quadpack
+        ! manual, section 2.2.2.
+        !TODO: They need to be regenerated with the same precision as the others.
         real(wp), dimension(11), parameter :: x3 = [ &
                                               0.999333360901932081394099323919911_wp, &
                                               0.987433402908088869795961478381209_wp, &
@@ -7078,6 +7052,492 @@ module quadpack_generic
         end if
 
     end subroutine dgtsl
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  This subroutine attempts to calculate the integral of `f(x)`
+!  over the interval `a` to `b` with relative error not
+!  exceeding `epsil`.
+!
+!  The result is obtained using a sequence of 1,3,7,15,31,63,
+!  127, and 255 point interlacing formulae (no integrand
+!  evaluations are wasted) of respective degree 1,5,11,23,
+!  47,95,191 and 383. the formulae are based on the optimal
+!  extension of the 3-point gauss formula.
+!
+!### See also
+!  * Details of the formulae are given in "The optimum addition of points
+!    to quadrature formulae" by t.n.l. patterson, maths. comp.
+!    vol 22,847-856,1968.
+!  * QUAD From [NSWC Mathematical Library](https://github.com/jacobwilliams/nswc)
+
+subroutine dquad(f, a, b, result, epsil, npts, icheck)
+    implicit none
+
+    procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
+    real(wp),intent(in) :: a !! lower limit of integration.
+    real(wp),intent(in) :: b !! upper limit of integration.
+    real(wp),intent(out) :: result !! the value of the integral to the
+                                   !! specified relative accuracy.
+    real(wp),intent(in) :: epsil !! relative accuracy required. when the relative
+                                 !! difference of two successive formulae does not
+                                 !! exceed `epsil` the last formula computed is taken
+                                 !! as the result.
+    integer,intent(out) :: npts !! number integrand evaluations.
+    integer,intent(out) :: icheck !! on exit normally `icheck=0`. however if convergence
+                                  !! to the accuracy requested is not achieved `icheck=1`
+                                  !! on exit.
+
+    real(wp) :: acum, diff, funct(127), fzero, sum, x
+    integer :: i, inew, iold, j
+    real(wp),dimension(8) :: results !! this array holds the results obtained by
+                                     !! the 1,3,7, etc., point formulae. the number of
+                                     !! formulae computed depends on `epsil`.
+    integer :: k !! `results(k)` holds the value of the integral to the
+                 !! specified relative accuracy.
+
+    !>
+    ! abscissae and weights of quadrature rules are stacked in
+    ! array `p` in the order in which they are needed.
+    real(wp),dimension(381),parameter :: p = [  7.74596669241483377035853079956479922167e-1_wp, &
+                                                0.55555555555555555555555555555555555556e+0_wp, &
+                                                0.88888888888888888888888888888888888889e+0_wp, &
+                                                2.68488089868333440728569280666709624761e-1_wp, &
+                                                9.60491268708020283423507092629079962670e-1_wp, &
+                                                1.04656226026467265193823857192073038242e-1_wp, &
+                                                4.34243749346802558002071502844627817283e-1_wp, &
+                                                4.01397414775962222905051818618431878727e-1_wp, &
+                                                4.50916538658474142345110087045570916539e-1_wp, &
+                                                1.34415255243784220359968764802491520513e-1_wp, &
+                                                5.16032829970797396969201205678609837136e-2_wp, &
+                                                2.00628529376989021033931873331359306159e-1_wp, &
+                                                9.93831963212755022208512841307951444370e-1_wp, &
+                                                1.70017196299402603390274174026535252385e-2_wp, &
+                                                8.88459232872256998890420167258502892651e-1_wp, &
+                                                9.29271953151245376858942226541688263538e-2_wp, &
+                                                6.21102946737226402940687443816594795012e-1_wp, &
+                                                1.71511909136391380787353165019717217859e-1_wp, &
+                                                2.23386686428966881628203986843998040091e-1_wp, &
+                                                2.19156858401587496403693161643773747710e-1_wp, &
+                                                2.25510499798206687386422549155949744906e-1_wp, &
+                                                6.72077542959907035404010635813430091802e-2_wp, &
+                                                2.58075980961766535646461187652328497046e-2_wp, &
+                                                1.00314278611795578771293642695006079161e-1_wp, &
+                                                8.43456573932110624631492964416019854788e-3_wp, &
+                                                4.64628932617579865414046429639417161231e-2_wp, &
+                                                8.57559200499903511541865204367976552400e-2_wp, &
+                                                1.09578421055924638236688360572517068437e-1_wp, &
+                                                9.99098124967667597662226062412998227686e-1_wp, &
+                                                2.54478079156187441540278232983103810087e-3_wp, &
+                                                9.81531149553740106867361888547025995016e-1_wp, &
+                                                1.64460498543878109337883880689799875528e-2_wp, &
+                                                9.29654857429740056670125725933373526769e-1_wp, &
+                                                3.59571033071293220967778262209699862374e-2_wp, &
+                                                8.36725938168868735502753818110221989775e-1_wp, &
+                                                5.69795094941233574121973665457200316724e-2_wp, &
+                                                7.02496206491527078609800156008001394343e-1_wp, &
+                                                7.68796204990035310427051900809456411508e-2_wp, &
+                                                5.31319743644375623972103438052468706781e-1_wp, &
+                                                9.36271099812644736166587803392598658389e-2_wp, &
+                                                3.31135393257976833092640782248746539410e-1_wp, &
+                                                1.05669893580234809743815890442168534725e-1_wp, &
+                                                1.12488943133186625745843327560318993879e-1_wp, &
+                                                1.11956873020953456880143562321223860344e-1_wp, &
+                                                1.12755256720768691607149869983804955967e-1_wp, &
+                                                3.36038771482077305417339884731735403814e-2_wp, &
+                                                1.29038001003512656259766532186329120125e-2_wp, &
+                                                5.01571393058995374136795474239510758613e-2_wp, &
+                                                4.21763044155885483908422682357386192911e-3_wp, &
+                                                2.32314466399102694432564889365852548106e-2_wp, &
+                                                4.28779600250077344929123037819815802239e-2_wp, &
+                                                5.47892105279628650322175309941558213286e-2_wp, &
+                                                1.26515655623006801137260909998182196593e-3_wp, &
+                                                8.22300795723592966925778441546773952923e-3_wp, &
+                                                1.79785515681282703328960466708609587502e-2_wp, &
+                                                2.84897547458335486125060947723978716475e-2_wp, &
+                                                3.84398102494555320386403467778787096784e-2_wp, &
+                                                4.68135549906280124026480823343486642930e-2_wp, &
+                                                5.28349467901165198620766563965308399269e-2_wp, &
+                                                5.59784365104763194075533785872269074002e-2_wp, &
+                                                9.99872888120357611937956782213944071260e-1_wp, &
+                                                3.63221481845530659693580600240556307992e-4_wp, &
+                                                9.97206259372221959076452532976228304987e-1_wp, &
+                                                2.57904979468568827242779555856155526923e-3_wp, &
+                                                9.88684757547429479938528919613635431554e-1_wp, &
+                                                6.11550682211724633967828383326055155253e-3_wp, &
+                                                9.72182874748581796578058835234688013989e-1_wp, &
+                                                1.04982469096213218982728445836355320904e-2_wp, &
+                                                9.46342858373402905148496208230196252152e-1_wp, &
+                                                1.54067504665594978021308263315475287125e-2_wp, &
+                                                9.10371156957004292497790670606627802042e-1_wp, &
+                                                2.05942339159127111491885619503196295807e-2_wp, &
+                                                8.63907938193690477146415857372833975090e-1_wp, &
+                                                2.58696793272147469107582662448480815698e-2_wp, &
+                                                8.06940531950217611856307980888497524441e-1_wp, &
+                                                3.10735511116879648798843878245423584976e-2_wp, &
+                                                7.39756044352694758677217797247847849281e-1_wp, &
+                                                3.60644327807825726401071605896068916356e-2_wp, &
+                                                6.62909660024780595461015255689389143141e-1_wp, &
+                                                4.07155101169443189338940956005120803688e-2_wp, &
+                                                5.77195710052045814843690955654189188852e-1_wp, &
+                                                4.49145316536321974142542482618307358856e-2_wp, &
+                                                4.83618026945841027562153280531749528761e-1_wp, &
+                                                4.85643304066731987159471181667515286036e-2_wp, &
+                                                3.83359324198730346916485193850312924770e-1_wp, &
+                                                5.15832539520484587768091008575259100889e-2_wp, &
+                                                2.77749822021824315065356412191446337302e-1_wp, &
+                                                5.39054993352660639268769548863627639088e-2_wp, &
+                                                1.68235251552207464982313275440102194714e-1_wp, &
+                                                5.54814043565593639878384079955474248395e-2_wp, &
+                                                5.63443130465927899719678607894467994099e-2_wp, &
+                                                5.62776998312543012725953494255420385181e-2_wp, &
+                                                5.63776283603847173876625571652345456628e-2_wp, &
+                                                1.68019385741038652708694177373376419512e-2_wp, &
+                                                6.45190005017573692280509776823864801062e-3_wp, &
+                                                2.50785696529497687068397738442843404553e-2_wp, &
+                                                2.10881524572663287933255325908005307552e-3_wp, &
+                                                1.16157233199551347269849538868063638578e-2_wp, &
+                                                2.14389800125038672464561593340624586806e-2_wp, &
+                                                2.73946052639814325161087655093506901318e-2_wp, &
+                                                6.32607319362633544219014096675880699298e-4_wp, &
+                                                4.11150397865469304717026799389472424747e-3_wp, &
+                                                8.98927578406413572328060374118804325340e-3_wp, &
+                                                1.42448773729167743063415662436440605523e-2_wp, &
+                                                1.92199051247277660193202803314218350072e-2_wp, &
+                                                2.34067774953140062013240419700257395196e-2_wp, &
+                                                2.64174733950582599310383282311985688836e-2_wp, &
+                                                2.79892182552381597037766893004181239916e-2_wp, &
+                                                1.80739564445388357820333919514772193888e-4_wp, &
+                                                1.28952408261041739209850869778722441219e-3_wp, &
+                                                3.05775341017553113613138395354134040323e-3_wp, &
+                                                5.24912345480885912513384612635322646208e-3_wp, &
+                                                7.70337523327974184816597819689326816907e-3_wp, &
+                                                1.02971169579563555236864641070254134718e-2_wp, &
+                                                1.29348396636073734547339558742365283615e-2_wp, &
+                                                1.55367755558439824399284170162975429371e-2_wp, &
+                                                1.80322163903912863200530999857265918070e-2_wp, &
+                                                2.03577550584721594669470211177738968197e-2_wp, &
+                                                2.24572658268160987071271218144441916129e-2_wp, &
+                                                2.42821652033365993579735587740315274638e-2_wp, &
+                                                2.57916269760242293884045503660307978007e-2_wp, &
+                                                2.69527496676330319634384774240575382488e-2_wp, &
+                                                2.77407021782796819939192039890754553228e-2_wp, &
+                                                2.81388499156271506362976747068974890301e-2_wp, &
+                                                9.99982430354891598580012135905109717915e-1_wp, &
+                                                5.05360952078625176246656006337139648434e-5_wp, &
+                                                9.99598799671910683251967529211801629987e-1_wp, &
+                                                3.77746646326984660274364525157659292846e-4_wp, &
+                                                9.98316635318407392530634580111074984770e-1_wp, &
+                                                9.38369848542381500794044394681832138117e-4_wp, &
+                                                9.95724104698407188509439459018460213288e-1_wp, &
+                                                1.68114286542146990631373023491466618281e-3_wp, &
+                                                9.91495721178106132398500079082519841189e-1_wp, &
+                                                2.56876494379402037312771598563833315664e-3_wp, &
+                                                9.85371499598520371113758241326513834962e-1_wp, &
+                                                3.57289278351729964938448769864570199506e-3_wp, &
+                                                9.77141514639705714156395810916629371363e-1_wp, &
+                                                4.67105037211432174740543340826718946450e-3_wp, &
+                                                9.66637851558416567092279836370846960853e-1_wp, &
+                                                5.84344987583563950755951196450566504689e-3_wp, &
+                                                9.53730006425761136414748643963112198908e-1_wp, &
+                                                7.07248999543355546804631626841303341137e-3_wp, &
+                                                9.38320397779592883654822310657872070243e-1_wp, &
+                                                8.34283875396815770558412424167922936020e-3_wp, &
+                                                9.20340025470012420729821382965612468142e-1_wp, &
+                                                9.64117772970253669529830300284767390288e-3_wp, &
+                                                8.99744899776940036638633212194468142956e-1_wp, &
+                                                1.09557333878379016480327257363071595543e-2_wp, &
+                                                8.76513414484705269741626645388423610417e-1_wp, &
+                                                1.22758305600827700869663307413667617882e-2_wp, &
+                                                8.50644494768350279757827407542049433990e-1_wp, &
+                                                1.35915710097655467895729161814962317789e-2_wp, &
+                                                8.22156254364980407372527142399375938309e-1_wp, &
+                                                1.48936416648151820348103959267637767075e-2_wp, &
+                                                7.91084933799848361434638057884175040395e-1_wp, &
+                                                1.61732187295777199419479627980342182818e-2_wp, &
+                                                7.57483966380513637926269606413039215349e-1_wp, &
+                                                1.74219301594641737471522631397278549267e-2_wp, &
+                                                7.21423085370098915484976184424530392547e-1_wp, &
+                                                1.86318482561387901863140395332782911045e-2_wp, &
+                                                6.82987431091079228087077605443637571318e-1_wp, &
+                                                1.97954950480974994880277229389153128227e-2_wp, &
+                                                6.42276642509759513774113624213729383798e-1_wp, &
+                                                2.09058514458120238522218505878770859167e-2_wp, &
+                                                5.99403930242242892974251049643553400441e-1_wp, &
+                                                2.19563663053178249392605004207807929855e-2_wp, &
+                                                5.54495132631932548866381362001869387185e-1_wp, &
+                                                2.29409642293877487608005319195974357365e-2_wp, &
+                                                5.07687757533716602154783137518047824630e-1_wp, &
+                                                2.38540521060385400804460326687470805434e-2_wp, &
+                                                4.59130011989832332873501971840246609692e-1_wp, &
+                                                2.46905247444876769090608353528487841618e-2_wp, &
+                                                4.08979821229888672409031653482169654497e-1_wp, &
+                                                2.54457699654647658125743963445742965154e-2_wp, &
+                                                3.57403837831532152376214925551056574778e-1_wp, &
+                                                2.61156733767060976804988093771272602809e-2_wp, &
+                                                3.04576441556714043335324049984830586514e-1_wp, &
+                                                2.66966229274503599061546992881962515319e-2_wp, &
+                                                2.50678730303483176612957105310757374530e-1_wp, &
+                                                2.71855132296247918192086027320328453777e-2_wp, &
+                                                1.95897502711100153915460230694341454649e-1_wp, &
+                                                2.75797495664818730348687126189110696657e-2_wp, &
+                                                1.40424233152560174593819634863430055039e-1_wp, &
+                                                2.78772514766137016085237966902996263720e-2_wp, &
+                                                8.44540400837108837101821672793851125821e-2_wp, &
+                                                2.80764557938172466068478485336831566215e-2_wp, &
+                                                2.81846489497456943393973278703614550567e-2_wp, &
+                                                2.81763190330166021306535805326311346689e-2_wp, &
+                                                2.81888141801923586938312785882097958145e-2_wp, &
+                                                8.40096928705193263543470886866882097559e-3_wp, &
+                                                3.22595002508786846140254888664674399963e-3_wp, &
+                                                1.25392848264748843534198869221421702276e-2_wp, &
+                                                1.05440762286331677224956681256723093434e-3_wp, &
+                                                5.80786165997756736349247694340318193339e-3_wp, &
+                                                1.07194900062519336232280796670312293403e-2_wp, &
+                                                1.36973026319907162580543827546753450659e-2_wp, &
+                                                3.16303660822264476886001542319765673695e-4_wp, &
+                                                2.05575198932734652358557179891967892437e-3_wp, &
+                                                4.49463789203206786164030187059407895106e-3_wp, &
+                                                7.12243868645838715317078312182203027615e-3_wp, &
+                                                9.60995256236388300966014016571091750361e-3_wp, &
+                                                1.17033887476570031006620209850128697598e-2_wp, &
+                                                1.32087366975291299655191641155992844418e-2_wp, &
+                                                1.39946091276190798518883446502090619958e-2_wp, &
+                                                9.03727346587511492612048292799447801127e-5_wp, &
+                                                6.44762041305724779327197260132661244643e-4_wp, &
+                                                1.52887670508776556838105789798193451205e-3_wp, &
+                                                2.62456172740442956256692394303736650452e-3_wp, &
+                                                3.85168761663987092408298909845685878251e-3_wp, &
+                                                5.14855847897817776184323205351270717418e-3_wp, &
+                                                6.46741983180368672736697793711826418082e-3_wp, &
+                                                7.76838777792199121996420850814877146855e-3_wp, &
+                                                9.01610819519564316002654999286329590351e-3_wp, &
+                                                1.01788775292360797334735105588869484098e-2_wp, &
+                                                1.12286329134080493535635609072220958065e-2_wp, &
+                                                1.21410826016682996789867793870157637319e-2_wp, &
+                                                1.28958134880121146942022751830153989003e-2_wp, &
+                                                1.34763748338165159817192387120287691244e-2_wp, &
+                                                1.38703510891398409969596019945377276614e-2_wp, &
+                                                1.40694249578135753181488373534487445151e-2_wp, &
+                                                2.51578703842806614886029901874368269190e-5_wp, &
+                                                1.88873264506504913660930569062668820773e-4_wp, &
+                                                4.69184924247850409754566477203398287419e-4_wp, &
+                                                8.40571432710722463646844648204542489678e-4_wp, &
+                                                1.28438247189701017680511226368885244509e-3_wp, &
+                                                1.78644639175864982468103287043436779759e-3_wp, &
+                                                2.33552518605716087370269795035052675936e-3_wp, &
+                                                2.92172493791781975377975593711547903293e-3_wp, &
+                                                3.53624499771677773402315813405234465284e-3_wp, &
+                                                4.17141937698407885279206212083887894115e-3_wp, &
+                                                4.82058886485126834764915150142383212497e-3_wp, &
+                                                5.47786669391895082401636286815357973430e-3_wp, &
+                                                6.13791528004138504348316537068338089359e-3_wp, &
+                                                6.79578550488277339478645809074811588946e-3_wp, &
+                                                7.44682083240759101740519796338188835376e-3_wp, &
+                                                8.08660936478885997097398139901710914092e-3_wp, &
+                                                8.71096507973208687357613156986392746334e-3_wp, &
+                                                9.31592412806939509315701976663914555223e-3_wp, &
+                                                9.89774752404874974401386146945765641137e-3_wp, &
+                                                1.04529257229060119261109252939385429584e-2_wp, &
+                                                1.09781831526589124696302502103903964927e-2_wp, &
+                                                1.14704821146938743804002659597987178682e-2_wp, &
+                                                1.19270260530192700402230163343735402717e-2_wp, &
+                                                1.23452623722438384545304176764243920809e-2_wp, &
+                                                1.27228849827323829062871981722871482577e-2_wp, &
+                                                1.30578366883530488402494046885636301405e-2_wp, &
+                                                1.33483114637251799530773496440981257659e-2_wp, &
+                                                1.35927566148123959096043013660164226889e-2_wp, &
+                                                1.37898747832409365174343563094555348329e-2_wp, &
+                                                1.39386257383068508042618983451498131860e-2_wp, &
+                                                1.40382278969086233034239242668415783107e-2_wp, &
+                                                1.40881595165083010653267902663155673344e-2_wp, &
+                                                9.99997596379748464620231592559093837611e-1_wp, &
+                                                6.93793643241082671695382297169979368601e-6_wp, &
+                                                9.99943996207054375763853646470050626596e-1_wp, &
+                                                5.32752936697806131253524393895881823770e-5_wp, &
+                                                9.99760490924432047330447933438138365417e-1_wp, &
+                                                1.35754910949228719729842895656339874910e-4_wp, &
+                                                9.99380338025023581928079338774322759519e-1_wp, &
+                                                2.49212400482997294024537662868023009356e-4_wp, &
+                                                9.98745614468095114703528542397791959986e-1_wp, &
+                                                3.89745284473282293215563879845838727539e-4_wp, &
+                                                9.97805354495957274561833338685736105778e-1_wp, &
+                                                5.54295314930374714917732120266906130439e-4_wp, &
+                                                9.96514145914890273848684083613153803279e-1_wp, &
+                                                7.40282804244503330463160177700222594979e-4_wp, &
+                                                9.94831502800621000519130529785414200225e-1_wp, &
+                                                9.45361516858525382463015198607451979300e-4_wp, &
+                                                9.92721344282788615328202203758497351413e-1_wp, &
+                                                1.16748411742995940769333157872940045783e-3_wp, &
+                                                9.90151370400770159180535140748087193102e-1_wp, &
+                                                1.40490799565514464271521123296916900291e-3_wp, &
+                                                9.87092527954034067189898792468859039993e-1_wp, &
+                                                1.65611272815445260521682786451135109534e-3_wp, &
+                                                9.83518657578632728761664630770795617152e-1_wp, &
+                                                1.91971297101387241252271734466970358673e-3_wp, &
+                                                9.79406281670862683806133521363753397925e-1_wp, &
+                                                2.19440692536383883880291840868628867052e-3_wp, &
+                                                9.74734459752402667760726712997609707570e-1_wp, &
+                                                2.47895822665756793067821535745476374906e-3_wp, &
+                                                9.69484659502459231770908123207442170150e-1_wp, &
+                                                2.77219576459345099399521424961083418592e-3_wp, &
+                                                9.63640621569812132520974048832142316972e-1_wp, &
+                                                3.07301843470257832340783765226605973620e-3_wp, &
+                                                9.57188216109860962736208621751374728884e-1_wp, &
+                                                3.38039799108692038234993039038885672945e-3_wp, &
+                                                9.50115297521294876557842262038304179472e-1_wp, &
+                                                3.69337791702565081825729998764452535617e-3_wp, &
+                                                9.42411565191083059812560025758972247897e-1_wp, &
+                                                4.01106872407502339888993614903965571565e-3_wp, &
+                                                9.34068436157725787999477771530264179420e-1_wp, &
+                                                4.33264096809298285453769983324695296414e-3_wp, &
+                                                9.25078932907075652364132996222672693491e-1_wp, &
+                                                4.65731729975685477727794484849624969667e-3_wp, &
+                                                9.15437587155765040643953616154536973514e-1_wp, &
+                                                4.98436456476553860120001022162080486896e-3_wp, &
+                                                9.05140358813261595189303779754262290451e-1_wp, &
+                                                5.31308660518705656628804340372923963811e-3_wp, &
+                                                8.94184568335559022859352159222674193953e-1_wp, &
+                                                5.64281810138444415845460587311671071412e-3_wp, &
+                                                8.82568840247341906841695404228946666934e-1_wp, &
+                                                5.97291956550816580494729856935913899149e-3_wp, &
+                                                8.70293055548113905851151444154923420039e-1_wp, &
+                                                6.30277344908575871716398763418949052534e-3_wp, &
+                                                8.57358310886232156525126596087163923324e-1_wp, &
+                                                6.63178124290188789412200734180398266358e-3_wp, &
+                                                8.43766882672708601038314138625718101532e-1_wp, &
+                                                6.95936140939042293944507544479114448976e-3_wp, &
+                                                8.29522194637401400178105088351227616660e-1_wp, &
+                                                7.28494798055380706387981147534993110085e-3_wp, &
+                                                8.14628787655137413435816577891367083540e-1_wp, &
+                                                7.60798966571905658321739694223386579593e-3_wp, &
+                                                7.99092290960841401799803164024282388556e-1_wp, &
+                                                7.92794933429484911025254235115728574858e-3_wp, &
+                                                7.82919394118283016385180478369806362244e-1_wp, &
+                                                8.24430376303286803055059706535356438929e-3_wp, &
+                                                7.66117819303760090716674093891474570508e-1_wp, &
+                                                8.55654356130768961917293275004918273728e-3_wp, &
+                                                7.48696293616936602822828737479369222926e-1_wp, &
+                                                8.86417320948249426411429453091759055196e-3_wp, &
+                                                7.30664521242181261329306715350070027793e-1_wp, &
+                                                9.16671116356078840670519648472888628456e-3_wp, &
+                                                7.12033155362252034586679081013994469857e-1_wp, &
+                                                9.46368999383006529427243113943215866506e-3_wp, &
+                                                6.92813769779114702894651485928486730921e-1_wp, &
+                                                9.75465653631741146108293452735497379607e-3_wp, &
+                                                6.73018830230418479198879472689545414663e-1_wp, &
+                                                1.00391720440568407981810290438378080094e-2_wp, &
+                                                6.52661665410017496100770934689234627423e-1_wp, &
+                                                1.03168123309476216819207000244181912440e-2_wp, &
+                                                6.31756437711194230413584623172536712454e-1_wp, &
+                                                1.05871679048851979309428189932402399185e-2_wp, &
+                                                6.10318113715186400155578672320162394224e-1_wp, &
+                                                1.08498440893373140990245263318076192187e-2_wp, &
+                                                5.88362434447662541434367386275547111879e-1_wp, &
+                                                1.11044611340069265369994188454572096386e-2_wp, &
+                                                5.65905885423654422622970392231343950219e-1_wp, &
+                                                1.13506543159805966017344840804968802477e-2_wp, &
+                                                5.42965666498311490492303133422203430532e-1_wp, &
+                                                1.15880740330439525684239776012385794172e-2_wp, &
+                                                5.19559661537457021992914143047305013398e-1_wp, &
+                                                1.18163858908302357632247900084966241627e-2_wp, &
+                                                4.95706407918761460170111534008667847416e-1_wp, &
+                                                1.20352707852795626304498694306103606393e-2_wp, &
+                                                4.71425065871658876934088018252224136473e-1_wp, &
+                                                1.22444249816119858986292063324627371480e-2_wp, &
+                                                4.46735387662028473742222281592907967623e-1_wp, &
+                                                1.24435601907140352631495031087115129475e-2_wp, &
+                                                4.21657686626163300056304726883310969563e-1_wp, &
+                                                1.26324036435420787645405441085200317588e-2_wp, &
+                                                3.96212806057615939182521394284924513267e-1_wp, &
+                                                1.28106981638773619668417039218064387909e-2_wp, &
+                                                3.70422087950078230137537383958155880174e-1_wp, &
+                                                1.29782022395373992858421803348245496762e-2_wp, &
+                                                3.44307341599438022776622416041385263462e-1_wp, &
+                                                1.31346900919601528363813260381779658443e-2_wp, &
+                                                3.17890812068476683181739338725980798218e-1_wp, &
+                                                1.32799517439305306503775089710281336690e-2_wp, &
+                                                2.91195148518246681963691099017626573079e-1_wp, &
+                                                1.34137930851100985129663776085717215632e-2_wp, &
+                                                2.64243372410926761944948292977628978728e-1_wp, &
+                                                1.35360359349562136136653091890522717067e-2_wp, &
+                                                2.37058845589829727212668030348623871778e-1_wp, &
+                                                1.36465181025712914283998912158692590540e-2_wp, &
+                                                2.09665238243181194766342717964439602895e-1_wp, &
+                                                1.37450934430018966322520540025550273779e-2_wp, &
+                                                1.82086496759252198246399488588060039322e-1_wp, &
+                                                1.38316319095064286764959688535114143323e-2_wp, &
+                                                1.54346811481378108692446779987579230421e-1_wp, &
+                                                1.39060196013254612635312215253609885781e-2_wp, &
+                                                1.26470584372301966850663538758563345841e-1_wp, &
+                                                1.39681588065169385157277797674326721757e-2_wp, &
+                                                9.84823965981192020902757578971386695319e-2_wp, &
+                                                1.40179680394566088098722249688496041850e-2_wp, &
+                                                7.04069760428551790632968760555968372924e-2_wp, &
+                                                1.40553820726499642771679253311023986914e-2_wp, &
+                                                4.22691647653636032124048988444769492564e-2_wp, &
+                                                1.40803519625536613248458411104536513059e-2_wp, &
+                                                1.40938864107824626141884882355263630430e-2_wp, &
+                                                1.40928450691604083549592735386756230351e-2_wp, &
+                                                1.40944070900961793469156392941048979072e-2_wp ]
+
+    icheck = 0
+
+    ! check for trivial case.
+    if (a == b) then
+        ! trivial case
+        result = 0.0_wp
+        npts = 0
+        return
+    else
+        ! scale factors.
+        sum = (b + a)/2.0_wp
+        diff = (b - a)/2.0_wp
+        ! 1-point gauss
+        fzero = f(sum)
+        results(1) = 2.0_wp*fzero*diff
+        i = 0
+        iold = 0
+        inew = 1
+        k = 2
+        acum = 0.0_wp
+        do
+            ! contribution from new function values.
+            iold = iold + inew
+            do j = inew, iold
+                i = i + 1
+                x = p(i)*diff
+                funct(j) = f(sum + x) + f(sum - x)
+                i = i + 1
+                acum = acum + p(i)*funct(j)
+            end do
+            inew = iold + 1
+            i = i + 1
+            results(k) = (acum + p(i)*fzero)*diff
+            ! check for convergence.
+            if (abs(results(k) - results(k - 1)) <= epsil*abs(results(k))) exit
+            if (k == 8) then
+                ! convergence not achieved.
+                icheck = 1
+                exit
+            else
+                k = k + 1
+                acum = 0.0_wp
+                ! contribution from function values already computed.
+                do j = 1, iold
+                    i = i + 1
+                    acum = acum + p(i)*funct(j)
+                end do
+            end if
+        end do
+        result = results(k)
+    end if
+
+    ! normal termination.
+    npts = inew + iold
+
+    end subroutine dquad
 !********************************************************************************
 
 !********************************************************************************

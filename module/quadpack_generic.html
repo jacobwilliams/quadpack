@@ -128,7 +128,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3199 statements</a>
+    title="100.0% of total for modules and submodules.">3258 statements</a>
      </li> 
      
      
@@ -253,6 +253,8 @@
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqmomo">dqmomo</a>
       
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqng">dqng</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dquad">dquad</a>
       
     </div>
   </div>
@@ -502,6 +504,8 @@
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqmomo">dqmomo</a>
       
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqng">dqng</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dquad">dquad</a>
       
     </div>
   </div>
@@ -1256,10 +1260,10 @@ absolute error estimates on the subintervals</p></td>
   <td><strong>Iord</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first <code>k</code>
 elements of which are pointers to the
 error estimates over the subintervals,
-such that elist(iord(1)), ...,
-elist(iord(k)) form a decreasing sequence,
-with k = last if last&lt;=(limit/2+2), and
-k = limit+1-last otherwise</p></td>
+such that <code>elist(iord(1))</code>, ...,
+<code>elist(iord(k))</code> form a decreasing sequence,
+with <code>k = last</code> if <code>last&lt;=(limit/2+2)</code>, and
+<code>k = limit+1-last</code> otherwise</p></td>
   
 </tr>
 
@@ -4626,9 +4630,9 @@ contain the error flags on the cycles.</p></td>
   <td><strong>Work</strong>(Lenw)</td><td><p>vector of dimension at least <code>lenw</code>
 on return:</p>
 <ul>
-<li>work(1), ..., work(lst) contain the integral
+<li><code>work(1), ..., work(lst)</code> contain the integral
   approximations over the cycles,</li>
-<li>work(limlst+1), ..., work(limlst+lst) contain
+<li><code>work(limlst+1), ..., work(limlst+lst)</code> contain
   the error extimates over the cycles.</li>
 </ul>
 <p>further elements of work have no specific
@@ -4883,16 +4887,16 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
 <p>error messages:</p>
 <p>if <code>omega/=0</code>:</p>
 <ul>
-<li>ier = 1 maximum number of  cycles  allowed
+<li>ier = 1 maximum number of <code>cycles</code> allowed
   has been achieved., i.e. of subintervals
-  (a+(k-1)c,a+kc) where
-  c = (2<em>int(abs(omega))+1)</em>pi/abs(omega),
-  for k = 1, 2, ..., lst.
+  <code>(a+(k-1)c,a+kc)</code> where
+  <code>c = (2*int(abs(omega))+1)*pi/abs(omega)</code>,
+  for <code>k = 1, 2, ..., lst</code>.
   one can allow more cycles by increasing
   the value of limlst (and taking the
   according dimension adjustments into
   account).
-  examine the array iwork which contains
+  examine the array <code>iwork</code> which contains
   the error flags on the cycles, in order to
   look for eventual local integration
   difficulties. if the position of a local
@@ -4908,12 +4912,12 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
   the cycles, does not converge to within
   the requested accuracy. as in the case of
   ier = 1, it is advised to examine the
-  array iwork which contains the error
+  array <code>iwork</code> which contains the error
   flags on the cycles.</li>
 <li>ier = 6 the input is invalid because
-  (integr/=1 and integr/=2) or
-  epsabs&lt;=0 or limlst&lt;3.
-  result, abserr, neval, lst are set
+  (<code>integr/=1</code> and <code>integr/=2</code>) or
+  <code>epsabs&lt;=0</code> or <code>limlst&lt;3</code>.
+  <code>result</code>, <code>abserr</code>, <code>neval</code>, <code>lst</code> are set
   to zero.</li>
 <li>
 <p>ier = 7 bad integrand behaviour occurs within one
@@ -4973,13 +4977,13 @@ for <code>ierlst(k), k = 1</code>).</p></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Rslst</strong>(Limlst)</td><td><p>vector of dimension at least limlst
-rslst(k) contains the integral contribution
-over the interval (a+(k-1)c,a+kc) where
-c = (2<em>int(abs(omega))+1)</em>pi/abs(omega),
-k = 1, 2, ..., lst.
-note that, if omega = 0, rslst(1) contains
-the value of the integral over (a,infinity).</p></td>
+  <td><strong>Rslst</strong>(Limlst)</td><td><p>vector of dimension at least <code>limlst</code>
+<code>rslst(k)</code> contains the integral contribution
+over the interval <code>(a+(k-1)c,a+kc)</code> where
+<code>c = (2*int(abs(omega))+1)*pi/abs(omega)</code>,
+<code>k = 1, 2, ..., lst</code>.
+note that, if <code>omega = 0</code>, <code>rslst(1)</code> contains
+the value of the integral over <code>(a,infinity)</code>.</p></td>
   
 </tr>
 
@@ -4994,9 +4998,9 @@ the value of the integral over (a,infinity).</p></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Erlst</strong>(Limlst)</td><td><p>vector of dimension at least limlst
-erlst(k) contains the error estimate corresponding
-with rslst(k).</p></td>
+  <td><strong>Erlst</strong>(Limlst)</td><td><p>vector of dimension at least <code>limlst</code>
+<code>erlst(k)</code> contains the error estimate corresponding
+with <code>rslst(k)</code>.</p></td>
   
 </tr>
 
@@ -5011,10 +5015,10 @@ with rslst(k).</p></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>Ierlst</strong>(Limlst)</td><td><p>vector of dimension at least limlst
-ierlst(k) contains the error flag corresponding
-with rslst(k). for the meaning of the local error
-flags see description of output parameter ier.</p></td>
+  <td><strong>Ierlst</strong>(Limlst)</td><td><p>vector of dimension at least <code>limlst</code>
+<code>ierlst(k)</code> contains the error flag corresponding
+with <code>rslst(k)</code>. for the meaning of the local error
+flags see description of output parameter <code>ier</code>.</p></td>
   
 </tr>
 
@@ -5030,7 +5034,7 @@ flags see description of output parameter ier.</p></td>
   
   <td></td><td>::</td>
   <td><strong>Lst</strong></td><td><p>number of subintervals needed for the integration
-if omega = 0 then lst is set to 1.</p></td>
+if <code>omega = 0</code> then lst is set to 1.</p></td>
   
 </tr>
 
@@ -9414,6 +9418,163 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
   <code>epsrel&lt;max(50*rel.mach.acc.,0.5e-28)</code>.
   <code>result</code>, <code>abserr</code> and <code>neval</code> are set to zero.</li>
 </ul></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dquad"></span><h3>
+public subroutine <a href='../proc/dquad.html'>dquad</a>(f, a, b, result, epsil, npts, icheck)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>This subroutine attempts to calculate the integral of <code>f(x)</code>
+  over the interval <code>a</code> to <code>b</code> with relative error not
+  exceeding <code>epsil</code>.</p><a href="../proc/dquad.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>procedure(func)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>a</strong></td><td><p>lower limit of integration.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>b</strong></td><td><p>upper limit of integration.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>result</strong></td><td><p>the value of the integral to the
+specified relative accuracy.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>epsil</strong></td><td><p>relative accuracy required. when the relative
+difference of two successive formulae does not
+exceed <code>epsil</code> the last formula computed is taken
+as the result.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>npts</strong></td><td><p>number integrand evaluations.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>icheck</strong></td><td><p>on exit normally <code>icheck=0</code>. however if convergence
+to the accuracy requested is not achieved <code>icheck=1</code>
+on exit.</p></td>
   
 </tr>
 
