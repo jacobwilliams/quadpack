@@ -3,7 +3,7 @@
     use quadpack_test_module
     implicit none
     write(*,*) ''
-    write(*,*) ' quadpack_tests : Default (kind=',wp,')'
+    write(*,*) ' quadpack_tests : Default (kind=',wp,'). tol = ', epsrel
     write(*,*) ''
 #endif
 
@@ -18,6 +18,7 @@
     call test_qng()
     call test_C()
     !call test_G()
+    call test_davint()
 
 #ifndef MOD_INCLUDE
     end program quadpack_tests
