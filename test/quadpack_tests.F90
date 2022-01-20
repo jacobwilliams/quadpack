@@ -3,7 +3,7 @@
     use quadpack_test_module
     implicit none
     write(*,*) ''
-    write(*,*) ' quadpack_tests : Default (kind=',wp,')'
+    write(*,*) ' quadpack_tests : Default (kind=',wp,'). tol = ', epsrel
     write(*,*) ''
 #endif
 

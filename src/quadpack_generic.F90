@@ -26,11 +26,11 @@ module quadpack_generic
 
     real(wp), dimension(5), parameter, private :: d1mach = [tiny(1.0_wp), &
                                                             huge(1.0_wp), &
-                                                            real(radix(1.0_wp), &
-                                                            kind(1.0_wp))**(-digits(1.0_wp)), &
+                                                            real(radix(1.0_wp),kind(1.0_wp))**(-digits(1.0_wp)), &
                                                             epsilon(1.0_wp), &
-                                                            log10(real(radix(1.0_wp), &
-                                                            kind(1.0_wp)))] !! machine constants
+                                                            log10(real(radix(1.0_wp), kind(1.0_wp)))] !! machine constants
+    integer,parameter :: i1mach10 = radix(1.0_wp)
+    integer,parameter :: i1mach14 = digits(1.0_wp)
 
     real(wp), parameter, private :: uflow = d1mach(1) !! the smallest positive magnitude.
     real(wp), parameter, private :: oflow = d1mach(2) !! the largest positive magnitude.
@@ -74,6 +74,8 @@ module quadpack_generic
               dqk15w, dqk21, dqk31, dqk41, dqk51, dqk61, dqmomo, dqng
     public :: dquad
     public :: davint
+    public :: dqnc79
+    public :: dgauss8
 
     contains
 !********************************************************************************
@@ -7728,6 +7730,452 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
     endif
 
     end subroutine davint
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Integrate a function using a 7-point adaptive Newton-Cotes
+!  quadrature rule.
+!
+!  DQNC79 is a general purpose program for evaluation of
+!  one dimensional integrals of user defined functions.
+!  DQNC79 will pick its own points for evaluation of the
+!  integrand and these will vary from problem to problem.
+!  Thus, DQNC79 is not designed to integrate over data sets.
+!  Moderately smooth integrands will be integrated efficiently
+!  and reliably.  For problems with strong singularities,
+!  oscillations etc., the user may wish to use more sophis-
+!  ticated routines such as those in QUADPACK.  One measure
+!  of the reliability of DQNC79 is the output parameter `K`,
+!  giving the number of integrand evaluations that were needed.
+!
+!### Author
+!  * Kahaner, D. K., (NBS)
+!  * Jones, R. E., (SNLA)
+!
+!### Revision history  (YYMMDD)
+!  * 790601  DATE WRITTEN
+!  * 890531  Changed all specific intrinsics to generic.  (WRB)
+!  * 890911  Removed unnecessary intrinsics.  (WRB)
+!  * 890911  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 900315  CALLs to XERROR changed to CALLs to XERMSG.  (THJ)
+!  * 920218  Code redone to parallel QNC79.  (WRB)
+!  * 930120  Increase array size 80->99, and KMX 2000->5000 for SUN -r8 wordlength.  (RWC)
+!  * Jacob Williams, Jan 2022 : modernized the SLATEC procedure. added quad-precision coefficients.
+!
+!@note This one has a lot of failures in the test cases.
+
+    subroutine dqnc79(fun,a,b,err,ans,ierr,k)
+
+    implicit none
+
+    procedure(func) :: fun !! function subprogram defining the integrand function `f(x)`.
+    real(wp),intent(in) :: a !! lower limit of integration
+    real(wp),intent(in) :: b !! upper limit of integration (may be less than `A`)
+    real(wp),intent(out) :: err !! a requested error tolerance.  Normally, pick a value
+                                !! `0 < ERR < 1.0e-8`.
+    real(wp),intent(out) :: ans !! computed value of the integral.  Hopefully, `ANS` is
+                                !! accurate to within `ERR *` integral of `ABS(FUN(X))`.
+    integer,intent(out) :: ierr !! a status code:
+                                !!
+                                !!  * Normal codes
+                                !!    * **1** `ANS` most likely meets requested error tolerance.
+                                !!    * **-1** `A` and `B` are too nearly equal to
+                                !!      allow normal integration. `ANS` is set to zero.
+                                !!  * Abnormal code
+                                !!    * **2**  `ANS` probably does not meet requested error tolerance.
+    integer,intent(out) :: k !! the number of function evaluations actually used to do
+                             !! the integration.  A value of `K > 1000` indicates a
+                             !! difficult problem; other programs may be more efficient.
+                             !! `DQNC79` will gracefully give up if `K` exceeds 5000.
+
+    real(wp),parameter :: w1 = 41.0_wp/140.0_wp
+    real(wp),parameter :: w2 = 216.0_wp/140.0_wp
+    real(wp),parameter :: w3 = 27.0_wp/140.0_wp
+    real(wp),parameter :: w4 = 272.0_wp/140.0_wp
+    real(wp),parameter :: sq2 = sqrt(2.0_wp)
+    real(wp),parameter :: ln2 = log(2.0_wp)
+    integer,parameter :: nbits = int(d1mach(5)*i1mach14/0.30102000_wp)  !! is 0.30102000 supposed to be log10(2.0_wp) ???
+    integer,parameter :: nlmx = min(99, (nbits*4)/5)
+    integer,parameter :: nlmn = 2
+    integer,parameter :: kml = 7
+    integer,parameter :: kmx = 5000      !! JW : is this the max function evals? should be an input
+    integer,parameter :: array_size = 99 !! JW : what is this magic number 99 array size ??
+                                         !! does it depend on the number of function evals ?
+                                         !! (see comment in revision history)
+
+    real(wp) :: ae,area,bank,blocal,c,ce,ee,ef,eps,q13,q7,q7l,test,tol,vr
+    integer :: i,l,lmn,lmx,nib
+    real(wp),dimension(13) :: f
+    real(wp),dimension(array_size) :: aa,f1,f2,f3,f4,f5,f6,f7,hh,q7r,vl
+    integer,dimension(array_size) :: lr
+
+    ans = 0.0_wp
+    ierr = 1
+    if ( a==b ) return ! JW : this was an error return in the original code
+
+    ce = 0.0_wp
+    lmx = nlmx
+    lmn = nlmn
+    if ( b/=0.0_wp ) then
+        if ( sign(1.0_wp,b)*a>0.0_wp ) then
+            c = abs(1.0_wp-a/b)
+            if ( c<=0.1_wp ) then
+                if ( c<=0.0_wp ) goto 400
+                nib = 0.5_wp - log(c)/ln2
+                lmx = min(nlmx,nbits-nib-4)
+                if ( lmx<2 ) goto 400
+                lmn = min(lmn,lmx)
+            endif
+        endif
+    endif
+    tol = max(abs(err),2.0_wp**(5-nbits))
+    if ( err==0.0_wp ) tol = sqrt(epmach)
+    eps = tol
+    hh(1) = (b-a)/12.0_wp
+    aa(1) = a
+    lr(1) = 1
+    do i = 1 , 11 , 2
+        f(i) = fun(a+(i-1)*hh(1))
+    enddo
+    blocal = b
+    f(13) = fun(blocal)
+    k = 7
+    l = 1
+    area = 0.0_wp
+    q7 = 0.0_wp
+    ef = 256.0_wp/255.0_wp
+    bank = 0.0_wp
+
+    ! compute refined estimates, estimate the error, etc.
+100 do i = 2 , 12 , 2
+        f(i) = fun(aa(l)+(i-1)*hh(l))
+    enddo
+    k = k + 6
+
+    ! compute left and right half estimates
+    q7l = hh(l)*((w1*(f(1)+f(7))+w2*(f(2)+f(6)))+(w3*(f(3)+f(5))+w4*f(4)))
+    q7r(l) = hh(l)*((w1*(f(7)+f(13))+w2*(f(8)+f(12)))+(w3*(f(9)+f(11))+w4*f(10)))
+
+    ! update estimate of integral of absolute value
+    area = area + (abs(q7l)+abs(q7r(l))-abs(q7))
+
+    ! do not bother to test convergence before minimum refinement level
+    if ( l>=lmn ) then
+
+        ! estimate the error in new value for whole interval, q13
+        q13 = q7l + q7r(l)
+        ee = abs(q7-q13)*ef
+
+        ! compute nominal allowed error
+        ae = eps*area
+
+        ! borrow from bank account, but not too much
+        test = min(ae+0.8_wp*bank,10.0_wp*ae)
+
+        ! don't ask for excessive accuracy
+        test = max(test,tol*abs(q13),0.00003_wp*tol*area)   ! jw : should change ?
+
+        ! now, did this interval pass or not?
+        if ( ee<=test ) then
+            ! on good intervals accumulate the theoretical estimate
+            ce = ce + (q7-q13)/255.0_wp
+        else
+            ! consider the left half of next deeper level
+            if ( k>kmx ) lmx = min(kml,lmx)
+            if ( l<lmx ) goto 200
+            ! have hit maximum refinement level -- penalize the cumulative error
+            ce = ce + (q7-q13)
+        endif
+
+        ! update the bank account.  don't go into debt.
+        bank = bank + (ae-ee)
+        if ( bank<0.0_wp ) bank = 0.0_wp
+
+        ! did we just finish a left half or a right half?
+        if ( lr(l)<=0 ) then
+            ! proceed to right half at this level
+            vl(l) = q13
+            goto 300
+        else
+            ! left and right halves are done, so go back up a level
+            vr = q13
+120         if ( l<=1 ) then
+                !   exit
+                ans = vr
+                if ( abs(ce)>2.0_wp*tol*area ) then
+                    ierr = 2
+                    call xerror('ans is probably insufficiently accurate.',2,1)
+                endif
+                return
+            else
+                if ( l<=17 ) ef = ef*sq2
+                eps = eps*2.0_wp
+                l = l - 1
+                if ( lr(l)<=0 ) then
+                    vl(l) = vl(l+1) + vr
+                    goto 300
+                else
+                    vr = vl(l+1) + vr
+                    goto 120
+                endif
+            endif
+        endif
+    endif
+
+200 l = l + 1
+    eps = eps*0.5_wp
+    if ( l<=17 ) ef = ef/sq2
+    hh(l) = hh(l-1)*0.5_wp
+    lr(l) = -1
+    aa(l) = aa(l-1)
+    q7 = q7l
+    f1(l) = f(7)
+    f2(l) = f(8)
+    f3(l) = f(9)
+    f4(l) = f(10)
+    f5(l) = f(11)
+    f6(l) = f(12)
+    f7(l) = f(13)
+    f(13) = f(7)
+    f(11) = f(6)
+    f(9) = f(5)
+    f(7) = f(4)
+    f(5) = f(3)
+    f(3) = f(2)
+    goto 100
+
+300 q7 = q7r(l-1)
+    lr(l) = 1
+    aa(l) = aa(l) + 12.0_wp*hh(l)
+    f(1) = f1(l)
+    f(3) = f2(l)
+    f(5) = f3(l)
+    f(7) = f4(l)
+    f(9) = f5(l)
+    f(11) = f6(l)
+    f(13) = f7(l)
+    goto 100
+
+400 ierr = -1
+    call xerror('a and b are too nearly equal to allow normal integration. '&
+                //'ans is set to zero and ierr to -1.',-1,-1)
+
+    end subroutine dqnc79
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Integrate a real function of one variable over a finite
+!  interval using an adaptive 8-point Legendre-Gauss
+!  algorithm.
+!
+!  Intended primarily for high accuracy
+!  integration or integration of smooth functions.
+!
+!### See also
+!  * Original SLATEC sourcecode from: http://www.netlib.org/slatec/src/dgaus8.f
+!
+!### History
+!  * Author: Jones, R. E., (SNLA)
+!  * 810223  DATE WRITTEN
+!  * 890531  Changed all specific intrinsics to generic.  (WRB)
+!  * 890911  Removed unnecessary intrinsics.  (WRB)
+!  * 890911  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 900315  CALLs to XERROR changed to CALLs to XERMSG.  (THJ)
+!  * 900326  Removed duplicate information from DESCRIPTION section. (WRB)
+!  * Jacob Williams : Jan 2022 : refactored SLATEC routine to modern Fortran.
+
+    subroutine dgauss8( f, a, b, error_tol, ans, ierr, err)
+
+    implicit none
+
+    procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
+    real(wp),intent(in)   :: a          !! lower bound of the integration
+    real(wp),intent(in)   :: b          !! upper bound of the integration
+    real(wp),intent(in)   :: error_tol  !! is a requested pseudorelative error tolerance.  normally
+                                        !! pick a value of abs(error_tol) so that
+                                        !! `dtol < abs(error_tol) <= 1.0e-3` where dtol is the larger
+                                        !! of `1.0e-18 `and the real unit roundoff `d1mach(4)`.
+                                        !! `ans` will normally have no more error than `abs(error_tol)`
+                                        !! times the integral of the absolute value of `f(x)`.  usually,
+                                        !! smaller values of error_tol yield more accuracy and require
+                                        !! more function evaluations.
+    real(wp),intent(out)  :: ans        !! computed value of integral
+    integer,intent(out)   :: ierr       !! status code:
+                                        !!
+                                        !!  * normal codes:
+                                        !!    * 1 : `ans` most likely meets requested error tolerance,
+                                        !!      or `a=b`.
+                                        !!    * -1 : `a` and `b` are too nearly equal to allow normal
+                                        !!      integration. `ans` is set to zero.
+                                        !!  * abnormal code:
+                                        !!    * 2 : `ans` probably does not meet requested error tolerance.
+    real(wp),intent(out)  :: err        !! an estimate of the absolute error in `ans`.
+                                        !! the estimated error is solely for information to the user and
+                                        !! should not be used as a correction to the computed integral.
+
+    ! note: see also dqnc79 for some clues about the purpose of these numbers...
+    real(wp),parameter  :: sq2    = sqrt(2.0_wp)
+    real(wp),parameter  :: ln2    = log(2.0_wp)
+    integer,parameter   :: kmx    = 5000
+    integer,parameter   :: kml    = 6
+    real(wp),parameter  :: magic  = 0.30102000_wp   !! is 0.30102000 supposed to be log10(2.0_wp) ???
+    integer,parameter   :: iwork  = 60              !! size of the work arrays. ?? Why 60 ??
+    integer,parameter   :: nbits  = int(d1mach(5)*i1mach14/magic)
+    integer,parameter   :: nlmn   = 1
+    integer,parameter   :: nlmx   = min(60,(nbits*5)/8)
+
+    integer :: k !! number of function evaluations
+    integer                   :: l,lmn,lmx,mxl,nib
+    real(wp)                  :: ae,area,c,ee,ef,eps,est,gl,glr,tol
+    real(wp),dimension(iwork) :: aa,hh,vl,gr
+    integer,dimension(iwork)  :: lr
+
+    ans = 0.0_wp
+    ierr = 1
+    err = 0.0_wp
+    if (a == b) return
+
+    aa = 0.0_wp
+    hh = 0.0_wp
+    vl = 0.0_wp
+    gr = 0.0_wp
+    lr = 0
+    lmx = nlmx
+    lmn = nlmn
+    if (b /= 0.0_wp) then
+        if (sign(1.0_wp,b)*a > 0.0_wp) then
+            c = abs(1.0_wp-a/b)
+            if (c <= 0.1_wp) then
+                if (c <= 0.0_wp) return
+                nib = int(0.5_wp - log(c)/ln2)
+                lmx = min(nlmx,nbits-nib-7)
+                if (lmx < 1) then
+                    ! a and b are too nearly equal to allow
+                    ! normal integration [ans is set to zero]
+                    ierr = -1
+                    return
+                end if
+                lmn = min(lmn,lmx)
+            end if
+        end if
+    end if
+    if (error_tol == 0.0_wp) then
+        tol = sqrt(epmach)
+    else
+        tol = max(abs(error_tol),2.0_wp**(5-nbits))/2.0_wp
+    end if
+    eps = tol
+    hh(1) = (b-a)/4.0_wp
+    aa(1) = a
+    lr(1) = 1
+    l = 1
+    est = g(aa(l)+2.0_wp*hh(l),2.0_wp*hh(l))
+    k = 8
+    area = abs(est)
+    ef = 0.5_wp
+    mxl = 0
+
+    !compute refined estimates, estimate the error, etc.
+    main : do
+
+        gl = g(aa(l)+hh(l),hh(l))
+        gr(l) = g(aa(l)+3.0_wp*hh(l),hh(l))
+        k = k + 16
+        area = area + (abs(gl)+abs(gr(l))-abs(est))
+        glr = gl + gr(l)
+        ee = abs(est-glr)*ef
+        ae = max(eps*area,tol*abs(glr))
+        if (ee-ae > 0.0_wp) then
+            !consider the left half of this level
+            if (k > kmx) lmx = kml
+            if (l >= lmx) then
+                mxl = 1
+            else
+                l = l + 1
+                eps = eps*0.5_wp
+                ef = ef/sq2
+                hh(l) = hh(l-1)*0.5_wp
+                lr(l) = -1
+                aa(l) = aa(l-1)
+                est = gl
+                cycle main
+            end if
+        end if
+
+        err = err + (est-glr)
+        if (lr(l) > 0) then
+            !return one level
+            ans = glr
+            do
+                if (l <= 1) exit main ! finished
+                l = l - 1
+                eps = eps*2.0_wp
+                ef = ef*sq2
+                if (lr(l) <= 0) then
+                    vl(l) = vl(l+1) + ans
+                    est = gr(l-1)
+                    lr(l) = 1
+                    aa(l) = aa(l) + 4.0_wp*hh(l)
+                    cycle main
+                end if
+                ans = vl(l+1) + ans
+            end do
+        else
+            !proceed to right half at this level
+            vl(l) = glr
+            est = gr(l-1)
+            lr(l) = 1
+            aa(l) = aa(l) + 4.0_wp*hh(l)
+            cycle main
+        end if
+
+    end do main
+
+    if ((mxl/=0) .and. (abs(err)>2.0_wp*tol*area)) ierr = 2 ! ans is probably insufficiently accurate
+
+    contains
+
+    !************************************************************************************
+    !>
+    !  This is the 8-point formula from the original SLATEC routine
+    !  [DGAUS8](http://www.netlib.org/slatec/src/dgaus8.f).
+    !
+    !@note replaced coefficients with high-precision ones from:
+    !      http://processingjs.nihongoresources.com/bezierinfo/legendre-gauss-values.php
+
+        function g(x, h)
+
+        implicit none
+
+        real(wp),intent(in) :: x
+        real(wp),intent(in) :: h
+        real(wp)            :: g
+
+        !> abscissae:
+        real(wp),parameter :: x1 = 0.18343464249564980493947614236018398066675781291297378231718847_wp
+        real(wp),parameter :: x2 = 0.52553240991632898581773904918924634904196424312039285775085709_wp
+        real(wp),parameter :: x3 = 0.79666647741362673959155393647583043683717173161596483207017029_wp
+        real(wp),parameter :: x4 = 0.96028985649753623168356086856947299042823523430145203827163977_wp
+
+        !> weights:
+        real(wp),parameter :: w1 = 0.36268378337836198296515044927719561219414603989433054052482306_wp
+        real(wp),parameter :: w2 = 0.31370664587788728733796220198660131326032899900273493769026394_wp
+        real(wp),parameter :: w3 = 0.22238103445337447054435599442624088443013087005124956472590928_wp
+        real(wp),parameter :: w4 = 0.10122853629037625915253135430996219011539409105168495705900369_wp
+
+        g = h * ( w1*( f(x-x1*h) + f(x+x1*h) ) + &
+                  w2*( f(x-x2*h) + f(x+x2*h) ) + &
+                  w3*( f(x-x3*h) + f(x+x3*h) ) + &
+                  w4*( f(x-x4*h) + f(x+x4*h) ) )
+
+        end function g
+    !************************************************************************************
+
+    end subroutine dgauss8
 !********************************************************************************
 
 !********************************************************************************

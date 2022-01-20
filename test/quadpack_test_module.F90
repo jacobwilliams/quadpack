@@ -427,6 +427,8 @@ contains
             real(wp),intent(in) :: b
             real(wp),intent(in) :: answer
 
+            real(wp) :: err
+
             if (key /= 6) then
                 call dqag(f, a, b, epsabs, epsrel, key, result, abserr, neval, &
                         ier, limit, lenw, last, iwork, work)
@@ -438,6 +440,12 @@ contains
 
             call dquad(f, a, b, result, epsrel, neval, ier)
             call check_result('dquad '//casename, result, answer, neval)
+
+            ! call dqnc79(f, a, b, err, result, ier, neval)
+            ! call check_result('dqnc79 '//casename, result, answer, neval)
+
+            call dgauss8( f, a, b, epsrel, result, ier, err)
+            call check_result('dgauss8 '//casename, result, answer, neval)
 
         end subroutine test_case
 
