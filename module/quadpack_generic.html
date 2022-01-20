@@ -128,7 +128,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3258 statements</a>
+    title="100.0% of total for modules and submodules.">3647 statements</a>
      </li> 
      
      
@@ -255,6 +255,12 @@
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqng">dqng</a>
       
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dquad">dquad</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-davint">davint</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqnc79">dqnc79</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dgauss8">dgauss8</a>
       
     </div>
   </div>
@@ -506,6 +512,12 @@
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqng">dqng</a>
       
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dquad">dquad</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-davint">davint</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqnc79">dqnc79</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dgauss8">dgauss8</a>
       
     </div>
   </div>
@@ -9575,6 +9587,502 @@ as the result.</p></td>
   <td><strong>icheck</strong></td><td><p>on exit normally <code>icheck=0</code>. however if convergence
 to the accuracy requested is not achieved <code>icheck=1</code>
 on exit.</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-davint"></span><h3>
+public subroutine <a href='../proc/davint.html'>davint</a>(x, y, n, xlo, xup, ans, ierr)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Integrate a function tabulated at arbitrarily spaced
+  abscissas using overlapping parabolas.</p><a href="../proc/davint.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>dimension(:)</td><td>::</td>
+  <td><strong>x</strong></td><td><p>array of abscissas, which must be in increasing order.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>dimension(:)</td><td>::</td>
+  <td><strong>y</strong></td><td><p>array of function values. i.e., <code>y(i)=func(x(i))</code></p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td><p>The integer number of function values supplied.
+<code>N &gt;= 2</code> unless <code>XLO = XUP</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>xlo</strong></td><td><p>lower limit of integration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>xup</strong></td><td><p>upper limit of integration.  Must have <code>XLO &lt;= XUP</code></p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ans</strong></td><td><p>computed approximate value of integral</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ierr</strong></td><td><p>A status code:</p>
+<ul>
+<li>Normal Code</li>
+<li>=1 Means the requested integration was performed.</li>
+<li>Abnormal Codes</li>
+<li>=2 Means <code>XUP</code> was less than <code>XLO</code>.</li>
+<li>=3 Means the number of <code>X(I)</code> between <code>XLO</code> and <code>XUP</code>
+     (inclusive) was less than 3 and neither of the two
+     special cases described in the abstract occurred.
+     No integration was performed.</li>
+<li>=4 Means the restriction <code>X(I+1)&gt;X(I)</code> was violated.</li>
+<li>=5 Means the number <code>N</code> of function values was &lt; 2.</li>
+</ul>
+<p>ANS is set to zero if <code>IERR</code> = 2, 3, 4, or 5.</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dqnc79"></span><h3>
+public subroutine <a href='../proc/dqnc79.html'>dqnc79</a>(fun, a, b, err, ans, ierr, k)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Integrate a function using a 7-point adaptive Newton-Cotes
+  quadrature rule.</p><a href="../proc/dqnc79.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>procedure(func)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>fun</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>a</strong></td><td><p>lower limit of integration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>b</strong></td><td><p>upper limit of integration (may be less than <code>A</code>)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>err</strong></td><td><p>a requested error tolerance.  Normally, pick a value
+<code>0 &lt; ERR &lt; 1.0e-8</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ans</strong></td><td><p>computed value of the integral.  Hopefully, <code>ANS</code> is
+accurate to within <code>ERR *</code> integral of <code>ABS(FUN(X))</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ierr</strong></td><td><p>a status code:</p>
+<ul>
+<li>Normal codes</li>
+<li><strong>1</strong> <code>ANS</code> most likely meets requested error tolerance.</li>
+<li><strong>-1</strong> <code>A</code> and <code>B</code> are too nearly equal to
+     allow normal integration. <code>ANS</code> is set to zero.</li>
+<li>Abnormal code</li>
+<li><strong>2</strong>  <code>ANS</code> probably does not meet requested error tolerance.</li>
+</ul></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>k</strong></td><td><p>the number of function evaluations actually used to do
+the integration.  A value of <code>K &gt; 1000</code> indicates a
+difficult problem; other programs may be more efficient.
+<code>DQNC79</code> will gracefully give up if <code>K</code> exceeds 5000.</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dgauss8"></span><h3>
+public subroutine <a href='../proc/dgauss8.html'>dgauss8</a>(f, a, b, error_tol, ans, ierr, err)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Integrate a real function of one variable over a finite
+  interval using an adaptive 8-point Legendre-Gauss
+  algorithm.</p><a href="../proc/dgauss8.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>procedure(func)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>a</strong></td><td><p>lower bound of the integration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>b</strong></td><td><p>upper bound of the integration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>error_tol</strong></td><td><p>is a requested pseudorelative error tolerance.  normally
+pick a value of abs(error_tol) so that
+<code>dtol &lt; abs(error_tol) &lt;= 1.0e-3</code> where dtol is the larger
+of <code>1.0e-18</code>and the real unit roundoff <code>d1mach(4)</code>.
+<code>ans</code> will normally have no more error than <code>abs(error_tol)</code>
+times the integral of the absolute value of <code>f(x)</code>.  usually,
+smaller values of error_tol yield more accuracy and require
+more function evaluations.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ans</strong></td><td><p>computed value of integral</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ierr</strong></td><td><p>status code:</p>
+<ul>
+<li>normal codes:</li>
+<li>1 : <code>ans</code> most likely meets requested error tolerance,
+     or <code>a=b</code>.</li>
+<li>-1 : <code>a</code> and <code>b</code> are too nearly equal to allow normal
+     integration. <code>ans</code> is set to zero.</li>
+<li>abnormal code:</li>
+<li>2 : <code>ans</code> probably does not meet requested error tolerance.</li>
+</ul></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>err</strong></td><td><p>an estimate of the absolute error in <code>ans</code>.
+the estimated error is solely for information to the user and
+should not be used as a correction to the computed integral.</p></td>
   
 </tr>
 

@@ -311,7 +311,18 @@ no attempt to satisfy any particular input error request.</p>
 <h3>Other procedures</h3>
 <p>The following procedures were not in the original QUADPACK, but are included in the new library:</p>
 <ul>
-<li><strong>QUAD</strong> : The result is obtained using a sequence of 1, 3, 7, 15, 31, 63, 127, and 255 point interlacing formulae. The formulae are based on the optimal extension of the 3-point gauss formula. See: <a href="https://www.ams.org/journals/mcom/1968-22-104/S0025-5718-68-99866-9/S0025-5718-68-99866-9.pdf">Patterson, 1968</a>. See also <strong>QNG</strong>. This code is based on QUAD from <a href="https://github.com/jacobwilliams/nswc">NSWC Mathematical Library</a>, with the addition of full quadruple-precision coefficients.</li>
+<li>
+<p><strong>QUAD</strong> : The result is obtained using a sequence of 1, 3, 7, 15, 31, 63, 127, and 255 point interlacing formulae. The formulae are based on the optimal extension of the 3-point gauss formula. See: <a href="https://www.ams.org/journals/mcom/1968-22-104/S0025-5718-68-99866-9/S0025-5718-68-99866-9.pdf">Patterson, 1968</a>. See also <strong>QNG</strong>. This code is based on QUAD from <a href="https://github.com/jacobwilliams/nswc">NSWC Mathematical Library</a>, with the addition of full quadruple-precision coefficients.</p>
+</li>
+<li>
+<p><strong>AVINT</strong> : Integrates a function tabulated at arbitrarily spaced abscissas using overlapping parabolas. This procedure was originally from <a href="http://www.netlib.org/slatec/src/davint.f">SLATEC</a>.</p>
+</li>
+<li>
+<p><strong>QNC79</strong> :  Integrate a function over a finite interval using a 7-point adaptive Newton-Cotes quadrature rule. This procedure was originally from <a href="http://www.netlib.org/slatec/src/dqnc79.f">SLATEC</a>.</p>
+</li>
+<li>
+<p><strong>GAUSS8</strong> : Integrate a function over a finite interval using an adaptive 8-point Legendre-Gauss algorithm. This procedure was originally from <a href="http://www.netlib.org/slatec/src/dgauss8.f">SLATEC</a>.</p>
+</li>
 </ul>
 <h3>Guidelines for the use of QUADPACK</h3>
 <p>Here it is not our purpose to investigate the question when
@@ -492,6 +503,10 @@ integrator available, QAWF.</p>
 		  <div class="col-xs-6 col-sm-4">
               <h3>Procedures</h3>
               <ul>
+                    <li><a href='./proc/davint.html'>davint</a></li>
+                  
+                    <li><a href='./proc/dgauss8.html'>dgauss8</a></li>
+                  
                     <li><a href='./proc/dqag.html'>dqag</a></li>
                   
                     <li><a href='./proc/dqage.html'>dqage</a></li>
@@ -507,10 +522,6 @@ integrator available, QAWF.</p>
                     <li><a href='./proc/dqags.html'>dqags</a></li>
                   
                     <li><a href='./proc/dqagse.html'>dqagse</a></li>
-                  
-                    <li><a href='./proc/dqawc.html'>dqawc</a></li>
-                  
-                    <li><a href='./proc/dqawce.html'>dqawce</a></li>
                   </ul>
           </div>
           
