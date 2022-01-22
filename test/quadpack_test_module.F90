@@ -435,17 +435,30 @@ contains
                 call check_result('dqag '//casename, result, answer, neval)
             end if
 
-            call dqng(f, a, b, epsabs, epsrel, result, abserr, neval, ier)
-            call check_result('dqng '//casename, result, answer, neval)
+            if (key == 6) then
+                ! these only have one method, so only run on the last key value
 
-            call dquad(f, a, b, result, epsrel, neval, ier)
-            call check_result('dquad '//casename, result, answer, neval)
+                call dqng(f, a, b, epsabs, epsrel, result, abserr, neval, ier)
+                call check_result('dqng '//casename, result, answer, neval)
 
-            ! call dqnc79(f, a, b, err, result, ier, neval)
-            ! call check_result('dqnc79 '//casename, result, answer, neval)
+                call dquad(f, a, b, result, epsrel, neval, ier)
+                call check_result('dquad '//casename, result, answer, neval)
 
-            call dgauss8( f, a, b, epsrel, result, ier, err)
-            call check_result('dgauss8 '//casename, result, answer, neval)
+                ! call dqnc79(f, a, b, err, result, ier, neval)
+                ! call check_result('dqnc79 '//casename, result, answer, neval)
+
+                call dgauss8( f, a, b, epsrel, result, ier, err)
+                call check_result('dgauss8 '//casename, result, answer, neval)
+
+                if (casename(1:2) /= 'i2') then
+                    ! i2 one has nans...
+                    call dsimpson(f, a, b, epsrel, result, ier)
+                    call check_result('simpson '//casename, result, answer, neval)
+
+                    call dlobatto(f, a, b, epsrel, result, ier)
+                    call check_result('lobatto '//casename, result, answer, neval)
+                end if
+            end if
 
         end subroutine test_case
 

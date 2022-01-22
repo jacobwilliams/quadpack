@@ -76,6 +76,7 @@ module quadpack_generic
     public :: davint
     public :: dqnc79
     public :: dgauss8
+    public :: dsimpson, dlobatto
 
     contains
 !********************************************************************************
@@ -8176,6 +8177,259 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
     !************************************************************************************
 
     end subroutine dgauss8
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Numerically evaluate integral using adaptive Simpson rule.
+!
+!### See also
+!  * W. Gander and W. Gautschi, "Adaptive Quadrature - Revisited",
+!    BIT Vol. 40, No. 1, March 2000, pp. 84--101.
+
+    recursive subroutine dsimpson (f, a, b, error_tol, ans, ierr)
+
+    implicit none
+
+    procedure(func)      :: f !! function subprogram defining the integrand function `f(x)`.
+    real(wp),intent(in)  :: a !! lower bound of the integration
+    real(wp),intent(in)  :: b !! upper bound of the integration
+    real(wp),intent(in)  :: error_tol !! relative error tolerance
+    real(wp),intent(out) :: ans !! computed value of integral
+    integer,intent(out)  :: ierr !! status code:
+                                 !!
+                                 !! * 1 = success
+                                 !! * 2 = requested accuracy may not be satisfied
+
+    real(wp) :: bma,is,tol,fa,fm,fb
+    real(wp),dimension(5) :: yy
+    integer :: k !! number of calls to the recursive function
+
+    real(wp),parameter :: eps = epsilon(1.0_wp)
+    real(wp),dimension(5),parameter :: c = [.9501_wp, .2311_wp, .6068_wp, .4860_wp, .8913_wp]
+    integer,parameter :: kmax = 10000 !! maximum number of calls to the recursive function (probably should be an input)
+
+    k = 0
+    ierr = 1
+    bma = b-a
+    tol = max(eps, error_tol)
+
+    fa    = f(a)
+    fm    = f((a+b)/2.0_wp)
+    fb    = f(b)
+    yy(1) = f(a+c(1)*bma )
+    yy(2) = f(a+c(2)*bma )
+    yy(3) = f(a+c(3)*bma )
+    yy(4) = f(a+c(4)*bma )
+    yy(5) = f(a+c(5)*bma )
+
+    is = bma/8.0_wp * (fa+fm+fb+sum(yy))
+    if (is==0.0_wp) is = bma
+    is = is*tol/eps
+
+    call adaptive_simpson_step(a,b,fa,fm,fb,is,ans)
+
+    contains
+
+    recursive subroutine adaptive_simpson_step (a,b,fa,fm,fb,is,ans)
+        !!  Recursive function used by adaptive_simpson.
+        !!  Tries to approximate the integral of f(x) from a to b
+        !!  to an appropriate relative error.
+
+        implicit none
+
+        real(wp),intent(in)   :: a
+        real(wp),intent(in)   :: b
+        real(wp),intent(in)   :: fa
+        real(wp),intent(in)   :: fm
+        real(wp),intent(in)   :: fb
+        real(wp),intent(in)   :: is
+        real(wp),intent(out)  :: ans
+
+        real(wp) :: m,h,fml,fmr,i1,i2,q1,q2
+
+        k = k + 1
+        if (k>kmax) then
+            ierr = 2
+            ans = 0.0_wp
+            return
+        end if
+        m = (a + b)/2.0_wp
+        h = (b - a)/4.0_wp
+        fml = f(a + h)
+        fmr = f(b - h)
+        i1 = h/1.5_wp * (fa + 4.0_wp*fm + fb)
+        i2 = h/3.0_wp * (fa + 4.0_wp*(fml + fmr) + 2.0_wp*fm + fb)
+        i1 = (16.0_wp*i2 - i1)/15.0_wp
+
+        if ( (is + (i1-i2) == is) .or. (m <= a) .or. (b <= m) ) then
+
+            if ( ((m <= a) .or. (b<=m)) .and. (ierr==1) ) ierr = 2
+            ans = i1
+
+        else
+
+            if (ierr==1) call adaptive_simpson_step (a,m,fa,fml,fm,is,q1)
+            if (ierr==1) call adaptive_simpson_step (m,b,fm,fmr,fb,is,q2)
+
+            if (ierr==1) then
+                ans = q1 + q2
+            else
+                ans = i1
+            end if
+
+        end if
+
+        end subroutine adaptive_simpson_step
+    !**************************************************************
+
+    end subroutine dsimpson
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Numerically evaluate integral using adaptive Lobatto rule
+!
+!### See also
+!  * W. Gander and W. Gautschi, "Adaptive Quadrature - Revisited",
+!    BIT Vol. 40, No. 1, March 2000, pp. 84--101.
+
+    recursive subroutine dlobatto (f, a, b, error_tol, ans, ierr)
+
+    procedure(func)      :: f !! function subprogram defining the integrand function `f(x)`.
+    real(wp),intent(in)  :: a !! lower bound of the integration
+    real(wp),intent(in)  :: b !! upper bound of the integration
+    real(wp),intent(in)  :: error_tol !! relative error tolerance
+    real(wp),intent(out) :: ans !! computed value of integral
+    integer,intent(out)  :: ierr !! status code:
+                                 !!
+                                 !! * 1 = success
+                                 !! * 2 = requested accuracy may not be satisfied
+
+    real(wp) :: m,h,s,erri1,erri2,is,tol,fa,fb,i1,i2,r
+    real(wp),dimension(13) :: x,y
+    integer :: i
+    integer :: k !! number of calls to the recursive function
+
+    integer,parameter :: kmax = 10000 !! maximum number of calls to the recursive function (probably should be an input)
+    real(wp),parameter :: eps  = epsilon(1.0_wp)
+    real(wp),parameter :: alpha = sqrt(2.0_wp/3.0_wp)
+    real(wp),parameter :: beta  = 1.0_wp/sqrt(5.0_wp)
+    real(wp),parameter :: x1   = .942882415695480_wp
+    real(wp),parameter :: x2   = .641853342345781_wp
+    real(wp),parameter :: x3   = .236383199662150_wp
+    real(wp),dimension(7) :: c = [.0158271919734802_wp ,&
+                                  .0942738402188500_wp ,&
+                                  .155071987336585_wp ,&
+                                  .188821573960182_wp ,&
+                                  .199773405226859_wp ,&
+                                  .224926465333340_wp ,&
+                                  .242611071901408_wp ]
+
+    k = 0
+    ierr = 1
+    tol = max(eps, error_tol)
+    m = (a+b)/2.0_wp
+    h = (b-a)/2.0_wp
+
+    x = [a, m-x1*h, m-alpha*h, m-x2*h, m-beta*h, m-x3*h, m, m+x3*h, m+beta*h, m+x2*h, m+alpha*h, m+x1*h, b]
+    do i=1,13
+        y(i) = f(x(i))
+    end do
+
+    fa=y(1)
+    fb=y(13)
+    i2=(h/6.0_wp)*(y(1)+y(13)+5.0_wp*(y(5)+y(9)))
+    i1=(h/1470.0_wp)*(77.0_wp*(y(1)+y(13))+432.0_wp*(y(3)+y(11))+625.0_wp*(y(5)+y(9))+672.0_wp*y(7))
+
+    is = h*(c(1)*(y(1)+y(13)) + &
+            c(2)*(y(2)+y(12)) + &
+            c(3)*(y(3)+y(11)) + &
+            c(4)*(y(4)+y(10)) + &
+            c(5)*(y(5)+y(9))  + &
+            c(6)*(y(6)+y(8))  + &
+            c(7)*y(7))
+
+    s = sign(1.0_wp,is)
+    if (s==0.0_wp) s = 1.0_wp
+    erri1 = abs(i1-is)
+    erri2 = abs(i2-is)
+    r = 1.0_wp
+    if (erri2/=0.0_wp) r=erri1/erri2
+    if (r>0.0_wp .and. r<1.0_wp) tol=tol/r
+    is=s*abs(is)*tol/eps
+    if (is==0.0_wp) is=b-a
+
+    call adaptive_lobatto_step(a,b,fa,fb,is,ans)
+
+    contains
+
+    recursive subroutine adaptive_lobatto_step(a,b,fa,fb,is,ans)
+
+        !!  Recursive function used by adaptive_lobatto.
+        !!  Tries to approximate the integral of f(x) from a to b
+        !!  to an appropriate relative error.
+
+        implicit none
+
+        real(wp),intent(in)   :: a
+        real(wp),intent(in)   :: b
+        real(wp),intent(in)   :: fa
+        real(wp),intent(in)   :: fb
+        real(wp),intent(in)   :: is
+        real(wp),intent(out)  :: ans
+
+        real(wp) :: h,m,mll,ml,mr,mrr,fmll,fml,fm,fmr,fmrr,i2,i1
+        real(wp),dimension(6) :: q
+
+        k = k + 1
+        if (k>kmax) then
+            ierr = 2
+            ans = 0.0_wp
+            return
+        end if
+        h   = (b-a)/2.0_wp
+        m   = (a+b)/2.0_wp
+        mll = m-alpha*h
+        ml  = m-beta*h
+        mr  = m+beta*h
+        mrr = m+alpha*h
+
+        fmll = f(mll)
+        fml  = f(ml)
+        fm   = f(m)
+        fmr  = f(mr)
+        fmrr = f(mrr)
+
+        i2 = (h/6.0_wp)*(fa+fb+5.0_wp*(fml+fmr))
+        i1 = (h/1470.0_wp)*(77.0_wp*(fa+fb)+432.0_wp*(fmll+fmrr)+625.0_wp*(fml+fmr)+672.0_wp*fm)
+
+        if ( (is+(i1-i2)==is) .or. (mll<=a) .or. (b<=mrr) ) then
+
+            if (((m <= a) .or. (b<=m)) .and. (ierr==1)) ierr = 2
+            ans = i1
+
+        else
+
+            if (ierr==1) call adaptive_lobatto_step(a,mll,fa,fmll,    is,q(1))
+            if (ierr==1) call adaptive_lobatto_step(mll,ml,fmll,fml,  is,q(2))
+            if (ierr==1) call adaptive_lobatto_step(ml,m,fml,fm,      is,q(3))
+            if (ierr==1) call adaptive_lobatto_step(m,mr,fm,fmr,      is,q(4))
+            if (ierr==1) call adaptive_lobatto_step(mr,mrr,fmr,fmrr,  is,q(5))
+            if (ierr==1) call adaptive_lobatto_step(mrr,b,fmrr,fb,    is,q(6))
+
+            if (ierr==1) then
+                ans = sum(q)
+            else
+                ans = i1
+            end if
+
+        end if
+
+    end subroutine adaptive_lobatto_step
+!**************************************************************
+
+    end subroutine dlobatto
 !********************************************************************************
 
 !********************************************************************************

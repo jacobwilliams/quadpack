@@ -196,6 +196,10 @@ The following procedures were not in the original QUADPACK, but are included in 
 
 - **GAUSS8** : Integrate a function over a finite interval using an adaptive 8-point Legendre-Gauss algorithm. This procedure was originally from [SLATEC](http://www.netlib.org/slatec/src/dgauss8.f).
 
+- **SIMPSON** : Integrate a function over a finite interval using an adaptive Simpson rule. See: [Gander & Gautschi, 2000](https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited).
+
+- **LOBATTO** : Integrate a function over a finite interval using an adaptive Lobatto rule. See: [Gander & Gautschi, 2000](https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited).
+
 ### Guidelines for the use of QUADPACK
 
 Here it is not our purpose to investigate the question when
@@ -303,6 +307,7 @@ The original Quadpack was a public domain work of the United States government. 
     515.43/Q1S 100394Z
   * Paola Favati, Grazia Lotti, Francesco Romani, [Algorithm 691: Improving QUADPACK automatic integration routines](https://dl.acm.org/doi/abs/10.1145/108556.108580), ACM Transactions on Mathematical Software, Volume 17, Issue 2, June 1991, pp 218-232.
   * Original SLATEC code from [Netlib](http://www.netlib.org/quadpack/). Last modified 11 Oct 2021.
+  * W. Gander and W. Gautschi, "[Adaptive Quadrature - Revisited](https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited)", BIT Vol. 40, No. 1, March 2000, pp. 84--101.
 
 ### Other versions
 

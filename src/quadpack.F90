@@ -17,7 +17,9 @@
                                quad => dquad, &
                                avint => davint, &
                                qnc79 => dqnc79, &
-                               gauss8 => dgauss8
+                               gauss8 => dgauss8, &
+                               simpson => dsimpson, &
+                               lobatto => dlobatto
 
     use quadpack_double
 
@@ -32,7 +34,9 @@
                              qquad => dquad, &
                              qavint => davint, &
                              qqnc79 => dqnc79, &
-                             qgauss8 => dgauss8
+                             qgauss8 => dgauss8, &
+                             qsimpson => dsimpson, &
+                             qlobatto => dlobatto
 #endif
 
 !********************************************************************************
