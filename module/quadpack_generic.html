@@ -128,7 +128,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="100.0% of total for modules and submodules.">3647 statements</a>
+    title="100.0% of total for modules and submodules.">3807 statements</a>
      </li> 
      
      
@@ -261,6 +261,10 @@
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqnc79">dqnc79</a>
       
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dgauss8">dgauss8</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dsimpson">dsimpson</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dlobatto">dlobatto</a>
       
     </div>
   </div>
@@ -518,6 +522,10 @@
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dqnc79">dqnc79</a>
       
       <a class="list-group-item" href="../module/quadpack_generic.html#proc-dgauss8">dgauss8</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dsimpson">dsimpson</a>
+      
+      <a class="list-group-item" href="../module/quadpack_generic.html#proc-dlobatto">dlobatto</a>
       
     </div>
   </div>
@@ -10083,6 +10091,282 @@ more function evaluations.</p></td>
   <td><strong>err</strong></td><td><p>an estimate of the absolute error in <code>ans</code>.
 the estimated error is solely for information to the user and
 should not be used as a correction to the computed integral.</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dsimpson"></span><h3>
+public recursive subroutine <a href='../proc/dsimpson.html'>dsimpson</a>(f, a, b, error_tol, ans, ierr)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Numerically evaluate integral using adaptive Simpson rule.</p><a href="../proc/dsimpson.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>procedure(func)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>a</strong></td><td><p>lower bound of the integration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>b</strong></td><td><p>upper bound of the integration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>error_tol</strong></td><td><p>relative error tolerance</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ans</strong></td><td><p>computed value of integral</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ierr</strong></td><td><p>status code:</p>
+<ul>
+<li>1 = success</li>
+<li>2 = requested accuracy may not be satisfied</li>
+</ul></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dlobatto"></span><h3>
+public recursive subroutine <a href='../proc/dlobatto.html'>dlobatto</a>(f, a, b, error_tol, ans, ierr)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Numerically evaluate integral using adaptive Lobatto rule</p><a href="../proc/dlobatto.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>procedure(func)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>a</strong></td><td><p>lower bound of the integration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>b</strong></td><td><p>upper bound of the integration</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>error_tol</strong></td><td><p>relative error tolerance</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ans</strong></td><td><p>computed value of integral</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ierr</strong></td><td><p>status code:</p>
+<ul>
+<li>1 = success</li>
+<li>2 = requested accuracy may not be satisfied</li>
+</ul></td>
   
 </tr>
 

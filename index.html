@@ -323,6 +323,12 @@ no attempt to satisfy any particular input error request.</p>
 <li>
 <p><strong>GAUSS8</strong> : Integrate a function over a finite interval using an adaptive 8-point Legendre-Gauss algorithm. This procedure was originally from <a href="http://www.netlib.org/slatec/src/dgauss8.f">SLATEC</a>.</p>
 </li>
+<li>
+<p><strong>SIMPSON</strong> : Integrate a function over a finite interval using an adaptive Simpson rule. See: <a href="https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Gander &amp; Gautschi, 2000</a>.</p>
+</li>
+<li>
+<p><strong>LOBATTO</strong> : Integrate a function over a finite interval using an adaptive Lobatto rule. See: <a href="https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Gander &amp; Gautschi, 2000</a>.</p>
+</li>
 </ul>
 <h3>Guidelines for the use of QUADPACK</h3>
 <p>Here it is not our purpose to investigate the question when
@@ -424,6 +430,7 @@ integrator available, QAWF.</p>
     515.43/Q1S 100394Z</li>
 <li>Paola Favati, Grazia Lotti, Francesco Romani, <a href="https://dl.acm.org/doi/abs/10.1145/108556.108580">Algorithm 691: Improving QUADPACK automatic integration routines</a>, ACM Transactions on Mathematical Software, Volume 17, Issue 2, June 1991, pp 218-232.</li>
 <li>Original SLATEC code from <a href="http://www.netlib.org/quadpack/">Netlib</a>. Last modified 11 Oct 2021.</li>
+<li>W. Gander and W. Gautschi, "<a href="https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Adaptive Quadrature - Revisited</a>", BIT Vol. 40, No. 1, March 2000, pp. 84--101.</li>
 </ul>
 <h3>Other versions</h3>
 <p>There are other versions of Quadpack out there. There are at least two projects to provide module interface to the unmodified Fortran 77 code (see <a href="https://github.com/nshaffer/modern_quadpack">nshaffer/modern_quadpack</a> and <a href="https://github.com/ivan-pi/quadpack">ivan-pi/quadpack</a>). The license for these are not specified.  Another fixed to free conversion can be found at <a href="https://people.math.sc.edu/Burkardt/f_src/quadpack_double/quadpack_double.f90">John Burkardt's site</a> (this is not an aggressive modernization though and also has an LGPL license). Also note that the Quadpack code in <a href="http://www.netlib.org/slatec/src/">SLATEC</a> is slightly modified from the stand-alone one at <a href="http://www.netlib.org/quadpack/">Netlib</a>. It is not known if these modifications were anything significant.</p>
@@ -507,6 +514,8 @@ integrator available, QAWF.</p>
                   
                     <li><a href='./proc/dgauss8.html'>dgauss8</a></li>
                   
+                    <li><a href='./proc/dlobatto.html'>dlobatto</a></li>
+                  
                     <li><a href='./proc/dqag.html'>dqag</a></li>
                   
                     <li><a href='./proc/dqage.html'>dqage</a></li>
@@ -520,8 +529,6 @@ integrator available, QAWF.</p>
                     <li><a href='./proc/dqagpe.html'>dqagpe</a></li>
                   
                     <li><a href='./proc/dqags.html'>dqags</a></li>
-                  
-                    <li><a href='./proc/dqagse.html'>dqagse</a></li>
                   </ul>
           </div>
           
