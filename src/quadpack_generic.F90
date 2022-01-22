@@ -7573,7 +7573,7 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
 !### Author
 !  * Jones, R. E., (SNLA)
 !
-!***REVISION HISTORY  (YYMMDD)
+!### REVISION HISTORY
 !  * 690901  DATE WRITTEN
 !  * 890831  Modified array declarations.  (WRB)
 !  * 890831  REVISION DATE from Version 3.2
