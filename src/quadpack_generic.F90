@@ -7561,26 +7561,24 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
 !  If there are only two function values, DAVINT uses the
 !  trapezoid rule.
 !
-!  DAVINT is documented completely in SC-M-69-335
-!  Original program from *Numerical Integration* by Davis & Rabinowitz
-!  Adaptation and modifications by Rondall E Jones.
-!
 !### References
-!  * R. E. Jones, Approximate integrator of functions
-!    tabulated at arbitrarily spaced abscissas,
+!  * R. E. Jones, "Approximate integrator of functions
+!    tabulated at arbitrarily spaced abscissas",
 !    Report SC-M-69-335, Sandia Laboratories, 1969.
+!  * Original program from *Numerical Integration* by Davis & Rabinowitz
+!    Adaptation and modifications by Rondall E Jones.
 !
 !### Author
 !  * Jones, R. E., (SNLA)
 !
-!### REVISION HISTORY
+!### Revision history
 !  * 690901  DATE WRITTEN
 !  * 890831  Modified array declarations.  (WRB)
 !  * 890831  REVISION DATE from Version 3.2
 !  * 891214  Prologue converted to Version 4.0 format.  (BAB)
 !  * 900315  CALLs to XERROR changed to CALLs to XERMSG.  (THJ)
 !  * 920501  Reformatted the REFERENCES section.  (WRB)
-!  * Jacob Williams, Jan 2022 : modernized this procedure. added quad-precision coefficients.
+!  * Jacob Williams, Jan 2022 : modernized this procedure. 
 
     subroutine davint(x,y,n,xlo,xup,ans,ierr)
 
@@ -8315,17 +8313,16 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
     real(wp),parameter :: eps  = epsilon(1.0_wp)
     real(wp),parameter :: alpha = sqrt(2.0_wp/3.0_wp)
     real(wp),parameter :: beta  = 1.0_wp/sqrt(5.0_wp)
-    real(wp),parameter :: x1   = .942882415695480_wp
-    real(wp),parameter :: x2   = .641853342345781_wp
-    real(wp),parameter :: x3   = .236383199662150_wp
-    real(wp),dimension(7) :: c = [.0158271919734802_wp ,&
-                                  .0942738402188500_wp ,&
-                                  .155071987336585_wp ,&
-                                  .188821573960182_wp ,&
-                                  .199773405226859_wp ,&
-                                  .224926465333340_wp ,&
-                                  .242611071901408_wp ]
-
+    real(wp),parameter :: x1   = .94288241569547971905635175843185720232_wp
+    real(wp),parameter :: x2   = .64185334234578130578123554132903188354_wp
+    real(wp),parameter :: x3   = .23638319966214988028222377349205292599_wp
+    real(wp),dimension(7) :: c = [ .015827191973480183087169986733305510591_wp, & 
+                                   .094273840218850045531282505077108171960_wp, & 
+                                   .15507198733658539625363597980210298680_wp, & 
+                                   .18882157396018245442000533937297167125_wp, &
+                                   .19977340522685852679206802206648840246_wp, & 
+                                   .22492646533333952701601768799639508076_wp, & 
+                                   .24261107190140773379964095790325635233_wp ]
     k = 0
     ierr = 1
     tol = max(eps, error_tol)
