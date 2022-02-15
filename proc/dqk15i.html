@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Modern Fortran QUADPACK">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,10 +14,7 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,50 +43,23 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-               
-               
-        
-        
+              
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-                             
-
-
-
-          </ul>
-        
+                                       </ul>
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -100,51 +68,29 @@
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>dqk15i
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 2.0% of total for procedures.">70 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-    
      <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-    
-  
      <li class="active">dqk15i</li>
   </ol>
 </div>
@@ -160,57 +106,19 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqk15i.html#src">dqk15i</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public subroutine dqk15i(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)
+    <h2>public subroutine dqk15i(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>estimate 1D integral on (semi)infinite interval using a 15 point
   gauss-kronrod quadrature rule, non-automatic</p>
 <p>the original (infinite integration range is mapped
@@ -224,62 +132,28 @@ public subroutine dqk15i(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)
 <ul>
 <li>QUADPACK: date written 800101, revision date 830518 (yymmdd).</li>
 </ul>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-f~21"></span>procedure(func)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-boun"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Boun</strong></td><td><p>finite bound of original integration
 range (set to zero if inf = +2)</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-inf~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Inf</strong></td><td><ul>
 <li>if inf = -1, the original interval is
   <code>(-infinity,bound)</code>,</li>
@@ -291,114 +165,52 @@ range (set to zero if inf = +2)</p></td>
 <p>the integral is computed as the sum of two
 integrals, one over <code>(-infinity,0)</code> and one over
 <code>(0,+infinity)</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-a~19"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>lower limit for integration over subrange of <code>(0,1)</code></p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-b~17"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>b</strong></td><td><p>upper limit for integration over subrange of <code>(0,1)</code></p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-result~20"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Result</strong></td><td><p>approximation to the integral i.
 <code>result</code> is computed by applying the 15-point
 kronrod rule(resk) obtained by optimal addition
 of abscissae to the 7-point gauss rule(resg).</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-abserr~20"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
 which should equal or exceed <code>abs(i-result)</code></p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-resabs~3"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Resabs</strong></td><td><p>approximation to the integral j</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-resasc~4"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Resasc</strong></td><td><p>approximation to the integral of
 <code>abs((transformed integrand)-i/(b-a))</code> over <code>(a,b)</code></p></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
     <br>
-    
-    
-     
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Called by</h3>
@@ -544,210 +356,28 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
     </div></div></div></div>
       </div>
     </div>
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqk15i.html#src">dqk15i</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">dqk15i</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">Boun</span><span class="p">,</span><span class="w"> </span><span class="n">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">Resabs</span><span class="p">,</span><span class="w"> </span><span class="n">Resasc</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">implicit none</span>
-
-<span class="k">        procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="c">!! function subprogram defining the integrand function `f(x)`.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Boun</span><span class="w"> </span><span class="c">!! finite bound of original integration</span>
-<span class="w">                                     </span><span class="c">!! range (set to zero if inf = +2)</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="c">!! lower limit for integration over subrange of `(0,1)`</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c">!! upper limit for integration over subrange of `(0,1)`</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Inf</span><span class="w"> </span><span class="c">!! * if inf = -1, the original interval is</span>
-<span class="w">                                   </span><span class="c">!!   `(-infinity,bound)`,</span>
-<span class="w">                                   </span><span class="c">!! * if inf = +1, the original interval is</span>
-<span class="w">                                   </span><span class="c">!!   `(bound,+infinity)`,</span>
-<span class="w">                                   </span><span class="c">!! * if inf = +2, the original interval is</span>
-<span class="w">                                   </span><span class="c">!!   `(-infinity,+infinity)` and</span>
-<span class="w">                                   </span><span class="c">!!</span>
-<span class="w">                                   </span><span class="c">!! the integral is computed as the sum of two</span>
-<span class="w">                                   </span><span class="c">!! integrals, one over `(-infinity,0)` and one over</span>
-<span class="w">                                   </span><span class="c">!! `(0,+infinity)`.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Result</span><span class="w"> </span><span class="c">!! approximation to the integral i.</span>
-<span class="w">                                        </span><span class="c">!! `result` is computed by applying the 15-point</span>
-<span class="w">                                        </span><span class="c">!! kronrod rule(resk) obtained by optimal addition</span>
-<span class="w">                                        </span><span class="c">!! of abscissae to the 7-point gauss rule(resg).</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="c">!! estimate of the modulus of the absolute error,</span>
-<span class="w">                                        </span><span class="c">!! which should equal or exceed `abs(i-result)`</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Resabs</span><span class="w"> </span><span class="c">!! approximation to the integral j</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Resasc</span><span class="w"> </span><span class="c">!! approximation to the integral of</span>
-<span class="w">                                        </span><span class="c">!! `abs((transformed integrand)-i/(b-a))` over `(a,b)`</span>
-
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">absc</span><span class="p">,</span><span class="w"> </span><span class="n">dinf</span><span class="p">,</span><span class="w"> </span><span class="n">fc</span><span class="p">,</span><span class="w"> </span><span class="n">fsum</span><span class="p">,</span><span class="w"> </span><span class="n">fv1</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span><span class="w"> </span><span class="n">fv2</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">centr</span><span class="w">   </span><span class="c">!! mid point of the interval</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hlgth</span><span class="w">   </span><span class="c">!! half-length of the interval</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">absc1</span><span class="w">   </span><span class="c">!! abscissa</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">absc2</span><span class="w">   </span><span class="c">!! abscissa</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tabsc1</span><span class="w">  </span><span class="c">!! transformed abscissa</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tabsc2</span><span class="w">  </span><span class="c">!! transformed abscissa</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fval1</span><span class="w">   </span><span class="c">!! function value</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fval2</span><span class="w">   </span><span class="c">!! function value</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">resg</span><span class="w">    </span><span class="c">!! result of the 7-point gauss formula</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">resk</span><span class="w">    </span><span class="c">!! result of the 15-point kronrod formula</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">reskh</span><span class="w">   </span><span class="c">!! approximation to the mean value of the transformed</span>
-<span class="w">                            </span><span class="c">!! integrand over `(a,b)`, i.e. to `i/(b-a)`</span>
-
-<span class="w">        </span><span class="c">! the abscissae and weights are supplied for the interval</span>
-<span class="w">        </span><span class="c">! (-1,1).  because of symmetry only the positive abscissae and</span>
-<span class="w">        </span><span class="c">! their corresponding weights are given.</span>
-
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">wg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">0.00000000000000000000000000000000000000e0_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">1.29484966168869693270611432679082018329e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">0.00000000000000000000000000000000000000e0_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">2.79705391489276667901467771423779582487e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">0.00000000000000000000000000000000000000e0_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">3.81830050505118944950369775488975133878e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">0.00000000000000000000000000000000000000e0_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">4.17959183673469387755102040816326530612e-1_wp</span><span class="p">]</span><span class="w"> </span><span class="c">!! weights of the 7-point gauss rule, corresponding</span>
-<span class="w">                                                                                             </span><span class="c">!! to the abscissae `xgk(2), xgk(4), ...`.</span>
-<span class="w">                                                                                             </span><span class="c">!! `wg(1), wg(3), ...` are set to zero.</span>
-
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xgk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">9.91455371120812639206854697526328516642e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">9.49107912342758524526189684047851262401e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">8.64864423359769072789712788640926201211e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">7.41531185599394439863864773280788407074e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">5.86087235467691130294144838258729598437e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">4.05845151377397166906606412076961463347e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">2.07784955007898467600689403773244913480e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">0.00000000000000000000000000000000000000e0_wp</span><span class="p">]</span><span class="w"> </span><span class="c">!! abscissae of the 15-point kronrod rule:</span>
-<span class="w">                                                                                            </span><span class="c">!!</span>
-<span class="w">                                                                                            </span><span class="c">!! * xgk(2), xgk(4), ... abscissae of the 7-point</span>
-<span class="w">                                                                                            </span><span class="c">!!   gauss rule</span>
-<span class="w">                                                                                            </span><span class="c">!! * xgk(1), xgk(3), ... abscissae which are optimally</span>
-<span class="w">                                                                                            </span><span class="c">!!   added to the 7-point gauss rule</span>
-
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">wgk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">2.29353220105292249637320080589695919936e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">6.30920926299785532907006631892042866651e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">1.04790010322250183839876322541518017444e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">1.40653259715525918745189590510237920400e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">1.69004726639267902826583426598550284106e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">1.90350578064785409913256402421013682826e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">2.04432940075298892414161999234649084717e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                             </span><span class="mf">2.09482141084727828012999174891714263698e-1_wp</span><span class="p">]</span><span class="w"> </span><span class="c">!! weights of the 15-point kronrod rule</span>
-
-<span class="w">        </span><span class="n">dinf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Inf</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">centr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">hlgth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">tabsc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Boun</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dinf</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">centr</span><span class="p">)</span><span class="o">/</span><span class="n">centr</span><span class="w"></span>
-<span class="w">        </span><span class="n">fval1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">tabsc1</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Inf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">fval1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="o">-</span><span class="n">tabsc1</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">fc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">fval1</span><span class="o">/</span><span class="n">centr</span><span class="p">)</span><span class="o">/</span><span class="n">centr</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! compute the 15-point kronrod approximation to</span>
-<span class="w">        </span><span class="c">! the integral, and estimate the error.</span>
-
-<span class="w">        </span><span class="n">resg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wg</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">*</span><span class="n">fc</span><span class="w"></span>
-<span class="w">        </span><span class="n">resk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">*</span><span class="n">fc</span><span class="w"></span>
-<span class="w">        </span><span class="n">Resabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">resk</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="w"></span>
-<span class="w">            </span><span class="n">absc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hlgth</span><span class="o">*</span><span class="n">xgk</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">absc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">centr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">absc</span><span class="w"></span>
-<span class="w">            </span><span class="n">absc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">centr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">absc</span><span class="w"></span>
-<span class="w">            </span><span class="n">tabsc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Boun</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dinf</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">absc1</span><span class="p">)</span><span class="o">/</span><span class="n">absc1</span><span class="w"></span>
-<span class="w">            </span><span class="n">tabsc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Boun</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dinf</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">absc2</span><span class="p">)</span><span class="o">/</span><span class="n">absc2</span><span class="w"></span>
-<span class="w">            </span><span class="n">fval1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">tabsc1</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">fval2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">tabsc2</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Inf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                </span><span class="n">fval1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="o">-</span><span class="n">tabsc1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">fval2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="o">-</span><span class="n">tabsc2</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">end if</span>
-<span class="k">            </span><span class="n">fval1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">fval1</span><span class="o">/</span><span class="n">absc1</span><span class="p">)</span><span class="o">/</span><span class="n">absc1</span><span class="w"></span>
-<span class="w">            </span><span class="n">fval2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">fval2</span><span class="o">/</span><span class="n">absc2</span><span class="p">)</span><span class="o">/</span><span class="n">absc2</span><span class="w"></span>
-<span class="w">            </span><span class="n">fv1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval1</span><span class="w"></span>
-<span class="w">            </span><span class="n">fv2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval2</span><span class="w"></span>
-<span class="w">            </span><span class="n">fsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fval2</span><span class="w"></span>
-<span class="w">            </span><span class="n">resg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wg</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">fsum</span><span class="w"></span>
-<span class="w">            </span><span class="n">resk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">fsum</span><span class="w"></span>
-<span class="w">            </span><span class="n">Resabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resabs</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fval1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">fval2</span><span class="p">))</span><span class="w"></span>
-<span class="w">        </span><span class="k">end do</span>
-<span class="k">        </span><span class="n">reskh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resk</span><span class="o">*</span><span class="mf">0.5_wp</span><span class="w"></span>
-<span class="w">        </span><span class="n">Resasc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">fc</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">reskh</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="w"></span>
-<span class="w">            </span><span class="n">Resasc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resasc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                     </span><span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fv1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">reskh</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">fv2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">reskh</span><span class="p">))</span><span class="w"></span>
-<span class="w">        </span><span class="k">end do</span>
-<span class="k">        Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resk</span><span class="o">*</span><span class="n">hlgth</span><span class="w"></span>
-<span class="w">        </span><span class="n">Resasc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resasc</span><span class="o">*</span><span class="n">hlgth</span><span class="w"></span>
-<span class="w">        </span><span class="n">Resabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resabs</span><span class="o">*</span><span class="n">hlgth</span><span class="w"></span>
-<span class="w">        </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">((</span><span class="n">resk</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">resg</span><span class="p">)</span><span class="o">*</span><span class="n">hlgth</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Resasc</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">            </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resasc</span><span class="o">*</span><span class="nb">min</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">20</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">Abserr</span><span class="o">/</span><span class="n">Resasc</span><span class="p">)</span><span class="o">**</span><span class="mf">1.5_wp</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Resabs</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uflow</span><span class="o">/</span><span class="p">(</span><span class="mi">5</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">epmach</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">            </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">((</span><span class="n">epmach</span><span class="o">*</span><span class="mi">5</span><span class="mf">0.0_wp</span><span class="p">)</span><span class="o">*</span><span class="n">Resabs</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">end subroutine </span><span class="n">dqk15i</span><span class="w"></span>
-</pre></div>
-
-    </section>
-    <br>
     
     
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -755,14 +385,12 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>quadpack was developed by Jacob Williams<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -790,14 +418,11 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>

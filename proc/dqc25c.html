@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Modern Fortran QUADPACK">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,10 +14,7 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,50 +43,23 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-               
-               
-        
-        
+              
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-                             
-
-
-
-          </ul>
-        
+                                       </ul>
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -100,51 +68,29 @@
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>dqc25c
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 1.9% of total for procedures.">65 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-    
      <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-    
-  
      <li class="active">dqc25c</li>
   </ol>
 </div>
@@ -160,57 +106,19 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqc25c.html#src">dqc25c</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public subroutine dqc25c(f, a, b, c, Result, Abserr, Krul, Neval)
+    <h2>public subroutine dqc25c(f, a, b, c, Result, Abserr, Krul, Neval)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>1D integral for Cauchy principal values using a 25 point quadrature rule</p>
 <p>to compute i = integral of <code>f*w</code> over <code>(a,b)</code> with
   error estimate, where <code>w(x) = 1/(x-c)</code></p>
@@ -218,156 +126,70 @@ public subroutine dqc25c(f, a, b, c, Result, Abserr, Krul, Neval)
 <ul>
 <li>QUADPACK: date written 810101, revision date 830518 (yymmdd)</li>
 </ul>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-f~17"></span>procedure(func)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-a~15"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>left end point of the integration interval</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-b~13"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>b</strong></td><td><p>right end point of the integration interval, <code>b&gt;a</code></p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-c~3"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>c</strong></td><td><p>parameter in the weight function</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-result~16"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Result</strong></td><td><p>approximation to the integral.
 <code>result</code> is computed by using a generalized
 clenshaw-curtis method if <code>c</code> lies within ten percent
 of the integration interval. in the other case the
 15-point kronrod rule obtained by optimal addition
 of abscissae to the 7-point gauss rule, is applied.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-abserr~16"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
 which should equal or exceed <code>abs(i-result)</code></p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-krul"></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Krul</strong></td><td><p>key which is decreased by 1 if the 15-point
 gauss-kronrod scheme has been used</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-neval~16"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Neval</strong></td><td><p>number of integrand evaluations</p></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
     <br>
-    
-    
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Calls</h3>
@@ -400,7 +222,7 @@ gauss-kronrod scheme has been used</p></td>
 </g>
 </g>
 <!-- proc~dqc25c&#45;&gt;proc~dqcheb -->
-<g id="proc~~dqc25c~~CallsGraph_edge2" class="edge">
+<g id="proc~~dqc25c~~CallsGraph_edge1" class="edge">
 <title>proc~dqc25c&#45;&gt;proc~dqcheb</title>
 <path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
 <polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
@@ -415,7 +237,7 @@ gauss-kronrod scheme has been used</p></td>
 </g>
 </g>
 <!-- proc~dqc25c&#45;&gt;proc~dqk15w -->
-<g id="proc~~dqc25c~~CallsGraph_edge1" class="edge">
+<g id="proc~~dqc25c~~CallsGraph_edge2" class="edge">
 <title>proc~dqc25c&#45;&gt;proc~dqk15w</title>
 <path fill="none" stroke="#000000" d="M54.4,-26.7C62.48,-24.77 71.51,-22.62 80.1,-20.57"/>
 <polygon fill="#000000" stroke="#000000" points="81,-23.95 89.92,-18.22 79.38,-17.14 81,-23.95"/>
@@ -483,8 +305,6 @@ gauss-kronrod scheme has been used</p></td>
     </div></div></div></div>
       </div>
     </div>
-     
-     
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Called by</h3>
@@ -600,179 +420,28 @@ gauss-kronrod scheme has been used</p></td>
     </div></div></div></div>
       </div>
     </div>
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqc25c.html#src">dqc25c</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">dqc25c</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">Krul</span><span class="p">,</span><span class="w"> </span><span class="n">Neval</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">implicit none</span>
-
-<span class="k">        procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="c">!! function subprogram defining the integrand function `f(x)`.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="c">!! left end point of the integration interval</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c">!! right end point of the integration interval, `b&gt;a`</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="c">!! parameter in the weight function</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Result</span><span class="w"> </span><span class="c">!! approximation to the integral.</span>
-<span class="w">                                        </span><span class="c">!! `result` is computed by using a generalized</span>
-<span class="w">                                        </span><span class="c">!! clenshaw-curtis method if `c` lies within ten percent</span>
-<span class="w">                                        </span><span class="c">!! of the integration interval. in the other case the</span>
-<span class="w">                                        </span><span class="c">!! 15-point kronrod rule obtained by optimal addition</span>
-<span class="w">                                        </span><span class="c">!! of abscissae to the 7-point gauss rule, is applied.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="c">!! estimate of the modulus of the absolute error,</span>
-<span class="w">                                        </span><span class="c">!! which should equal or exceed `abs(i-result)`</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Krul</span><span class="w"> </span><span class="c">!! key which is decreased by 1 if the 15-point</span>
-<span class="w">                                       </span><span class="c">!! gauss-kronrod scheme has been used</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Neval</span><span class="w"> </span><span class="c">!! number of integrand evaluations</span>
-
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ak22</span><span class="p">,</span><span class="w"> </span><span class="n">amom0</span><span class="p">,</span><span class="w"> </span><span class="n">amom1</span><span class="p">,</span><span class="w"> </span><span class="n">amom2</span><span class="p">,</span><span class="w"> </span><span class="n">cc</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                    </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">,</span><span class="w"> </span><span class="n">p4</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">resasc</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">isym</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">kp</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fval</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="c">!! value of the function `f` at the points</span>
-<span class="w">                             </span><span class="c">!! `cos(k*pi/24)`, `k = 0, ..., 24`</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cheb12</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="c">!! chebyshev series expansion coefficients,</span>
-<span class="w">                               </span><span class="c">!! for the function `f`, of degree 12</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cheb24</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="c">!! chebyshev series expansion coefficients,</span>
-<span class="w">                               </span><span class="c">!! for the function `f`, of degree 24</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res12</span><span class="w"> </span><span class="c">!! approximation to the integral corresponding</span>
-<span class="w">                          </span><span class="c">!! to the use of cheb12</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">res24</span><span class="w"> </span><span class="c">!! approximation to the integral corresponding</span>
-<span class="w">                          </span><span class="c">!! to the use of cheb24</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hlgth</span><span class="w"> </span><span class="c">!! half-length of the interval</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">centr</span><span class="w"> </span><span class="c">!! mid point of the interval</span>
-
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="nb">cos</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="mf">4.0_wp</span><span class="p">),</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">)]</span><span class="w"></span>
-<span class="w">            </span><span class="c">!! the vector x contains the values `cos(k*pi/24)`,</span>
-<span class="w">            </span><span class="c">!! `k = 1, ..., 11`, to be used for the chebyshev series</span>
-<span class="w">            </span><span class="c">!! expansion of `f`</span>
-
-<span class="w">        </span><span class="c">! check the position of c.</span>
-
-<span class="w">        </span><span class="n">cc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">2.0_wp</span><span class="o">*</span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.1_wp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! use the generalized clenshaw-curtis method.</span>
-
-<span class="w">            </span><span class="n">hlgth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">centr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
-<span class="w">            </span><span class="n">fval</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">hlgth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">centr</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">fval</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">centr</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">fval</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">centr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">hlgth</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="w"></span>
-<span class="w">                </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hlgth</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">isym</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">26</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
-<span class="w">                </span><span class="n">fval</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">centr</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">fval</span><span class="p">(</span><span class="n">isym</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">centr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">u</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! compute the chebyshev series expansion.</span>
-
-<span class="w">            </span><span class="k">call </span><span class="n">dqcheb</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">fval</span><span class="p">,</span><span class="w"> </span><span class="n">cheb12</span><span class="p">,</span><span class="w"> </span><span class="n">cheb24</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! the modified chebyshev moments are computed by forward</span>
-<span class="w">            </span><span class="c">! recursion, using amom0 and amom1 as starting values.</span>
-
-<span class="w">            </span><span class="n">amom0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">log</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="mf">1.0_wp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cc</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cc</span><span class="p">)))</span><span class="w"></span>
-<span class="w">            </span><span class="n">amom1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cc</span><span class="o">*</span><span class="n">amom0</span><span class="w"></span>
-<span class="w">            </span><span class="n">res12</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cheb12</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">amom0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cheb12</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">amom1</span><span class="w"></span>
-<span class="w">            </span><span class="n">res24</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cheb24</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">amom0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cheb24</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">amom1</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="w"></span>
-<span class="w">                </span><span class="n">amom2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="o">*</span><span class="n">cc</span><span class="o">*</span><span class="n">amom1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">amom0</span><span class="w"></span>
-<span class="w">                </span><span class="n">ak22</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">k</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="n">amom2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amom2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">4.0_wp</span><span class="o">/</span><span class="p">(</span><span class="n">ak22</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">res12</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">res12</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cheb12</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">amom2</span><span class="w"></span>
-<span class="w">                </span><span class="n">res24</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">res24</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cheb24</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">amom2</span><span class="w"></span>
-<span class="w">                </span><span class="n">amom0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amom1</span><span class="w"></span>
-<span class="w">                </span><span class="n">amom1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amom2</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span>
-<span class="k">            do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
-<span class="w">                </span><span class="n">amom2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="o">*</span><span class="n">cc</span><span class="o">*</span><span class="n">amom1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">amom0</span><span class="w"></span>
-<span class="w">                </span><span class="n">ak22</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">k</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="n">amom2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amom2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">4.0_wp</span><span class="o">/</span><span class="p">(</span><span class="n">ak22</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">res24</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">res24</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cheb24</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">amom2</span><span class="w"></span>
-<span class="w">                </span><span class="n">amom0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amom1</span><span class="w"></span>
-<span class="w">                </span><span class="n">amom1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">amom2</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span>
-<span class="k">            Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">res24</span><span class="w"></span>
-<span class="w">            </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">res24</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">res12</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">else</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! apply the 15-point gauss-kronrod scheme.</span>
-
-<span class="w">            </span><span class="c">! dqwgtc - external function subprogram defining the weight function</span>
-
-<span class="w">            </span><span class="n">Krul</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Krul</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">call </span><span class="n">dqk15w</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">dqwgtc</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">,</span><span class="w"> </span><span class="n">p4</span><span class="p">,</span><span class="w"> </span><span class="n">kp</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                        </span><span class="n">resasc</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resasc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Abserr</span><span class="p">)</span><span class="w"> </span><span class="n">Krul</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Krul</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span>
-
-<span class="k">    end subroutine </span><span class="n">dqc25c</span><span class="w"></span>
-</pre></div>
-
-    </section>
-    <br>
     
     
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -780,14 +449,12 @@ gauss-kronrod scheme has been used</p></td>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>quadpack was developed by Jacob Williams<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -815,14 +482,11 @@ gauss-kronrod scheme has been used</p></td>
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>

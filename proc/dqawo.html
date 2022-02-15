@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Modern Fortran QUADPACK">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,10 +14,7 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,50 +43,23 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-               
-               
-        
-        
+              
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-                             
-
-
-
-          </ul>
-        
+                                       </ul>
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -100,51 +68,29 @@
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>dqawo
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 1.1% of total for procedures.">37 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-    
      <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-    
-  
      <li class="active">dqawo</li>
   </ol>
 </div>
@@ -160,57 +106,19 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqawo.html#src">dqawo</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public subroutine dqawo(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Leniw, Maxp1, Lenw, Last, Iwork, Work)
+    <h2>public subroutine dqawo(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Leniw, Maxp1, Lenw, Last, Iwork, Work)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>1D integration of <code>cos(omega*x)*f(x)</code> or <code>sin(omega*x)*f(x)</code>
   over a finite interval, adaptive subdivision with extrapolation</p>
 <p>the routine calculates an approximation result to a given
@@ -222,91 +130,39 @@ public subroutine dqawo(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, 
 <ul>
 <li>QUADPACK: date written 800101, revision date 830518 (yymmdd)</li>
 </ul>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-f~13"></span>procedure(func)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>f</strong></td><td><p>function subprogram defining the function <code>f(x)</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-a~11"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>lower limit of integration</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-b~9"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>b</strong></td><td><p>upper limit of integration</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-omega~3"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Omega</strong></td><td><p>parameter in the integrand weight function</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-integr~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Integr</strong></td><td><p>indicates which of the weight functions is used</p>
 <ul>
 <li>integr = 1  <code>w(x) = cos(omega*x)</code></li>
@@ -314,99 +170,45 @@ public subroutine dqawo(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, 
 </ul>
 <p>if <code>integr/=1.and.integr/=2</code>, the routine will
 end with ier = 6.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-epsabs~13"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Epsabs</strong></td><td><p>absolute accuracy requested</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-epsrel~11"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Epsrel</strong></td><td><p>relative accuracy requested
 if <code>epsabs&lt;=0</code> and
 <code>epsrel&lt;max(50*rel.mach.acc.,0.5e-28)</code>,
 the routine will end with ier = 6.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-result~13"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Result</strong></td><td><p>approximation to the integral</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-abserr~13"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
 which should equal or exceed <code>abs(i-result)</code></p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-neval~13"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Neval</strong></td><td><p>number of integrand evaluations</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-ier~13"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Ier</strong></td><td><ul>
 <li>ier = 0 normal and reliable termination of the
   routine. it is assumed that the requested
@@ -466,94 +268,49 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
   <code>work(1)</code> is set to <code>a</code> and <code>work(limit+1)</code> to
   <code>b</code>.</li>
 </ul></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-leniw~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Leniw</strong></td><td><p>dimensioning parameter for <code>iwork</code>.
 <code>leniw/2</code> equals the maximum number of subintervals
 allowed in the partition of the given integration
 interval <code>(a,b)</code>, <code>leniw&gt;=2</code>.
 if <code>leniw&lt;2</code>, the routine will end with ier = 6.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-maxp1~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Maxp1</strong></td><td><p>gives an upper bound on the number of chebyshev
 moments which can be stored, i.e. for the
 intervals of lengths <code>abs(b-a)*2**(-l)</code>,
 <code>l=0,1, ..., maxp1-2, maxp1&gt;=1</code>
 if <code>maxp1&lt;1</code>, the routine will end with ier = 6.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-lenw~7"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Lenw</strong></td><td><p>dimensioning parameter for <code>work</code>
 <code>lenw</code> must be at least <code>leniw*2+maxp1*25</code>.
 if <code>lenw&lt;(leniw*2+maxp1*25)</code>, the routine will
 end with ier = 6.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-last~11"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Last</strong></td><td><p>on return, <code>last</code> equals the number of subintervals
 produced in the subdivision process, which
 determines the number of significant elements
 actually in the work arrays.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-iwork~7"></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Iwork</strong>(Leniw)</td><td><p>vector of dimension at least leniw
 on return, the first <code>k</code> elements of which contain
 pointers to the error estimates over the
@@ -568,20 +325,11 @@ indicate the subdivision levels of the
 subintervals, such that <code>iwork(limit+i) = l</code> means
 that the subinterval numbered <code>i</code> is of length
 <code>abs(b-a)*2**(1-l)</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-work~7"></span>real(kind=wp)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Work</strong>(Lenw)</td><td><p>vector of dimension at least <code>lenw</code>.
 on return:</p>
 <ul>
@@ -599,18 +347,11 @@ on return:</p>
   provide space for storing the chebyshev moments.</li>
 </ul>
 <p>note that <code>limit = lenw/2</code>.</p></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
     <br>
-    
-    
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Calls</h3>
@@ -673,7 +414,7 @@ on return:</p>
 </g>
 </g>
 <!-- proc~dqc25f&#45;&gt;proc~dqcheb -->
-<g id="proc~~dqawo~~CallsGraph_edge4" class="edge">
+<g id="proc~~dqawo~~CallsGraph_edge3" class="edge">
 <title>proc~dqc25f&#45;&gt;proc~dqcheb</title>
 <path fill="none" stroke="#000000" d="M235.4,-39.3C243.48,-41.23 252.51,-43.38 261.1,-45.43"/>
 <polygon fill="#000000" stroke="#000000" points="260.38,-48.86 270.92,-47.78 262,-42.05 260.38,-48.86"/>
@@ -688,7 +429,7 @@ on return:</p>
 </g>
 </g>
 <!-- proc~dqc25f&#45;&gt;proc~dqk15w -->
-<g id="proc~~dqawo~~CallsGraph_edge3" class="edge">
+<g id="proc~~dqawo~~CallsGraph_edge4" class="edge">
 <title>proc~dqc25f&#45;&gt;proc~dqk15w</title>
 <path fill="none" stroke="#000000" d="M235.4,-26.7C243.48,-24.77 252.51,-22.62 261.1,-20.57"/>
 <polygon fill="#000000" stroke="#000000" points="262,-23.95 270.92,-18.22 260.38,-17.14 262,-23.95"/>
@@ -756,234 +497,28 @@ on return:</p>
     </div></div></div></div>
       </div>
     </div>
-     
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqawo.html#src">dqawo</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">dqawo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">Omega</span><span class="p">,</span><span class="w"> </span><span class="n">Integr</span><span class="p">,</span><span class="w"> </span><span class="n">Epsabs</span><span class="p">,</span><span class="w"> </span><span class="n">Epsrel</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                     </span><span class="n">Neval</span><span class="p">,</span><span class="w"> </span><span class="n">Ier</span><span class="p">,</span><span class="w"> </span><span class="n">Leniw</span><span class="p">,</span><span class="w"> </span><span class="n">Maxp1</span><span class="p">,</span><span class="w"> </span><span class="n">Lenw</span><span class="p">,</span><span class="w"> </span><span class="n">Last</span><span class="p">,</span><span class="w"> </span><span class="n">Iwork</span><span class="p">,</span><span class="w"> </span><span class="n">Work</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">implicit none</span>
-
-<span class="k">        procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="c">!! function subprogram defining the function `f(x)`.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="c">!! lower limit of integration</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c">!! upper limit of integration</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Omega</span><span class="w"> </span><span class="c">!! parameter in the integrand weight function</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Integr</span><span class="w"> </span><span class="c">!! indicates which of the weight functions is used</span>
-<span class="w">                                      </span><span class="c">!!</span>
-<span class="w">                                      </span><span class="c">!! * integr = 1  `w(x) = cos(omega*x)`</span>
-<span class="w">                                      </span><span class="c">!! * integr = 2  `w(x) = sin(omega*x)`</span>
-<span class="w">                                      </span><span class="c">!!</span>
-<span class="w">                                      </span><span class="c">!! if `integr/=1.and.integr/=2`, the routine will</span>
-<span class="w">                                      </span><span class="c">!! end with ier = 6.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Epsabs</span><span class="w"> </span><span class="c">!! absolute accuracy requested</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Epsrel</span><span class="w"> </span><span class="c">!! relative accuracy requested</span>
-<span class="w">                                       </span><span class="c">!! if `epsabs&lt;=0` and</span>
-<span class="w">                                       </span><span class="c">!! `epsrel&lt;max(50*rel.mach.acc.,0.5e-28)`,</span>
-<span class="w">                                       </span><span class="c">!! the routine will end with ier = 6.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Result</span><span class="w"> </span><span class="c">!! approximation to the integral</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="c">!! estimate of the modulus of the absolute error,</span>
-<span class="w">                                        </span><span class="c">!! which should equal or exceed `abs(i-result)`</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Neval</span><span class="w"> </span><span class="c">!! number of integrand evaluations</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="c">!! * ier = 0 normal and reliable termination of the</span>
-<span class="w">                                    </span><span class="c">!!   routine. it is assumed that the requested</span>
-<span class="w">                                    </span><span class="c">!!   accuracy has been achieved.</span>
-<span class="w">                                    </span><span class="c">!! * ier&gt;0 abnormal termination of the routine.</span>
-<span class="w">                                    </span><span class="c">!!   the estimates for integral and error are</span>
-<span class="w">                                    </span><span class="c">!!   less reliable. it is assumed that the</span>
-<span class="w">                                    </span><span class="c">!!   requested accuracy has not been achieved.</span>
-<span class="w">                                    </span><span class="c">!!</span>
-<span class="w">                                    </span><span class="c">!! error messages:</span>
-<span class="w">                                    </span><span class="c">!!</span>
-<span class="w">                                    </span><span class="c">!! * ier = 1 maximum number of subdivisions allowed</span>
-<span class="w">                                    </span><span class="c">!!   `(= leniw/2)` has been achieved. one can</span>
-<span class="w">                                    </span><span class="c">!!   allow more subdivisions by increasing the</span>
-<span class="w">                                    </span><span class="c">!!   value of leniw (and taking the according</span>
-<span class="w">                                    </span><span class="c">!!   dimension adjustments into account).</span>
-<span class="w">                                    </span><span class="c">!!   however, if this yields no improvement it</span>
-<span class="w">                                    </span><span class="c">!!   is advised to analyze the integrand in</span>
-<span class="w">                                    </span><span class="c">!!   order to determine the integration</span>
-<span class="w">                                    </span><span class="c">!!   difficulties. if the position of a local</span>
-<span class="w">                                    </span><span class="c">!!   difficulty can be determined (e.g.</span>
-<span class="w">                                    </span><span class="c">!!   singularity, discontinuity within the</span>
-<span class="w">                                    </span><span class="c">!!   interval) one will probably gain from</span>
-<span class="w">                                    </span><span class="c">!!   splitting up the interval at this point</span>
-<span class="w">                                    </span><span class="c">!!   and calling the integrator on the</span>
-<span class="w">                                    </span><span class="c">!!   subranges. if possible, an appropriate</span>
-<span class="w">                                    </span><span class="c">!!   special-purpose integrator should be used</span>
-<span class="w">                                    </span><span class="c">!!   which is designed for handling the type of</span>
-<span class="w">                                    </span><span class="c">!!   difficulty involved.</span>
-<span class="w">                                    </span><span class="c">!! * ier = 2 the occurrence of roundoff error is</span>
-<span class="w">                                    </span><span class="c">!!   detected, which prevents the requested</span>
-<span class="w">                                    </span><span class="c">!!   tolerance from being achieved.</span>
-<span class="w">                                    </span><span class="c">!!   the error may be under-estimated.</span>
-<span class="w">                                    </span><span class="c">!! * ier = 3 extremely bad integrand behaviour occurs</span>
-<span class="w">                                    </span><span class="c">!!   at some interior points of the</span>
-<span class="w">                                    </span><span class="c">!!   integration interval.</span>
-<span class="w">                                    </span><span class="c">!! * ier = 4 the algorithm does not converge.</span>
-<span class="w">                                    </span><span class="c">!!   roundoff error is detected in the</span>
-<span class="w">                                    </span><span class="c">!!   extrapolation table. it is presumed that</span>
-<span class="w">                                    </span><span class="c">!!   the requested tolerance cannot be achieved</span>
-<span class="w">                                    </span><span class="c">!!   due to roundoff in the extrapolation</span>
-<span class="w">                                    </span><span class="c">!!   table, and that the returned result is</span>
-<span class="w">                                    </span><span class="c">!!   the best which can be obtained.</span>
-<span class="w">                                    </span><span class="c">!! * ier = 5 the integral is probably divergent, or</span>
-<span class="w">                                    </span><span class="c">!!   slowly convergent. it must be noted that</span>
-<span class="w">                                    </span><span class="c">!!   divergence can occur with any other value</span>
-<span class="w">                                    </span><span class="c">!!   of `ier`.</span>
-<span class="w">                                    </span><span class="c">!! * ier = 6 the input is invalid, because</span>
-<span class="w">                                    </span><span class="c">!!   `(epsabs&lt;=0 and epsrel&lt;max(50*rel.mach.acc.,0.5e-28))`</span>
-<span class="w">                                    </span><span class="c">!!   or `(integr/=1 and integr/=2)`,</span>
-<span class="w">                                    </span><span class="c">!!   or `leniw&lt;2` or `maxp1&lt;1` or</span>
-<span class="w">                                    </span><span class="c">!!   `lenw&lt;leniw*2+maxp1*25`.</span>
-<span class="w">                                    </span><span class="c">!!   `result`, `abserr`, `neval`, `last` are set to</span>
-<span class="w">                                    </span><span class="c">!!   zero. except when `leniw`, `maxp1` or `lenw` are</span>
-<span class="w">                                    </span><span class="c">!!   invalid, `work(limit*2+1)`, `work(limit*3+1)`,</span>
-<span class="w">                                    </span><span class="c">!!   `iwork(1)`, `iwork(limit+1)` are set to zero,</span>
-<span class="w">                                    </span><span class="c">!!   `work(1)` is set to `a` and `work(limit+1)` to</span>
-<span class="w">                                    </span><span class="c">!!   `b`.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Leniw</span><span class="w"> </span><span class="c">!! dimensioning parameter for `iwork`.</span>
-<span class="w">                                     </span><span class="c">!! `leniw/2` equals the maximum number of subintervals</span>
-<span class="w">                                     </span><span class="c">!! allowed in the partition of the given integration</span>
-<span class="w">                                     </span><span class="c">!! interval `(a,b)`, `leniw&gt;=2`.</span>
-<span class="w">                                     </span><span class="c">!! if `leniw&lt;2`, the routine will end with ier = 6.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Maxp1</span><span class="w"> </span><span class="c">!! gives an upper bound on the number of chebyshev</span>
-<span class="w">                                     </span><span class="c">!! moments which can be stored, i.e. for the</span>
-<span class="w">                                     </span><span class="c">!! intervals of lengths `abs(b-a)*2**(-l)`,</span>
-<span class="w">                                     </span><span class="c">!! `l=0,1, ..., maxp1-2, maxp1&gt;=1`</span>
-<span class="w">                                     </span><span class="c">!! if `maxp1&lt;1`, the routine will end with ier = 6.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Lenw</span><span class="w"> </span><span class="c">!! dimensioning parameter for `work`</span>
-<span class="w">                                    </span><span class="c">!! `lenw` must be at least `leniw*2+maxp1*25`.</span>
-<span class="w">                                    </span><span class="c">!! if `lenw&lt;(leniw*2+maxp1*25)`, the routine will</span>
-<span class="w">                                    </span><span class="c">!! end with ier = 6.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Last</span><span class="w"> </span><span class="c">!! on return, `last` equals the number of subintervals</span>
-<span class="w">                                     </span><span class="c">!! produced in the subdivision process, which</span>
-<span class="w">                                     </span><span class="c">!! determines the number of significant elements</span>
-<span class="w">                                     </span><span class="c">!! actually in the work arrays.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Iwork</span><span class="p">(</span><span class="n">Leniw</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least leniw</span>
-<span class="w">                                </span><span class="c">!! on return, the first `k` elements of which contain</span>
-<span class="w">                                </span><span class="c">!! pointers to the error estimates over the</span>
-<span class="w">                                </span><span class="c">!! subintervals, such that</span>
-<span class="w">                                </span><span class="c">!! `work(limit*3+iwork(1)), .., work(limit*3+iwork(k))`</span>
-<span class="w">                                </span><span class="c">!! form a decreasing</span>
-<span class="w">                                </span><span class="c">!! sequence, with `limit = lenw/2` , and `k = last`</span>
-<span class="w">                                </span><span class="c">!! if `last&lt;=(limit/2+2)`, and `k = limit+1-last`</span>
-<span class="w">                                </span><span class="c">!! otherwise.</span>
-<span class="w">                                </span><span class="c">!! furthermore, `iwork(limit+1), ..., iwork(limit+last)`</span>
-<span class="w">                                </span><span class="c">!! indicate the subdivision levels of the</span>
-<span class="w">                                </span><span class="c">!! subintervals, such that `iwork(limit+i) = l` means</span>
-<span class="w">                                </span><span class="c">!! that the subinterval numbered `i` is of length</span>
-<span class="w">                                </span><span class="c">!! `abs(b-a)*2**(1-l)`.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="n">Lenw</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `lenw`.</span>
-<span class="w">                               </span><span class="c">!! on return:</span>
-<span class="w">                               </span><span class="c">!!</span>
-<span class="w">                               </span><span class="c">!! * `work(1), ..., work(last)` contain the left</span>
-<span class="w">                               </span><span class="c">!!   end points of the subintervals in the</span>
-<span class="w">                               </span><span class="c">!!   partition of `(a,b)`,</span>
-<span class="w">                               </span><span class="c">!! * `work(limit+1), ..., work(limit+last)` contain</span>
-<span class="w">                               </span><span class="c">!!   the right end points,</span>
-<span class="w">                               </span><span class="c">!! * `work(limit*2+1), ..., work(limit*2+last)` contain</span>
-<span class="w">                               </span><span class="c">!!   the integral approximations over the</span>
-<span class="w">                               </span><span class="c">!!   subintervals,</span>
-<span class="w">                               </span><span class="c">!! * `work(limit*3+1), ..., work(limit*3+last)`</span>
-<span class="w">                               </span><span class="c">!!   contain the error estimates.</span>
-<span class="w">                               </span><span class="c">!! * `work(limit*4+1), ..., work(limit*4+maxp1*25)`</span>
-<span class="w">                               </span><span class="c">!!   provide space for storing the chebyshev moments.</span>
-<span class="w">                               </span><span class="c">!!</span>
-<span class="w">                               </span><span class="c">!! note that `limit = lenw/2`.</span>
-
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">limit</span><span class="p">,</span><span class="w"> </span><span class="n">lvl</span><span class="p">,</span><span class="w"> </span><span class="n">l1</span><span class="p">,</span><span class="w"> </span><span class="n">l2</span><span class="p">,</span><span class="w"> </span><span class="n">l3</span><span class="p">,</span><span class="w"> </span><span class="n">l4</span><span class="p">,</span><span class="w"> </span><span class="n">momcom</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! check validity of leniw, maxp1 and lenw.</span>
-<span class="w">        </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
-<span class="w">        </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">Last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="k">Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Leniw</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Maxp1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Lenw</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="p">(</span><span class="n">Leniw</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Maxp1</span><span class="o">*</span><span class="mi">25</span><span class="p">))</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">            </span><span class="c">! prepare call for dqawoe</span>
-<span class="w">            </span><span class="n">limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Leniw</span><span class="o">/</span><span class="mi">2</span><span class="w"></span>
-<span class="w">            </span><span class="n">l1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="n">l2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">l1</span><span class="w"></span>
-<span class="w">            </span><span class="n">l3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">l2</span><span class="w"></span>
-<span class="w">            </span><span class="n">l4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">limit</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">l3</span><span class="w"></span>
-<span class="w">            </span><span class="k">call </span><span class="n">dqawoe</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">Omega</span><span class="p">,</span><span class="w"> </span><span class="n">Integr</span><span class="p">,</span><span class="w"> </span><span class="n">Epsabs</span><span class="p">,</span><span class="w"> </span><span class="n">Epsrel</span><span class="p">,</span><span class="w"> </span><span class="n">limit</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Maxp1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                        </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">Neval</span><span class="p">,</span><span class="w"> </span><span class="n">Ier</span><span class="p">,</span><span class="w"> </span><span class="n">Last</span><span class="p">,</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="n">l1</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Work</span><span class="p">(</span><span class="n">l2</span><span class="p">),</span><span class="w"> </span><span class="n">Work</span><span class="p">(</span><span class="n">l3</span><span class="p">),</span><span class="w"> </span><span class="n">Iwork</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Iwork</span><span class="p">(</span><span class="n">l1</span><span class="p">),</span><span class="w"> </span><span class="n">momcom</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Work</span><span class="p">(</span><span class="n">l4</span><span class="p">))</span><span class="w"></span>
-<span class="w">            </span><span class="c">! call error handler if necessary</span>
-<span class="w">            </span><span class="n">lvl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span>
-
-<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="n">lvl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">xerror</span><span class="p">(</span><span class="s1">&#39;abnormal return from dqawo&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">Ier</span><span class="p">,</span><span class="w"> </span><span class="n">lvl</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">end subroutine </span><span class="n">dqawo</span><span class="w"></span>
-</pre></div>
-
-    </section>
-    <br>
     
     
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -991,14 +526,12 @@ on return:</p>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>quadpack was developed by Jacob Williams<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -1026,14 +559,11 @@ on return:</p>
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>

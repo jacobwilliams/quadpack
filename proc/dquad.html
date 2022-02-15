@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Modern Fortran QUADPACK">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,10 +14,7 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,50 +43,23 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-               
-               
-        
-        
+              
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-                             
-
-
-
-          </ul>
-        
+                                       </ul>
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -100,51 +68,29 @@
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>dquad
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 1.7% of total for procedures.">58 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-    
      <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-    
-  
      <li class="active">dquad</li>
   </ol>
 </div>
@@ -160,57 +106,19 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dquad.html#src">dquad</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public subroutine dquad(f, a, b, result, epsil, npts, icheck)
+    <h2>public subroutine dquad(f, a, b, result, epsil, npts, icheck)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>This subroutine attempts to calculate the integral of <code>f(x)</code>
   over the interval <code>a</code> to <code>b</code> with relative error not
   exceeding <code>epsil</code>.</p>
@@ -226,673 +134,84 @@ public subroutine dquad(f, a, b, result, epsil, npts, icheck)
     vol 22,847-856,1968.</li>
 <li>QUAD From <a href="https://github.com/jacobwilliams/nswc">NSWC Mathematical Library</a></li>
 </ul>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-f~29"></span>procedure(func)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-a~27"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>lower limit of integration.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-b~25"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>b</strong></td><td><p>upper limit of integration.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-result~2"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>result</strong></td><td><p>the value of the integral to the
 specified relative accuracy.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-epsil"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>epsil</strong></td><td><p>relative accuracy required. when the relative
 difference of two successive formulae does not
 exceed <code>epsil</code> the last formula computed is taken
 as the result.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-npts"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>npts</strong></td><td><p>number integrand evaluations.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-icheck"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>icheck</strong></td><td><p>on exit normally <code>icheck=0</code>. however if convergence
 to the accuracy requested is not achieved <code>icheck=1</code>
 on exit.</p></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
-    
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dquad.html#src">dquad</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">dquad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">epsil</span><span class="p">,</span><span class="w"> </span><span class="n">npts</span><span class="p">,</span><span class="w"> </span><span class="n">icheck</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">implicit none</span>
-
-<span class="k">    procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="c">!! function subprogram defining the integrand function `f(x)`.</span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="c">!! lower limit of integration.</span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c">!! upper limit of integration.</span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="c">!! the value of the integral to the</span>
-<span class="w">                                   </span><span class="c">!! specified relative accuracy.</span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">epsil</span><span class="w"> </span><span class="c">!! relative accuracy required. when the relative</span>
-<span class="w">                                 </span><span class="c">!! difference of two successive formulae does not</span>
-<span class="w">                                 </span><span class="c">!! exceed `epsil` the last formula computed is taken</span>
-<span class="w">                                 </span><span class="c">!! as the result.</span>
-<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">npts</span><span class="w"> </span><span class="c">!! number integrand evaluations.</span>
-<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">icheck</span><span class="w"> </span><span class="c">!! on exit normally `icheck=0`. however if convergence</span>
-<span class="w">                                  </span><span class="c">!! to the accuracy requested is not achieved `icheck=1`</span>
-<span class="w">                                  </span><span class="c">!! on exit.</span>
-
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">acum</span><span class="p">,</span><span class="w"> </span><span class="n">diff</span><span class="p">,</span><span class="w"> </span><span class="n">funct</span><span class="p">(</span><span class="mi">127</span><span class="p">),</span><span class="w"> </span><span class="n">fzero</span><span class="p">,</span><span class="w"> </span><span class="nb">sum</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
-<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">inew</span><span class="p">,</span><span class="w"> </span><span class="n">iold</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="c">!! this array holds the results obtained by</span>
-<span class="w">                                     </span><span class="c">!! the 1,3,7, etc., point formulae. the number of</span>
-<span class="w">                                     </span><span class="c">!! formulae computed depends on `epsil`.</span>
-<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="c">!! `results(k)` holds the value of the integral to the</span>
-<span class="w">                 </span><span class="c">!! specified relative accuracy.</span>
-
-<span class="w">    </span><span class="c">!&gt;</span>
-<span class="w">    </span><span class="c">! abscissae and weights of quadrature rules are stacked in</span>
-<span class="w">    </span><span class="c">! array `p` in the order in which they are needed.</span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">381</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="mf">7.74596669241483377035853079956479922167e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.55555555555555555555555555555555555556e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.88888888888888888888888888888888888889e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.68488089868333440728569280666709624761e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.60491268708020283423507092629079962670e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.04656226026467265193823857192073038242e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.34243749346802558002071502844627817283e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.01397414775962222905051818618431878727e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.50916538658474142345110087045570916539e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.34415255243784220359968764802491520513e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.16032829970797396969201205678609837136e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.00628529376989021033931873331359306159e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.93831963212755022208512841307951444370e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.70017196299402603390274174026535252385e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.88459232872256998890420167258502892651e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.29271953151245376858942226541688263538e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.21102946737226402940687443816594795012e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.71511909136391380787353165019717217859e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.23386686428966881628203986843998040091e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.19156858401587496403693161643773747710e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.25510499798206687386422549155949744906e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.72077542959907035404010635813430091802e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.58075980961766535646461187652328497046e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.00314278611795578771293642695006079161e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.43456573932110624631492964416019854788e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.64628932617579865414046429639417161231e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.57559200499903511541865204367976552400e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.09578421055924638236688360572517068437e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.99098124967667597662226062412998227686e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.54478079156187441540278232983103810087e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.81531149553740106867361888547025995016e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.64460498543878109337883880689799875528e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.29654857429740056670125725933373526769e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.59571033071293220967778262209699862374e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.36725938168868735502753818110221989775e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.69795094941233574121973665457200316724e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.02496206491527078609800156008001394343e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.68796204990035310427051900809456411508e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.31319743644375623972103438052468706781e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.36271099812644736166587803392598658389e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.31135393257976833092640782248746539410e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.05669893580234809743815890442168534725e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.12488943133186625745843327560318993879e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.11956873020953456880143562321223860344e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.12755256720768691607149869983804955967e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.36038771482077305417339884731735403814e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.29038001003512656259766532186329120125e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.01571393058995374136795474239510758613e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.21763044155885483908422682357386192911e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.32314466399102694432564889365852548106e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.28779600250077344929123037819815802239e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.47892105279628650322175309941558213286e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.26515655623006801137260909998182196593e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.22300795723592966925778441546773952923e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.79785515681282703328960466708609587502e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.84897547458335486125060947723978716475e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.84398102494555320386403467778787096784e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.68135549906280124026480823343486642930e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.28349467901165198620766563965308399269e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.59784365104763194075533785872269074002e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.99872888120357611937956782213944071260e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.63221481845530659693580600240556307992e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.97206259372221959076452532976228304987e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.57904979468568827242779555856155526923e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.88684757547429479938528919613635431554e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.11550682211724633967828383326055155253e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.72182874748581796578058835234688013989e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.04982469096213218982728445836355320904e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.46342858373402905148496208230196252152e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.54067504665594978021308263315475287125e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.10371156957004292497790670606627802042e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.05942339159127111491885619503196295807e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.63907938193690477146415857372833975090e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.58696793272147469107582662448480815698e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.06940531950217611856307980888497524441e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.10735511116879648798843878245423584976e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.39756044352694758677217797247847849281e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.60644327807825726401071605896068916356e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.62909660024780595461015255689389143141e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.07155101169443189338940956005120803688e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.77195710052045814843690955654189188852e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.49145316536321974142542482618307358856e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.83618026945841027562153280531749528761e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.85643304066731987159471181667515286036e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.83359324198730346916485193850312924770e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.15832539520484587768091008575259100889e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.77749822021824315065356412191446337302e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.39054993352660639268769548863627639088e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.68235251552207464982313275440102194714e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.54814043565593639878384079955474248395e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.63443130465927899719678607894467994099e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.62776998312543012725953494255420385181e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.63776283603847173876625571652345456628e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.68019385741038652708694177373376419512e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.45190005017573692280509776823864801062e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.50785696529497687068397738442843404553e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.10881524572663287933255325908005307552e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.16157233199551347269849538868063638578e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.14389800125038672464561593340624586806e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.73946052639814325161087655093506901318e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.32607319362633544219014096675880699298e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.11150397865469304717026799389472424747e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.98927578406413572328060374118804325340e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.42448773729167743063415662436440605523e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.92199051247277660193202803314218350072e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.34067774953140062013240419700257395196e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.64174733950582599310383282311985688836e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.79892182552381597037766893004181239916e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.80739564445388357820333919514772193888e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.28952408261041739209850869778722441219e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.05775341017553113613138395354134040323e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.24912345480885912513384612635322646208e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.70337523327974184816597819689326816907e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.02971169579563555236864641070254134718e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.29348396636073734547339558742365283615e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.55367755558439824399284170162975429371e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.80322163903912863200530999857265918070e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.03577550584721594669470211177738968197e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.24572658268160987071271218144441916129e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.42821652033365993579735587740315274638e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.57916269760242293884045503660307978007e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.69527496676330319634384774240575382488e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.77407021782796819939192039890754553228e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.81388499156271506362976747068974890301e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.99982430354891598580012135905109717915e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.05360952078625176246656006337139648434e-5_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.99598799671910683251967529211801629987e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.77746646326984660274364525157659292846e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.98316635318407392530634580111074984770e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.38369848542381500794044394681832138117e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.95724104698407188509439459018460213288e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.68114286542146990631373023491466618281e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.91495721178106132398500079082519841189e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.56876494379402037312771598563833315664e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.85371499598520371113758241326513834962e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.57289278351729964938448769864570199506e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.77141514639705714156395810916629371363e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.67105037211432174740543340826718946450e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.66637851558416567092279836370846960853e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.84344987583563950755951196450566504689e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.53730006425761136414748643963112198908e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.07248999543355546804631626841303341137e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.38320397779592883654822310657872070243e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.34283875396815770558412424167922936020e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.20340025470012420729821382965612468142e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.64117772970253669529830300284767390288e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.99744899776940036638633212194468142956e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.09557333878379016480327257363071595543e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.76513414484705269741626645388423610417e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.22758305600827700869663307413667617882e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.50644494768350279757827407542049433990e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.35915710097655467895729161814962317789e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.22156254364980407372527142399375938309e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.48936416648151820348103959267637767075e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.91084933799848361434638057884175040395e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.61732187295777199419479627980342182818e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.57483966380513637926269606413039215349e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.74219301594641737471522631397278549267e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.21423085370098915484976184424530392547e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.86318482561387901863140395332782911045e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.82987431091079228087077605443637571318e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.97954950480974994880277229389153128227e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.42276642509759513774113624213729383798e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.09058514458120238522218505878770859167e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.99403930242242892974251049643553400441e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.19563663053178249392605004207807929855e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.54495132631932548866381362001869387185e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.29409642293877487608005319195974357365e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.07687757533716602154783137518047824630e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.38540521060385400804460326687470805434e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.59130011989832332873501971840246609692e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.46905247444876769090608353528487841618e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.08979821229888672409031653482169654497e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.54457699654647658125743963445742965154e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.57403837831532152376214925551056574778e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.61156733767060976804988093771272602809e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.04576441556714043335324049984830586514e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.66966229274503599061546992881962515319e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.50678730303483176612957105310757374530e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.71855132296247918192086027320328453777e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.95897502711100153915460230694341454649e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.75797495664818730348687126189110696657e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40424233152560174593819634863430055039e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.78772514766137016085237966902996263720e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.44540400837108837101821672793851125821e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.80764557938172466068478485336831566215e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.81846489497456943393973278703614550567e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.81763190330166021306535805326311346689e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.81888141801923586938312785882097958145e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.40096928705193263543470886866882097559e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.22595002508786846140254888664674399963e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.25392848264748843534198869221421702276e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.05440762286331677224956681256723093434e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.80786165997756736349247694340318193339e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.07194900062519336232280796670312293403e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.36973026319907162580543827546753450659e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.16303660822264476886001542319765673695e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.05575198932734652358557179891967892437e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.49463789203206786164030187059407895106e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.12243868645838715317078312182203027615e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.60995256236388300966014016571091750361e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.17033887476570031006620209850128697598e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.32087366975291299655191641155992844418e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.39946091276190798518883446502090619958e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.03727346587511492612048292799447801127e-5_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.44762041305724779327197260132661244643e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.52887670508776556838105789798193451205e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.62456172740442956256692394303736650452e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.85168761663987092408298909845685878251e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.14855847897817776184323205351270717418e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.46741983180368672736697793711826418082e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.76838777792199121996420850814877146855e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.01610819519564316002654999286329590351e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.01788775292360797334735105588869484098e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.12286329134080493535635609072220958065e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.21410826016682996789867793870157637319e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.28958134880121146942022751830153989003e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.34763748338165159817192387120287691244e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.38703510891398409969596019945377276614e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40694249578135753181488373534487445151e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.51578703842806614886029901874368269190e-5_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.88873264506504913660930569062668820773e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.69184924247850409754566477203398287419e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.40571432710722463646844648204542489678e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.28438247189701017680511226368885244509e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.78644639175864982468103287043436779759e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.33552518605716087370269795035052675936e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.92172493791781975377975593711547903293e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.53624499771677773402315813405234465284e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.17141937698407885279206212083887894115e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.82058886485126834764915150142383212497e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.47786669391895082401636286815357973430e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.13791528004138504348316537068338089359e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.79578550488277339478645809074811588946e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.44682083240759101740519796338188835376e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.08660936478885997097398139901710914092e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.71096507973208687357613156986392746334e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.31592412806939509315701976663914555223e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.89774752404874974401386146945765641137e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.04529257229060119261109252939385429584e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.09781831526589124696302502103903964927e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.14704821146938743804002659597987178682e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.19270260530192700402230163343735402717e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.23452623722438384545304176764243920809e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.27228849827323829062871981722871482577e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.30578366883530488402494046885636301405e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.33483114637251799530773496440981257659e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.35927566148123959096043013660164226889e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.37898747832409365174343563094555348329e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.39386257383068508042618983451498131860e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40382278969086233034239242668415783107e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40881595165083010653267902663155673344e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.99997596379748464620231592559093837611e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.93793643241082671695382297169979368601e-6_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.99943996207054375763853646470050626596e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.32752936697806131253524393895881823770e-5_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.99760490924432047330447933438138365417e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.35754910949228719729842895656339874910e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.99380338025023581928079338774322759519e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.49212400482997294024537662868023009356e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.98745614468095114703528542397791959986e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.89745284473282293215563879845838727539e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.97805354495957274561833338685736105778e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.54295314930374714917732120266906130439e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.96514145914890273848684083613153803279e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.40282804244503330463160177700222594979e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.94831502800621000519130529785414200225e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.45361516858525382463015198607451979300e-4_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.92721344282788615328202203758497351413e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.16748411742995940769333157872940045783e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.90151370400770159180535140748087193102e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40490799565514464271521123296916900291e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.87092527954034067189898792468859039993e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.65611272815445260521682786451135109534e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.83518657578632728761664630770795617152e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.91971297101387241252271734466970358673e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.79406281670862683806133521363753397925e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.19440692536383883880291840868628867052e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.74734459752402667760726712997609707570e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.47895822665756793067821535745476374906e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.69484659502459231770908123207442170150e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.77219576459345099399521424961083418592e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.63640621569812132520974048832142316972e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.07301843470257832340783765226605973620e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.57188216109860962736208621751374728884e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.38039799108692038234993039038885672945e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.50115297521294876557842262038304179472e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.69337791702565081825729998764452535617e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.42411565191083059812560025758972247897e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.01106872407502339888993614903965571565e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.34068436157725787999477771530264179420e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.33264096809298285453769983324695296414e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.25078932907075652364132996222672693491e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.65731729975685477727794484849624969667e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.15437587155765040643953616154536973514e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.98436456476553860120001022162080486896e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.05140358813261595189303779754262290451e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.31308660518705656628804340372923963811e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.94184568335559022859352159222674193953e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.64281810138444415845460587311671071412e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.82568840247341906841695404228946666934e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.97291956550816580494729856935913899149e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.70293055548113905851151444154923420039e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.30277344908575871716398763418949052534e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.57358310886232156525126596087163923324e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.63178124290188789412200734180398266358e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.43766882672708601038314138625718101532e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.95936140939042293944507544479114448976e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.29522194637401400178105088351227616660e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.28494798055380706387981147534993110085e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.14628787655137413435816577891367083540e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.60798966571905658321739694223386579593e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.99092290960841401799803164024282388556e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.92794933429484911025254235115728574858e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.82919394118283016385180478369806362244e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.24430376303286803055059706535356438929e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.66117819303760090716674093891474570508e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.55654356130768961917293275004918273728e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.48696293616936602822828737479369222926e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">8.86417320948249426411429453091759055196e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.30664521242181261329306715350070027793e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.16671116356078840670519648472888628456e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.12033155362252034586679081013994469857e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.46368999383006529427243113943215866506e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.92813769779114702894651485928486730921e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.75465653631741146108293452735497379607e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.73018830230418479198879472689545414663e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.00391720440568407981810290438378080094e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.52661665410017496100770934689234627423e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.03168123309476216819207000244181912440e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.31756437711194230413584623172536712454e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.05871679048851979309428189932402399185e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">6.10318113715186400155578672320162394224e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.08498440893373140990245263318076192187e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.88362434447662541434367386275547111879e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.11044611340069265369994188454572096386e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.65905885423654422622970392231343950219e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.13506543159805966017344840804968802477e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.42965666498311490492303133422203430532e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.15880740330439525684239776012385794172e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">5.19559661537457021992914143047305013398e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.18163858908302357632247900084966241627e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.95706407918761460170111534008667847416e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.20352707852795626304498694306103606393e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.71425065871658876934088018252224136473e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.22444249816119858986292063324627371480e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.46735387662028473742222281592907967623e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.24435601907140352631495031087115129475e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.21657686626163300056304726883310969563e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.26324036435420787645405441085200317588e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.96212806057615939182521394284924513267e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.28106981638773619668417039218064387909e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.70422087950078230137537383958155880174e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.29782022395373992858421803348245496762e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.44307341599438022776622416041385263462e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.31346900919601528363813260381779658443e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">3.17890812068476683181739338725980798218e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.32799517439305306503775089710281336690e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.91195148518246681963691099017626573079e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.34137930851100985129663776085717215632e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.64243372410926761944948292977628978728e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.35360359349562136136653091890522717067e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.37058845589829727212668030348623871778e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.36465181025712914283998912158692590540e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">2.09665238243181194766342717964439602895e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.37450934430018966322520540025550273779e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.82086496759252198246399488588060039322e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.38316319095064286764959688535114143323e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.54346811481378108692446779987579230421e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.39060196013254612635312215253609885781e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.26470584372301966850663538758563345841e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.39681588065169385157277797674326721757e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">9.84823965981192020902757578971386695319e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40179680394566088098722249688496041850e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">7.04069760428551790632968760555968372924e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40553820726499642771679253311023986914e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">4.22691647653636032124048988444769492564e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40803519625536613248458411104536513059e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40938864107824626141884882355263630430e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40928450691604083549592735386756230351e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                                                </span><span class="mf">1.40944070900961793469156392941048979072e-2_wp</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">icheck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-
-<span class="w">    </span><span class="c">! check for trivial case.</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">        </span><span class="c">! trivial case</span>
-<span class="w">        </span><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="n">npts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="k">return</span>
-<span class="k">    else</span><span class="w"></span>
-<span class="w">        </span><span class="c">! scale factors.</span>
-<span class="w">        </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="c">! 1-point gauss</span>
-<span class="w">        </span><span class="n">fzero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">results</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="o">*</span><span class="n">fzero</span><span class="o">*</span><span class="n">diff</span><span class="w"></span>
-<span class="w">        </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">iold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">inew</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">        </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<span class="w">        </span><span class="n">acum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="k">do</span><span class="w"></span>
-<span class="w">            </span><span class="c">! contribution from new function values.</span>
-<span class="w">            </span><span class="n">iold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iold</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">inew</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inew</span><span class="p">,</span><span class="w"> </span><span class="n">iold</span><span class="w"></span>
-<span class="w">                </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">diff</span><span class="w"></span>
-<span class="w">                </span><span class="n">funct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="nb">sum</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">acum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">funct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">end do</span>
-<span class="k">            </span><span class="n">inew</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iold</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="n">results</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">acum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">fzero</span><span class="p">)</span><span class="o">*</span><span class="n">diff</span><span class="w"></span>
-<span class="w">            </span><span class="c">! check for convergence.</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">epsil</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">results</span><span class="p">(</span><span class="n">k</span><span class="p">)))</span><span class="w"> </span><span class="k">exit</span>
-<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">                </span><span class="c">! convergence not achieved.</span>
-<span class="w">                </span><span class="n">icheck</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="k">exit</span>
-<span class="k">            else</span>
-<span class="k">                </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">acum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">                </span><span class="c">! contribution from function values already computed.</span>
-<span class="w">                </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">iold</span><span class="w"></span>
-<span class="w">                    </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                    </span><span class="n">acum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">funct</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">end do</span>
-<span class="k">            end if</span>
-<span class="k">        end do</span>
-<span class="k">        result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">results</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">end if</span><span class="w"></span>
-
-<span class="w">    </span><span class="c">! normal termination.</span>
-<span class="w">    </span><span class="n">npts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inew</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">iold</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">end subroutine </span><span class="n">dquad</span><span class="w"></span>
-</pre></div>
-
-    </section>
-    <br>
     
     
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -900,14 +219,12 @@ on exit.</p></td>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>quadpack was developed by Jacob Williams<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -935,14 +252,11 @@ on exit.</p></td>
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>

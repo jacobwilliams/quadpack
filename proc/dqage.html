@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
    <meta name="description" content="Modern Fortran QUADPACK">
-    
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
@@ -16,10 +14,7 @@
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    
     <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-    
-    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -48,50 +43,23 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        
             <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
               <a href="#" class="dropdown-toggle"
               data-toggle="dropdown" role="button"
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          
-              
             <li><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-        
-        
-        
             <li><a href="../lists/modules.html">Modules</a></li>
-        
-            
-                                
             <li><a href="../lists/procedures.html">Procedures</a></li>
-        
-               
-               
-        
-        
+              
             </ul>
         
             </li>
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-
-
-
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-
-                             
-
-
-
-          </ul>
-        
+                                       </ul>
         <form action="../search.html" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
@@ -100,51 +68,29 @@
         <button type="submit" class="btn btn-default">Submit</button>
 -->
         </form>
-        
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-    
-  
   <div class="row">
     <h1>dqage
       <small>Subroutine</small>
-    
     </h1>
-    
-<div class="row">
+    <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     
-     
-     
-     
-     
-    
-    
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
     title=" 4.1% of total for procedures.">145 statements</a>
      </li> 
-     
-     
-     
     <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-     
-     
   </ul>
   <ol class="breadcrumb in-well text-right">
-  
-    
      <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-    
      <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-    
-  
      <li class="active">dqage</li>
   </ol>
 </div>
@@ -160,57 +106,19 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    
-<div id="sidebar">
-  
-<h3>Contents</h3>
+    <div id="sidebar">
+  <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqage.html#src">dqage</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public subroutine dqage(f, a, b, Epsabs, Epsrel, Key, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)
+    <h2>public subroutine dqage(f, a, b, Epsabs, Epsrel, Key, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)</h2>
     
-    
-   
-</h2>
-    
-  
 
-
-    
     <p>same as <a href="../proc/dqag.html">dqag</a> but provides more information and control</p>
 <p>the routine calculates an approximation result to a given
   definite integral i = integral of <code>f</code> over <code>(a,b)</code>,
@@ -220,109 +128,48 @@ public subroutine dqage(f, a, b, Epsabs, Epsrel, Key, Limit, Result, Abserr, Nev
 <ul>
 <li>QUADPACK: date written 800101, revision date 830518 (yymmdd)</li>
 </ul>
-    
 
     <h3>Arguments</h3>
-    
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-f~2"></span>procedure(func)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-a~2"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>lower limit of integration</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-b~2"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>b</strong></td><td><p>uppwer limit of integration</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-epsabs~2"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Epsabs</strong></td><td><p>absolute accuracy requested</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-epsrel~2"></span>real(kind=wp),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Epsrel</strong></td><td><p>relative accuracy requested
 if <code>epsabs&lt;=0</code>
 and epsrel&lt;max(50*rel.mach.acc.,0.5e-28),
 the routine will end with ier = 6.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-key~2"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Key</strong></td><td><p>key for choice of local integration rule
  a gauss-kronrod pair is used with</p>
 <ul>
@@ -333,82 +180,37 @@ the routine will end with ier = 6.</p></td>
 <li>25 - 51 points if key = 5,</li>
 <li>30 - 61 points if key&gt;5.</li>
 </ul></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-limit~2"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Limit</strong></td><td><p>gives an upperbound on the number of subintervals
 in the partition of <code>(a,b)</code>, <code>limit&gt;=1</code>.</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-result~2"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Result</strong></td><td><p>approximation to the integral</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-abserr~2"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
 which should equal or exceed <code>abs(i-result)</code></p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-neval~2"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Neval</strong></td><td><p>number of integrand evaluations</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-ier~2"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Ier</strong></td><td><ul>
 <li>ier = 0 normal and reliable termination of the
    routine. it is assumed that the requested
@@ -451,90 +253,45 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
          alist(1) and blist(1) are set to a and b
          respectively.</li>
 </ul></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-alist"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Alist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first
 <code>last</code> elements of which are the left
 end points of the subintervals in the partition
 of the given integration range <code>(a,b)</code></p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-blist"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Blist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first
 <code>last</code> elements of which are the right
 end points of the subintervals in the partition
 of the given integration range <code>(a,b)</code></p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-rlist"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Rlist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first
 <code>last</code> elements of which are the
 integral approximations on the subintervals</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-elist"></span>real(kind=wp),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Elist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first
 <code>last</code> elements of which are the moduli of the
 absolute error estimates on the subintervals</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-iord"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Iord</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first <code>k</code>
 elements of which are pointers to the
 error estimates over the subintervals,
@@ -542,34 +299,18 @@ such that <code>elist(iord(1))</code>, ...,
 <code>elist(iord(k))</code> form a decreasing sequence,
 with <code>k = last</code> if <code>last&lt;=(limit/2+2)</code>, and
 <code>k = limit+1-last</code> otherwise</p></td>
-  
 </tr>
-
-  
-  
-  
-  
 <tr>
-  
   <td><span class="anchor" id="variable-last~2"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>Last</strong></td><td><p>number of subintervals actually produced in the
 subdivision process</p></td>
-  
 </tr>
-
 </tbody>
 </table>
 
-    
-    
-    
     <br>
-    
-    
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Calls</h3>
@@ -592,93 +333,93 @@ subdivision process</p></td>
 <polygon fill="none" stroke="black" points="54,-129 0,-129 0,-105 54,-105 54,-129"/>
 <text text-anchor="middle" x="27" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">dqage</text>
 </g>
-<!-- proc~dqk31 -->
-<g id="proc~~dqage~~CallsGraph_node2" class="node">
-<title>proc~dqk31</title>
-<g id="a_proc~~dqage~~CallsGraph_node2"><a xlink:href=".././proc/dqk31.html" xlink:title="dqk31">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-234 90,-234 90,-210 144,-210 144,-234"/>
-<text text-anchor="middle" x="117" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk31</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk31 -->
-<g id="proc~~dqage~~CallsGraph_edge1" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk31</title>
-<path fill="none" stroke="#000000" d="M35.55,-129.15C46.43,-146.19 67.69,-177.69 90,-201 90.65,-201.68 91.32,-202.36 92.01,-203.03"/>
-<polygon fill="#000000" stroke="#000000" points="89.97,-205.9 99.76,-209.95 94.64,-200.68 89.97,-205.9"/>
-</g>
-<!-- proc~dqk61 -->
-<g id="proc~~dqage~~CallsGraph_node3" class="node">
-<title>proc~dqk61</title>
-<g id="a_proc~~dqage~~CallsGraph_node3"><a xlink:href=".././proc/dqk61.html" xlink:title="dqk61">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-192 90,-192 90,-168 144,-168 144,-192"/>
-<text text-anchor="middle" x="117" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk61</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk61 -->
-<g id="proc~~dqage~~CallsGraph_edge2" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk61</title>
-<path fill="none" stroke="#000000" d="M44.97,-129.15C57.99,-138.47 76.18,-151.49 90.89,-162.02"/>
-<polygon fill="#000000" stroke="#000000" points="88.92,-164.91 99.08,-167.89 92.99,-159.22 88.92,-164.91"/>
-</g>
-<!-- proc~dqk51 -->
-<g id="proc~~dqage~~CallsGraph_node4" class="node">
-<title>proc~dqk51</title>
-<g id="a_proc~~dqage~~CallsGraph_node4"><a xlink:href=".././proc/dqk51.html" xlink:title="dqk51">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
-<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk51</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk51 -->
-<g id="proc~~dqage~~CallsGraph_edge3" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk51</title>
-<path fill="none" stroke="#000000" d="M54.4,-123.3C62.48,-125.23 71.51,-127.38 80.1,-129.43"/>
-<polygon fill="#000000" stroke="#000000" points="79.38,-132.86 89.92,-131.78 81,-126.05 79.38,-132.86"/>
-</g>
-<!-- proc~dqk15 -->
-<g id="proc~~dqage~~CallsGraph_node5" class="node">
-<title>proc~dqk15</title>
-<g id="a_proc~~dqage~~CallsGraph_node5"><a xlink:href=".././proc/dqk15.html" xlink:title="dqk15">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
-<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk15 -->
-<g id="proc~~dqage~~CallsGraph_edge4" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk15</title>
-<path fill="none" stroke="#000000" d="M54.4,-110.7C62.48,-108.77 71.51,-106.62 80.1,-104.57"/>
-<polygon fill="#000000" stroke="#000000" points="81,-107.95 89.92,-102.22 79.38,-101.14 81,-107.95"/>
-</g>
 <!-- proc~dqk41 -->
-<g id="proc~~dqage~~CallsGraph_node6" class="node">
+<g id="proc~~dqage~~CallsGraph_node2" class="node">
 <title>proc~dqk41</title>
-<g id="a_proc~~dqage~~CallsGraph_node6"><a xlink:href=".././proc/dqk41.html" xlink:title="dqk41">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk41</text>
+<g id="a_proc~~dqage~~CallsGraph_node2"><a xlink:href=".././proc/dqk41.html" xlink:title="dqk41">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-234 90,-234 90,-210 144,-210 144,-234"/>
+<text text-anchor="middle" x="117" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk41</text>
 </a>
 </g>
 </g>
 <!-- proc~dqage&#45;&gt;proc~dqk41 -->
-<g id="proc~~dqage~~CallsGraph_edge5" class="edge">
+<g id="proc~~dqage~~CallsGraph_edge1" class="edge">
 <title>proc~dqage&#45;&gt;proc~dqk41</title>
-<path fill="none" stroke="#000000" d="M44.97,-104.85C57.99,-95.53 76.18,-82.51 90.89,-71.98"/>
-<polygon fill="#000000" stroke="#000000" points="92.99,-74.78 99.08,-66.11 88.92,-69.09 92.99,-74.78"/>
+<path fill="none" stroke="#000000" d="M35.55,-129.15C46.43,-146.19 67.69,-177.69 90,-201 90.65,-201.68 91.32,-202.36 92.01,-203.03"/>
+<polygon fill="#000000" stroke="#000000" points="89.97,-205.9 99.76,-209.95 94.64,-200.68 89.97,-205.9"/>
+</g>
+<!-- proc~dqk51 -->
+<g id="proc~~dqage~~CallsGraph_node3" class="node">
+<title>proc~dqk51</title>
+<g id="a_proc~~dqage~~CallsGraph_node3"><a xlink:href=".././proc/dqk51.html" xlink:title="dqk51">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-192 90,-192 90,-168 144,-168 144,-192"/>
+<text text-anchor="middle" x="117" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk51</text>
+</a>
+</g>
+</g>
+<!-- proc~dqage&#45;&gt;proc~dqk51 -->
+<g id="proc~~dqage~~CallsGraph_edge2" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk51</title>
+<path fill="none" stroke="#000000" d="M44.97,-129.15C57.99,-138.47 76.18,-151.49 90.89,-162.02"/>
+<polygon fill="#000000" stroke="#000000" points="88.92,-164.91 99.08,-167.89 92.99,-159.22 88.92,-164.91"/>
 </g>
 <!-- proc~dqk21 -->
-<g id="proc~~dqage~~CallsGraph_node7" class="node">
+<g id="proc~~dqage~~CallsGraph_node4" class="node">
 <title>proc~dqk21</title>
-<g id="a_proc~~dqage~~CallsGraph_node7"><a xlink:href=".././proc/dqk21.html" xlink:title="dqk21">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk21</text>
+<g id="a_proc~~dqage~~CallsGraph_node4"><a xlink:href=".././proc/dqk21.html" xlink:title="dqk21">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
+<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk21</text>
 </a>
 </g>
 </g>
 <!-- proc~dqage&#45;&gt;proc~dqk21 -->
-<g id="proc~~dqage~~CallsGraph_edge6" class="edge">
+<g id="proc~~dqage~~CallsGraph_edge3" class="edge">
 <title>proc~dqage&#45;&gt;proc~dqk21</title>
+<path fill="none" stroke="#000000" d="M54.4,-123.3C62.48,-125.23 71.51,-127.38 80.1,-129.43"/>
+<polygon fill="#000000" stroke="#000000" points="79.38,-132.86 89.92,-131.78 81,-126.05 79.38,-132.86"/>
+</g>
+<!-- proc~dqk61 -->
+<g id="proc~~dqage~~CallsGraph_node5" class="node">
+<title>proc~dqk61</title>
+<g id="a_proc~~dqage~~CallsGraph_node5"><a xlink:href=".././proc/dqk61.html" xlink:title="dqk61">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
+<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk61</text>
+</a>
+</g>
+</g>
+<!-- proc~dqage&#45;&gt;proc~dqk61 -->
+<g id="proc~~dqage~~CallsGraph_edge4" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk61</title>
+<path fill="none" stroke="#000000" d="M54.4,-110.7C62.48,-108.77 71.51,-106.62 80.1,-104.57"/>
+<polygon fill="#000000" stroke="#000000" points="81,-107.95 89.92,-102.22 79.38,-101.14 81,-107.95"/>
+</g>
+<!-- proc~dqk15 -->
+<g id="proc~~dqage~~CallsGraph_node6" class="node">
+<title>proc~dqk15</title>
+<g id="a_proc~~dqage~~CallsGraph_node6"><a xlink:href=".././proc/dqk15.html" xlink:title="dqk15">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15</text>
+</a>
+</g>
+</g>
+<!-- proc~dqage&#45;&gt;proc~dqk15 -->
+<g id="proc~~dqage~~CallsGraph_edge5" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk15</title>
+<path fill="none" stroke="#000000" d="M44.97,-104.85C57.99,-95.53 76.18,-82.51 90.89,-71.98"/>
+<polygon fill="#000000" stroke="#000000" points="92.99,-74.78 99.08,-66.11 88.92,-69.09 92.99,-74.78"/>
+</g>
+<!-- proc~dqk31 -->
+<g id="proc~~dqage~~CallsGraph_node7" class="node">
+<title>proc~dqk31</title>
+<g id="a_proc~~dqage~~CallsGraph_node7"><a xlink:href=".././proc/dqk31.html" xlink:title="dqk31">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk31</text>
+</a>
+</g>
+</g>
+<!-- proc~dqage&#45;&gt;proc~dqk31 -->
+<g id="proc~~dqage~~CallsGraph_edge6" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk31</title>
 <path fill="none" stroke="#000000" d="M35.55,-104.85C46.43,-87.81 67.69,-56.31 90,-33 90.65,-32.32 91.32,-31.64 92.01,-30.97"/>
 <polygon fill="#000000" stroke="#000000" points="94.64,-33.32 99.76,-24.05 89.97,-28.1 94.64,-33.32"/>
 </g>
@@ -745,8 +486,6 @@ subdivision process</p></td>
     </div></div></div></div>
       </div>
     </div>
-     
-     
     <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Called by</h3>
@@ -847,335 +586,28 @@ subdivision process</p></td>
     </div></div></div></div>
       </div>
     </div>
-     
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      
-<h3>Contents</h3>
+      <h3>Contents</h3>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqage.html#src">dqage</a>
-  </div>
-</div>
-
-
+<em>None</em>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    
 
-    
-    
-    
     
     
 
     
     
-    
-    
-    
 
 
-    
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">dqage</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">Epsabs</span><span class="p">,</span><span class="w"> </span><span class="n">Epsrel</span><span class="p">,</span><span class="w"> </span><span class="n">Key</span><span class="p">,</span><span class="w"> </span><span class="n">Limit</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                     </span><span class="n">Neval</span><span class="p">,</span><span class="w"> </span><span class="n">Ier</span><span class="p">,</span><span class="w"> </span><span class="n">Alist</span><span class="p">,</span><span class="w"> </span><span class="n">Blist</span><span class="p">,</span><span class="w"> </span><span class="n">Rlist</span><span class="p">,</span><span class="w"> </span><span class="n">Elist</span><span class="p">,</span><span class="w"> </span><span class="n">Iord</span><span class="p">,</span><span class="w"> </span><span class="n">Last</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">implicit none</span>
-
-<span class="k">        procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="c">!! function subprogram defining the integrand function `f(x)`.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="c">!! lower limit of integration</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c">!! uppwer limit of integration</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Epsabs</span><span class="w"> </span><span class="c">!! absolute accuracy requested</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Epsrel</span><span class="w"> </span><span class="c">!! relative accuracy requested</span>
-<span class="w">                                       </span><span class="c">!! if `epsabs&lt;=0`</span>
-<span class="w">                                       </span><span class="c">!! and epsrel&lt;max(50*rel.mach.acc.,0.5e-28),</span>
-<span class="w">                                       </span><span class="c">!! the routine will end with ier = 6.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Key</span><span class="w"> </span><span class="c">!! key for choice of local integration rule</span>
-<span class="w">                                   </span><span class="c">!!  a gauss-kronrod pair is used with</span>
-<span class="w">                                   </span><span class="c">!!</span>
-<span class="w">                                   </span><span class="c">!!  * 7 - 15 points if key&lt;2,</span>
-<span class="w">                                   </span><span class="c">!!  * 10 - 21 points if key = 2,</span>
-<span class="w">                                   </span><span class="c">!!  * 15 - 31 points if key = 3,</span>
-<span class="w">                                   </span><span class="c">!!  * 20 - 41 points if key = 4,</span>
-<span class="w">                                   </span><span class="c">!!  * 25 - 51 points if key = 5,</span>
-<span class="w">                                   </span><span class="c">!!  * 30 - 61 points if key&gt;5.</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Limit</span><span class="w"> </span><span class="c">!! gives an upperbound on the number of subintervals</span>
-<span class="w">                                     </span><span class="c">!! in the partition of `(a,b)`, `limit&gt;=1`.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Result</span><span class="w"> </span><span class="c">!! approximation to the integral</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="c">!! estimate of the modulus of the absolute error,</span>
-<span class="w">                                        </span><span class="c">!! which should equal or exceed `abs(i-result)`</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Neval</span><span class="w"> </span><span class="c">!! number of integrand evaluations</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="c">!!  * ier = 0 normal and reliable termination of the</span>
-<span class="w">                                    </span><span class="c">!!    routine. it is assumed that the requested</span>
-<span class="w">                                    </span><span class="c">!!    accuracy has been achieved.</span>
-<span class="w">                                    </span><span class="c">!!  * ier&gt;0 abnormal termination of the routine</span>
-<span class="w">                                    </span><span class="c">!!    the estimates for result and error are</span>
-<span class="w">                                    </span><span class="c">!!    less reliable. it is assumed that the</span>
-<span class="w">                                    </span><span class="c">!!    requested accuracy has not been achieved.</span>
-<span class="w">                                    </span><span class="c">!!</span>
-<span class="w">                                    </span><span class="c">!! error messages:</span>
-<span class="w">                                    </span><span class="c">!!</span>
-<span class="w">                                    </span><span class="c">!!  * ier = 1 maximum number of subdivisions allowed</span>
-<span class="w">                                    </span><span class="c">!!          has been achieved. one can allow more</span>
-<span class="w">                                    </span><span class="c">!!          subdivisions by increasing the value</span>
-<span class="w">                                    </span><span class="c">!!          of limit.</span>
-<span class="w">                                    </span><span class="c">!!          however, if this yields no improvement it</span>
-<span class="w">                                    </span><span class="c">!!          is rather advised to analyze the integrand</span>
-<span class="w">                                    </span><span class="c">!!          in order to determine the integration</span>
-<span class="w">                                    </span><span class="c">!!          difficulties. if the position of a local</span>
-<span class="w">                                    </span><span class="c">!!          difficulty can be determined(e.g.</span>
-<span class="w">                                    </span><span class="c">!!          singularity, discontinuity within the</span>
-<span class="w">                                    </span><span class="c">!!          interval) one will probably gain from</span>
-<span class="w">                                    </span><span class="c">!!          splitting up the interval at this point</span>
-<span class="w">                                    </span><span class="c">!!          and calling the integrator on the</span>
-<span class="w">                                    </span><span class="c">!!          subranges. if possible, an appropriate</span>
-<span class="w">                                    </span><span class="c">!!          special-purpose integrator should be used</span>
-<span class="w">                                    </span><span class="c">!!          which is designed for handling the type of</span>
-<span class="w">                                    </span><span class="c">!!          difficulty involved.</span>
-<span class="w">                                    </span><span class="c">!!  * ier = 2 the occurrence of roundoff error is</span>
-<span class="w">                                    </span><span class="c">!!          detected, which prevents the requested</span>
-<span class="w">                                    </span><span class="c">!!          tolerance from being achieved.</span>
-<span class="w">                                    </span><span class="c">!!  * ier = 3 extremely bad integrand behaviour occurs</span>
-<span class="w">                                    </span><span class="c">!!          at some points of the integration</span>
-<span class="w">                                    </span><span class="c">!!          interval.</span>
-<span class="w">                                    </span><span class="c">!!  * ier = 6 the input is invalid, because</span>
-<span class="w">                                    </span><span class="c">!!          (epsabs&lt;=0 and</span>
-<span class="w">                                    </span><span class="c">!!           epsrel&lt;max(50*rel.mach.acc.,0.5e-28_wp),</span>
-<span class="w">                                    </span><span class="c">!!          result, abserr, neval, last, rlist(1) ,</span>
-<span class="w">                                    </span><span class="c">!!          `elist(1)` and `iord(1)` are set to zero.</span>
-<span class="w">                                    </span><span class="c">!!          alist(1) and blist(1) are set to a and b</span>
-<span class="w">                                    </span><span class="c">!!          respectively.</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Alist</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`, the first</span>
-<span class="w">                                              </span><span class="c">!! `last` elements of which are the left</span>
-<span class="w">                                              </span><span class="c">!! end points of the subintervals in the partition</span>
-<span class="w">                                              </span><span class="c">!! of the given integration range `(a,b)`</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Blist</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`, the first</span>
-<span class="w">                                              </span><span class="c">!! `last` elements of which are the right</span>
-<span class="w">                                              </span><span class="c">!! end points of the subintervals in the partition</span>
-<span class="w">                                              </span><span class="c">!! of the given integration range `(a,b)`</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Elist</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`, the first</span>
-<span class="w">                                              </span><span class="c">!! `last` elements of which are the moduli of the</span>
-<span class="w">                                              </span><span class="c">!! absolute error estimates on the subintervals</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Rlist</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`, the first</span>
-<span class="w">                                              </span><span class="c">!! `last` elements of which are the</span>
-<span class="w">                                              </span><span class="c">!! integral approximations on the subintervals</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Iord</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`, the first `k`</span>
-<span class="w">                                            </span><span class="c">!! elements of which are pointers to the</span>
-<span class="w">                                            </span><span class="c">!! error estimates over the subintervals,</span>
-<span class="w">                                            </span><span class="c">!! such that `elist(iord(1))`, ...,</span>
-<span class="w">                                            </span><span class="c">!! `elist(iord(k))` form a decreasing sequence,</span>
-<span class="w">                                            </span><span class="c">!! with `k = last` if `last&lt;=(limit/2+2)`, and</span>
-<span class="w">                                            </span><span class="c">!! `k = limit+1-last` otherwise</span>
-<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Last</span><span class="w"> </span><span class="c">!! number of subintervals actually produced in the</span>
-<span class="w">                                     </span><span class="c">!! subdivision process</span>
-
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">area1</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">defab1</span><span class="p">,</span><span class="w"> </span><span class="n">error1</span><span class="w"> </span><span class="c">!! variable for the left subinterval</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">area2</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="n">defab2</span><span class="p">,</span><span class="w"> </span><span class="n">error2</span><span class="w"> </span><span class="c">!! variable for the right subinterval</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="c">!! sum of the integrals over the subintervals</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">area12</span><span class="w"> </span><span class="c">!! `area1 + area2`</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">erro12</span><span class="w"> </span><span class="c">!! `error1 + error2`</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">errsum</span><span class="w"> </span><span class="c">!! sum of the errors over the subintervals</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">errmax</span><span class="w"> </span><span class="c">!! `elist(maxerr)`</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">errbnd</span><span class="w"> </span><span class="c">!! requested accuracy `max(epsabs,epsrel*abs(result))`</span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">maxerr</span><span class="w"> </span><span class="c">!! pointer to the interval with largest error estimate</span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defabs</span><span class="w"></span>
-<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iroff1</span><span class="p">,</span><span class="w"> </span><span class="n">iroff2</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">keyf</span><span class="p">,</span><span class="w"> </span><span class="n">nrmax</span><span class="w"></span>
-
-<span class="w">        </span><span class="c">! test on validity of parameters</span>
-
-<span class="w">        </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">Last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="k">Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="n">Alist</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
-<span class="w">        </span><span class="n">Blist</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
-<span class="w">        </span><span class="n">Rlist</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="n">Elist</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="n">Iord</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Epsabs</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Epsrel</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">epmach</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5e-28_wp</span><span class="p">))</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! first approximation to the integral</span>
-
-<span class="w">            </span><span class="n">keyf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Key</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Key</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">keyf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Key</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="n">keyf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
-<span class="w">            </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">keyf</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="k">call </span><span class="n">dqk15</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">defabs</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="k">call </span><span class="n">dqk21</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">defabs</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="k">call </span><span class="n">dqk31</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">defabs</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">);</span><span class="w"> </span><span class="k">call </span><span class="n">dqk41</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">defabs</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w"> </span><span class="k">call </span><span class="n">dqk51</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">defabs</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="p">);</span><span class="w"> </span><span class="k">call </span><span class="n">dqk61</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">defabs</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">end select</span>
-<span class="k">            </span><span class="n">Last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="n">Rlist</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">Result</span>
-<span class="k">            </span><span class="n">Elist</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abserr</span><span class="w"></span>
-<span class="w">            </span><span class="n">Iord</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-
-<span class="w">            </span><span class="c">! test on accuracy.</span>
-
-<span class="w">            </span><span class="n">errbnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">Epsabs</span><span class="p">,</span><span class="w"> </span><span class="n">Epsrel</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="k">Result</span><span class="p">))</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Abserr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">5</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">epmach</span><span class="o">*</span><span class="n">defabs</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">errbnd</span><span class="p">)</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Limit</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">Abserr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">errbnd</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">resabs</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                       </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-
-<span class="w">                </span><span class="c">! initialization</span>
-<span class="w">                </span><span class="n">errmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abserr</span><span class="w"></span>
-<span class="w">                </span><span class="n">maxerr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">Result</span>
-<span class="k">                </span><span class="n">errsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abserr</span><span class="w"></span>
-<span class="w">                </span><span class="n">nrmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                </span><span class="n">iroff1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">                </span><span class="n">iroff2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-
-<span class="w">                </span><span class="c">! main do-loop</span>
-
-<span class="w">                </span><span class="k">do </span><span class="n">Last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">Limit</span><span class="w"></span>
-
-<span class="w">                    </span><span class="c">! bisect the subinterval with the largest error estimate.</span>
-
-<span class="w">                    </span><span class="n">a1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="n">b1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">Alist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Blist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">))</span><span class="w"></span>
-<span class="w">                    </span><span class="n">a2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b1</span><span class="w"></span>
-<span class="w">                    </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Blist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">keyf</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk15</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">area1</span><span class="p">,</span><span class="w"> </span><span class="n">error1</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk15</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="n">area2</span><span class="p">,</span><span class="w"> </span><span class="n">error2</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk21</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">area1</span><span class="p">,</span><span class="w"> </span><span class="n">error1</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk21</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="n">area2</span><span class="p">,</span><span class="w"> </span><span class="n">error2</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk31</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">area1</span><span class="p">,</span><span class="w"> </span><span class="n">error1</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk31</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="n">area2</span><span class="p">,</span><span class="w"> </span><span class="n">error2</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk41</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">area1</span><span class="p">,</span><span class="w"> </span><span class="n">error1</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk41</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="n">area2</span><span class="p">,</span><span class="w"> </span><span class="n">error2</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk51</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">area1</span><span class="p">,</span><span class="w"> </span><span class="n">error1</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk51</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="n">area2</span><span class="p">,</span><span class="w"> </span><span class="n">error2</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk61</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="p">,</span><span class="w"> </span><span class="n">area1</span><span class="p">,</span><span class="w"> </span><span class="n">error1</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                        </span><span class="k">call </span><span class="n">dqk61</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">,</span><span class="w"> </span><span class="n">b2</span><span class="p">,</span><span class="w"> </span><span class="n">area2</span><span class="p">,</span><span class="w"> </span><span class="n">error2</span><span class="p">,</span><span class="w"> </span><span class="n">resabs</span><span class="p">,</span><span class="w"> </span><span class="n">defab2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">end select</span><span class="w"></span>
-
-<span class="w">                    </span><span class="c">! improve previous approximations to integral</span>
-<span class="w">                    </span><span class="c">! and error and test for accuracy.</span>
-
-<span class="w">                    </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Neval</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                    </span><span class="n">area12</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">area1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">area2</span><span class="w"></span>
-<span class="w">                    </span><span class="n">erro12</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">error2</span><span class="w"></span>
-<span class="w">                    </span><span class="n">errsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">errsum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">erro12</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">errmax</span><span class="w"></span>
-<span class="w">                    </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">area12</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Rlist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">defab1</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">error1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">defab2</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">error2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                        if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Rlist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">area12</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.1e-4_wp</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">area12</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">erro12</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0.99_wp</span><span class="o">*</span><span class="n">errmax</span><span class="p">)</span><span class="w"> </span><span class="n">iroff1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iroff1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Last</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">erro12</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">errmax</span><span class="p">)</span><span class="w"> </span><span class="n">iroff2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iroff2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                    </span><span class="k">end if</span>
-<span class="k">                    </span><span class="n">Rlist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">area1</span><span class="w"></span>
-<span class="w">                    </span><span class="n">Rlist</span><span class="p">(</span><span class="n">Last</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">area2</span><span class="w"></span>
-<span class="w">                    </span><span class="n">errbnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">Epsabs</span><span class="p">,</span><span class="w"> </span><span class="n">Epsrel</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">area</span><span class="p">))</span><span class="w"></span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">errsum</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">errbnd</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-
-<span class="w">                        </span><span class="c">! test for roundoff error and eventually set error flag.</span>
-
-<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">iroff1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">iroff2</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-
-<span class="w">                        </span><span class="c">! set error flag in the case that the number of subintervals</span>
-<span class="w">                        </span><span class="c">! equals limit.</span>
-
-<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Last</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-
-<span class="w">                        </span><span class="c">! set error flag in the case of bad integrand behaviour</span>
-<span class="w">                        </span><span class="c">! at a point of the integration range.</span>
-
-<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">a1</span><span class="p">),</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">b2</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0_wp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">epmach</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">100</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">uflow</span><span class="p">))</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
-<span class="w">                    </span><span class="k">end if</span><span class="w"></span>
-
-<span class="w">                    </span><span class="c">! append the newly-created intervals to the list.</span>
-
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">error1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                        </span><span class="n">Alist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a2</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Alist</span><span class="p">(</span><span class="n">Last</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a1</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Blist</span><span class="p">(</span><span class="n">Last</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b1</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Rlist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">area2</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Rlist</span><span class="p">(</span><span class="n">Last</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">area1</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Elist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error2</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Elist</span><span class="p">(</span><span class="n">Last</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error1</span><span class="w"></span>
-<span class="w">                    </span><span class="k">else</span>
-<span class="k">                        </span><span class="n">Alist</span><span class="p">(</span><span class="n">Last</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a2</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Blist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b1</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Blist</span><span class="p">(</span><span class="n">Last</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b2</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Elist</span><span class="p">(</span><span class="n">maxerr</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error1</span><span class="w"></span>
-<span class="w">                        </span><span class="n">Elist</span><span class="p">(</span><span class="n">Last</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error2</span><span class="w"></span>
-<span class="w">                    </span><span class="k">end if</span><span class="w"></span>
-
-<span class="w">                    </span><span class="c">! call subroutine dqpsrt to maintain the descending ordering</span>
-<span class="w">                    </span><span class="c">! in the list of error estimates and select the subinterval</span>
-<span class="w">                    </span><span class="c">! with the largest error estimate (to be bisected next).</span>
-
-<span class="w">                    </span><span class="k">call </span><span class="n">dqpsrt</span><span class="p">(</span><span class="n">Limit</span><span class="p">,</span><span class="w"> </span><span class="n">Last</span><span class="p">,</span><span class="w"> </span><span class="n">maxerr</span><span class="p">,</span><span class="w"> </span><span class="n">errmax</span><span class="p">,</span><span class="w"> </span><span class="n">Elist</span><span class="p">,</span><span class="w"> </span><span class="n">Iord</span><span class="p">,</span><span class="w"> </span><span class="n">nrmax</span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">errsum</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">errbnd</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span><span class="w">  </span><span class="c">! jump out of do-loop</span>
-<span class="w">                </span><span class="k">end do</span><span class="w"></span>
-
-<span class="w">                </span><span class="c">! compute final result.</span>
-
-<span class="w">                </span><span class="k">Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">                </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Last</span><span class="w"></span>
-<span class="w">                    </span><span class="k">Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">Result</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Rlist</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">end do</span>
-<span class="k">                </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">errsum</span><span class="w"></span>
-<span class="w">            </span><span class="k">end if</span>
-<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">keyf</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">keyf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Neval</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">keyf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="o">*</span><span class="n">Neval</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">15</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span>
-
-<span class="k">    end subroutine </span><span class="n">dqage</span><span class="w"></span>
-</pre></div>
-
-    </section>
-    <br>
     
     
     </div>
   </div>
-
 
     <hr>    
     </div> <!-- /container -->
@@ -1183,14 +615,12 @@ subdivision process</p></td>
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-6"><p>quadpack was developed by Jacob Williams<br>&copy; 2022 
-                                          </p>
+</p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-            
-            
           </p>
         </div>
       </div>
@@ -1218,14 +648,11 @@ subdivision process</p></td>
         extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
       });
     </script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
     
     <script src="../tipuesearch/tipuesearch_content.js"></script>
     <script src="../tipuesearch/tipuesearch_set.js"></script>
     <script src="../tipuesearch/tipuesearch.js"></script>
-    
     
   </body>
 </html>
