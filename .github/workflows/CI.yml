@@ -64,6 +64,11 @@ jobs:
       env:
         COV_DIR: build/coverage
 
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v2
+      with:
+        files: build/coverage/coverage.info
+
     - name: Build documentation
       run: ford ./quadpack.md
 
