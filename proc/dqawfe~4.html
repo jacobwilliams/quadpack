@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="Modern Fortran QUADPACK">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dqawfe &ndash; quadpack</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">quadpack </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+              
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+                                       </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>dqawfe
+      <small>Subroutine</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.8% of total for procedures.">117 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
+     <li class="active">dqawfe</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dqawfe~4.html#src">dqawfe</a>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public subroutine dqawfe(f, a, Omega, Integr, Epsabs, Limlst, Limit, Maxp1, Result, Abserr, Neval, Ier, Rslst, Erlst, Ierlst, Lst, Alist, Blist, Rlist, Elist, Iord, Nnlog, Chebmo)</h2>
+    
+
+    <p>same as <a href="../proc/dqawf.html">dqawf</a> but provides more information and control</p>
+<p>the routine calculates an approximation result to a
+  given fourier integal
+  i = integral of <code>f(x)*w(x)</code> over <code>(a,infinity)</code>
+  where <code>w(x)=cos(omega*x)</code> or <code>w(x)=sin(omega*x)</code>,
+  hopefully satisfying following claim for accuracy
+  <code>abs(i-result)&lt;=epsabs</code>.</p>
+<h3>History</h3>
+<ul>
+<li>QUADPACK: date written 800101, revision date 830518 (yymmdd)</li>
+</ul>
+
+    <h3>Arguments</h3>
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-f~108"></span>procedure(func)</td>
+<td></td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-a~103"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>a</strong></td><td><p>lower limit of integration</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-omega~17"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Omega</strong></td><td><p>parameter in the weight function</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-integr~26"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Integr</strong></td><td><p>indicates which weight function is used:</p>
+<ul>
+<li>integr = 1  <code>w(x) = cos(omega*x)</code></li>
+<li>integr = 2  <code>w(x) = sin(omega*x)</code></li>
+</ul>
+<p>if <code>integr/=1.and.integr/=2</code>, the routine will
+end with ier = 6.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-epsabs~60"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Epsabs</strong></td><td><p>absolute accuracy requested, <code>epsabs&gt;0</code>
+if <code>epsabs&lt;=0</code>, the routine will end with ier = 6.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-limlst~8"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Limlst</strong></td><td><p>limlst gives an upper bound on the number of
+cycles, <code>limlst&gt;=1</code>.
+if <code>limlst&lt;3</code>, the routine will end with ier = 6.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-limit~46"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Limit</strong></td><td><p>gives an upper bound on the number of subintervals
+allowed in the partition of each cycle, <code>limit&gt;=1</code>
+each cycle, <code>limit&gt;=1</code>.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-maxp1~17"></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Maxp1</strong></td><td><p>gives an upper bound on the number of
+chebyshev moments which can be stored, i.e.
+for the intervals of lengths
+<code>abs(b-a)*2**(-l),</code>l=0,1, ..., maxp1-2, maxp1&gt;=1``</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-result~93"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Result</strong></td><td><p>approximation to the integral <code>x</code></p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-abserr~93"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
+which should equal or exceed <code>abs(i-result)</code></p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-neval~66"></span>integer,</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Neval</strong></td><td><p>number of integrand evaluations</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ier~60"></span>integer,</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Ier</strong></td><td><ul>
+<li>ier = 0 normal and reliable termination of
+  the routine. it is assumed that the
+  requested accuracy has been achieved.</li>
+<li>ier&gt;0 abnormal termination of the routine. the
+  estimates for integral and error are less
+  reliable. it is assumed that the requested
+  accuracy has not been achieved.</li>
+</ul>
+<p>error messages:</p>
+<p>if <code>omega/=0</code>:</p>
+<ul>
+<li>ier = 1 maximum number of <code>cycles</code> allowed
+  has been achieved., i.e. of subintervals
+  <code>(a+(k-1)c,a+kc)</code> where
+  <code>c = (2*int(abs(omega))+1)*pi/abs(omega)</code>,
+  for <code>k = 1, 2, ..., lst</code>.
+  one can allow more cycles by increasing
+  the value of limlst (and taking the
+  according dimension adjustments into
+  account).
+  examine the array <code>iwork</code> which contains
+  the error flags on the cycles, in order to
+  look for eventual local integration
+  difficulties. if the position of a local
+  difficulty can be determined (e.g.
+  singularity, discontinuity within the
+  interval) one will probably gain from
+  splitting up the interval at this point
+  and calling appropriate integrators on
+  the subranges.</li>
+<li>ier = 4 the extrapolation table constructed for
+  convergence acceleration of the series
+  formed by the integral contributions over
+  the cycles, does not converge to within
+  the requested accuracy. as in the case of
+  ier = 1, it is advised to examine the
+  array <code>iwork</code> which contains the error
+  flags on the cycles.</li>
+<li>ier = 6 the input is invalid because
+  (<code>integr/=1</code> and <code>integr/=2</code>) or
+  <code>epsabs&lt;=0</code> or <code>limlst&lt;3</code>.
+  <code>result</code>, <code>abserr</code>, <code>neval</code>, <code>lst</code> are set
+  to zero.</li>
+<li>
+<p>ier = 7 bad integrand behaviour occurs within one
+  or more of the cycles. location and type
+  of the difficulty involved can be
+  determined from the vector <code>ierlst</code>. here
+  <code>lst</code> is the number of cycles actually
+  needed (see below):</p>
+</li>
+<li>
+<p>ierlst(k) = 1 the maximum number of
+     subdivisions (= <code>limit</code>) has
+     been achieved on the <code>k</code>th
+     cycle.</p>
+</li>
+<li>ierlst(k) = 2 occurrence of roundoff error
+     is detected and prevents the
+     tolerance imposed on the
+     <code>k</code>th cycle, from being
+     achieved.</li>
+<li>ierlst(k) = 3 extremely bad integrand
+     behaviour occurs at some
+     points of the <code>k</code>th cycle.</li>
+<li>ierlst(k) = 4 the integration procedure
+     over the <code>k</code>th cycle does
+     not converge (to within the
+     required accuracy) due to
+     roundoff in the
+     extrapolation procedure
+     invoked on this cycle. it
+     is assumed that the result
+     on this interval is the
+     best which can be obtained.</li>
+<li>ierlst(k) = 5 the integral over the <code>k</code>th
+     cycle is probably divergent
+     or slowly convergent. it
+     must be noted that
+     divergence can occur with
+     any other value of
+     <code>ierlst(k)</code>.</li>
+</ul>
+<p>if <code>omega = 0</code> and <code>integr = 1</code>,
+the integral is calculated by means of <a href="../proc/dqagie.html">dqagie</a>
+and <code>ier = ierlst(1)</code> (with meaning as described
+for <code>ierlst(k), k = 1</code>).</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-rslst~4"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Rslst</strong>(Limlst)</td><td><p>vector of dimension at least <code>limlst</code>
+<code>rslst(k)</code> contains the integral contribution
+over the interval <code>(a+(k-1)c,a+kc)</code> where
+<code>c = (2*int(abs(omega))+1)*pi/abs(omega)</code>,
+<code>k = 1, 2, ..., lst</code>.
+note that, if <code>omega = 0</code>, <code>rslst(1)</code> contains
+the value of the integral over <code>(a,infinity)</code>.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-erlst~4"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Erlst</strong>(Limlst)</td><td><p>vector of dimension at least <code>limlst</code>
+<code>erlst(k)</code> contains the error estimate corresponding
+with <code>rslst(k)</code>.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ierlst~4"></span>integer,</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Ierlst</strong>(Limlst)</td><td><p>vector of dimension at least <code>limlst</code>
+<code>ierlst(k)</code> contains the error flag corresponding
+with <code>rslst(k)</code>. for the meaning of the local error
+flags see description of output parameter <code>ier</code>.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-lst~8"></span>integer,</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Lst</strong></td><td><p>number of subintervals needed for the integration
+if <code>omega = 0</code> then lst is set to 1.</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-alist~30"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Alist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code></p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-blist~30"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Blist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code></p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-rlist~30"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Rlist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code></p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-elist~30"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Elist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code></p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-iord~30"></span>integer,</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Iord</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, providing
+space for the quantities needed in the subdivision
+process of each cycle</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-nnlog~7"></span>integer,</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Nnlog</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, providing
+space for the quantities needed in the subdivision
+process of each cycle</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-chebmo~10"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>Chebmo</strong>(Maxp1,25)</td><td><p>array of dimension at least <code>(maxp1,25)</code>, providing
+space for the chebyshev moments needed within the
+cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p></td>
+</tr>
+</tbody>
+</table>
+
+    <br>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~dqawfe~4~~CallsGraph Pages: 1 -->
+<svg id="procdqawfe4CallsGraph" width="333pt" height="95pt"
+ viewBox="0.00 0.00 333.00 95.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~dqawfe~4~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 91)">
+<title>proc~~dqawfe~4~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-91 329,-91 329,4 -4,4"/>
+<!-- proc~dqawfe~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_node1" class="node">
+<title>proc~dqawfe~4</title>
+<polygon fill="none" stroke="black" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">dqawfe</text>
+</g>
+<!-- proc~dqagie~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_node2" class="node">
+<title>proc~dqagie~4</title>
+<g id="a_proc~~dqawfe~4~~CallsGraph_node2"><a xlink:href=".././proc/dqagie~4.html" xlink:title="dqagie">
+<polygon fill="#d9534f" stroke="#d9534f" points="144.5,-87 90.5,-87 90.5,-63 144.5,-63 144.5,-87"/>
+<text text-anchor="middle" x="117.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqagie</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawfe~4&#45;&gt;proc~dqagie~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_edge1" class="edge">
+<title>proc~dqawfe~4&#45;&gt;proc~dqagie~4</title>
+<path fill="none" stroke="#000000" d="M54.07,-60.19C62.37,-62.16 71.7,-64.37 80.57,-66.47"/>
+<polygon fill="#000000" stroke="#000000" points="79.77,-69.88 90.31,-68.78 81.38,-63.07 79.77,-69.88"/>
+</g>
+<!-- proc~dqawoe~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_node3" class="node">
+<title>proc~dqawoe~4</title>
+<g id="a_proc~~dqawfe~4~~CallsGraph_node3"><a xlink:href=".././proc/dqawoe~4.html" xlink:title="dqawoe">
+<polygon fill="#d9534f" stroke="#d9534f" points="145,-45 90,-45 90,-21 145,-21 145,-45"/>
+<text text-anchor="middle" x="117.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawoe</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawfe~4&#45;&gt;proc~dqawoe~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_edge2" class="edge">
+<title>proc~dqawfe~4&#45;&gt;proc~dqawoe~4</title>
+<path fill="none" stroke="#000000" d="M54.07,-47.81C62.21,-45.88 71.34,-43.72 80.05,-41.65"/>
+<polygon fill="#000000" stroke="#000000" points="81.08,-45 90,-39.29 79.46,-38.19 81.08,-45"/>
+</g>
+<!-- proc~dqk15i~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_node4" class="node">
+<title>proc~dqk15i~4</title>
+<g id="a_proc~~dqawfe~4~~CallsGraph_node4"><a xlink:href=".././proc/dqk15i~4.html" xlink:title="dqk15i">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-87 181,-87 181,-63 235,-63 235,-87"/>
+<text text-anchor="middle" x="208" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15i</text>
+</a>
+</g>
+</g>
+<!-- proc~dqagie~4&#45;&gt;proc~dqk15i~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_edge3" class="edge">
+<title>proc~dqagie~4&#45;&gt;proc~dqk15i~4</title>
+<path fill="none" stroke="#000000" d="M144.57,-75C152.78,-75 162,-75 170.78,-75"/>
+<polygon fill="#000000" stroke="#000000" points="170.81,-78.5 180.81,-75 170.81,-71.5 170.81,-78.5"/>
+</g>
+<!-- proc~dqc25f~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_node5" class="node">
+<title>proc~dqc25f~4</title>
+<g id="a_proc~~dqawfe~4~~CallsGraph_node5"><a xlink:href=".././proc/dqc25f~4.html" xlink:title="dqc25f">
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-45 181,-45 181,-21 235,-21 235,-45"/>
+<text text-anchor="middle" x="208" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25f</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawoe~4&#45;&gt;proc~dqc25f~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_edge4" class="edge">
+<title>proc~dqawoe~4&#45;&gt;proc~dqc25f~4</title>
+<path fill="none" stroke="#000000" d="M145.05,-33C153.09,-33 162.06,-33 170.62,-33"/>
+<polygon fill="#000000" stroke="#000000" points="170.77,-36.5 180.77,-33 170.77,-29.5 170.77,-36.5"/>
+</g>
+<!-- proc~dqcheb~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_node6" class="node">
+<title>proc~dqcheb~4</title>
+<g id="a_proc~~dqawfe~4~~CallsGraph_node6"><a xlink:href=".././proc/dqcheb~4.html" xlink:title="dqcheb">
+<polygon fill="#d9534f" stroke="#d9534f" points="325,-66 271,-66 271,-42 325,-42 325,-66"/>
+<text text-anchor="middle" x="298" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqcheb</text>
+</a>
+</g>
+</g>
+<!-- proc~dqc25f~4&#45;&gt;proc~dqcheb~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_edge5" class="edge">
+<title>proc~dqc25f~4&#45;&gt;proc~dqcheb~4</title>
+<path fill="none" stroke="#000000" d="M235.4,-39.3C243.48,-41.23 252.51,-43.38 261.1,-45.43"/>
+<polygon fill="#000000" stroke="#000000" points="260.38,-48.86 270.92,-47.78 262,-42.05 260.38,-48.86"/>
+</g>
+<!-- proc~dqk15w~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_node7" class="node">
+<title>proc~dqk15w~4</title>
+<g id="a_proc~~dqawfe~4~~CallsGraph_node7"><a xlink:href=".././proc/dqk15w~4.html" xlink:title="dqk15w">
+<polygon fill="#d9534f" stroke="#d9534f" points="325,-24 271,-24 271,0 325,0 325,-24"/>
+<text text-anchor="middle" x="298" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15w</text>
+</a>
+</g>
+</g>
+<!-- proc~dqc25f~4&#45;&gt;proc~dqk15w~4 -->
+<g id="proc~~dqawfe~4~~CallsGraph_edge6" class="edge">
+<title>proc~dqc25f~4&#45;&gt;proc~dqk15w~4</title>
+<path fill="none" stroke="#000000" d="M235.4,-26.7C243.48,-24.77 252.51,-22.62 261.1,-20.57"/>
+<polygon fill="#000000" stroke="#000000" points="262,-23.95 270.92,-18.22 260.38,-17.14 262,-23.95"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Called by</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~dqawfe~4~~CalledByGraph Pages: 1 -->
+<svg id="procdqawfe4CalledByGraph" width="152pt" height="32pt"
+ viewBox="0.00 0.00 152.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~dqawfe~4~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~dqawfe~4~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 148,-28 148,4 -4,4"/>
+<!-- proc~dqawfe~4 -->
+<g id="proc~~dqawfe~4~~CalledByGraph_node1" class="node">
+<title>proc~dqawfe~4</title>
+<polygon fill="none" stroke="black" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">dqawfe</text>
+</g>
+<!-- proc~dqawf~4 -->
+<g id="proc~~dqawfe~4~~CalledByGraph_node2" class="node">
+<title>proc~dqawf~4</title>
+<g id="a_proc~~dqawfe~4~~CalledByGraph_node2"><a xlink:href=".././proc/dqawf~4.html" xlink:title="dqawf">
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawf</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawf~4&#45;&gt;proc~dqawfe~4 -->
+<g id="proc~~dqawfe~4~~CalledByGraph_edge1" class="edge">
+<title>proc~dqawf~4&#45;&gt;proc~dqawfe~4</title>
+<path fill="none" stroke="#000000" d="M54.4,-12C62.39,-12 71.31,-12 79.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-15.5 89.92,-12 79.92,-8.5 79.92,-15.5"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dqawfe~4.html#src">dqawfe</a>
+  </div>
+</div>
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">dqawfe</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">Omega</span><span class="p">,</span><span class="w"> </span><span class="n">Integr</span><span class="p">,</span><span class="w"> </span><span class="n">Epsabs</span><span class="p">,</span><span class="w"> </span><span class="n">Limlst</span><span class="p">,</span><span class="w"> </span><span class="n">Limit</span><span class="p">,</span><span class="w"> </span><span class="n">Maxp1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                      </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">Neval</span><span class="p">,</span><span class="w"> </span><span class="n">Ier</span><span class="p">,</span><span class="w"> </span><span class="n">Rslst</span><span class="p">,</span><span class="w"> </span><span class="n">Erlst</span><span class="p">,</span><span class="w"> </span><span class="n">Ierlst</span><span class="p">,</span><span class="w"> </span><span class="n">Lst</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                      </span><span class="n">Alist</span><span class="p">,</span><span class="w"> </span><span class="n">Blist</span><span class="p">,</span><span class="w"> </span><span class="n">Rlist</span><span class="p">,</span><span class="w"> </span><span class="n">Elist</span><span class="p">,</span><span class="w"> </span><span class="n">Iord</span><span class="p">,</span><span class="w"> </span><span class="n">Nnlog</span><span class="p">,</span><span class="w"> </span><span class="n">Chebmo</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">implicit none</span>
+
+<span class="k">        procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="c">!! function subprogram defining the integrand function `f(x)`.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="c">!! lower limit of integration</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Omega</span><span class="w"> </span><span class="c">!! parameter in the weight function</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Integr</span><span class="w"> </span><span class="c">!! indicates which weight function is used:</span>
+<span class="w">                                      </span><span class="c">!!</span>
+<span class="w">                                      </span><span class="c">!! * integr = 1  `w(x) = cos(omega*x)`</span>
+<span class="w">                                      </span><span class="c">!! * integr = 2  `w(x) = sin(omega*x)`</span>
+<span class="w">                                      </span><span class="c">!!</span>
+<span class="w">                                      </span><span class="c">!! if `integr/=1.and.integr/=2`, the routine will</span>
+<span class="w">                                      </span><span class="c">!! end with ier = 6.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Epsabs</span><span class="w"> </span><span class="c">!! absolute accuracy requested, `epsabs&gt;0`</span>
+<span class="w">                                       </span><span class="c">!! if `epsabs&lt;=0`, the routine will end with ier = 6.</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Limlst</span><span class="w"> </span><span class="c">!! limlst gives an upper bound on the number of</span>
+<span class="w">                                      </span><span class="c">!! cycles, `limlst&gt;=1`.</span>
+<span class="w">                                      </span><span class="c">!! if `limlst&lt;3`, the routine will end with ier = 6.</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Limit</span><span class="w"> </span><span class="c">!! gives an upper bound on the number of subintervals</span>
+<span class="w">                                     </span><span class="c">!! allowed in the partition of each cycle, `limit&gt;=1`</span>
+<span class="w">                                     </span><span class="c">!! each cycle, `limit&gt;=1`.</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Maxp1</span><span class="w"> </span><span class="c">!! gives an upper bound on the number of</span>
+<span class="w">                                     </span><span class="c">!! chebyshev moments which can be stored, i.e.</span>
+<span class="w">                                     </span><span class="c">!! for the intervals of lengths</span>
+<span class="w">                                     </span><span class="c">!! `abs(b-a)*2**(-l), `l=0,1, ..., maxp1-2, maxp1&gt;=1``</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Result</span><span class="w"> </span><span class="c">!! approximation to the integral `x`</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="c">!! estimate of the modulus of the absolute error,</span>
+<span class="w">                                        </span><span class="c">!! which should equal or exceed `abs(i-result)`</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Neval</span><span class="w"> </span><span class="c">!! number of integrand evaluations</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="c">!! * ier = 0 normal and reliable termination of</span>
+<span class="w">                                    </span><span class="c">!!   the routine. it is assumed that the</span>
+<span class="w">                                    </span><span class="c">!!   requested accuracy has been achieved.</span>
+<span class="w">                                    </span><span class="c">!! * ier&gt;0 abnormal termination of the routine. the</span>
+<span class="w">                                    </span><span class="c">!!   estimates for integral and error are less</span>
+<span class="w">                                    </span><span class="c">!!   reliable. it is assumed that the requested</span>
+<span class="w">                                    </span><span class="c">!!   accuracy has not been achieved.</span>
+<span class="w">                                    </span><span class="c">!!</span>
+<span class="w">                                    </span><span class="c">!! error messages:</span>
+<span class="w">                                    </span><span class="c">!!</span>
+<span class="w">                                    </span><span class="c">!! if `omega/=0`:</span>
+<span class="w">                                    </span><span class="c">!!</span>
+<span class="w">                                    </span><span class="c">!! * ier = 1 maximum number of `cycles` allowed</span>
+<span class="w">                                    </span><span class="c">!!   has been achieved., i.e. of subintervals</span>
+<span class="w">                                    </span><span class="c">!!   `(a+(k-1)c,a+kc)` where</span>
+<span class="w">                                    </span><span class="c">!!   `c = (2*int(abs(omega))+1)*pi/abs(omega)`,</span>
+<span class="w">                                    </span><span class="c">!!   for `k = 1, 2, ..., lst`.</span>
+<span class="w">                                    </span><span class="c">!!   one can allow more cycles by increasing</span>
+<span class="w">                                    </span><span class="c">!!   the value of limlst (and taking the</span>
+<span class="w">                                    </span><span class="c">!!   according dimension adjustments into</span>
+<span class="w">                                    </span><span class="c">!!   account).</span>
+<span class="w">                                    </span><span class="c">!!   examine the array `iwork` which contains</span>
+<span class="w">                                    </span><span class="c">!!   the error flags on the cycles, in order to</span>
+<span class="w">                                    </span><span class="c">!!   look for eventual local integration</span>
+<span class="w">                                    </span><span class="c">!!   difficulties. if the position of a local</span>
+<span class="w">                                    </span><span class="c">!!   difficulty can be determined (e.g.</span>
+<span class="w">                                    </span><span class="c">!!   singularity, discontinuity within the</span>
+<span class="w">                                    </span><span class="c">!!   interval) one will probably gain from</span>
+<span class="w">                                    </span><span class="c">!!   splitting up the interval at this point</span>
+<span class="w">                                    </span><span class="c">!!   and calling appropriate integrators on</span>
+<span class="w">                                    </span><span class="c">!!   the subranges.</span>
+<span class="w">                                    </span><span class="c">!! * ier = 4 the extrapolation table constructed for</span>
+<span class="w">                                    </span><span class="c">!!   convergence acceleration of the series</span>
+<span class="w">                                    </span><span class="c">!!   formed by the integral contributions over</span>
+<span class="w">                                    </span><span class="c">!!   the cycles, does not converge to within</span>
+<span class="w">                                    </span><span class="c">!!   the requested accuracy. as in the case of</span>
+<span class="w">                                    </span><span class="c">!!   ier = 1, it is advised to examine the</span>
+<span class="w">                                    </span><span class="c">!!   array `iwork` which contains the error</span>
+<span class="w">                                    </span><span class="c">!!   flags on the cycles.</span>
+<span class="w">                                    </span><span class="c">!! * ier = 6 the input is invalid because</span>
+<span class="w">                                    </span><span class="c">!!   (`integr/=1` and `integr/=2`) or</span>
+<span class="w">                                    </span><span class="c">!!   `epsabs&lt;=0` or `limlst&lt;3`.</span>
+<span class="w">                                    </span><span class="c">!!   `result`, `abserr`, `neval`, `lst` are set</span>
+<span class="w">                                    </span><span class="c">!!   to zero.</span>
+<span class="w">                                    </span><span class="c">!! * ier = 7 bad integrand behaviour occurs within one</span>
+<span class="w">                                    </span><span class="c">!!   or more of the cycles. location and type</span>
+<span class="w">                                    </span><span class="c">!!   of the difficulty involved can be</span>
+<span class="w">                                    </span><span class="c">!!   determined from the vector `ierlst`. here</span>
+<span class="w">                                    </span><span class="c">!!   `lst` is the number of cycles actually</span>
+<span class="w">                                    </span><span class="c">!!   needed (see below):</span>
+<span class="w">                                    </span><span class="c">!!</span>
+<span class="w">                                    </span><span class="c">!!    * ierlst(k) = 1 the maximum number of</span>
+<span class="w">                                    </span><span class="c">!!      subdivisions (= `limit`) has</span>
+<span class="w">                                    </span><span class="c">!!      been achieved on the `k`th</span>
+<span class="w">                                    </span><span class="c">!!      cycle.</span>
+<span class="w">                                    </span><span class="c">!!    * ierlst(k) = 2 occurrence of roundoff error</span>
+<span class="w">                                    </span><span class="c">!!      is detected and prevents the</span>
+<span class="w">                                    </span><span class="c">!!      tolerance imposed on the</span>
+<span class="w">                                    </span><span class="c">!!      `k`th cycle, from being</span>
+<span class="w">                                    </span><span class="c">!!      achieved.</span>
+<span class="w">                                    </span><span class="c">!!    * ierlst(k) = 3 extremely bad integrand</span>
+<span class="w">                                    </span><span class="c">!!      behaviour occurs at some</span>
+<span class="w">                                    </span><span class="c">!!      points of the `k`th cycle.</span>
+<span class="w">                                    </span><span class="c">!!    * ierlst(k) = 4 the integration procedure</span>
+<span class="w">                                    </span><span class="c">!!      over the `k`th cycle does</span>
+<span class="w">                                    </span><span class="c">!!      not converge (to within the</span>
+<span class="w">                                    </span><span class="c">!!      required accuracy) due to</span>
+<span class="w">                                    </span><span class="c">!!      roundoff in the</span>
+<span class="w">                                    </span><span class="c">!!      extrapolation procedure</span>
+<span class="w">                                    </span><span class="c">!!      invoked on this cycle. it</span>
+<span class="w">                                    </span><span class="c">!!      is assumed that the result</span>
+<span class="w">                                    </span><span class="c">!!      on this interval is the</span>
+<span class="w">                                    </span><span class="c">!!      best which can be obtained.</span>
+<span class="w">                                    </span><span class="c">!!    * ierlst(k) = 5 the integral over the `k`th</span>
+<span class="w">                                    </span><span class="c">!!      cycle is probably divergent</span>
+<span class="w">                                    </span><span class="c">!!      or slowly convergent. it</span>
+<span class="w">                                    </span><span class="c">!!      must be noted that</span>
+<span class="w">                                    </span><span class="c">!!      divergence can occur with</span>
+<span class="w">                                    </span><span class="c">!!      any other value of</span>
+<span class="w">                                    </span><span class="c">!!      `ierlst(k)`.</span>
+<span class="w">                                    </span><span class="c">!!</span>
+<span class="w">                                    </span><span class="c">!! if `omega = 0` and `integr = 1`,</span>
+<span class="w">                                    </span><span class="c">!! the integral is calculated by means of [[dqagie]]</span>
+<span class="w">                                    </span><span class="c">!! and `ier = ierlst(1)` (with meaning as described</span>
+<span class="w">                                    </span><span class="c">!! for `ierlst(k), k = 1`).</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Rslst</span><span class="p">(</span><span class="n">Limlst</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limlst`</span>
+<span class="w">                                               </span><span class="c">!! `rslst(k)` contains the integral contribution</span>
+<span class="w">                                               </span><span class="c">!! over the interval `(a+(k-1)c,a+kc)` where</span>
+<span class="w">                                               </span><span class="c">!! `c = (2*int(abs(omega))+1)*pi/abs(omega)`,</span>
+<span class="w">                                               </span><span class="c">!! `k = 1, 2, ..., lst`.</span>
+<span class="w">                                               </span><span class="c">!! note that, if `omega = 0`, `rslst(1)` contains</span>
+<span class="w">                                               </span><span class="c">!! the value of the integral over `(a,infinity)`.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Erlst</span><span class="p">(</span><span class="n">Limlst</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limlst`</span>
+<span class="w">                                               </span><span class="c">!! `erlst(k)` contains the error estimate corresponding</span>
+<span class="w">                                               </span><span class="c">!! with `rslst(k)`.</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ierlst</span><span class="p">(</span><span class="n">Limlst</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limlst`</span>
+<span class="w">                                               </span><span class="c">!! `ierlst(k)` contains the error flag corresponding</span>
+<span class="w">                                               </span><span class="c">!! with `rslst(k)`. for the meaning of the local error</span>
+<span class="w">                                               </span><span class="c">!! flags see description of output parameter `ier`.</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Lst</span><span class="w"> </span><span class="c">!! number of subintervals needed for the integration</span>
+<span class="w">                                    </span><span class="c">!! if `omega = 0` then lst is set to 1.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Alist</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Blist</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Rlist</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Elist</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Iord</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`, providing</span>
+<span class="w">                                            </span><span class="c">!! space for the quantities needed in the subdivision</span>
+<span class="w">                                            </span><span class="c">!! process of each cycle</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Nnlog</span><span class="p">(</span><span class="n">Limit</span><span class="p">)</span><span class="w"> </span><span class="c">!! vector of dimension at least `limit`, providing</span>
+<span class="w">                                             </span><span class="c">!! space for the quantities needed in the subdivision</span>
+<span class="w">                                             </span><span class="c">!! process of each cycle</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Chebmo</span><span class="p">(</span><span class="n">Maxp1</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="c">!! array of dimension at least `(maxp1,25)`, providing</span>
+<span class="w">                                                   </span><span class="c">!! space for the chebyshev moments needed within the</span>
+<span class="w">                                                   </span><span class="c">!! cycles (see also routine [[dqc25f]])</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">abseps</span><span class="p">,</span><span class="w"> </span><span class="n">correc</span><span class="p">,</span><span class="w"> </span><span class="n">dl</span><span class="p">,</span><span class="w"> </span><span class="n">dla</span><span class="p">,</span><span class="w"> </span><span class="n">drl</span><span class="p">,</span><span class="w"> </span><span class="n">ep</span><span class="p">,</span><span class="w"> </span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">fact</span><span class="p">,</span><span class="w"> </span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">reseps</span><span class="p">,</span><span class="w"> </span><span class="n">res3la</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ktmin</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="p">,</span><span class="w"> </span><span class="n">momcom</span><span class="p">,</span><span class="w"> </span><span class="n">nev</span><span class="p">,</span><span class="w"> </span><span class="n">nres</span><span class="p">,</span><span class="w"> </span><span class="n">numrl2</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">psum</span><span class="p">(</span><span class="n">limexp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="c">!! `psum` contains the part of the epsilon table</span>
+<span class="w">                                     </span><span class="c">!! which is still needed for further computations.</span>
+<span class="w">                                     </span><span class="c">!! each element of `psum` is a partial sum of the</span>
+<span class="w">                                     </span><span class="c">!! series which should sum to the value of the</span>
+<span class="w">                                     </span><span class="c">!! integral.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="n">c2</span><span class="w"> </span><span class="c">!! end points of subinterval (of length cycle)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">cycle</span><span class="w"> </span><span class="c">!! `(2*int(abs(omega))+1)*pi/abs(omega)`</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">errsum</span><span class="w">  </span><span class="c">!! sum of error estimates over the subintervals,</span>
+<span class="w">                            </span><span class="c">!! calculated cumulatively</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">epsa</span><span class="w"> </span><span class="c">!! absolute tolerance requested over current</span>
+<span class="w">                         </span><span class="c">!! subinterval</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.9_wp</span><span class="w"></span>
+
+<span class="w">        </span><span class="c">! test on validity of parameters</span>
+
+<span class="w">        </span><span class="k">Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">Lst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">Integr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Integr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Epsabs</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">Limlst</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">Omega</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+
+<span class="w">                </span><span class="c">! initializations</span>
+
+<span class="w">                </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">Omega</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">dl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                </span><span class="k">cycle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dl</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="n">Omega</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="n">ktmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="n">numrl2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="n">nres</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">                </span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">                </span><span class="n">c2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">cycle</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">                </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
+<span class="w">                </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Epsabs</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Epsabs</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uflow</span><span class="o">/</span><span class="n">p1</span><span class="p">)</span><span class="w"> </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Epsabs</span><span class="o">*</span><span class="n">p1</span><span class="w"></span>
+<span class="w">                </span><span class="n">ep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eps</span><span class="w"></span>
+<span class="w">                </span><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">                </span><span class="n">correc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
+<span class="w">                </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
+<span class="w">                </span><span class="n">errsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
+
+<span class="w">                </span><span class="c">! main do-loop</span>
+
+<span class="w">                </span><span class="k">do </span><span class="n">Lst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Limlst</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! integrate over current subinterval.</span>
+
+<span class="w">                    </span><span class="n">dla</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Lst</span><span class="w"></span>
+<span class="w">                    </span><span class="n">epsa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eps</span><span class="o">*</span><span class="n">fact</span><span class="w"></span>
+<span class="w">                    </span><span class="k">call </span><span class="n">dqawoe</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="n">c2</span><span class="p">,</span><span class="w"> </span><span class="n">Omega</span><span class="p">,</span><span class="w"> </span><span class="n">Integr</span><span class="p">,</span><span class="w"> </span><span class="n">epsa</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">,</span><span class="w"> </span><span class="n">Limit</span><span class="p">,</span><span class="w"> </span><span class="n">Lst</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">Maxp1</span><span class="p">,</span><span class="w"> </span><span class="n">Rslst</span><span class="p">(</span><span class="n">Lst</span><span class="p">),</span><span class="w"> </span><span class="n">Erlst</span><span class="p">(</span><span class="n">Lst</span><span class="p">),</span><span class="w"> </span><span class="n">nev</span><span class="p">,</span><span class="w"> </span><span class="n">Ierlst</span><span class="p">(</span><span class="n">Lst</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">Alist</span><span class="p">,</span><span class="w"> </span><span class="n">Blist</span><span class="p">,</span><span class="w"> </span><span class="n">Rlist</span><span class="p">,</span><span class="w"> </span><span class="n">Elist</span><span class="p">,</span><span class="w"> </span><span class="n">Iord</span><span class="p">,</span><span class="w"> </span><span class="n">Nnlog</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">momcom</span><span class="p">,</span><span class="w"> </span><span class="n">Chebmo</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Neval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Neval</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nev</span><span class="w"></span>
+<span class="w">                    </span><span class="n">fact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fact</span><span class="o">*</span><span class="n">p</span><span class="w"></span>
+<span class="w">                    </span><span class="n">errsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">errsum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Erlst</span><span class="p">(</span><span class="n">Lst</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">drl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">Rslst</span><span class="p">(</span><span class="n">Lst</span><span class="p">))</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c">! test on accuracy with partial sum</span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">errsum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">drl</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Epsabs</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Lst</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">50</span><span class="w"></span>
+<span class="w">                    </span><span class="n">correc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">correc</span><span class="p">,</span><span class="w"> </span><span class="n">Erlst</span><span class="p">(</span><span class="n">Lst</span><span class="p">))</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ierlst</span><span class="p">(</span><span class="n">Lst</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">ep</span><span class="p">,</span><span class="w"> </span><span class="n">correc</span><span class="o">*</span><span class="n">p1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ierlst</span><span class="p">(</span><span class="n">Lst</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">errsum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">drl</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">correc</span><span class="o">*</span><span class="mi">1</span><span class="mf">0.0_wp</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">Lst</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">50</span><span class="w"></span>
+<span class="w">                    </span><span class="n">numrl2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numrl2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Lst</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        </span><span class="n">psum</span><span class="p">(</span><span class="n">numrl2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">psum</span><span class="p">(</span><span class="n">ll</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Rslst</span><span class="p">(</span><span class="n">Lst</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Lst</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+
+<span class="w">                            </span><span class="c">! test on maximum number of subintervals</span>
+
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Lst</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Limlst</span><span class="p">)</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+
+<span class="w">                            </span><span class="c">! perform new extrapolation</span>
+
+<span class="w">                            </span><span class="k">call </span><span class="n">dqelg</span><span class="p">(</span><span class="n">numrl2</span><span class="p">,</span><span class="w"> </span><span class="n">psum</span><span class="p">,</span><span class="w"> </span><span class="n">reseps</span><span class="p">,</span><span class="w"> </span><span class="n">abseps</span><span class="p">,</span><span class="w"> </span><span class="n">res3la</span><span class="p">,</span><span class="w"> </span><span class="n">nres</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">                            </span><span class="c">! test whether extrapolated result is influenced by roundoff</span>
+
+<span class="w">                            </span><span class="n">ktmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ktmin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ktmin</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0.1e-02_wp</span><span class="o">*</span><span class="p">(</span><span class="n">errsum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">drl</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                </span><span class="n">Ier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">abseps</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">Lst</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                                </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abseps</span><span class="w"></span>
+<span class="w">                                </span><span class="k">Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reseps</span><span class="w"></span>
+<span class="w">                                </span><span class="n">ktmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+
+<span class="w">                                </span><span class="c">! if ier is not 0, check whether direct result (partial sum)</span>
+<span class="w">                                </span><span class="c">! or extrapolated result yields the best integral</span>
+<span class="w">                                </span><span class="c">! approximation</span>
+
+<span class="w">                                </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">Abserr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">correc</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Epsabs</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                    </span><span class="p">(</span><span class="n">Abserr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Epsabs</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                     </span><span class="mi">1</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">correc</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">Epsabs</span><span class="p">))</span><span class="w"> </span><span class="k">exit</span>
+<span class="k">                            end if</span>
+<span class="k">                            if</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+<span class="k">                        end if</span>
+<span class="k">                    else</span>
+<span class="k">                        </span><span class="n">psum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rslst</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="k">end if</span>
+<span class="k">                    </span><span class="n">ll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numrl2</span><span class="w"></span>
+<span class="w">                    </span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c2</span><span class="w"></span>
+<span class="w">                    </span><span class="n">c2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">cycle</span>
+<span class="k">                end do</span><span class="w"></span>
+
+<span class="w">                </span><span class="c">! set final result and error estimate</span>
+
+<span class="w">                </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">correc</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="k">Result</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">psum</span><span class="p">(</span><span class="n">numrl2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="n">Abserr</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">errsum</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">50</span><span class="w"></span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">psum</span><span class="p">(</span><span class="n">numrl2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<span class="k">                end if</span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">Abserr</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="k">Result</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">errsum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">drl</span><span class="p">)</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="n">psum</span><span class="p">(</span><span class="n">numrl2</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                    </span><span class="k">then</span>
+<span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="n">Ier</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Ier</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">drl</span><span class="w"></span>
+<span class="w">                    </span><span class="k">return</span>
+<span class="k">                end if</span>
+<span class="k">            else</span><span class="w"></span>
+
+<span class="w">                </span><span class="c">! integration by dqagie if omega is zero</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Integr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">dqagie</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Epsabs</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">Limit</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">Neval</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">Ier</span><span class="p">,</span><span class="w"> </span><span class="n">Alist</span><span class="p">,</span><span class="w"> </span><span class="n">Blist</span><span class="p">,</span><span class="w"> </span><span class="n">Rlist</span><span class="p">,</span><span class="w"> </span><span class="n">Elist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                             </span><span class="n">Iord</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">Rslst</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">Result</span>
+<span class="k">                </span><span class="n">Erlst</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abserr</span><span class="w"></span>
+<span class="w">                </span><span class="n">Ierlst</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ier</span><span class="w"></span>
+<span class="w">                </span><span class="n">Lst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                </span><span class="k">return</span>
+<span class="k">            end if</span>
+<span class="mi">50</span><span class="w">          </span><span class="k">Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">psum</span><span class="p">(</span><span class="n">numrl2</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">errsum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">drl</span><span class="w"></span>
+<span class="w">        </span><span class="k">end if</span>
+
+<span class="k">    end subroutine </span><span class="n">dqawfe</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>quadpack was developed by Jacob Williams<br>&copy; 2022 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+          </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>
