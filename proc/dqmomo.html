@@ -49,14 +49,14 @@
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
             <li><a href="../lists/modules.html">Modules</a></li>
             <li><a href="../lists/procedures.html">Procedures</a></li>
               
             </ul>
         
             </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
                                        </ul>
@@ -84,13 +84,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for procedures.">63 statements</a>
+    title=" 1.8% of total for procedures.">63 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_double.F90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_double.f90.html'>quadpack_double.F90</a></li>
-     <li><a href='../module/quadpack_double.html'>quadpack_double</a></li>
+     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
      <li class="active">dqmomo</li>
   </ol>
 </div>
@@ -109,7 +109,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dqmomo.html#src">dqmomo</a>
+  </div>
+</div>
 
 </div>
 
@@ -310,7 +315,12 @@ moments to be computed:</p>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dqmomo.html#src">dqmomo</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -324,6 +334,101 @@ moments to be computed:</p>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">dqmomo</span><span class="p">(</span><span class="n">Alfa</span><span class="p">,</span><span class="w"> </span><span class="n">Beta</span><span class="p">,</span><span class="w"> </span><span class="n">Ri</span><span class="p">,</span><span class="w"> </span><span class="n">Rj</span><span class="p">,</span><span class="w"> </span><span class="n">Rg</span><span class="p">,</span><span class="w"> </span><span class="n">Rh</span><span class="p">,</span><span class="w"> </span><span class="n">Integr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">implicit none</span>
+
+<span class="k">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Alfa</span><span class="w"> </span><span class="c">!! parameter in the weight function `w(x)`, `alfa&gt;(-1)`</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Beta</span><span class="w"> </span><span class="c">!! parameter in the weight function `w(x)`, `beta&gt;(-1)`</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Ri</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="c">!! `i(k)` is the integral over (-1,1) of</span>
+<span class="w">                                        </span><span class="c">!! `(1+x)**alfa*t(k-1,x), k = 1, ..., 25`.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Rj</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="c">!! `rj(k)` is the integral over (-1,1) of</span>
+<span class="w">                                        </span><span class="c">!! `(1-x)**beta*t(k-1,x), k = 1, ..., 25`.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Rg</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="c">!! `rg(k)` is the integral over (-1,1) of</span>
+<span class="w">                                        </span><span class="c">!! `(1+x)**alfa*log((1+x)/2)*t(k-1,x), k = 1, ..., 25`.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Rh</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="c">!! `rh(k)` is the integral over (-1,1) of</span>
+<span class="w">                                        </span><span class="c">!! `(1-x)**beta*log((1-x)/2)*t(k-1,x), k = 1, ..., 25`.</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Integr</span><span class="w"> </span><span class="c">!! input parameter indicating the modified</span>
+<span class="w">                                      </span><span class="c">!! moments to be computed:</span>
+<span class="w">                                      </span><span class="c">!!</span>
+<span class="w">                                      </span><span class="c">!! * integr = 1 compute `ri`, `rj`</span>
+<span class="w">                                      </span><span class="c">!! * integr = 2 compute `ri`, `rj`, `rg`</span>
+<span class="w">                                      </span><span class="c">!! * integr = 3 compute `ri`, `rj`, `rh`</span>
+<span class="w">                                      </span><span class="c">!! * integr = 4 compute `ri`, `rj`, `rg`, `rh`</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">alfp1</span><span class="p">,</span><span class="w"> </span><span class="n">alfp2</span><span class="p">,</span><span class="w"> </span><span class="n">an</span><span class="p">,</span><span class="w"> </span><span class="n">anm1</span><span class="p">,</span><span class="w"> </span><span class="n">betp1</span><span class="p">,</span><span class="w"> </span><span class="n">betp2</span><span class="p">,</span><span class="w"> </span><span class="n">ralf</span><span class="p">,</span><span class="w"> </span><span class="n">rbet</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">im1</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">alfp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alfa</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="n">betp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Beta</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="n">alfp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alfa</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="n">betp2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Beta</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="n">ralf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="o">**</span><span class="n">alfp1</span><span class="w"></span>
+<span class="w">        </span><span class="n">rbet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="o">**</span><span class="n">betp1</span><span class="w"></span>
+
+<span class="w">        </span><span class="c">! compute ri, rj using a forward recurrence relation.</span>
+
+<span class="w">        </span><span class="n">Ri</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ralf</span><span class="o">/</span><span class="n">alfp1</span><span class="w"></span>
+<span class="w">        </span><span class="n">Rj</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rbet</span><span class="o">/</span><span class="n">betp1</span><span class="w"></span>
+<span class="w">        </span><span class="n">Ri</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ri</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Alfa</span><span class="o">/</span><span class="n">alfp2</span><span class="w"></span>
+<span class="w">        </span><span class="n">Rj</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rj</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Beta</span><span class="o">/</span><span class="n">betp2</span><span class="w"></span>
+<span class="w">        </span><span class="n">an</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="n">anm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
+<span class="w">            </span><span class="n">Ri</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">ralf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">an</span><span class="o">*</span><span class="p">(</span><span class="n">an</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alfp2</span><span class="p">)</span><span class="o">*</span><span class="n">Ri</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">anm1</span><span class="o">*</span><span class="p">(</span><span class="n">an</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">alfp1</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="n">Rj</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">rbet</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">an</span><span class="o">*</span><span class="p">(</span><span class="n">an</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">betp2</span><span class="p">)</span><span class="o">*</span><span class="n">Rj</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">anm1</span><span class="o">*</span><span class="p">(</span><span class="n">an</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">betp1</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="n">anm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">an</span><span class="w"></span>
+<span class="w">            </span><span class="n">an</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">Integr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">Integr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+
+<span class="w">                </span><span class="c">! compute rg using a forward recurrence relation.</span>
+
+<span class="w">                </span><span class="n">Rg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Ri</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">alfp1</span><span class="w"></span>
+<span class="w">                </span><span class="n">Rg</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">ralf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ralf</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">alfp2</span><span class="o">*</span><span class="n">alfp2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Rg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">an</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="w"></span>
+<span class="w">                </span><span class="n">anm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">                </span><span class="n">im1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
+<span class="w">                    </span><span class="n">Rg</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">an</span><span class="o">*</span><span class="p">(</span><span class="n">an</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alfp2</span><span class="p">)</span><span class="o">*</span><span class="n">Rg</span><span class="p">(</span><span class="n">im1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">an</span><span class="o">*</span><span class="n">Ri</span><span class="p">(</span><span class="n">im1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">anm1</span><span class="o">*</span><span class="n">Ri</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                            </span><span class="o">/</span><span class="p">(</span><span class="n">anm1</span><span class="o">*</span><span class="p">(</span><span class="n">an</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">alfp1</span><span class="p">))</span><span class="w"></span>
+<span class="w">                    </span><span class="n">anm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">an</span><span class="w"></span>
+<span class="w">                    </span><span class="n">an</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">                    </span><span class="n">im1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">Integr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="w">            </span><span class="k">end if</span><span class="w"></span>
+
+<span class="w">            </span><span class="c">! compute rh using a forward recurrence relation.</span>
+
+<span class="w">            </span><span class="n">Rh</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Rj</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">betp1</span><span class="w"></span>
+<span class="w">            </span><span class="n">Rh</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">rbet</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rbet</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">betp2</span><span class="o">*</span><span class="n">betp2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Rh</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">an</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="w"></span>
+<span class="w">            </span><span class="n">anm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">            </span><span class="n">im1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
+<span class="w">                </span><span class="n">Rh</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">an</span><span class="o">*</span><span class="p">(</span><span class="n">an</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">betp2</span><span class="p">)</span><span class="o">*</span><span class="n">Rh</span><span class="p">(</span><span class="n">im1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">an</span><span class="o">*</span><span class="n">Rj</span><span class="p">(</span><span class="n">im1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">anm1</span><span class="o">*</span><span class="n">Rj</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="o">/</span><span class="p">(</span><span class="n">anm1</span><span class="o">*</span><span class="p">(</span><span class="n">an</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">betp1</span><span class="p">))</span><span class="w"></span>
+<span class="w">                </span><span class="n">anm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">an</span><span class="w"></span>
+<span class="w">                </span><span class="n">an</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">                </span><span class="n">im1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do</span>
+<span class="k">            do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">                </span><span class="n">Rh</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Rh</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end do</span>
+<span class="k">        end if</span>
+
+<span class="mi">100</span><span class="w">     </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">            </span><span class="n">Rj</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Rj</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span>
+
+<span class="k">    end subroutine </span><span class="n">dqmomo</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

@@ -49,14 +49,14 @@
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
             <li><a href="../lists/modules.html">Modules</a></li>
             <li><a href="../lists/procedures.html">Procedures</a></li>
               
             </ul>
         
             </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
                                        </ul>
@@ -84,13 +84,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.8% of total for procedures.">111 statements</a>
+    title=" 3.2% of total for procedures.">111 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_double.F90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_double.f90.html'>quadpack_double.F90</a></li>
-     <li><a href='../module/quadpack_double.html'>quadpack_double</a></li>
+     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
      <li class="active">davint</li>
   </ol>
 </div>
@@ -109,7 +109,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/davint.html#src">davint</a>
+  </div>
+</div>
 
 </div>
 
@@ -222,7 +227,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/davint.html#src">davint</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -236,6 +246,161 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">davint</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">xlo</span><span class="p">,</span><span class="n">xup</span><span class="p">,</span><span class="n">ans</span><span class="p">,</span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="c">!! array of abscissas, which must be in increasing order.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="c">!! array of function values. i.e., `y(i)=func(x(i))`</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c">!! The integer number of function values supplied.</span>
+<span class="w">                            </span><span class="c">!! `N &gt;= 2` unless `XLO = XUP`.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xlo</span><span class="w"> </span><span class="c">!! lower limit of integration</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xup</span><span class="w"> </span><span class="c">!! upper limit of integration.  Must have `XLO &lt;= XUP`</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ans</span><span class="w"> </span><span class="c">!! computed approximate value of integral</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span><span class="w"> </span><span class="c">!! A status code:</span>
+<span class="w">                                </span><span class="c">!!</span>
+<span class="w">                                </span><span class="c">!! * Normal Code</span>
+<span class="w">                                </span><span class="c">!!    * =1 Means the requested integration was performed.</span>
+<span class="w">                                </span><span class="c">!! * Abnormal Codes</span>
+<span class="w">                                </span><span class="c">!!    * =2 Means `XUP` was less than `XLO`.</span>
+<span class="w">                                </span><span class="c">!!    * =3 Means the number of `X(I)` between `XLO` and `XUP`</span>
+<span class="w">                                </span><span class="c">!!      (inclusive) was less than 3 and neither of the two</span>
+<span class="w">                                </span><span class="c">!!      special cases described in the abstract occurred.</span>
+<span class="w">                                </span><span class="c">!!      No integration was performed.</span>
+<span class="w">                                </span><span class="c">!!    * =4 Means the restriction `X(I+1)&gt;X(I)` was violated.</span>
+<span class="w">                                </span><span class="c">!!    * =5 Means the number `N` of function values was &lt; 2.</span>
+<span class="w">                                </span><span class="c">!!</span>
+<span class="w">                                </span><span class="c">!! ANS is set to zero if `IERR` = 2, 3, 4, or 5.</span>
+
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">inlft</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">inrt</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">istart</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">istop</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">ca</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">cb</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">cc</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">fl</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">fr</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">r3</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                </span><span class="n">rp5</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">slope</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">syl</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">syl2</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">syl3</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">syu</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                </span><span class="n">syu2</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">syu3</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">term1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">term2</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">term3</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                </span><span class="n">x12</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">x13</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">x23</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">x3</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">ans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">! error checks and trivial cases:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">xlo</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">xup</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="n">xlo</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">xup</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">xerror</span><span class="p">(</span><span class="s1">&#39;the upper limit of integration was not greater &#39;</span><span class="o">//</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                    </span><span class="s1">&#39;than the lower limit.&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span>
+<span class="k">    end if</span>
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">xerror</span><span class="p">(</span><span class="s1">&#39;less than two function values were supplied.&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                     </span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span>
+<span class="k">    end if</span>
+<span class="k">    do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">            </span><span class="k">call </span><span class="n">xerror</span><span class="p">(</span><span class="s1">&#39;the abscissas were not strictly increasing.  must have &#39;</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="o">//</span><span class="s1">&#39;x(i-1) &lt; x(i) for all i.&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span>
+<span class="k">        end if</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;</span><span class="n">xup</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+<span class="k">    enddo</span>
+
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">n</span><span class="o">&lt;</span><span class="mi">3</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
+
+<span class="w">        </span><span class="c">! special n=2 case</span>
+<span class="w">        </span><span class="n">slope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">fl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">slope</span><span class="o">*</span><span class="p">(</span><span class="n">xlo</span><span class="o">-</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">fr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">slope</span><span class="o">*</span><span class="p">(</span><span class="n">xup</span><span class="o">-</span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">ans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">fl</span><span class="o">+</span><span class="n">fr</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">xup</span><span class="o">-</span><span class="n">xlo</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">elseif</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;</span><span class="n">xlo</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="k">        </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">xerror</span><span class="p">(</span><span class="s1">&#39;there were less than three function values &#39;</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                    </span><span class="o">//</span><span class="s1">&#39;between the limits of integration.&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">elseif</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">xup</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="k">        </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">do</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">xlo</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">inlft</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">                </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">                </span><span class="k">do</span>
+<span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">xup</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        </span><span class="n">inrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">inrt</span><span class="o">-</span><span class="n">inlft</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                            </span><span class="n">istart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inlft</span><span class="w"></span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">inlft</span><span class="o">==</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">istart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">                            </span><span class="n">istop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inrt</span><span class="w"></span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">inrt</span><span class="o">==</span><span class="n">n</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">istop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                            </span><span class="n">r3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.0_wp</span><span class="w"></span>
+<span class="w">                            </span><span class="n">rp5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="w"></span>
+<span class="w">                            </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"></span>
+<span class="w">                            </span><span class="n">syl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xlo</span><span class="w"></span>
+<span class="w">                            </span><span class="n">syl2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">syl</span><span class="o">*</span><span class="n">syl</span><span class="w"></span>
+<span class="w">                            </span><span class="n">syl3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">syl2</span><span class="o">*</span><span class="n">syl</span><span class="w"></span>
+<span class="w">                            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">istart</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">istop</span><span class="w"></span>
+<span class="w">                                </span><span class="n">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                </span><span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                </span><span class="n">x3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                </span><span class="n">x12</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x2</span><span class="w"></span>
+<span class="w">                                </span><span class="n">x13</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x3</span><span class="w"></span>
+<span class="w">                                </span><span class="n">x23</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x3</span><span class="w"></span>
+<span class="w">                                </span><span class="n">term1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">x12</span><span class="o">*</span><span class="n">x13</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                </span><span class="n">term2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">y</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">x12</span><span class="o">*</span><span class="n">x23</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                </span><span class="n">term3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">x13</span><span class="o">*</span><span class="n">x23</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">term1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">term2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">term3</span><span class="w"></span>
+<span class="w">                                </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">x2</span><span class="o">+</span><span class="n">x3</span><span class="p">)</span><span class="o">*</span><span class="n">term1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">x3</span><span class="p">)</span><span class="o">*</span><span class="n">term2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">x1</span><span class="o">+</span><span class="n">x2</span><span class="p">)</span><span class="o">*</span><span class="n">term3</span><span class="w"></span>
+<span class="w">                                </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span><span class="o">*</span><span class="n">term1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x1</span><span class="o">*</span><span class="n">x3</span><span class="o">*</span><span class="n">term2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x1</span><span class="o">*</span><span class="n">x2</span><span class="o">*</span><span class="n">term3</span><span class="w"></span>
+<span class="w">                                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="o">&gt;</span><span class="n">istart</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                                    </span><span class="n">ca</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">ca</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">cb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="o">+</span><span class="n">cb</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">cc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="o">+</span><span class="n">cc</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                </span><span class="k">else</span>
+<span class="k">                                    </span><span class="n">ca</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">cb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<span class="w">                                    </span><span class="n">cc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"></span>
+<span class="w">                                </span><span class="k">endif</span>
+<span class="k">                                </span><span class="n">syu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x2</span><span class="w"></span>
+<span class="w">                                </span><span class="n">syu2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">syu</span><span class="o">*</span><span class="n">syu</span><span class="w"></span>
+<span class="w">                                </span><span class="n">syu3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">syu2</span><span class="o">*</span><span class="n">syu</span><span class="w"></span>
+<span class="w">                                </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ca</span><span class="o">*</span><span class="p">(</span><span class="n">syu3</span><span class="o">-</span><span class="n">syl3</span><span class="p">)</span><span class="o">/</span><span class="n">r3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cb</span><span class="o">*</span><span class="n">rp5</span><span class="o">*</span><span class="p">(</span><span class="n">syu2</span><span class="o">-</span><span class="n">syl2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cc</span><span class="o">*</span><span class="p">(</span><span class="n">syu</span><span class="o">-</span><span class="n">syl</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                </span><span class="n">ca</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">                                </span><span class="n">cb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<span class="w">                                </span><span class="n">cc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"></span>
+<span class="w">                                </span><span class="n">syl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">syu</span><span class="w"></span>
+<span class="w">                                </span><span class="n">syl2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">syu2</span><span class="w"></span>
+<span class="w">                                </span><span class="n">syl3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">syu3</span><span class="w"></span>
+<span class="w">                            </span><span class="k">enddo</span>
+<span class="k">                            </span><span class="n">syu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xup</span><span class="w"></span>
+<span class="w">                            </span><span class="n">ans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ca</span><span class="o">*</span><span class="p">(</span><span class="n">syu</span><span class="o">**</span><span class="mi">3</span><span class="o">-</span><span class="n">syl3</span><span class="p">)</span><span class="o">/</span><span class="n">r3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cb</span><span class="o">*</span><span class="n">rp5</span><span class="o">*</span><span class="p">(</span><span class="n">syu</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="n">syl2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cc</span><span class="o">*</span><span class="p">(</span><span class="n">syu</span><span class="o">-</span><span class="n">syl</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">else</span>
+<span class="k">                            </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">                            </span><span class="k">call </span><span class="n">xerror</span><span class="p">(</span><span class="s1">&#39;there were less than three function values &#39;</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                        </span><span class="o">//</span><span class="s1">&#39;between the limits of integration.&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                        </span><span class="k">endif</span>
+<span class="k">                        return</span>
+<span class="k">                    endif</span>
+<span class="k">                    </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">                </span><span class="k">end do</span>
+<span class="k">            endif</span>
+<span class="k">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span>
+
+<span class="k">    else</span>
+<span class="k">        </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">xerror</span><span class="p">(</span><span class="s1">&#39;there were less than three function values &#39;</span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                    </span><span class="o">//</span><span class="s1">&#39;between the limits of integration.&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">endif</span>
+
+<span class="k">    end subroutine </span><span class="n">davint</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

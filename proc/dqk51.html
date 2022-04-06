@@ -49,14 +49,14 @@
               aria-haspopup="true"
      aria-expanded="false">Contents <span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
             <li><a href="../lists/modules.html">Modules</a></li>
             <li><a href="../lists/procedures.html">Procedures</a></li>
               
             </ul>
         
             </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
                                        </ul>
@@ -84,13 +84,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for procedures.">64 statements</a>
+    title=" 1.8% of total for procedures.">64 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_double.F90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_double.f90.html'>quadpack_double.F90</a></li>
-     <li><a href='../module/quadpack_double.html'>quadpack_double</a></li>
+     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
      <li class="active">dqk51</li>
   </ol>
 </div>
@@ -109,7 +109,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dqk51.html#src">dqk51</a>
+  </div>
+</div>
 
 </div>
 
@@ -303,7 +308,12 @@ over <code>(a,b)</code></p></td>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/dqk51.html#src">dqk51</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -317,6 +327,170 @@ over <code>(a,b)</code></p></td>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">dqk51</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">,</span><span class="w"> </span><span class="n">Resabs</span><span class="p">,</span><span class="w"> </span><span class="n">Resasc</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">implicit none</span>
+
+<span class="k">        procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="c">!! function subroutine defining the integrand function `f(x)`.</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="c">!! lower limit of integration</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c">!! upper limit of integration</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">Result</span><span class="w"> </span><span class="c">!! approximation to the integral i.</span>
+<span class="w">                                        </span><span class="c">!! `result` is computed by applying the 51-point</span>
+<span class="w">                                        </span><span class="c">!! kronrod rule (resk) obtained by optimal addition</span>
+<span class="w">                                        </span><span class="c">!! of abscissae to the 25-point gauss rule (resg).</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="c">!! estimate of the modulus of the absolute error,</span>
+<span class="w">                                        </span><span class="c">!! which should not exceed `abs(i-result)`</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Resabs</span><span class="w"> </span><span class="c">!! approximation to the integral j</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Resasc</span><span class="w"> </span><span class="c">!! approximation to the integral of `abs(f-i/(b-a))`</span>
+<span class="w">                                        </span><span class="c">!! over `(a,b)`</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">centr</span><span class="w"> </span><span class="c">!! mid point of the interval</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hlgth</span><span class="w"> </span><span class="c">!! half-length of the interval</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">absc</span><span class="w"> </span><span class="c">!! abscissa</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fval1</span><span class="w"> </span><span class="c">!! function value</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fval2</span><span class="w"> </span><span class="c">!! function value</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">resg</span><span class="w"> </span><span class="c">!! result of the 25-point gauss formula</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">resk</span><span class="w"> </span><span class="c">!! result of the 51-point kronrod formula</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">reskh</span><span class="w"> </span><span class="c">!! approximation to the mean value of `f` over `(a,b)`, i.e. to `i/(b-a)`</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dhlgth</span><span class="p">,</span><span class="w"> </span><span class="n">fc</span><span class="p">,</span><span class="w"> </span><span class="n">fsum</span><span class="p">,</span><span class="w"> </span><span class="n">fv1</span><span class="p">(</span><span class="mi">25</span><span class="p">),</span><span class="w"> </span><span class="n">fv2</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">jtw</span><span class="p">,</span><span class="w"> </span><span class="n">jtwm1</span><span class="w"></span>
+
+<span class="w">        </span><span class="c">! the abscissae and weights are given for the interval (-1,1).</span>
+<span class="w">        </span><span class="c">! because of symmetry only the positive abscissae and their</span>
+<span class="w">        </span><span class="c">! corresponding weights are given.</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">13</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">wg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.13937985010262879479029641132347736033e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">2.63549866150321372619018152952991449360e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">4.09391567013063126556234877116459536608e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.49046959758351919259368915404733241601e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">6.80383338123569172071871856567079685547e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">8.01407003350010180132349596691113022902e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">9.10282619829636498114972207028916533810e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.00535949067050644202206890392685826988e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.08519624474263653116093957050116619340e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.14858259145711648339325545869555808641e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.19455763535784772228178126512901047390e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.22242442990310041688959518945851505835e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.23176053726715451203902873079050142438e-1_wp</span><span class="p">]</span><span class="w"> </span><span class="c">!! weights of the 25-point gauss rule</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">26</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xgk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">9.99262104992609834193457486540340593705e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">9.95556969790498097908784946893901617258e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">9.88035794534077247637331014577406227072e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">9.76663921459517511498315386479594067745e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">9.61614986425842512418130033660167241692e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">9.42974571228974339414011169658470531905e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">9.20747115281701561746346084546330631575e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">8.94991997878275368851042006782804954175e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">8.65847065293275595448996969588340088203e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">8.33442628760834001421021108693569569461e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">7.97873797998500059410410904994306569409e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">7.59259263037357630577282865204360976388e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">7.17766406813084388186654079773297780598e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">6.73566368473468364485120633247622175883e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">6.26810099010317412788122681624517881020e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.77662930241222967723689841612654067396e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.26325284334719182599623778158010178037e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">4.73002731445714960522182115009192041332e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">4.17885382193037748851814394594572487093e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">3.61172305809387837735821730127640667422e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">3.03089538931107830167478909980339329200e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">2.43866883720988432045190362797451586406e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.83718939421048892015969888759528415785e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.22864692610710396387359818808036805532e-1_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">6.15444830056850788865463923667966312817e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">0.00000000000000000000000000000000000000e0_wp</span><span class="p">]</span><span class="w"> </span><span class="c">!! abscissae of the 51-point kronrod rule</span>
+<span class="w">                                                                                             </span><span class="c">!!</span>
+<span class="w">                                                                                             </span><span class="c">!! * xgk(2), xgk(4), ...  abscissae of the 25-point</span>
+<span class="w">                                                                                             </span><span class="c">!!   gauss rule</span>
+<span class="w">                                                                                             </span><span class="c">!! * xgk(1), xgk(3), ...  abscissae which are optimally</span>
+<span class="w">                                                                                             </span><span class="c">!!   added to the 25-point gauss rule</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">26</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">wgk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.98738389233031592650785188284340988943e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.56193213535671375804023690106552207018e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">9.47397338617415160720771052365532387165e-3_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.32362291955716748136564058469762380776e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">1.68478177091282982315166675363363158404e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">2.04353711458828354565682922359389736788e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">2.40099456069532162200924891648810813929e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">2.74753175878517378029484555178110786148e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">3.07923001673874888911090202152285856009e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">3.40021302743293378367487952295512032257e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">3.71162714834155435603306253676198759960e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">4.00838255040323820748392844670756464014e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">4.28728450201700494768957924394951611020e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">4.55029130499217889098705847526603930437e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">4.79825371388367139063922557569147549836e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.02776790807156719633252594334400844406e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.23628858064074758643667121378727148874e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.42511298885454901445433704598756068261e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.59508112204123173082406863827473468203e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.74371163615678328535826939395064719948e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.86896800223942079619741758567877641398e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">5.97203403241740599790992919325618538354e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">6.05394553760458629453602675175654271623e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">6.11285097170530483058590304162927119227e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">6.14711898714253166615441319652641775865e-2_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                                              </span><span class="mf">6.15808180678329350787598242400645531904e-2_wp</span><span class="p">]</span><span class="w"> </span><span class="c">!! weights of the 51-point kronrod rule.</span>
+
+<span class="w">        </span><span class="n">centr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">hlgth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">dhlgth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">hlgth</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="c">! compute the 51-point kronrod approximation to</span>
+<span class="w">        </span><span class="c">! the integral, and estimate the absolute error.</span>
+
+<span class="w">        </span><span class="n">fc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">centr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">resg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wg</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">*</span><span class="n">fc</span><span class="w"></span>
+<span class="w">        </span><span class="n">resk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="mi">26</span><span class="p">)</span><span class="o">*</span><span class="n">fc</span><span class="w"></span>
+<span class="w">        </span><span class="n">Resabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">resk</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="w"></span>
+<span class="w">            </span><span class="n">jtw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="w"></span>
+<span class="w">            </span><span class="n">absc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hlgth</span><span class="o">*</span><span class="n">xgk</span><span class="p">(</span><span class="n">jtw</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">fval1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">centr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">absc</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">fval2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">centr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">absc</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">fv1</span><span class="p">(</span><span class="n">jtw</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval1</span><span class="w"></span>
+<span class="w">            </span><span class="n">fv2</span><span class="p">(</span><span class="n">jtw</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval2</span><span class="w"></span>
+<span class="w">            </span><span class="n">fsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fval2</span><span class="w"></span>
+<span class="w">            </span><span class="n">resg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wg</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">fsum</span><span class="w"></span>
+<span class="w">            </span><span class="n">resk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="n">jtw</span><span class="p">)</span><span class="o">*</span><span class="n">fsum</span><span class="w"></span>
+<span class="w">            </span><span class="n">Resabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resabs</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="n">jtw</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fval1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">fval2</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="w"></span>
+<span class="w">            </span><span class="n">jtwm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">absc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hlgth</span><span class="o">*</span><span class="n">xgk</span><span class="p">(</span><span class="n">jtwm1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">fval1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">centr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">absc</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">fval2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">centr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">absc</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">fv1</span><span class="p">(</span><span class="n">jtwm1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval1</span><span class="w"></span>
+<span class="w">            </span><span class="n">fv2</span><span class="p">(</span><span class="n">jtwm1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval2</span><span class="w"></span>
+<span class="w">            </span><span class="n">fsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fval1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fval2</span><span class="w"></span>
+<span class="w">            </span><span class="n">resk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="n">jtwm1</span><span class="p">)</span><span class="o">*</span><span class="n">fsum</span><span class="w"></span>
+<span class="w">            </span><span class="n">Resabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resabs</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="n">jtwm1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fval1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">fval2</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        </span><span class="n">reskh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resk</span><span class="o">*</span><span class="mf">0.5_wp</span><span class="w"></span>
+<span class="w">        </span><span class="n">Resasc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="mi">26</span><span class="p">)</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">fc</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">reskh</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
+<span class="w">            </span><span class="n">Resasc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resasc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wgk</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">                     </span><span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fv1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">reskh</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">fv2</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">reskh</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        Result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resk</span><span class="o">*</span><span class="n">hlgth</span><span class="w"></span>
+<span class="w">        </span><span class="n">Resabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resabs</span><span class="o">*</span><span class="n">dhlgth</span><span class="w"></span>
+<span class="w">        </span><span class="n">Resasc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resasc</span><span class="o">*</span><span class="n">dhlgth</span><span class="w"></span>
+<span class="w">        </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">((</span><span class="n">resk</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">resg</span><span class="p">)</span><span class="o">*</span><span class="n">hlgth</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Resasc</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">Abserr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resasc</span><span class="o">*</span><span class="nb">min</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="mi">20</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">Abserr</span><span class="o">/</span><span class="n">Resasc</span><span class="p">)</span><span class="o">**</span><span class="mf">1.5_wp</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Resabs</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uflow</span><span class="o">/</span><span class="p">(</span><span class="mi">5</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">epmach</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="n">Abserr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">((</span><span class="n">epmach</span><span class="o">*</span><span class="mi">5</span><span class="mf">0.0_wp</span><span class="p">)</span><span class="o">*</span><span class="n">Resabs</span><span class="p">,</span><span class="w"> </span><span class="n">Abserr</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">dqk51</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>
