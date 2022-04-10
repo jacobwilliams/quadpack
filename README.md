@@ -1,9 +1,10 @@
 ![quadpack2](media/logo.png)
 ============
 
-[![GitHub release](https://img.shields.io/github/release/jacobwilliams/quadpack.svg?style=plastic)](https://github.com/jacobwilliams/quadpack/releases/latest)
+[![GitHub release](https://img.shields.io/github/release/jacobwilliams/quadpack.svg)](https://github.com/jacobwilliams/quadpack/releases/latest)
 [![Build Status](https://github.com/jacobwilliams/quadpack/actions/workflows/CI.yml/badge.svg)](https://github.com/jacobwilliams/quadpack/actions)
-[![codecov](https://codecov.io/gh/jacobwilliams/quadpack/branch/master/graph/badge.svg?token=NLAXSJZVWD)](https://codecov.io/gh/jacobwilliams/quadpack)
+[![codecov](https://codecov.io/gh/jacobwilliams/quadpack/branch/master/graph/badge.svg)](https://codecov.io/gh/jacobwilliams/quadpack)
+[![last-commit](https://img.shields.io/github/last-commit/jacobwilliams/quadpack)](https://github.com/jacobwilliams/quadpack/commits/master)
 
 ### Description
 
