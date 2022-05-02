@@ -8,7 +8,7 @@
 
 ### Description
 
-QUADPACK is a Fortran subroutine package for the numerical
+QUADPACK is a Fortran library for the numerical
 computation of definite one-dimensional integrals (numerical quadrature). Development of this library, which had ceased in the 1980s, has been restarted. The original code is being modernized, and new methods are being added.  The goal is a comprehensive and modern Fortran library that includes both classic and state-of-the-art methods for numerical integration.
 
 ### Overview
