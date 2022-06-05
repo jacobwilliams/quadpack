@@ -53,7 +53,7 @@ Or, to use a specific version:
 
 ```toml
 [dependencies]
-quadpack = { git="https://github.com/jacobwilliams/quadpack.git", tab = "2.0.0" }
+quadpack = { git="https://github.com/jacobwilliams/quadpack.git", tag = "2.0.0" }
 ```
 
 ### Example
