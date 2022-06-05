@@ -49,6 +49,13 @@ To use `quadpack` within your fpm project, add the following to your `fpm.toml` 
 quadpack = { git="https://github.com/jacobwilliams/quadpack.git" }
 ```
 
+Or, to use a specific version:
+
+```toml
+[dependencies]
+quadpack = { git="https://github.com/jacobwilliams/quadpack.git", tab = "2.0.0" }
+```
+
 ### Example
 
 A simple example is given here (see the `test` folder for more examples):
