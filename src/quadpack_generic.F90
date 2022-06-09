@@ -1026,12 +1026,12 @@ module quadpack_generic
                         (Result/area) > 100.0_wp .or. &
                         errsum > abs(area)) Ier = 6
                 end if
-                exit main
-            end if
 
-            ! compute global integral sum.
-            Result = sum(Rlist(1:Last))
-            Abserr = errsum
+            else
+                ! compute global integral sum.
+                Result = sum(Rlist(1:Last))
+                Abserr = errsum
+            end if
 
         end block main
 
@@ -1411,9 +1411,9 @@ module quadpack_generic
         if (a > b) sign = -1.0_wp
         Pts(1) = min(a, b)
         if (npts /= 0) then
-        do i = 1, npts
-            Pts(i + 1) = Points(i)
-        end do
+            do i = 1, npts
+                Pts(i + 1) = Points(i)
+            end do
         end if
         Pts(npts + 2) = max(a, b)
         nint = npts + 1
@@ -1423,258 +1423,276 @@ module quadpack_generic
             do i = 1, nint
                 ip1 = i + 1
                 do j = ip1, nintp1
-                if (Pts(i) > Pts(j)) then
-                    temp = Pts(i)
-                    Pts(i) = Pts(j)
-                    Pts(j) = temp
-                end if
+                    if (Pts(i) > Pts(j)) then
+                        temp = Pts(i)
+                        Pts(i) = Pts(j)
+                        Pts(j) = temp
+                    end if
                 end do
             end do
             if (Pts(1) /= min(a, b) .or. Pts(nintp1) /= max(a, b)) Ier = 6
             if (Ier == 6) return
         end if
 
-        ! compute first integral and error approximations.
+        main : block
 
-        resabs = 0.0_wp
-        do i = 1, nint
-            b1 = Pts(i + 1)
-            call dqk21(f, a1, b1, area1, error1, defabs, resa)
-            Abserr = Abserr + error1
-            Result = Result + area1
-            Ndin(i) = 0
-            if (error1 == resa .and. error1 /= 0.0_wp) Ndin(i) = 1
-            resabs = resabs + defabs
-            Level(i) = 0
-            Elist(i) = error1
-            Alist(i) = a1
-            Blist(i) = b1
-            Rlist(i) = area1
-            Iord(i) = i
-            a1 = b1
-        end do
-        errsum = 0.0_wp
-        do i = 1, nint
-            if (Ndin(i) == 1) Elist(i) = Abserr
-            errsum = errsum + Elist(i)
-        end do
+            ! compute first integral and error approximations.
 
-        ! test on accuracy.
+            resabs = 0.0_wp
+            do i = 1, nint
+                b1 = Pts(i + 1)
+                call dqk21(f, a1, b1, area1, error1, defabs, resa)
+                Abserr = Abserr + error1
+                Result = Result + area1
+                Ndin(i) = 0
+                if (error1 == resa .and. error1 /= 0.0_wp) Ndin(i) = 1
+                resabs = resabs + defabs
+                Level(i) = 0
+                Elist(i) = error1
+                Alist(i) = a1
+                Blist(i) = b1
+                Rlist(i) = area1
+                Iord(i) = i
+                a1 = b1
+            end do
+            errsum = 0.0_wp
+            do i = 1, nint
+                if (Ndin(i) == 1) Elist(i) = Abserr
+                errsum = errsum + Elist(i)
+            end do
 
-        Last = nint
-        Neval = 21*nint
-        dres = abs(Result)
-        errbnd = max(Epsabs, Epsrel*dres)
-        if (Abserr <= 100.0_wp*epmach*resabs .and. Abserr > errbnd) Ier = 2
-        if (nint /= 1) then
-        do i = 1, npts
-            jlow = i + 1
-            ind1 = Iord(i)
-            do j = jlow, nint
-                ind2 = Iord(j)
-                if (Elist(ind1) <= Elist(ind2)) then
-                    ind1 = ind2
-                    k = j
+            ! test on accuracy.
+
+            Last = nint
+            Neval = 21*nint
+            dres = abs(Result)
+            errbnd = max(Epsabs, Epsrel*dres)
+            if (Abserr <= 100.0_wp*epmach*resabs .and. Abserr > errbnd) Ier = 2
+            if (nint /= 1) then
+            do i = 1, npts
+                jlow = i + 1
+                ind1 = Iord(i)
+                do j = jlow, nint
+                    ind2 = Iord(j)
+                    if (Elist(ind1) <= Elist(ind2)) then
+                        ind1 = ind2
+                        k = j
+                    end if
+                end do
+                if (ind1 /= Iord(i)) then
+                    Iord(k) = Iord(i)
+                    Iord(i) = ind1
                 end if
             end do
-            if (ind1 /= Iord(i)) then
-                Iord(k) = Iord(i)
-                Iord(i) = ind1
+            if (Limit < Npts2) Ier = 1
             end if
-        end do
-        if (Limit < Npts2) Ier = 1
-        end if
-        if (Ier /= 0 .or. Abserr <= errbnd) goto 400
+            if (Ier /= 0 .or. Abserr <= errbnd) exit main
 
-        ! initialization
+            ! initialization
 
-        rlist2(1) = Result
-        maxerr = Iord(1)
-        errmax = Elist(maxerr)
-        area = Result
-        nrmax = 1
-        nres = 0
-        numrl2 = 1
-        ktmin = 0
-        extrap = .false.
-        noext = .false.
-        erlarg = errsum
-        ertest = errbnd
-        levmax = 1
-        iroff1 = 0
-        iroff2 = 0
-        iroff3 = 0
-        ierro = 0
-        Abserr = oflow
-        ksgn = -1
-        if (dres >= (1.0_wp - 50.0_wp*epmach)*resabs) ksgn = 1
+            rlist2(1) = Result
+            maxerr = Iord(1)
+            errmax = Elist(maxerr)
+            area = Result
+            nrmax = 1
+            nres = 0
+            numrl2 = 1
+            ktmin = 0
+            extrap = .false.
+            noext = .false.
+            erlarg = errsum
+            ertest = errbnd
+            levmax = 1
+            iroff1 = 0
+            iroff2 = 0
+            iroff3 = 0
+            ierro = 0
+            Abserr = oflow
+            ksgn = -1
+            if (dres >= (1.0_wp - 50.0_wp*epmach)*resabs) ksgn = 1
 
-        ! main do-loop
+            ! main do-loop
 
-        main: do Last = Npts2, Limit
+            loop: do Last = Npts2, Limit
 
-            ! bisect the subinterval with the nrmax-th largest error
-            ! estimate.
+                ! bisect the subinterval with the nrmax-th largest error
+                ! estimate.
 
-            levcur = Level(maxerr) + 1
-            a1 = Alist(maxerr)
-            b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
-            a2 = b1
-            b2 = Blist(maxerr)
-            erlast = errmax
-            call dqk21(f, a1, b1, area1, error1, resa, defab1)
-            call dqk21(f, a2, b2, area2, error2, resa, defab2)
+                levcur = Level(maxerr) + 1
+                a1 = Alist(maxerr)
+                b1 = 0.5_wp*(Alist(maxerr) + Blist(maxerr))
+                a2 = b1
+                b2 = Blist(maxerr)
+                erlast = errmax
+                call dqk21(f, a1, b1, area1, error1, resa, defab1)
+                call dqk21(f, a2, b2, area2, error2, resa, defab2)
 
-            ! improve previous approximations to integral
-            ! and error and test for accuracy.
+                ! improve previous approximations to integral
+                ! and error and test for accuracy.
 
-            Neval = Neval + 42
-            area12 = area1 + area2
-            erro12 = error1 + error2
-            errsum = errsum + erro12 - errmax
-            area = area + area12 - Rlist(maxerr)
-            if (defab1 /= error1 .and. defab2 /= error2) then
-                if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) .and. &
-                    erro12 >= 0.99_wp*errmax) then
-                    if (extrap) iroff2 = iroff2 + 1
-                    if (.not. extrap) iroff1 = iroff1 + 1
-                end if
-                if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
-            end if
-            Level(maxerr) = levcur
-            Level(Last) = levcur
-            Rlist(maxerr) = area1
-            Rlist(Last) = area2
-            errbnd = max(Epsabs, Epsrel*abs(area))
-
-            ! test for roundoff error and eventually set error flag.
-
-            if (iroff1 + iroff2 >= 10 .or. iroff3 >= 20) Ier = 2
-            if (iroff2 >= 5) ierro = 3
-
-            ! set error flag in the case that the number of
-            ! subintervals equals limit.
-
-            if (Last == Limit) Ier = 1
-
-            ! set error flag in the case of bad integrand behaviour
-            ! at a point of the integration range
-
-            if (max(abs(a1), abs(b2)) <= (1.0_wp + 100.0_wp*epmach) &
-                *(abs(a2) + 1000.0_wp*uflow)) Ier = 4
-
-            ! append the newly-created intervals to the list.
-
-            if (error2 > error1) then
-                Alist(maxerr) = a2
-                Alist(Last) = a1
-                Blist(Last) = b1
-                Rlist(maxerr) = area2
-                Rlist(Last) = area1
-                Elist(maxerr) = error2
-                Elist(Last) = error1
-            else
-                Alist(Last) = a2
-                Blist(maxerr) = b1
-                Blist(Last) = b2
-                Elist(maxerr) = error1
-                Elist(Last) = error2
-            end if
-
-            ! call subroutine dqpsrt to maintain the descending ordering
-            ! in the list of error estimates and select the subinterval
-            ! with nrmax-th largest error estimate (to be bisected next).
-
-            call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
-            ! ***jump out of do-loop
-            if (errsum <= errbnd) goto 300
-            ! ***jump out of do-loop
-            if (Ier /= 0) exit main
-            if (.not. (noext)) then
-                erlarg = erlarg - erlast
-                if (levcur + 1 <= levmax) erlarg = erlarg + erro12
-                if (.not. (extrap)) then
-                    ! test whether the interval to be bisected next is the
-                    ! smallest interval.
-                    if (Level(maxerr) + 1 <= levmax) cycle main
-                    extrap = .true.
-                    nrmax = 2
-                end if
-                if (ierro /= 3 .and. erlarg > ertest) then
-                    ! the smallest interval has the largest error.
-                    ! before bisecting decrease the sum of the errors over
-                    ! the larger intervals (erlarg) and perform extrapolation.
-                    id = nrmax
-                    jupbnd = Last
-                    if (Last > (2 + Limit/2)) jupbnd = Limit + 3 - Last
-                    do k = id, jupbnd
-                        maxerr = Iord(nrmax)
-                        errmax = Elist(maxerr)
-                        ! ***jump out of do-loop
-                        if (Level(maxerr) + 1 <= levmax) cycle main
-                        nrmax = nrmax + 1
-                    end do
-                end if
-
-                ! perform extrapolation.
-
-                numrl2 = numrl2 + 1
-                rlist2(numrl2) = area
-                if (numrl2 > 2) then
-                    call dqelg(numrl2, rlist2, reseps, abseps, res3la, nres)
-                    ktmin = ktmin + 1
-                    if (ktmin > 5 .and. Abserr < 0.1e-02_wp*errsum) Ier = 5
-                    if (abseps < Abserr) then
-                        ktmin = 0
-                        Abserr = abseps
-                        Result = reseps
-                        correc = erlarg
-                        ertest = max(Epsabs, Epsrel*abs(reseps))
-                        ! ***jump out of do-loop
-                        if (Abserr < ertest) exit main
+                Neval = Neval + 42
+                area12 = area1 + area2
+                erro12 = error1 + error2
+                errsum = errsum + erro12 - errmax
+                area = area + area12 - Rlist(maxerr)
+                if (defab1 /= error1 .and. defab2 /= error2) then
+                    if (abs(Rlist(maxerr) - area12) <= 0.1e-4_wp*abs(area12) .and. &
+                        erro12 >= 0.99_wp*errmax) then
+                        if (extrap) iroff2 = iroff2 + 1
+                        if (.not. extrap) iroff1 = iroff1 + 1
                     end if
-                    ! prepare bisection of the smallest interval.
-                    if (numrl2 == 1) noext = .true.
-                    if (Ier >= 5) exit main
+                    if (Last > 10 .and. erro12 > errmax) iroff3 = iroff3 + 1
                 end if
-                maxerr = Iord(1)
-                errmax = Elist(maxerr)
-                nrmax = 1
-                extrap = .false.
-                levmax = levmax + 1
-                erlarg = errsum
-            end if
-        end do main
+                Level(maxerr) = levcur
+                Level(Last) = levcur
+                Rlist(maxerr) = area1
+                Rlist(Last) = area2
+                errbnd = max(Epsabs, Epsrel*abs(area))
 
-        ! set the final result.
+                ! test for roundoff error and eventually set error flag.
 
-        if (Abserr /= oflow) then
-            if ((Ier + ierro) /= 0) then
-                if (ierro == 3) Abserr = Abserr + correc
-                if (Ier == 0) Ier = 3
-                if (Result == 0.0_wp .or. area == 0.0_wp) then
-                    if (Abserr > errsum) goto 300
-                    if (area == 0.0_wp) goto 400
-                elseif (Abserr/abs(Result) > errsum/abs(area)) then
-                    goto 300
+                if (iroff1 + iroff2 >= 10 .or. iroff3 >= 20) Ier = 2
+                if (iroff2 >= 5) ierro = 3
+
+                ! set error flag in the case that the number of
+                ! subintervals equals limit.
+
+                if (Last == Limit) Ier = 1
+
+                ! set error flag in the case of bad integrand behaviour
+                ! at a point of the integration range
+
+                if (max(abs(a1), abs(b2)) <= (1.0_wp + 100.0_wp*epmach) &
+                    *(abs(a2) + 1000.0_wp*uflow)) Ier = 4
+
+                ! append the newly-created intervals to the list.
+
+                if (error2 > error1) then
+                    Alist(maxerr) = a2
+                    Alist(Last) = a1
+                    Blist(Last) = b1
+                    Rlist(maxerr) = area2
+                    Rlist(Last) = area1
+                    Elist(maxerr) = error2
+                    Elist(Last) = error1
+                else
+                    Alist(Last) = a2
+                    Blist(maxerr) = b1
+                    Blist(Last) = b2
+                    Elist(maxerr) = error1
+                    Elist(Last) = error2
                 end if
+
+                ! call subroutine dqpsrt to maintain the descending ordering
+                ! in the list of error estimates and select the subinterval
+                ! with nrmax-th largest error estimate (to be bisected next).
+
+                call dqpsrt(Limit, Last, maxerr, errmax, Elist, Iord, nrmax)
+                ! ***jump out of do-loop
+                if (errsum <= errbnd) then
+                    ! compute global integral sum.
+                    Result = sum(Rlist(1:Last))
+                    Abserr = errsum
+                    exit main
+                end if
+                ! ***jump out of do-loop
+                if (Ier /= 0) exit loop
+                if (.not. (noext)) then
+                    erlarg = erlarg - erlast
+                    if (levcur + 1 <= levmax) erlarg = erlarg + erro12
+                    if (.not. (extrap)) then
+                        ! test whether the interval to be bisected next is the
+                        ! smallest interval.
+                        if (Level(maxerr) + 1 <= levmax) cycle loop
+                        extrap = .true.
+                        nrmax = 2
+                    end if
+                    if (ierro /= 3 .and. erlarg > ertest) then
+                        ! the smallest interval has the largest error.
+                        ! before bisecting decrease the sum of the errors over
+                        ! the larger intervals (erlarg) and perform extrapolation.
+                        id = nrmax
+                        jupbnd = Last
+                        if (Last > (2 + Limit/2)) jupbnd = Limit + 3 - Last
+                        do k = id, jupbnd
+                            maxerr = Iord(nrmax)
+                            errmax = Elist(maxerr)
+                            ! ***jump out of do-loop
+                            if (Level(maxerr) + 1 <= levmax) cycle loop
+                            nrmax = nrmax + 1
+                        end do
+                    end if
+
+                    ! perform extrapolation.
+
+                    numrl2 = numrl2 + 1
+                    rlist2(numrl2) = area
+                    if (numrl2 > 2) then
+                        call dqelg(numrl2, rlist2, reseps, abseps, res3la, nres)
+                        ktmin = ktmin + 1
+                        if (ktmin > 5 .and. Abserr < 0.1e-02_wp*errsum) Ier = 5
+                        if (abseps < Abserr) then
+                            ktmin = 0
+                            Abserr = abseps
+                            Result = reseps
+                            correc = erlarg
+                            ertest = max(Epsabs, Epsrel*abs(reseps))
+                            ! ***jump out of do-loop
+                            if (Abserr < ertest) exit loop
+                        end if
+                        ! prepare bisection of the smallest interval.
+                        if (numrl2 == 1) noext = .true.
+                        if (Ier >= 5) exit loop
+                    end if
+                    maxerr = Iord(1)
+                    errmax = Elist(maxerr)
+                    nrmax = 1
+                    extrap = .false.
+                    levmax = levmax + 1
+                    erlarg = errsum
+                end if
+
+            end do loop
+
+            ! set the final result.
+
+            if (Abserr /= oflow) then
+                if ((Ier + ierro) /= 0) then
+                    if (ierro == 3) Abserr = Abserr + correc
+                    if (Ier == 0) Ier = 3
+                    if (Result == 0.0_wp .or. area == 0.0_wp) then
+                        if (Abserr > errsum) then
+                            ! compute global integral sum.
+                            Result = sum(Rlist(1:Last))
+                            Abserr = errsum
+                            exit main
+                        end if
+                        if (area == 0.0_wp) exit main
+                    elseif (Abserr/abs(Result) > errsum/abs(area)) then
+                        ! compute global integral sum.
+                        Result = sum(Rlist(1:Last))
+                        Abserr = errsum
+                        exit main
+                    end if
+                end if
+
+                ! test on divergence.
+
+                if (ksgn /= (-1) .or. max(abs(Result), abs(area)) &
+                    > resabs*0.01_wp) then
+                    if (0.01_wp > (Result/area) .or. (Result/area) > 100.0_wp .or. &
+                        errsum > abs(area)) Ier = 6
+                end if
+
+            else
+                ! compute global integral sum.
+                Result = sum(Rlist(1:Last))
+                Abserr = errsum
             end if
 
-            ! test on divergence.
+        end block main
 
-            if (ksgn /= (-1) .or. max(abs(Result), abs(area)) &
-                > resabs*0.01_wp) then
-                if (0.01_wp > (Result/area) .or. (Result/area) > 100.0_wp .or. &
-                    errsum > abs(area)) Ier = 6
-            end if
-            goto 400
-        end if
-
-        ! compute global integral sum.
-
-300     Result = sum(Rlist(1:Last))
-        Abserr = errsum
-400     if (Ier > 2) Ier = Ier - 1
+        if (Ier > 2) Ier = Ier - 1
         Result = Result*sign
 
     end subroutine dqagpe
@@ -2948,126 +2966,128 @@ module quadpack_generic
         Ier = 0
         if ((Integr /= 1 .and. Integr /= 2) .or. Epsabs <= 0.0_wp .or. &
             Limlst < 3) Ier = 6
-        if (Ier /= 6) then
-            if (Omega /= 0.0_wp) then
+        if (Ier == 6) return
 
-                ! initializations
+        if (Omega == 0.0_wp) then
+            ! integration by dqagie if omega is zero
+            if (Integr == 1) call dqagie(f, 0.0_wp, 1, Epsabs, 0.0_wp, &
+                                            Limit, Result, Abserr, Neval, &
+                                            Ier, Alist, Blist, Rlist, Elist, &
+                                            Iord, last)
+            Rslst(1) = Result
+            Erlst(1) = Abserr
+            Ierlst(1) = Ier
+            Lst = 1
+            return
+        end if
 
-                l = abs(Omega)
-                dl = 2*l + 1
-                cycle = dl*pi/abs(Omega)
-                Ier = 0
-                ktmin = 0
-                Neval = 0
-                numrl2 = 0
-                nres = 0
-                c1 = a
-                c2 = cycle + a
-                p1 = 1.0_wp - p
-                eps = Epsabs
-                if (Epsabs > uflow/p1) eps = Epsabs*p1
-                ep = eps
-                fact = 1.0_wp
-                correc = 0.0_wp
-                Abserr = 0.0_wp
-                errsum = 0.0_wp
+        main : block
 
-                ! main do-loop
+            ! initializations
 
-                do Lst = 1, Limlst
+            l = abs(Omega)
+            dl = 2*l + 1
+            cycle = dl*pi/abs(Omega)
+            Ier = 0
+            ktmin = 0
+            Neval = 0
+            numrl2 = 0
+            nres = 0
+            c1 = a
+            c2 = cycle + a
+            p1 = 1.0_wp - p
+            eps = Epsabs
+            if (Epsabs > uflow/p1) eps = Epsabs*p1
+            ep = eps
+            fact = 1.0_wp
+            correc = 0.0_wp
+            Abserr = 0.0_wp
+            errsum = 0.0_wp
 
-                    ! integrate over current subinterval.
+            ! main do-loop
 
-                    dla = Lst
-                    epsa = eps*fact
-                    call dqawoe(f, c1, c2, Omega, Integr, epsa, 0.0_wp, Limit, Lst, &
-                                Maxp1, Rslst(Lst), Erlst(Lst), nev, Ierlst(Lst), &
-                                last, Alist, Blist, Rlist, Elist, Iord, Nnlog, &
-                                momcom, Chebmo)
-                    Neval = Neval + nev
-                    fact = fact*p
-                    errsum = errsum + Erlst(Lst)
-                    drl = 50.0_wp*abs(Rslst(Lst))
+            do Lst = 1, Limlst
 
-                    ! test on accuracy with partial sum
+                ! integrate over current subinterval.
 
-                    if ((errsum + drl) <= Epsabs .and. Lst >= 6) goto 50
-                    correc = max(correc, Erlst(Lst))
-                    if (Ierlst(Lst) /= 0) eps = max(ep, correc*p1)
-                    if (Ierlst(Lst) /= 0) Ier = 7
-                    if (Ier == 7 .and. (errsum + drl) <= correc*10.0_wp .and. &
-                        Lst > 5) goto 50
-                    numrl2 = numrl2 + 1
-                    if (Lst > 1) then
-                        psum(numrl2) = psum(ll) + Rslst(Lst)
-                        if (Lst /= 2) then
+                dla = Lst
+                epsa = eps*fact
+                call dqawoe(f, c1, c2, Omega, Integr, epsa, 0.0_wp, Limit, Lst, &
+                            Maxp1, Rslst(Lst), Erlst(Lst), nev, Ierlst(Lst), &
+                            last, Alist, Blist, Rlist, Elist, Iord, Nnlog, &
+                            momcom, Chebmo)
+                Neval = Neval + nev
+                fact = fact*p
+                errsum = errsum + Erlst(Lst)
+                drl = 50.0_wp*abs(Rslst(Lst))
 
-                            ! test on maximum number of subintervals
+                ! test on accuracy with partial sum
 
-                            if (Lst == Limlst) Ier = 1
+                if ((errsum + drl) <= Epsabs .and. Lst >= 6) exit main
+                correc = max(correc, Erlst(Lst))
+                if (Ierlst(Lst) /= 0) eps = max(ep, correc*p1)
+                if (Ierlst(Lst) /= 0) Ier = 7
+                if (Ier == 7 .and. (errsum + drl) <= correc*10.0_wp .and. &
+                    Lst > 5) exit main
+                numrl2 = numrl2 + 1
+                if (Lst > 1) then
+                    psum(numrl2) = psum(ll) + Rslst(Lst)
+                    if (Lst /= 2) then
 
-                            ! perform new extrapolation
+                        ! test on maximum number of subintervals
 
-                            call dqelg(numrl2, psum, reseps, abseps, res3la, nres)
+                        if (Lst == Limlst) Ier = 1
 
-                            ! test whether extrapolated result is influenced by roundoff
+                        ! perform new extrapolation
 
-                            ktmin = ktmin + 1
-                            if (ktmin >= 15 .and. Abserr <= 0.1e-02_wp*(errsum + drl)) &
-                                Ier = 4
-                            if (abseps <= Abserr .or. Lst == 3) then
-                                Abserr = abseps
-                                Result = reseps
-                                ktmin = 0
+                        call dqelg(numrl2, psum, reseps, abseps, res3la, nres)
 
-                                ! if ier is not 0, check whether direct result (partial sum)
-                                ! or extrapolated result yields the best integral
-                                ! approximation
+                        ! test whether extrapolated result is influenced by roundoff
 
-                                if ((Abserr + 10.0_wp*correc) <= Epsabs .or. &
-                                    (Abserr <= Epsabs .and. &
-                                     10.0_wp*correc >= Epsabs)) exit
-                            end if
-                            if (Ier /= 0 .and. Ier /= 7) exit
+                        ktmin = ktmin + 1
+                        if (ktmin >= 15 .and. Abserr <= 0.1e-02_wp*(errsum + drl)) &
+                            Ier = 4
+                        if (abseps <= Abserr .or. Lst == 3) then
+                            Abserr = abseps
+                            Result = reseps
+                            ktmin = 0
+
+                            ! if ier is not 0, check whether direct result (partial sum)
+                            ! or extrapolated result yields the best integral
+                            ! approximation
+
+                            if ((Abserr + 10.0_wp*correc) <= Epsabs .or. &
+                                (Abserr <= Epsabs .and. &
+                                    10.0_wp*correc >= Epsabs)) exit
                         end if
-                    else
-                        psum(1) = Rslst(1)
+                        if (Ier /= 0 .and. Ier /= 7) exit
                     end if
-                    ll = numrl2
-                    c1 = c2
-                    c2 = c2 + cycle
-                end do
-
-                ! set final result and error estimate
-
-                Abserr = Abserr + 10.0_wp*correc
-                if (Ier == 0) return
-                if (Result == 0.0_wp .or. psum(numrl2) == 0.0_wp) then
-                    if (Abserr > errsum) goto 50
-                    if (psum(numrl2) == 0.0_wp) return
+                else
+                    psum(1) = Rslst(1)
                 end if
-                if (Abserr/abs(Result) <= (errsum + drl)/abs(psum(numrl2))) &
-                    then
-                    if (Ier >= 1 .and. Ier /= 7) Abserr = Abserr + drl
-                    return
-                end if
-            else
+                ll = numrl2
+                c1 = c2
+                c2 = c2 + cycle
+            end do
 
-                ! integration by dqagie if omega is zero
+            ! set final result and error estimate
 
-                if (Integr == 1) call dqagie(f, 0.0_wp, 1, Epsabs, 0.0_wp, &
-                                             Limit, Result, Abserr, Neval, &
-                                             Ier, Alist, Blist, Rlist, Elist, &
-                                             Iord, last)
-                Rslst(1) = Result
-                Erlst(1) = Abserr
-                Ierlst(1) = Ier
-                Lst = 1
+            Abserr = Abserr + 10.0_wp*correc
+            if (Ier == 0) return
+            if (Result == 0.0_wp .or. psum(numrl2) == 0.0_wp) then
+                if (Abserr > errsum) exit main
+                if (psum(numrl2) == 0.0_wp) return
+            end if
+            if (Abserr/abs(Result) <= (errsum + drl)/abs(psum(numrl2))) &
+                then
+                if (Ier >= 1 .and. Ier /= 7) Abserr = Abserr + drl
                 return
             end if
-50          Result = psum(numrl2)
-            Abserr = errsum + drl
-        end if
+
+        end block main
+
+        Result = psum(numrl2)
+        Abserr = errsum + drl
 
     end subroutine dqawfe
 !********************************************************************************
