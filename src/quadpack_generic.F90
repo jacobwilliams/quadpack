@@ -5126,7 +5126,6 @@ module quadpack_generic
                     Result = res
                     Abserr = err2 + err3
                     ! ***jump out of do-loop
-                    !goto 200
                     Abserr = max(Abserr, 5.0_wp*epmach*abs(Result))
                     return
                 end if
@@ -6402,67 +6401,71 @@ module quadpack_generic
         real(wp) :: alfp1, alfp2, an, anm1, betp1, betp2, ralf, rbet
         integer :: i, im1
 
-        alfp1 = Alfa + 1.0_wp
-        betp1 = Beta + 1.0_wp
-        alfp2 = Alfa + 2.0_wp
-        betp2 = Beta + 2.0_wp
-        ralf = 2.0_wp**alfp1
-        rbet = 2.0_wp**betp1
+        main : block
 
-        ! compute ri, rj using a forward recurrence relation.
+            alfp1 = Alfa + 1.0_wp
+            betp1 = Beta + 1.0_wp
+            alfp2 = Alfa + 2.0_wp
+            betp2 = Beta + 2.0_wp
+            ralf = 2.0_wp**alfp1
+            rbet = 2.0_wp**betp1
 
-        Ri(1) = ralf/alfp1
-        Rj(1) = rbet/betp1
-        Ri(2) = Ri(1)*Alfa/alfp2
-        Rj(2) = Rj(1)*Beta/betp2
-        an = 2.0_wp
-        anm1 = 1.0_wp
-        do i = 3, 25
-            Ri(i) = -(ralf + an*(an - alfp2)*Ri(i - 1))/(anm1*(an + alfp1))
-            Rj(i) = -(rbet + an*(an - betp2)*Rj(i - 1))/(anm1*(an + betp1))
-            anm1 = an
-            an = an + 1.0_wp
-        end do
-        if (Integr /= 1) then
-            if (Integr /= 3) then
+            ! compute ri, rj using a forward recurrence relation.
 
-                ! compute rg using a forward recurrence relation.
+            Ri(1) = ralf/alfp1
+            Rj(1) = rbet/betp1
+            Ri(2) = Ri(1)*Alfa/alfp2
+            Rj(2) = Rj(1)*Beta/betp2
+            an = 2.0_wp
+            anm1 = 1.0_wp
+            do i = 3, 25
+                Ri(i) = -(ralf + an*(an - alfp2)*Ri(i - 1))/(anm1*(an + alfp1))
+                Rj(i) = -(rbet + an*(an - betp2)*Rj(i - 1))/(anm1*(an + betp1))
+                anm1 = an
+                an = an + 1.0_wp
+            end do
+            if (Integr /= 1) then
+                if (Integr /= 3) then
 
-                Rg(1) = -Ri(1)/alfp1
-                Rg(2) = -(ralf + ralf)/(alfp2*alfp2) - Rg(1)
+                    ! compute rg using a forward recurrence relation.
+
+                    Rg(1) = -Ri(1)/alfp1
+                    Rg(2) = -(ralf + ralf)/(alfp2*alfp2) - Rg(1)
+                    an = 2.0_wp
+                    anm1 = 1.0_wp
+                    im1 = 2
+                    do i = 3, 25
+                        Rg(i) = -(an*(an - alfp2)*Rg(im1) - an*Ri(im1) + anm1*Ri(i)) &
+                                /(anm1*(an + alfp1))
+                        anm1 = an
+                        an = an + 1.0_wp
+                        im1 = i
+                    end do
+                    if (Integr == 2) exit main
+                end if
+
+                ! compute rh using a forward recurrence relation.
+
+                Rh(1) = -Rj(1)/betp1
+                Rh(2) = -(rbet + rbet)/(betp2*betp2) - Rh(1)
                 an = 2.0_wp
                 anm1 = 1.0_wp
                 im1 = 2
                 do i = 3, 25
-                    Rg(i) = -(an*(an - alfp2)*Rg(im1) - an*Ri(im1) + anm1*Ri(i)) &
-                            /(anm1*(an + alfp1))
+                    Rh(i) = -(an*(an - betp2)*Rh(im1) - an*Rj(im1) + anm1*Rj(i)) &
+                            /(anm1*(an + betp1))
                     anm1 = an
                     an = an + 1.0_wp
                     im1 = i
                 end do
-                if (Integr == 2) goto 100
+                do i = 2, 25, 2
+                    Rh(i) = -Rh(i)
+                end do
             end if
 
-            ! compute rh using a forward recurrence relation.
+        end block main
 
-            Rh(1) = -Rj(1)/betp1
-            Rh(2) = -(rbet + rbet)/(betp2*betp2) - Rh(1)
-            an = 2.0_wp
-            anm1 = 1.0_wp
-            im1 = 2
-            do i = 3, 25
-                Rh(i) = -(an*(an - betp2)*Rh(im1) - an*Rj(im1) + anm1*Rj(i)) &
-                        /(anm1*(an + betp1))
-                anm1 = an
-                an = an + 1.0_wp
-                im1 = i
-            end do
-            do i = 2, 25, 2
-                Rh(i) = -Rh(i)
-            end do
-        end if
-
-100     do i = 2, 25, 2
+        do i = 2, 25, 2
             Rj(i) = -Rj(i)
         end do
 
@@ -6842,75 +6845,78 @@ module quadpack_generic
         real(wp) :: errmax, errmin
         integer :: i, ibeg, ido, isucc, j, jbnd, jupbn, k
 
-        ! check whether the list contains more than
-        ! two error estimates.
+        main : block
 
-        if (Last > 2) then
+            ! check whether the list contains more than
+            ! two error estimates.
 
-            ! this part of the routine is only executed if, due to a
-            ! difficult integrand, subdivision increased the error
-            ! estimate. in the normal case the insert procedure should
-            ! start after the nrmax-th largest error estimate.
+            if (Last > 2) then
 
-            errmax = Elist(Maxerr)
-            if (Nrmax /= 1) then
-                ido = Nrmax - 1
-                do i = 1, ido
-                    isucc = Iord(Nrmax - 1)
-                    ! ***jump out of do-loop
-                    if (errmax <= Elist(isucc)) exit
-                    Iord(Nrmax) = isucc
-                    Nrmax = Nrmax - 1
-                end do
+                ! this part of the routine is only executed if, due to a
+                ! difficult integrand, subdivision increased the error
+                ! estimate. in the normal case the insert procedure should
+                ! start after the nrmax-th largest error estimate.
+
+                errmax = Elist(Maxerr)
+                if (Nrmax /= 1) then
+                    ido = Nrmax - 1
+                    do i = 1, ido
+                        isucc = Iord(Nrmax - 1)
+                        ! ***jump out of do-loop
+                        if (errmax <= Elist(isucc)) exit
+                        Iord(Nrmax) = isucc
+                        Nrmax = Nrmax - 1
+                    end do
+                end if
+
+                ! compute the number of elements in the list to be maintained
+                ! in descending order. this number depends on the number of
+                ! subdivisions still allowed.
+
+                jupbn = Last
+                if (Last > (Limit/2 + 2)) jupbn = Limit + 3 - Last
+                errmin = Elist(Last)
+
+                ! insert errmax by traversing the list top-down,
+                ! starting comparison from the element elist(iord(nrmax+1)).
+
+                jbnd = jupbn - 1
+                ibeg = Nrmax + 1
+                if (ibeg <= jbnd) then
+                    do i = ibeg, jbnd
+                        isucc = Iord(i)
+                        ! ***jump out of do-loop
+                        if (errmax >= Elist(isucc)) then
+                            ! insert errmin by traversing the list bottom-up.
+                            Iord(i - 1) = Maxerr
+                            k = jbnd
+                            do j = i, jbnd
+                                isucc = Iord(k)
+                                ! ***jump out of do-loop
+                                if (errmin < Elist(isucc)) then
+                                    Iord(k + 1) = Last
+                                    exit main
+                                end if
+                                Iord(k + 1) = isucc
+                                k = k - 1
+                            end do
+                            Iord(i) = Last
+                            exit main
+                        end if
+                        Iord(i - 1) = isucc
+                    end do
+                end if
+                Iord(jbnd) = Maxerr
+                Iord(jupbn) = Last
+            else
+                Iord(1) = 1
+                Iord(2) = 2
             end if
 
-            ! compute the number of elements in the list to be maintained
-            ! in descending order. this number depends on the number of
-            ! subdivisions still allowed.
-
-            jupbn = Last
-            if (Last > (Limit/2 + 2)) jupbn = Limit + 3 - Last
-            errmin = Elist(Last)
-
-            ! insert errmax by traversing the list top-down,
-            ! starting comparison from the element elist(iord(nrmax+1)).
-
-            jbnd = jupbn - 1
-            ibeg = Nrmax + 1
-            if (ibeg <= jbnd) then
-                do i = ibeg, jbnd
-                    isucc = Iord(i)
-                    ! ***jump out of do-loop
-                    if (errmax >= Elist(isucc)) goto 100
-                    Iord(i - 1) = isucc
-                end do
-            end if
-            Iord(jbnd) = Maxerr
-            Iord(jupbn) = Last
-        else
-            Iord(1) = 1
-            Iord(2) = 2
-        end if
-        goto 300
-
-        ! insert errmin by traversing the list bottom-up.
-
-100     Iord(i - 1) = Maxerr
-        k = jbnd
-        do j = i, jbnd
-            isucc = Iord(k)
-            ! ***jump out of do-loop
-            if (errmin < Elist(isucc)) goto 200
-            Iord(k + 1) = isucc
-            k = k - 1
-        end do
-        Iord(i) = Last
-        goto 300
-
-200     Iord(k + 1) = Last
+        end block main
 
         ! set maxerr and ermax.
-300     Maxerr = Iord(Nrmax)
+        Maxerr = Iord(Nrmax)
         Ermax = Elist(Maxerr)
 
     end subroutine dqpsrt
