@@ -7879,10 +7879,19 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
         if ( sign(1.0_wp,b)*a>0.0_wp ) then
             c = abs(1.0_wp-a/b)
             if ( c<=0.1_wp ) then
-                if ( c<=0.0_wp ) goto 400
+                if ( c<=0.0_wp ) then
+                    ierr = -1
+                    call xerror('a and b are too nearly equal to allow normal integration. '&
+                                //'ans is set to zero and ierr to -1.',-1,-1)
+                    return
+                end if
                 nib = 0.5_wp - log(c)/ln2
                 lmx = min(nlmx,nbits-nib-4)
-                if ( lmx<2 ) goto 400
+                if ( lmx<2 ) then
+                    call xerror('a and b are too nearly equal to allow normal integration. '&
+                                //'ans is set to zero and ierr to -1.',-1,-1)
+                    return
+                end if
                 lmn = min(lmn,lmx)
             endif
         endif
@@ -7905,119 +7914,131 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
     ef = 256.0_wp/255.0_wp
     bank = 0.0_wp
 
-    ! compute refined estimates, estimate the error, etc.
-100 do i = 2 , 12 , 2
-        f(i) = fun(aa(l)+(i-1)*hh(l))
-    enddo
-    k = k + 6
+    loop : do
 
-    ! compute left and right half estimates
-    q7l = hh(l)*((w1*(f(1)+f(7))+w2*(f(2)+f(6)))+(w3*(f(3)+f(5))+w4*f(4)))
-    q7r(l) = hh(l)*((w1*(f(7)+f(13))+w2*(f(8)+f(12)))+(w3*(f(9)+f(11))+w4*f(10)))
+        ! compute refined estimates, estimate the error, etc.
+        do i = 2 , 12 , 2
+            f(i) = fun(aa(l)+(i-1)*hh(l))
+        enddo
+        k = k + 6
 
-    ! update estimate of integral of absolute value
-    area = area + (abs(q7l)+abs(q7r(l))-abs(q7))
+        ! compute left and right half estimates
+        q7l = hh(l)*((w1*(f(1)+f(7))+w2*(f(2)+f(6)))+(w3*(f(3)+f(5))+w4*f(4)))
+        q7r(l) = hh(l)*((w1*(f(7)+f(13))+w2*(f(8)+f(12)))+(w3*(f(9)+f(11))+w4*f(10)))
 
-    ! do not bother to test convergence before minimum refinement level
-    if ( l>=lmn ) then
+        ! update estimate of integral of absolute value
+        area = area + (abs(q7l)+abs(q7r(l))-abs(q7))
 
-        ! estimate the error in new value for whole interval, q13
-        q13 = q7l + q7r(l)
-        ee = abs(q7-q13)*ef
+        ! do not bother to test convergence before minimum refinement level
+        if ( l>=lmn ) then
 
-        ! compute nominal allowed error
-        ae = eps*area
+            ! estimate the error in new value for whole interval, q13
+            q13 = q7l + q7r(l)
+            ee = abs(q7-q13)*ef
 
-        ! borrow from bank account, but not too much
-        test = min(ae+0.8_wp*bank,10.0_wp*ae)
+            ! compute nominal allowed error
+            ae = eps*area
 
-        ! don't ask for excessive accuracy
-        test = max(test,tol*abs(q13),0.00003_wp*tol*area)   ! jw : should change ?
+            ! borrow from bank account, but not too much
+            test = min(ae+0.8_wp*bank,10.0_wp*ae)
 
-        ! now, did this interval pass or not?
-        if ( ee<=test ) then
-            ! on good intervals accumulate the theoretical estimate
-            ce = ce + (q7-q13)/255.0_wp
-        else
-            ! consider the left half of next deeper level
-            if ( k>kmx ) lmx = min(kml,lmx)
-            if ( l<lmx ) goto 200
-            ! have hit maximum refinement level -- penalize the cumulative error
-            ce = ce + (q7-q13)
-        endif
+            ! don't ask for excessive accuracy
+            test = max(test,tol*abs(q13),0.00003_wp*tol*area)   ! jw : should change ?
 
-        ! update the bank account.  don't go into debt.
-        bank = bank + (ae-ee)
-        if ( bank<0.0_wp ) bank = 0.0_wp
-
-        ! did we just finish a left half or a right half?
-        if ( lr(l)<=0 ) then
-            ! proceed to right half at this level
-            vl(l) = q13
-            goto 300
-        else
-            ! left and right halves are done, so go back up a level
-            vr = q13
-120         if ( l<=1 ) then
-                !   exit
-                ans = vr
-                if ( abs(ce)>2.0_wp*tol*area ) then
-                    ierr = 2
-                    call xerror('ans is probably insufficiently accurate.',2,1)
-                endif
-                return
+            ! now, did this interval pass or not?
+            if ( ee<=test ) then
+                ! on good intervals accumulate the theoretical estimate
+                ce = ce + (q7-q13)/255.0_wp
             else
-                if ( l<=17 ) ef = ef*sq2
-                eps = eps*2.0_wp
-                l = l - 1
-                if ( lr(l)<=0 ) then
-                    vl(l) = vl(l+1) + vr
-                    goto 300
-                else
-                    vr = vl(l+1) + vr
-                    goto 120
-                endif
+                ! consider the left half of next deeper level
+                if ( k>kmx ) lmx = min(kml,lmx)
+                if ( l<lmx ) then
+                    call f200()
+                    cycle loop
+                end if
+                ! have hit maximum refinement level -- penalize the cumulative error
+                ce = ce + (q7-q13)
+            endif
+
+            ! update the bank account.  don't go into debt.
+            bank = bank + (ae-ee)
+            if ( bank<0.0_wp ) bank = 0.0_wp
+
+            ! did we just finish a left half or a right half?
+            if ( lr(l)<=0 ) then
+                ! proceed to right half at this level
+                vl(l) = q13
+                call f300()
+                cycle loop
+            else
+                ! left and right halves are done, so go back up a level
+                vr = q13
+                do
+                    if ( l<=1 ) then
+                        !   exit
+                        ans = vr
+                        if ( abs(ce)>2.0_wp*tol*area ) then
+                            ierr = 2
+                            call xerror('ans is probably insufficiently accurate.',2,1)
+                        endif
+                        return
+                    else
+                        if ( l<=17 ) ef = ef*sq2
+                        eps = eps*2.0_wp
+                        l = l - 1
+                        if ( lr(l)<=0 ) then
+                            vl(l) = vl(l+1) + vr
+                            call f300()
+                            cycle loop
+                        else
+                            vr = vl(l+1) + vr
+                        endif
+                    endif
+                end do
             endif
         endif
-    endif
 
-200 l = l + 1
-    eps = eps*0.5_wp
-    if ( l<=17 ) ef = ef/sq2
-    hh(l) = hh(l-1)*0.5_wp
-    lr(l) = -1
-    aa(l) = aa(l-1)
-    q7 = q7l
-    f1(l) = f(7)
-    f2(l) = f(8)
-    f3(l) = f(9)
-    f4(l) = f(10)
-    f5(l) = f(11)
-    f6(l) = f(12)
-    f7(l) = f(13)
-    f(13) = f(7)
-    f(11) = f(6)
-    f(9) = f(5)
-    f(7) = f(4)
-    f(5) = f(3)
-    f(3) = f(2)
-    goto 100
+        call f200()
 
-300 q7 = q7r(l-1)
-    lr(l) = 1
-    aa(l) = aa(l) + 12.0_wp*hh(l)
-    f(1) = f1(l)
-    f(3) = f2(l)
-    f(5) = f3(l)
-    f(7) = f4(l)
-    f(9) = f5(l)
-    f(11) = f6(l)
-    f(13) = f7(l)
-    goto 100
+    end do loop
 
-400 ierr = -1
-    call xerror('a and b are too nearly equal to allow normal integration. '&
-                //'ans is set to zero and ierr to -1.',-1,-1)
+    contains
+
+        subroutine f200()
+            l = l + 1
+            eps = eps*0.5_wp
+            if ( l<=17 ) ef = ef/sq2
+            hh(l) = hh(l-1)*0.5_wp
+            lr(l) = -1
+            aa(l) = aa(l-1)
+            q7 = q7l
+            f1(l) = f(7)
+            f2(l) = f(8)
+            f3(l) = f(9)
+            f4(l) = f(10)
+            f5(l) = f(11)
+            f6(l) = f(12)
+            f7(l) = f(13)
+            f(13) = f(7)
+            f(11) = f(6)
+            f(9) = f(5)
+            f(7) = f(4)
+            f(5) = f(3)
+            f(3) = f(2)
+        end subroutine f200
+
+        subroutine f300()
+            q7 = q7r(l-1)
+            lr(l) = 1
+            aa(l) = aa(l) + 12.0_wp*hh(l)
+            f(1) = f1(l)
+            f(3) = f2(l)
+            f(5) = f3(l)
+            f(7) = f4(l)
+            f(9) = f5(l)
+            f(11) = f6(l)
+            f(13) = f7(l)
+        end subroutine f300
 
     end subroutine dqnc79
 !********************************************************************************
