@@ -15,7 +15,7 @@ computation of definite one-dimensional integrals (numerical quadrature). Develo
 
 The original QUADPACK code (written in the early 1980s) has been extensively refactored:
 
-* It has been converted from FORTRAN 77 fixed form to modern free form syntax. This includes elimination of most GOTOs and other obsolescent language features.
+* It has been converted from FORTRAN 77 fixed form to modern free form syntax. This includes elimination of all GOTOs and other obsolescent language features.
 * It is now a single stand-alone module, and has no dependencies on any other code from SLATEC or LINPACK.
 * The SLATEC docstrings have been converted to [Ford](https://github.com/Fortran-FOSS-Programmers/ford) style, which allows for auto-generation of the [API docs](https://jacobwilliams.github.io/quadpack/).
 * Some typos have been corrected in the comments.
@@ -28,11 +28,9 @@ The original QUADPACK code (written in the early 1980s) has been extensively ref
 
 ### To do list
 
- - [ ] Remove the last remaining GOTOs.
  - [ ] Additional docstring cleanups.
  - [ ] Add more unit tests.
  - [ ] In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.
- - [ ] Reconsider the `error stop` in `xerror` for fatal errors. Probably the library shouldn't be stopping the calling problem.
 
 ### Compiling
 
