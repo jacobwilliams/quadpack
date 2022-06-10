@@ -96,7 +96,7 @@ computation of definite one-dimensional integrals (numerical quadrature). Develo
 <h3>Overview</h3>
 <p>The original QUADPACK code (written in the early 1980s) has been extensively refactored:</p>
 <ul>
-<li>It has been converted from FORTRAN 77 fixed form to modern free form syntax. This includes elimination of most GOTOs and other obsolescent language features.</li>
+<li>It has been converted from FORTRAN 77 fixed form to modern free form syntax. This includes elimination of all GOTOs and other obsolescent language features.</li>
 <li>It is now a single stand-alone module, and has no dependencies on any other code from SLATEC or LINPACK.</li>
 <li>The SLATEC docstrings have been converted to <a href="https://github.com/Fortran-FOSS-Programmers/ford">Ford</a> style, which allows for auto-generation of the <a href="https://jacobwilliams.github.io/quadpack/">API docs</a>.</li>
 <li>Some typos have been corrected in the comments.</li>
@@ -109,11 +109,9 @@ computation of definite one-dimensional integrals (numerical quadrature). Develo
 </ul>
 <h3>To do list</h3>
 <ul>
-<li>[ ] Remove the last remaining GOTOs.</li>
 <li>[ ] Additional docstring cleanups.</li>
 <li>[ ] Add more unit tests.</li>
 <li>[ ] In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.</li>
-<li>[ ] Reconsider the <code>error stop</code> in <code>xerror</code> for fatal errors. Probably the library shouldn't be stopping the calling problem.</li>
 </ul>
 <h3>Compiling</h3>
 <p>A <a href="https://github.com/fortran-lang/fpm">Fortran Package Manager</a> manifest file is included, so that the library and test cases can be compiled with FPM. For example:</p>
