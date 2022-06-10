@@ -98,12 +98,12 @@ module quadpack_generic
 
         implicit none
 
-        procedure(func) :: f !! function subprogam defining the integrand function `f(x)`.
+        procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
         real(wp), intent(in) :: a !! lower limit of integration
         real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
                                         !! which should equal or exceed `abs(i-result)`
         real(wp), intent(in) :: b !! upper limit of integration
-        real(wp), intent(in) :: Epsabs !! absolute accoracy requested
+        real(wp), intent(in) :: Epsabs !! absolute accuracy requested
         real(wp), intent(in) :: Epsrel !! relative accuracy requested
                                        !! if epsabs<=0
                                        !! and epsrel<max(50*rel.mach.acc.,0.5e-28),
@@ -152,7 +152,7 @@ module quadpack_generic
                                     !!         adjustments into account). however, if
                                     !!         this yield no improvement it is advised
                                     !!         to analyze the integrand in order to
-                                    !!         determine the integration difficulaties.
+                                    !!         determine the integration difficulties.
                                     !!         if the position of a local difficulty can
                                     !!         be determined (i.e.singularity,
                                     !!         discontinuity within the interval) one
@@ -187,7 +187,7 @@ module quadpack_generic
                                    !!  * 25 - 51 points if key = 5,
                                    !!  * 30 - 61 points if key>5.
         integer, intent(out) :: Last !! on return, `last` equals the number of subintervals
-                                     !! produced in the subdiviosion process, which
+                                     !! produced in the subdivision process, which
                                      !! determines the number of significant elements
                                      !! actually in the work arrays.
         integer, intent(out) :: Neval !! number of integrand evaluations
@@ -238,7 +238,7 @@ module quadpack_generic
 
         procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
         real(wp), intent(in) :: a !! lower limit of integration
-        real(wp), intent(in) :: b !! uppwer limit of integration
+        real(wp), intent(in) :: b !! upper limit of integration
         real(wp), intent(in) :: Epsabs !! absolute accuracy requested
         real(wp), intent(in) :: Epsrel !! relative accuracy requested
                                        !! if `epsabs<=0`
@@ -2657,7 +2657,7 @@ module quadpack_generic
                                    !!   interval at this point and calling
                                    !!   appropriate integrators on the subranges.
                                    !! * ier = 4 the extrapolation table constructed for
-                                   !!   convergence accelaration of the series
+                                   !!   convergence acceleration of the series
                                    !!   formed by the integral contributions over
                                    !!   the cycles, does not converge to within
                                    !!   the requested accuracy.
@@ -2740,7 +2740,7 @@ module quadpack_generic
                                !! * `work(1), ..., work(lst)` contain the integral
                                !!   approximations over the cycles,
                                !! * `work(limlst+1), ..., work(limlst+lst)` contain
-                               !!   the error extimates over the cycles.
+                               !!   the error estimates over the cycles.
                                !!
                                !! further elements of work have no specific
                                !! meaning for the user.
@@ -2784,7 +2784,7 @@ module quadpack_generic
 !  same as [[dqawf]] but provides more information and control
 !
 !  the routine calculates an approximation result to a
-!  given fourier integal
+!  given fourier integral
 !  i = integral of `f(x)*w(x)` over `(a,infinity)`
 !  where `w(x)=cos(omega*x)` or `w(x)=sin(omega*x)`,
 !  hopefully satisfying following claim for accuracy
@@ -5877,7 +5877,7 @@ module quadpack_generic
         real(wp), intent(out) :: Abserr !! estimate of the modulus of the absolute error,
                                         !! which should not exceed `abs(i-result)`
         real(wp), intent(out) :: Resabs !! approximation to the integral j
-        real(wp), intent(out) :: Resasc !! approximation to the integal of abs(f-i/(b-a))
+        real(wp), intent(out) :: Resasc !! approximation to the integral of abs(f-i/(b-a))
                                         !! over `(a,b)`
 
         real(wp) :: dhlgth, fc, fsum, fv1(20), fv2(20)
@@ -6237,7 +6237,7 @@ module quadpack_generic
                                               9.63687371746442596394686263518098650964e-2_wp, &
                                               9.95934205867952670627802821035694765299e-2_wp, &
                                               1.01762389748405504596428952168554044633e-1_wp, &
-                                              1.02852652893558840341285636705415043868e-1_wp] !! weigths of the 30-point gauss rule
+                                              1.02852652893558840341285636705415043868e-1_wp] !! weights of the 30-point gauss rule
 
         real(wp), dimension(31), parameter :: xgk = [ &
                                               9.99484410050490637571325895705810819469e-1_wp, &

@@ -383,7 +383,7 @@
   <td><span class="anchor" ></span>procedure(func)</td>
 <td></td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>f</strong></td><td><p>function subprogam defining the integrand function <code>f(x)</code>.</p></td>
+  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>real(kind=wp),</td>
@@ -401,7 +401,7 @@
   <td><span class="anchor" ></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>Epsabs</strong></td><td><p>absolute accoracy requested</p></td>
+  <td><strong>Epsabs</strong></td><td><p>absolute accuracy requested</p></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>real(kind=wp),</td>
@@ -468,7 +468,7 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
         adjustments into account). however, if
         this yield no improvement it is advised
         to analyze the integrand in order to
-        determine the integration difficulaties.
+        determine the integration difficulties.
         if the position of a local difficulty can
         be determined (i.e.singularity,
         discontinuity within the interval) one
@@ -519,7 +519,7 @@ ier = 6.</p></td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>Last</strong></td><td><p>on return, <code>last</code> equals the number of subintervals
-produced in the subdiviosion process, which
+produced in the subdivision process, which
 determines the number of significant elements
 actually in the work arrays.</p></td>
 </tr>
@@ -582,7 +582,7 @@ work(limit<em>3+1), ..., work(limit</em>3+last) contain
   <td><span class="anchor" ></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>uppwer limit of integration</p></td>
+  <td><strong>b</strong></td><td><p>upper limit of integration</p></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>real(kind=wp),</td>
@@ -2414,7 +2414,7 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
   interval at this point and calling
   appropriate integrators on the subranges.</li>
 <li>ier = 4 the extrapolation table constructed for
-  convergence accelaration of the series
+  convergence acceleration of the series
   formed by the integral contributions over
   the cycles, does not converge to within
   the requested accuracy.
@@ -2535,7 +2535,7 @@ on return:</p>
 <li><code>work(1), ..., work(lst)</code> contain the integral
   approximations over the cycles,</li>
 <li><code>work(limlst+1), ..., work(limlst+lst)</code> contain
-  the error extimates over the cycles.</li>
+  the error estimates over the cycles.</li>
 </ul>
 <p>further elements of work have no specific
 meaning for the user.</p></td>
@@ -4493,7 +4493,7 @@ which should not exceed <code>abs(i-result)</code></p></td>
   <td><span class="anchor" ></span>real(kind=wp),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>Resasc</strong></td><td><p>approximation to the integal of abs(f-i/(b-a))
+  <td><strong>Resasc</strong></td><td><p>approximation to the integral of abs(f-i/(b-a))
 over <code>(a,b)</code></p></td>
 </tr>
 </tbody>
