@@ -31,7 +31,6 @@ The original QUADPACK code (written in the early 1980s) has been extensively ref
  - [ ] Additional docstring cleanups.
  - [ ] Add more unit tests.
  - [ ] In the unit tests, the "truth" values for the cases without analytical solutions need to be regenerated with some more precision so we have the exact results for the quad precision test.
- - [ ] Reconsider the `error stop` in `xerror` for fatal errors. Probably the library shouldn't be stopping the calling problem.
 
 ### Compiling
 

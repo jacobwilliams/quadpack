@@ -212,7 +212,6 @@ module quadpack_generic
                        Ier, Work(1), Work(l1), Work(l2), Work(l3), Iwork, Last)
 
             ! call error handler if necessary.
-
             lvl = 0
         end if
         if (Ier == 6) lvl = 1
@@ -1211,7 +1210,6 @@ module quadpack_generic
             ! call error handler if necessary.
             lvl = 0
         end if
-
         if (Ier == 6) lvl = 1
         if (Ier /= 0) call xerror('abnormal return from dqagp', Ier, lvl)
 
@@ -3259,7 +3257,6 @@ module quadpack_generic
             ! call error handler if necessary
             lvl = 0
         end if
-
         if (Ier == 6) lvl = 1
         if (Ier /= 0) call xerror('abnormal return from dqawo', Ier, lvl)
 
@@ -8533,6 +8530,7 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
 !    sand82-0800, sandia laboratories, 1982.
 
     subroutine xerror(messg, nerr, level)
+        use,intrinsic :: iso_fortran_env, only: error_unit
         implicit none
 
         character(len=*), intent(in) :: messg !! message to be processed
@@ -8547,9 +8545,7 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
                                      !!    printed at most once, regardless of how many
                                      !!    times this call is executed.
 
-        !call xerrwv(messg,nmessg,nerr,level,0,0,0,0,0.,0.)
-
-        write (*, *) nerr, messg
+        write (error_unit, '(I5,1X,A)') nerr, messg
         if (level == 2) error stop
 
     end subroutine xerror
