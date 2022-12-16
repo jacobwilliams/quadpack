@@ -76,52 +76,78 @@
   <div class="row">
     <h1>dqk61
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.8% of total for procedures.">64 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-     <li class="active">dqk61</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 1.8% of total for procedures.">64 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/quadpack_generic.F90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+              <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
+          <li class="active">dqk61</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqk61.html#src">dqk61</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqk61.html#src">dqk61</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dqk61(f, a, b, Result, Abserr, Resabs, Resasc)</h2>
+    <h2>public  subroutine dqk61(f, a, b, Result, Abserr, Resabs, Resasc)  
+</h2>
     
 
     <p>estimate 1D integral on finite interval using a 61 point
@@ -134,57 +160,127 @@
 </ul>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-f~27"></span>procedure(func)</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-f~26"></span>
+              procedure(func)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a~25"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f</strong></td>
+            <td>
+                <p>function subprogram defining the integrand function <code>f(x)</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~24"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td><p>lower limit of integration</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b~23"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>lower limit of integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~22"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>upper limit of integration</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-result~26"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                <p>upper limit of integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~26"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Result</strong></td><td><p>approximation to the integral i
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Result</strong></td>
+            <td>
+                <p>approximation to the integral i
 <code>result</code> is computed by applying the 61-point
 kronrod rule (resk) obtained by optimal addition of
-abscissae to the 30-point gauss rule (resg).</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-abserr~26"></span>real(kind=wp),</td>
+abscissae to the 30-point gauss rule (resg).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-abserr~27"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
-which should equal or exceed <code>abs(i-result)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-resabs~9"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Abserr</strong></td>
+            <td>
+                <p>estimate of the modulus of the absolute error,
+which should equal or exceed <code>abs(i-result)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-resabs~9"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Resabs</strong></td><td><p>approximation to the integral j</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-resasc~10"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Resabs</strong></td>
+            <td>
+                <p>approximation to the integral j</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-resasc~10"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Resasc</strong></td><td><p>approximation to the integral of <code>abs(f-i/(b-a))</code></p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Resasc</strong></td>
+            <td>
+                <p>approximation to the integral of <code>abs(f-i/(b-a))</code></p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
     <div class="panel panel-default">
@@ -305,14 +401,33 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqk61.html#src">dqk61</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqk61.html#src">dqk61</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

@@ -76,52 +76,78 @@
   <div class="row">
     <h1>dqk15w
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 2.1% of total for procedures.">74 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-     <li class="active">dqk15w</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 2.1% of total for procedures.">74 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/quadpack_generic.F90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+              <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
+          <li class="active">dqk15w</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqk15w.html#src">dqk15w</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqk15w.html#src">dqk15w</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dqk15w(f, w, p1, p2, p3, p4, Kp, a, b, Result, Abserr, Resabs, Resasc)</h2>
+    <h2>public  subroutine dqk15w(f, w, p1, p2, p3, p4, Kp, a, b, Result, Abserr, Resabs, Resasc)  
+</h2>
     
 
     <p>estimate 1D integral with special singular weight functions using
@@ -134,93 +160,217 @@
 </ul>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-f~22"></span>procedure(func)</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-f~21"></span>
+              procedure(func)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-w"></span>procedure(weight_func)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f</strong></td>
+            <td>
+                <p>function subprogram defining the integrand function <code>f(x)</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-w"></span>
+              procedure(weight_func)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>w</strong></td><td><p>function subprogram defining the integrand weight function <code>w(x)</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p1"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>w</strong></td>
+            <td>
+                <p>function subprogram defining the integrand weight function <code>w(x)</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p1"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>p1</strong></td><td><p>parameter in the weight function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p2"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p1</strong></td>
+            <td>
+                <p>parameter in the weight function</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p2"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>p2</strong></td><td><p>parameter in the weight function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p3"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p2</strong></td>
+            <td>
+                <p>parameter in the weight function</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p3"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>p3</strong></td><td><p>parameter in the weight function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p4"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p3</strong></td>
+            <td>
+                <p>parameter in the weight function</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p4"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>p4</strong></td><td><p>parameter in the weight function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-kp"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>p4</strong></td>
+            <td>
+                <p>parameter in the weight function</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kp"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Kp</strong></td><td><p>key for indicating the type of weight function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a~20"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Kp</strong></td>
+            <td>
+                <p>key for indicating the type of weight function</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~19"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td><p>lower limit of integration</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b~18"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>lower limit of integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~17"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>upper limit of integration</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-result~21"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                <p>upper limit of integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~21"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Result</strong></td><td><p>approximation to the integral i
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Result</strong></td>
+            <td>
+                <p>approximation to the integral i
 <code>result</code> is computed by applying the 15-point
 kronrod rule (resk) obtained by optimal addition
-of abscissae to the 7-point gauss rule (resg).</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-abserr~21"></span>real(kind=wp),</td>
+of abscissae to the 7-point gauss rule (resg).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-abserr~22"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
-which should equal or exceed <code>abs(i-result)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-resabs~4"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Abserr</strong></td>
+            <td>
+                <p>estimate of the modulus of the absolute error,
+which should equal or exceed <code>abs(i-result)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-resabs~4"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Resabs</strong></td><td><p>approximation to the integral of <code>abs(f)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-resasc~5"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Resabs</strong></td>
+            <td>
+                <p>approximation to the integral of <code>abs(f)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-resasc~5"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Resasc</strong></td><td><p>approximation to the integral of <code>abs(f-i/(b-a))</code></p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Resasc</strong></td>
+            <td>
+                <p>approximation to the integral of <code>abs(f-i/(b-a))</code></p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
     <div class="panel panel-default">
@@ -242,148 +392,118 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
 <!-- proc~dqk15w -->
 <g id="proc~~dqk15w~~CalledByGraph_node1" class="node">
 <title>proc~dqk15w</title>
-<polygon fill="none" stroke="black" points="415,-87 361,-87 361,-63 415,-63 415,-87"/>
-<text text-anchor="middle" x="388" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50">dqk15w</text>
-</g>
-<!-- proc~dqc25s -->
-<g id="proc~~dqk15w~~CalledByGraph_node2" class="node">
-<title>proc~dqc25s</title>
-<g id="a_proc~~dqk15w~~CalledByGraph_node2"><a xlink:href=".././proc/dqc25s.html" xlink:title="dqc25s">
-<polygon fill="#d9534f" stroke="#d9534f" points="325,-139 271,-139 271,-115 325,-115 325,-139"/>
-<text text-anchor="middle" x="298" y="-124.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25s</text>
-</a>
-</g>
-</g>
-<!-- proc~dqc25s&#45;&gt;proc~dqk15w -->
-<g id="proc~~dqk15w~~CalledByGraph_edge1" class="edge">
-<title>proc~dqc25s&#45;&gt;proc~dqk15w</title>
-<path fill="none" stroke="#000000" d="M319.41,-114.94C330.77,-108.23 345.1,-99.76 357.65,-92.34"/>
-<polygon fill="#000000" stroke="#000000" points="359.57,-95.28 366.4,-87.18 356.01,-89.25 359.57,-95.28"/>
-</g>
-<!-- proc~dqc25f -->
-<g id="proc~~dqk15w~~CalledByGraph_node3" class="node">
-<title>proc~dqc25f</title>
-<g id="a_proc~~dqk15w~~CalledByGraph_node3"><a xlink:href=".././proc/dqc25f.html" xlink:title="dqc25f">
-<polygon fill="#d9534f" stroke="#d9534f" points="325,-87 271,-87 271,-63 325,-63 325,-87"/>
-<text text-anchor="middle" x="298" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25f</text>
-</a>
-</g>
-</g>
-<!-- proc~dqc25f&#45;&gt;proc~dqk15w -->
-<g id="proc~~dqk15w~~CalledByGraph_edge2" class="edge">
-<title>proc~dqc25f&#45;&gt;proc~dqk15w</title>
-<path fill="none" stroke="#000000" d="M325.4,-75C333.39,-75 342.31,-75 350.82,-75"/>
-<polygon fill="#000000" stroke="#000000" points="350.92,-78.5 360.92,-75 350.92,-71.5 350.92,-78.5"/>
+<polygon fill="none" stroke="black" points="415,-108 361,-108 361,-84 415,-84 415,-108"/>
+<text text-anchor="middle" x="388" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50">dqk15w</text>
 </g>
 <!-- proc~dqc25c -->
-<g id="proc~~dqk15w~~CalledByGraph_node4" class="node">
+<g id="proc~~dqk15w~~CalledByGraph_node2" class="node">
 <title>proc~dqc25c</title>
-<g id="a_proc~~dqk15w~~CalledByGraph_node4"><a xlink:href=".././proc/dqc25c.html" xlink:title="dqc25c">
-<polygon fill="#d9534f" stroke="#d9534f" points="325,-40 271,-40 271,-16 325,-16 325,-40"/>
-<text text-anchor="middle" x="298" y="-25.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25c</text>
+<g id="a_proc~~dqk15w~~CalledByGraph_node2"><a xlink:href=".././proc/dqc25c.html" xlink:title="dqc25c">
+<polygon fill="#d9534f" stroke="#d9534f" points="325,-150 271,-150 271,-126 325,-126 325,-150"/>
+<text text-anchor="middle" x="298" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25c</text>
 </a>
 </g>
 </g>
 <!-- proc~dqc25c&#45;&gt;proc~dqk15w -->
-<g id="proc~~dqk15w~~CalledByGraph_edge3" class="edge">
+<g id="proc~~dqk15w~~CalledByGraph_edge1" class="edge">
 <title>proc~dqc25c&#45;&gt;proc~dqk15w</title>
-<path fill="none" stroke="#000000" d="M321.66,-40.1C331.93,-45.59 344.24,-52.16 355.39,-58.12"/>
-<polygon fill="#000000" stroke="#000000" points="353.94,-61.31 364.41,-62.94 357.24,-55.14 353.94,-61.31"/>
+<path fill="none" stroke="#000000" d="M324.45,-125.85C333.21,-121.67 343.17,-116.92 352.52,-112.46"/>
+<polygon fill="#000000" stroke="#000000" points="354.09,-115.59 361.6,-108.12 351.07,-109.27 354.09,-115.59"/>
 </g>
-<!-- proc~dqawse -->
-<g id="proc~~dqk15w~~CalledByGraph_node5" class="node">
-<title>proc~dqawse</title>
-<g id="a_proc~~dqk15w~~CalledByGraph_node5"><a xlink:href=".././proc/dqawse.html" xlink:title="dqawse">
-<polygon fill="#d9534f" stroke="#d9534f" points="234.5,-144 180.5,-144 180.5,-120 234.5,-120 234.5,-144"/>
-<text text-anchor="middle" x="207.5" y="-129.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawse</text>
+<!-- proc~dqc25s -->
+<g id="proc~~dqk15w~~CalledByGraph_node3" class="node">
+<title>proc~dqc25s</title>
+<g id="a_proc~~dqk15w~~CalledByGraph_node3"><a xlink:href=".././proc/dqc25s.html" xlink:title="dqc25s">
+<polygon fill="#d9534f" stroke="#d9534f" points="325,-108 271,-108 271,-84 325,-84 325,-108"/>
+<text text-anchor="middle" x="298" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25s</text>
 </a>
 </g>
 </g>
-<!-- proc~dqawse&#45;&gt;proc~dqc25s -->
+<!-- proc~dqc25s&#45;&gt;proc~dqk15w -->
+<g id="proc~~dqk15w~~CalledByGraph_edge2" class="edge">
+<title>proc~dqc25s&#45;&gt;proc~dqk15w</title>
+<path fill="none" stroke="#000000" d="M325.4,-96C333.39,-96 342.31,-96 350.82,-96"/>
+<polygon fill="#000000" stroke="#000000" points="350.92,-99.5 360.92,-96 350.92,-92.5 350.92,-99.5"/>
+</g>
+<!-- proc~dqc25f -->
+<g id="proc~~dqk15w~~CalledByGraph_node4" class="node">
+<title>proc~dqc25f</title>
+<g id="a_proc~~dqk15w~~CalledByGraph_node4"><a xlink:href=".././proc/dqc25f.html" xlink:title="dqc25f">
+<polygon fill="#d9534f" stroke="#d9534f" points="325,-66 271,-66 271,-42 325,-42 325,-66"/>
+<text text-anchor="middle" x="298" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25f</text>
+</a>
+</g>
+</g>
+<!-- proc~dqc25f&#45;&gt;proc~dqk15w -->
+<g id="proc~~dqk15w~~CalledByGraph_edge3" class="edge">
+<title>proc~dqc25f&#45;&gt;proc~dqk15w</title>
+<path fill="none" stroke="#000000" d="M324.45,-66.15C333.21,-70.33 343.17,-75.08 352.52,-79.54"/>
+<polygon fill="#000000" stroke="#000000" points="351.07,-82.73 361.6,-83.88 354.09,-76.41 351.07,-82.73"/>
+</g>
+<!-- proc~dqawce -->
+<g id="proc~~dqk15w~~CalledByGraph_node5" class="node">
+<title>proc~dqawce</title>
+<g id="a_proc~~dqk15w~~CalledByGraph_node5"><a xlink:href=".././proc/dqawce.html" xlink:title="dqawce">
+<polygon fill="#d9534f" stroke="#d9534f" points="234.5,-150 180.5,-150 180.5,-126 234.5,-126 234.5,-150"/>
+<text text-anchor="middle" x="207.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawce</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawce&#45;&gt;proc~dqc25c -->
 <g id="proc~~dqk15w~~CalledByGraph_edge4" class="edge">
-<title>proc~dqawse&#45;&gt;proc~dqc25s</title>
-<path fill="none" stroke="#000000" d="M234.57,-130.53C242.78,-130.06 252,-129.54 260.78,-129.05"/>
-<polygon fill="#000000" stroke="#000000" points="261.02,-132.54 270.81,-128.48 260.62,-125.55 261.02,-132.54"/>
+<title>proc~dqawce&#45;&gt;proc~dqc25c</title>
+<path fill="none" stroke="#000000" d="M234.57,-138C242.78,-138 252,-138 260.78,-138"/>
+<polygon fill="#000000" stroke="#000000" points="260.81,-141.5 270.81,-138 260.81,-134.5 260.81,-141.5"/>
 </g>
 <!-- proc~dqawoe -->
 <g id="proc~~dqk15w~~CalledByGraph_node6" class="node">
 <title>proc~dqawoe</title>
 <g id="a_proc~~dqk15w~~CalledByGraph_node6"><a xlink:href=".././proc/dqawoe.html" xlink:title="dqawoe">
-<polygon fill="#d9534f" stroke="#d9534f" points="235,-87 180,-87 180,-63 235,-63 235,-87"/>
-<text text-anchor="middle" x="207.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawoe</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="235,-66 180,-66 180,-42 235,-42 235,-66"/>
+<text text-anchor="middle" x="207.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawoe</text>
 </a>
 </g>
 </g>
 <!-- proc~dqawoe&#45;&gt;proc~dqc25f -->
-<g id="proc~~dqk15w~~CalledByGraph_edge5" class="edge">
-<title>proc~dqawoe&#45;&gt;proc~dqc25f</title>
-<path fill="none" stroke="#000000" d="M235.05,-75C243.09,-75 252.06,-75 260.62,-75"/>
-<polygon fill="#000000" stroke="#000000" points="260.77,-78.5 270.77,-75 260.77,-71.5 260.77,-78.5"/>
-</g>
-<!-- proc~dqawce -->
-<g id="proc~~dqk15w~~CalledByGraph_node7" class="node">
-<title>proc~dqawce</title>
-<g id="a_proc~~dqk15w~~CalledByGraph_node7"><a xlink:href=".././proc/dqawce.html" xlink:title="dqawce">
-<polygon fill="#d9534f" stroke="#d9534f" points="234.5,-35 180.5,-35 180.5,-11 234.5,-11 234.5,-35"/>
-<text text-anchor="middle" x="207.5" y="-20.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawce</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawce&#45;&gt;proc~dqc25c -->
 <g id="proc~~dqk15w~~CalledByGraph_edge6" class="edge">
-<title>proc~dqawce&#45;&gt;proc~dqc25c</title>
-<path fill="none" stroke="#000000" d="M234.57,-24.47C242.78,-24.94 252,-25.46 260.78,-25.95"/>
-<polygon fill="#000000" stroke="#000000" points="260.62,-29.45 270.81,-26.52 261.02,-22.46 260.62,-29.45"/>
+<title>proc~dqawoe&#45;&gt;proc~dqc25f</title>
+<path fill="none" stroke="#000000" d="M235.05,-54C243.09,-54 252.06,-54 260.62,-54"/>
+<polygon fill="#000000" stroke="#000000" points="260.77,-57.5 270.77,-54 260.77,-50.5 260.77,-57.5"/>
 </g>
-<!-- proc~dqaws -->
-<g id="proc~~dqk15w~~CalledByGraph_node8" class="node">
-<title>proc~dqaws</title>
-<g id="a_proc~~dqk15w~~CalledByGraph_node8"><a xlink:href=".././proc/dqaws.html" xlink:title="dqaws">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
-<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqaws</text>
+<!-- proc~dqawse -->
+<g id="proc~~dqk15w~~CalledByGraph_node7" class="node">
+<title>proc~dqawse</title>
+<g id="a_proc~~dqk15w~~CalledByGraph_node7"><a xlink:href=".././proc/dqawse.html" xlink:title="dqawse">
+<polygon fill="#d9534f" stroke="#d9534f" points="234.5,-108 180.5,-108 180.5,-84 234.5,-84 234.5,-108"/>
+<text text-anchor="middle" x="207.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawse</text>
 </a>
 </g>
 </g>
-<!-- proc~dqaws&#45;&gt;proc~dqawse -->
-<g id="proc~~dqk15w~~CalledByGraph_edge7" class="edge">
-<title>proc~dqaws&#45;&gt;proc~dqawse</title>
-<path fill="none" stroke="#000000" d="M144.07,-136.23C152.28,-135.68 161.5,-135.05 170.28,-134.46"/>
-<polygon fill="#000000" stroke="#000000" points="170.57,-137.94 180.31,-133.78 170.09,-130.96 170.57,-137.94"/>
-</g>
-<!-- proc~dqawfe -->
-<g id="proc~~dqk15w~~CalledByGraph_node9" class="node">
-<title>proc~dqawfe</title>
-<g id="a_proc~~dqk15w~~CalledByGraph_node9"><a xlink:href=".././proc/dqawfe.html" xlink:title="dqawfe">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
-<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawfe</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawfe&#45;&gt;proc~dqawoe -->
-<g id="proc~~dqk15w~~CalledByGraph_edge8" class="edge">
-<title>proc~dqawfe&#45;&gt;proc~dqawoe</title>
-<path fill="none" stroke="#000000" d="M144.07,-89.81C152.21,-87.88 161.34,-85.72 170.05,-83.65"/>
-<polygon fill="#000000" stroke="#000000" points="171.08,-87 180,-81.29 169.46,-80.19 171.08,-87"/>
+<!-- proc~dqawse&#45;&gt;proc~dqc25s -->
+<g id="proc~~dqk15w~~CalledByGraph_edge5" class="edge">
+<title>proc~dqawse&#45;&gt;proc~dqc25s</title>
+<path fill="none" stroke="#000000" d="M234.57,-96C242.78,-96 252,-96 260.78,-96"/>
+<polygon fill="#000000" stroke="#000000" points="260.81,-99.5 270.81,-96 260.81,-92.5 260.81,-99.5"/>
 </g>
 <!-- proc~dqawc -->
-<g id="proc~~dqk15w~~CalledByGraph_node10" class="node">
+<g id="proc~~dqk15w~~CalledByGraph_node8" class="node">
 <title>proc~dqawc</title>
-<g id="a_proc~~dqk15w~~CalledByGraph_node10"><a xlink:href=".././proc/dqawc.html" xlink:title="dqawc">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawc</text>
+<g id="a_proc~~dqk15w~~CalledByGraph_node8"><a xlink:href=".././proc/dqawc.html" xlink:title="dqawc">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
+<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawc</text>
 </a>
 </g>
 </g>
 <!-- proc~dqawc&#45;&gt;proc~dqawce -->
-<g id="proc~~dqk15w~~CalledByGraph_edge10" class="edge">
+<g id="proc~~dqk15w~~CalledByGraph_edge7" class="edge">
 <title>proc~dqawc&#45;&gt;proc~dqawce</title>
-<path fill="none" stroke="#000000" d="M144.07,-15.24C152.28,-16.26 161.5,-17.41 170.28,-18.5"/>
-<polygon fill="#000000" stroke="#000000" points="169.95,-21.98 180.31,-19.74 170.81,-15.04 169.95,-21.98"/>
+<path fill="none" stroke="#000000" d="M144.07,-138C152.28,-138 161.5,-138 170.28,-138"/>
+<polygon fill="#000000" stroke="#000000" points="170.31,-141.5 180.31,-138 170.31,-134.5 170.31,-141.5"/>
 </g>
 <!-- proc~dqawo -->
-<g id="proc~~dqk15w~~CalledByGraph_node11" class="node">
+<g id="proc~~dqk15w~~CalledByGraph_node9" class="node">
 <title>proc~dqawo</title>
-<g id="a_proc~~dqk15w~~CalledByGraph_node11"><a xlink:href=".././proc/dqawo.html" xlink:title="dqawo">
+<g id="a_proc~~dqk15w~~CalledByGraph_node9"><a xlink:href=".././proc/dqawo.html" xlink:title="dqawo">
 <polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
 <text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawo</text>
 </a>
@@ -392,23 +512,53 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
 <!-- proc~dqawo&#45;&gt;proc~dqawoe -->
 <g id="proc~~dqk15w~~CalledByGraph_edge9" class="edge">
 <title>proc~dqawo&#45;&gt;proc~dqawoe</title>
-<path fill="none" stroke="#000000" d="M144.07,-60.19C152.21,-62.12 161.34,-64.28 170.05,-66.35"/>
-<polygon fill="#000000" stroke="#000000" points="169.46,-69.81 180,-68.71 171.08,-63 169.46,-69.81"/>
+<path fill="none" stroke="#000000" d="M144.07,-54C152.12,-54 161.14,-54 169.76,-54"/>
+<polygon fill="#000000" stroke="#000000" points="170,-57.5 180,-54 170,-50.5 170,-57.5"/>
+</g>
+<!-- proc~dqaws -->
+<g id="proc~~dqk15w~~CalledByGraph_node10" class="node">
+<title>proc~dqaws</title>
+<g id="a_proc~~dqk15w~~CalledByGraph_node10"><a xlink:href=".././proc/dqaws.html" xlink:title="dqaws">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
+<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqaws</text>
+</a>
+</g>
+</g>
+<!-- proc~dqaws&#45;&gt;proc~dqawse -->
+<g id="proc~~dqk15w~~CalledByGraph_edge10" class="edge">
+<title>proc~dqaws&#45;&gt;proc~dqawse</title>
+<path fill="none" stroke="#000000" d="M144.07,-96C152.28,-96 161.5,-96 170.28,-96"/>
+<polygon fill="#000000" stroke="#000000" points="170.31,-99.5 180.31,-96 170.31,-92.5 170.31,-99.5"/>
+</g>
+<!-- proc~dqawfe -->
+<g id="proc~~dqk15w~~CalledByGraph_node11" class="node">
+<title>proc~dqawfe</title>
+<g id="a_proc~~dqk15w~~CalledByGraph_node11"><a xlink:href=".././proc/dqawfe.html" xlink:title="dqawfe">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawfe</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawfe&#45;&gt;proc~dqawoe -->
+<g id="proc~~dqk15w~~CalledByGraph_edge8" class="edge">
+<title>proc~dqawfe&#45;&gt;proc~dqawoe</title>
+<path fill="none" stroke="#000000" d="M143.6,-24.15C152.4,-28.33 162.42,-33.08 171.82,-37.54"/>
+<polygon fill="#000000" stroke="#000000" points="170.42,-40.75 180.96,-41.88 173.43,-34.43 170.42,-40.75"/>
 </g>
 <!-- proc~dqawf -->
 <g id="proc~~dqk15w~~CalledByGraph_node12" class="node">
 <title>proc~dqawf</title>
 <g id="a_proc~~dqk15w~~CalledByGraph_node12"><a xlink:href=".././proc/dqawf.html" xlink:title="dqawf">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-108 0,-108 0,-84 54,-84 54,-108"/>
-<text text-anchor="middle" x="27" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawf</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawf</text>
 </a>
 </g>
 </g>
 <!-- proc~dqawf&#45;&gt;proc~dqawfe -->
 <g id="proc~~dqk15w~~CalledByGraph_edge11" class="edge">
 <title>proc~dqawf&#45;&gt;proc~dqawfe</title>
-<path fill="none" stroke="#000000" d="M54.4,-96C62.39,-96 71.31,-96 79.82,-96"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-99.5 89.92,-96 79.92,-92.5 79.92,-99.5"/>
+<path fill="none" stroke="#000000" d="M54.4,-12C62.39,-12 71.31,-12 79.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-15.5 89.92,-12 79.92,-8.5 79.92,-15.5"/>
 </g>
 </g>
 </svg>
@@ -476,14 +626,33 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqk15w.html#src">dqk15w</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqk15w.html#src">dqk15w</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

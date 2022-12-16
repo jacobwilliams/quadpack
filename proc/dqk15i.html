@@ -76,52 +76,78 @@
   <div class="row">
     <h1>dqk15i
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 2.0% of total for procedures.">70 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-     <li class="active">dqk15i</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 2.0% of total for procedures.">70 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/quadpack_generic.F90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+              <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
+          <li class="active">dqk15i</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqk15i.html#src">dqk15i</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqk15i.html#src">dqk15i</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dqk15i(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)</h2>
+    <h2>public  subroutine dqk15i(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)  
+</h2>
     
 
     <p>estimate 1D integral on (semi)infinite interval using a 15 point
@@ -139,27 +165,60 @@
 </ul>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-f~21"></span>procedure(func)</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-f~20"></span>
+              procedure(func)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-boun"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f</strong></td>
+            <td>
+                <p>function subprogram defining the integrand function <code>f(x)</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-boun"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Boun</strong></td><td><p>finite bound of original integration
-range (set to zero if inf = +2)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-inf~3"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Boun</strong></td>
+            <td>
+                <p>finite bound of original integration
+range (set to zero if inf = +2)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-inf~3"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Inf</strong></td><td><ul>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Inf</strong></td>
+            <td>
+                <ul>
 <li>if inf = -1, the original interval is
   <code>(-infinity,bound)</code>,</li>
 <li>if inf = +1, the original interval is
@@ -169,51 +228,106 @@ range (set to zero if inf = +2)</p></td>
 </ul>
 <p>the integral is computed as the sum of two
 integrals, one over <code>(-infinity,0)</code> and one over
-<code>(0,+infinity)</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a~19"></span>real(kind=wp),</td>
+<code>(0,+infinity)</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~18"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td><p>lower limit for integration over subrange of <code>(0,1)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b~17"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>lower limit for integration over subrange of <code>(0,1)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~16"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>upper limit for integration over subrange of <code>(0,1)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-result~20"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                <p>upper limit for integration over subrange of <code>(0,1)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~20"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Result</strong></td><td><p>approximation to the integral i.
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Result</strong></td>
+            <td>
+                <p>approximation to the integral i.
 <code>result</code> is computed by applying the 15-point
 kronrod rule(resk) obtained by optimal addition
-of abscissae to the 7-point gauss rule(resg).</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-abserr~20"></span>real(kind=wp),</td>
+of abscissae to the 7-point gauss rule(resg).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-abserr~21"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
-which should equal or exceed <code>abs(i-result)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-resabs~3"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Abserr</strong></td>
+            <td>
+                <p>estimate of the modulus of the absolute error,
+which should equal or exceed <code>abs(i-result)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-resabs~3"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Resabs</strong></td><td><p>approximation to the integral j</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-resasc~4"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Resabs</strong></td>
+            <td>
+                <p>approximation to the integral j</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-resasc~4"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Resasc</strong></td><td><p>approximation to the integral of
-<code>abs((transformed integrand)-i/(b-a))</code> over <code>(a,b)</code></p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Resasc</strong></td>
+            <td>
+                <p>approximation to the integral of
+<code>abs((transformed integrand)-i/(b-a))</code> over <code>(a,b)</code></p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
     <div class="panel panel-default">
@@ -253,33 +367,33 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
 <path fill="none" stroke="#000000" d="M234.4,-33C242.39,-33 251.31,-33 259.82,-33"/>
 <polygon fill="#000000" stroke="#000000" points="259.92,-36.5 269.92,-33 259.92,-29.5 259.92,-36.5"/>
 </g>
-<!-- proc~dqawfe -->
-<g id="proc~~dqk15i~~CalledByGraph_node3" class="node">
-<title>proc~dqawfe</title>
-<g id="a_proc~~dqk15i~~CalledByGraph_node3"><a xlink:href=".././proc/dqawfe.html" xlink:title="dqawfe">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawfe</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawfe&#45;&gt;proc~dqagie -->
-<g id="proc~~dqk15i~~CalledByGraph_edge2" class="edge">
-<title>proc~dqawfe&#45;&gt;proc~dqagie</title>
-<path fill="none" stroke="#000000" d="M144.4,-47.7C152.48,-45.77 161.51,-43.62 170.1,-41.57"/>
-<polygon fill="#000000" stroke="#000000" points="171,-44.95 179.92,-39.22 169.38,-38.14 171,-44.95"/>
-</g>
 <!-- proc~dqagi -->
-<g id="proc~~dqk15i~~CalledByGraph_node4" class="node">
+<g id="proc~~dqk15i~~CalledByGraph_node3" class="node">
 <title>proc~dqagi</title>
-<g id="a_proc~~dqk15i~~CalledByGraph_node4"><a xlink:href=".././proc/dqagi.html" xlink:title="dqagi">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqagi</text>
+<g id="a_proc~~dqk15i~~CalledByGraph_node3"><a xlink:href=".././proc/dqagi.html" xlink:title="dqagi">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqagi</text>
 </a>
 </g>
 </g>
 <!-- proc~dqagi&#45;&gt;proc~dqagie -->
-<g id="proc~~dqk15i~~CalledByGraph_edge3" class="edge">
+<g id="proc~~dqk15i~~CalledByGraph_edge2" class="edge">
 <title>proc~dqagi&#45;&gt;proc~dqagie</title>
+<path fill="none" stroke="#000000" d="M144.4,-47.7C152.48,-45.77 161.51,-43.62 170.1,-41.57"/>
+<polygon fill="#000000" stroke="#000000" points="171,-44.95 179.92,-39.22 169.38,-38.14 171,-44.95"/>
+</g>
+<!-- proc~dqawfe -->
+<g id="proc~~dqk15i~~CalledByGraph_node4" class="node">
+<title>proc~dqawfe</title>
+<g id="a_proc~~dqk15i~~CalledByGraph_node4"><a xlink:href=".././proc/dqawfe.html" xlink:title="dqawfe">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawfe</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawfe&#45;&gt;proc~dqagie -->
+<g id="proc~~dqk15i~~CalledByGraph_edge3" class="edge">
+<title>proc~dqawfe&#45;&gt;proc~dqagie</title>
 <path fill="none" stroke="#000000" d="M144.4,-18.3C152.48,-20.23 161.51,-22.38 170.1,-24.43"/>
 <polygon fill="#000000" stroke="#000000" points="169.38,-27.86 179.92,-26.78 171,-21.05 169.38,-27.86"/>
 </g>
@@ -287,16 +401,16 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
 <g id="proc~~dqk15i~~CalledByGraph_node5" class="node">
 <title>proc~dqawf</title>
 <g id="a_proc~~dqk15i~~CalledByGraph_node5"><a xlink:href=".././proc/dqawf.html" xlink:title="dqawf">
-<polygon fill="#d9534f" stroke="#d9534f" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
-<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawf</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawf</text>
 </a>
 </g>
 </g>
 <!-- proc~dqawf&#45;&gt;proc~dqawfe -->
 <g id="proc~~dqk15i~~CalledByGraph_edge4" class="edge">
 <title>proc~dqawf&#45;&gt;proc~dqawfe</title>
-<path fill="none" stroke="#000000" d="M54.4,-54C62.39,-54 71.31,-54 79.82,-54"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-57.5 89.92,-54 79.92,-50.5 79.92,-57.5"/>
+<path fill="none" stroke="#000000" d="M54.4,-12C62.39,-12 71.31,-12 79.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-15.5 89.92,-12 79.92,-8.5 79.92,-15.5"/>
 </g>
 </g>
 </svg>
@@ -364,14 +478,33 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqk15i.html#src">dqk15i</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqk15i.html#src">dqk15i</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

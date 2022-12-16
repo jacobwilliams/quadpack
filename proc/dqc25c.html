@@ -76,52 +76,78 @@
   <div class="row">
     <h1>dqc25c
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.8% of total for procedures.">65 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-     <li class="active">dqc25c</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 1.8% of total for procedures.">65 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/quadpack_generic.F90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+              <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
+          <li class="active">dqc25c</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqc25c.html#src">dqc25c</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqc25c.html#src">dqc25c</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dqc25c(f, a, b, c, Result, Abserr, Krul, Neval)</h2>
+    <h2>public  subroutine dqc25c(f, a, b, c, Result, Abserr, Krul, Neval)  
+</h2>
     
 
     <p>1D integral for Cauchy principal values using a 25 point quadrature rule</p>
@@ -133,66 +159,145 @@
 </ul>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-f~17"></span>procedure(func)</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-f~16"></span>
+              procedure(func)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a~15"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f</strong></td>
+            <td>
+                <p>function subprogram defining the integrand function <code>f(x)</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~14"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td><p>left end point of the integration interval</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b~13"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>left end point of the integration interval</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~12"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>right end point of the integration interval, <code>b&gt;a</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c~3"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                <p>right end point of the integration interval, <code>b&gt;a</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~2"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>c</strong></td><td><p>parameter in the weight function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-result~16"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                <p>parameter in the weight function</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~15"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Result</strong></td><td><p>approximation to the integral.
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Result</strong></td>
+            <td>
+                <p>approximation to the integral.
 <code>result</code> is computed by using a generalized
 clenshaw-curtis method if <code>c</code> lies within ten percent
 of the integration interval. in the other case the
 15-point kronrod rule obtained by optimal addition
-of abscissae to the 7-point gauss rule, is applied.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-abserr~16"></span>real(kind=wp),</td>
+of abscissae to the 7-point gauss rule, is applied.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-abserr~16"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
-which should equal or exceed <code>abs(i-result)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-krul"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Abserr</strong></td>
+            <td>
+                <p>estimate of the modulus of the absolute error,
+which should equal or exceed <code>abs(i-result)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-krul"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Krul</strong></td><td><p>key which is decreased by 1 if the 15-point
-gauss-kronrod scheme has been used</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-neval~16"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Krul</strong></td>
+            <td>
+                <p>key which is decreased by 1 if the 15-point
+gauss-kronrod scheme has been used</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-neval~16"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Neval</strong></td><td><p>number of integrand evaluations</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Neval</strong></td>
+            <td>
+                <p>number of integrand evaluations</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
     <div class="panel panel-default">
@@ -217,33 +322,33 @@ gauss-kronrod scheme has been used</p></td>
 <polygon fill="none" stroke="black" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
 <text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">dqc25c</text>
 </g>
-<!-- proc~dqk15w -->
-<g id="proc~~dqc25c~~CallsGraph_node2" class="node">
-<title>proc~dqk15w</title>
-<g id="a_proc~~dqc25c~~CallsGraph_node2"><a xlink:href=".././proc/dqk15w.html" xlink:title="dqk15w">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
-<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15w</text>
-</a>
-</g>
-</g>
-<!-- proc~dqc25c&#45;&gt;proc~dqk15w -->
-<g id="proc~~dqc25c~~CallsGraph_edge1" class="edge">
-<title>proc~dqc25c&#45;&gt;proc~dqk15w</title>
-<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
-<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
-</g>
 <!-- proc~dqcheb -->
-<g id="proc~~dqc25c~~CallsGraph_node3" class="node">
+<g id="proc~~dqc25c~~CallsGraph_node2" class="node">
 <title>proc~dqcheb</title>
-<g id="a_proc~~dqc25c~~CallsGraph_node3"><a xlink:href=".././proc/dqcheb.html" xlink:title="dqcheb">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqcheb</text>
+<g id="a_proc~~dqc25c~~CallsGraph_node2"><a xlink:href=".././proc/dqcheb.html" xlink:title="dqcheb">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqcheb</text>
 </a>
 </g>
 </g>
 <!-- proc~dqc25c&#45;&gt;proc~dqcheb -->
-<g id="proc~~dqc25c~~CallsGraph_edge2" class="edge">
+<g id="proc~~dqc25c~~CallsGraph_edge1" class="edge">
 <title>proc~dqc25c&#45;&gt;proc~dqcheb</title>
+<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
+<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
+</g>
+<!-- proc~dqk15w -->
+<g id="proc~~dqc25c~~CallsGraph_node3" class="node">
+<title>proc~dqk15w</title>
+<g id="a_proc~~dqc25c~~CallsGraph_node3"><a xlink:href=".././proc/dqk15w.html" xlink:title="dqk15w">
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15w</text>
+</a>
+</g>
+</g>
+<!-- proc~dqc25c&#45;&gt;proc~dqk15w -->
+<g id="proc~~dqc25c~~CallsGraph_edge2" class="edge">
+<title>proc~dqc25c&#45;&gt;proc~dqk15w</title>
 <path fill="none" stroke="#000000" d="M54.4,-26.7C62.48,-24.77 71.51,-22.62 80.1,-20.57"/>
 <polygon fill="#000000" stroke="#000000" points="81,-23.95 89.92,-18.22 79.38,-17.14 81,-23.95"/>
 </g>
@@ -428,14 +533,33 @@ gauss-kronrod scheme has been used</p></td>
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqc25c.html#src">dqc25c</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqc25c.html#src">dqc25c</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

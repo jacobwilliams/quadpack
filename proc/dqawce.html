@@ -76,52 +76,78 @@
   <div class="row">
     <h1>dqawce
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 3.4% of total for procedures.">121 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-     <li class="active">dqawce</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 3.4% of total for procedures.">121 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/quadpack_generic.F90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+              <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
+          <li class="active">dqawce</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqawce.html#src">dqawce</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqawce.html#src">dqawce</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dqawce(f, a, b, c, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)</h2>
+    <h2>public  subroutine dqawce(f, a, b, c, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
+</h2>
     
 
     <p>same as <a href="../proc/dqawc.html">dqawc</a> but provides more information and control</p>
@@ -136,79 +162,184 @@
 </ul>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-f~10"></span>procedure(func)</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-f~9"></span>
+              procedure(func)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a~8"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f</strong></td>
+            <td>
+                <p>function subprogram defining the integrand function <code>f(x)</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~7"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td><p>lower limit of integration</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b~8"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>lower limit of integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~7"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>upper limit of integration</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c~2"></span>real(kind=wp)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                <p>upper limit of integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~4"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>c</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-epsabs~10"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epsabs~10"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Epsabs</strong></td><td><p>absolute accuracy requested</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-epsrel~10"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Epsabs</strong></td>
+            <td>
+                <p>absolute accuracy requested</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epsrel~10"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Epsrel</strong></td><td><p>relative accuracy requested
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Epsrel</strong></td>
+            <td>
+                <p>relative accuracy requested
 if <code>epsabs&lt;=0</code>
 and <code>epsrel&lt;max(50*rel.mach.acc.,0.5e-28)</code>,
-the routine will end with ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-limit~9"></span>integer,</td>
+the routine will end with ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-limit~9"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Limit</strong></td><td><p>gives an upper bound on the number of subintervals
-in the partition of <code>(a,b)</code>, <code>limit&gt;=1</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-result~10"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Limit</strong></td>
+            <td>
+                <p>gives an upper bound on the number of subintervals
+in the partition of <code>(a,b)</code>, <code>limit&gt;=1</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~9"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Result</strong></td><td><p>approximation to the integral</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-abserr~10"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Result</strong></td>
+            <td>
+                <p>approximation to the integral</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-abserr~10"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
-which should equal or exceed <code>abs(i-result)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-neval~10"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Abserr</strong></td>
+            <td>
+                <p>estimate of the modulus of the absolute error,
+which should equal or exceed <code>abs(i-result)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-neval~10"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Neval</strong></td><td><p>number of integrand evaluations</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ier~10"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Neval</strong></td>
+            <td>
+                <p>number of integrand evaluations</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ier~10"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Ier</strong></td><td><ul>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ier</strong></td>
+            <td>
+                <ul>
 <li>ier = 0 normal and reliable termination of the
   routine. it is assumed that the requested
   accuracy has been achieved.</li>
@@ -246,62 +377,117 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
   <code>iord(1)</code> and <code>last</code> are set to zero. <code>alist(1)</code>
   and <code>blist(1)</code> are set to <code>a</code> and <code>b</code>
   respectively.</li>
-</ul></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-alist~5"></span>real(kind=wp),</td>
+</ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alist~5"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Alist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Alist</strong>(Limit)</td>
+            <td>
+                <p>vector of dimension at least <code>limit</code>, the first
 <code>last</code> elements of which are the left
 end points of the subintervals in the partition
-of the given integration range <code>(a,b)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-blist~5"></span>real(kind=wp),</td>
+of the given integration range <code>(a,b)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-blist~5"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Blist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Blist</strong>(Limit)</td>
+            <td>
+                <p>vector of dimension at least <code>limit</code>, the first
 <code>last</code> elements of which are the right
 end points of the subintervals in the partition
-of the given integration range <code>(a,b)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rlist~5"></span>real(kind=wp),</td>
+of the given integration range <code>(a,b)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rlist~5"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Rlist</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Rlist</strong>(Limit)</td>
+            <td>
+                <p>vector of dimension at least <code>limit</code>, the first
 <code>last</code> elements of which are the integral
-approximations on the subintervals</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-elist~5"></span>real(kind=wp),</td>
+approximations on the subintervals</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-elist~5"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Elist</strong>(Limit)</td><td><p>vector of dimension <code>limit</code>, the first <code>last</code>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Elist</strong>(Limit)</td>
+            <td>
+                <p>vector of dimension <code>limit</code>, the first <code>last</code>
 elements of which are the moduli of the absolute
-error estimates on the subintervals</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iord~5"></span>integer,</td>
+error estimates on the subintervals</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iord~5"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Iord</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first <code>k</code>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Iord</strong>(Limit)</td>
+            <td>
+                <p>vector of dimension at least <code>limit</code>, the first <code>k</code>
 elements of which are pointers to the error
 estimates over the subintervals, so that
 <code>elist(iord(1)), ..., elist(iord(k))</code> with <code>k = last</code>
 if <code>last&lt;=(limit/2+2)</code>, and <code>k = limit+1-last</code>
-otherwise, form a decreasing sequence</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-last~10"></span>integer,</td>
+otherwise, form a decreasing sequence</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~10"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Last</strong></td><td><p>number of subintervals actually produced in
-the subdivision process</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Last</strong></td>
+            <td>
+                <p>number of subintervals actually produced in
+the subdivision process</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
     <div class="panel panel-default">
@@ -341,33 +527,33 @@ the subdivision process</p></td>
 <path fill="none" stroke="#000000" d="M54.4,-33C62.39,-33 71.31,-33 79.82,-33"/>
 <polygon fill="#000000" stroke="#000000" points="79.92,-36.5 89.92,-33 79.92,-29.5 79.92,-36.5"/>
 </g>
-<!-- proc~dqk15w -->
-<g id="proc~~dqawce~~CallsGraph_node3" class="node">
-<title>proc~dqk15w</title>
-<g id="a_proc~~dqawce~~CallsGraph_node3"><a xlink:href=".././proc/dqk15w.html" xlink:title="dqk15w">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
-<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15w</text>
-</a>
-</g>
-</g>
-<!-- proc~dqc25c&#45;&gt;proc~dqk15w -->
-<g id="proc~~dqawce~~CallsGraph_edge2" class="edge">
-<title>proc~dqc25c&#45;&gt;proc~dqk15w</title>
-<path fill="none" stroke="#000000" d="M144.4,-39.3C152.48,-41.23 161.51,-43.38 170.1,-45.43"/>
-<polygon fill="#000000" stroke="#000000" points="169.38,-48.86 179.92,-47.78 171,-42.05 169.38,-48.86"/>
-</g>
 <!-- proc~dqcheb -->
-<g id="proc~~dqawce~~CallsGraph_node4" class="node">
+<g id="proc~~dqawce~~CallsGraph_node3" class="node">
 <title>proc~dqcheb</title>
-<g id="a_proc~~dqawce~~CallsGraph_node4"><a xlink:href=".././proc/dqcheb.html" xlink:title="dqcheb">
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
-<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqcheb</text>
+<g id="a_proc~~dqawce~~CallsGraph_node3"><a xlink:href=".././proc/dqcheb.html" xlink:title="dqcheb">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
+<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqcheb</text>
 </a>
 </g>
 </g>
 <!-- proc~dqc25c&#45;&gt;proc~dqcheb -->
-<g id="proc~~dqawce~~CallsGraph_edge3" class="edge">
+<g id="proc~~dqawce~~CallsGraph_edge2" class="edge">
 <title>proc~dqc25c&#45;&gt;proc~dqcheb</title>
+<path fill="none" stroke="#000000" d="M144.4,-39.3C152.48,-41.23 161.51,-43.38 170.1,-45.43"/>
+<polygon fill="#000000" stroke="#000000" points="169.38,-48.86 179.92,-47.78 171,-42.05 169.38,-48.86"/>
+</g>
+<!-- proc~dqk15w -->
+<g id="proc~~dqawce~~CallsGraph_node4" class="node">
+<title>proc~dqk15w</title>
+<g id="a_proc~~dqawce~~CallsGraph_node4"><a xlink:href=".././proc/dqk15w.html" xlink:title="dqk15w">
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 180,-24 180,0 234,0 234,-24"/>
+<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15w</text>
+</a>
+</g>
+</g>
+<!-- proc~dqc25c&#45;&gt;proc~dqk15w -->
+<g id="proc~~dqawce~~CallsGraph_edge3" class="edge">
+<title>proc~dqc25c&#45;&gt;proc~dqk15w</title>
 <path fill="none" stroke="#000000" d="M144.4,-26.7C152.48,-24.77 161.51,-22.62 170.1,-20.57"/>
 <polygon fill="#000000" stroke="#000000" points="171,-23.95 179.92,-18.22 169.38,-17.14 171,-23.95"/>
 </g>
@@ -537,14 +723,33 @@ the subdivision process</p></td>
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqawce.html#src">dqawce</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqawce.html#src">dqawce</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

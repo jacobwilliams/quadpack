@@ -76,52 +76,78 @@
   <div class="row">
     <h1>dqmomo
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.8% of total for procedures.">65 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-     <li class="active">dqmomo</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 1.8% of total for procedures.">65 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/quadpack_generic.F90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+              <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
+          <li class="active">dqmomo</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqmomo.html#src">dqmomo</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqmomo.html#src">dqmomo</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dqmomo(Alfa, Beta, Ri, Rj, Rg, Rh, Integr)</h2>
+    <h2>public  subroutine dqmomo(Alfa, Beta, Ri, Rj, Rg, Rh, Integr)  
+</h2>
     
 
     <p>1D integration of <code>k</code>-th degree Chebyshev polynomial times a function with singularities</p>
@@ -135,64 +161,134 @@
 </ul>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-alfa~3"></span>real(kind=wp),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alfa~3"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Alfa</strong></td><td><p>parameter in the weight function <code>w(x)</code>, <code>alfa&gt;(-1)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-beta~3"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Alfa</strong></td>
+            <td>
+                <p>parameter in the weight function <code>w(x)</code>, <code>alfa&gt;(-1)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~3"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Beta</strong></td><td><p>parameter in the weight function <code>w(x)</code>, <code>beta&gt;(-1)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ri~2"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Beta</strong></td>
+            <td>
+                <p>parameter in the weight function <code>w(x)</code>, <code>beta&gt;(-1)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ri~2"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Ri</strong>(25)</td><td><p><code>i(k)</code> is the integral over (-1,1) of
-<code>(1+x)**alfa*t(k-1,x), k = 1, ..., 25</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rj~2"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ri</strong>(25)</td>
+            <td>
+                <p><code>i(k)</code> is the integral over (-1,1) of
+<code>(1+x)**alfa*t(k-1,x), k = 1, ..., 25</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rj~2"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Rj</strong>(25)</td><td><p><code>rj(k)</code> is the integral over (-1,1) of
-<code>(1-x)**beta*t(k-1,x), k = 1, ..., 25</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rg~2"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Rj</strong>(25)</td>
+            <td>
+                <p><code>rj(k)</code> is the integral over (-1,1) of
+<code>(1-x)**beta*t(k-1,x), k = 1, ..., 25</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rg~2"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Rg</strong>(25)</td><td><p><code>rg(k)</code> is the integral over (-1,1) of
-<code>(1+x)**alfa*log((1+x)/2)*t(k-1,x), k = 1, ..., 25</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rh~2"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Rg</strong>(25)</td>
+            <td>
+                <p><code>rg(k)</code> is the integral over (-1,1) of
+<code>(1+x)**alfa*log((1+x)/2)*t(k-1,x), k = 1, ..., 25</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rh~2"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Rh</strong>(25)</td><td><p><code>rh(k)</code> is the integral over (-1,1) of
-<code>(1-x)**beta*log((1-x)/2)*t(k-1,x), k = 1, ..., 25</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-integr~8"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Rh</strong>(25)</td>
+            <td>
+                <p><code>rh(k)</code> is the integral over (-1,1) of
+<code>(1-x)**beta*log((1-x)/2)*t(k-1,x), k = 1, ..., 25</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-integr~8"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Integr</strong></td><td><p>input parameter indicating the modified
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Integr</strong></td>
+            <td>
+                <p>input parameter indicating the modified
 moments to be computed:</p>
 <ul>
 <li>integr = 1 compute <code>ri</code>, <code>rj</code></li>
 <li>integr = 2 compute <code>ri</code>, <code>rj</code>, <code>rg</code></li>
 <li>integr = 3 compute <code>ri</code>, <code>rj</code>, <code>rh</code></li>
 <li>integr = 4 compute <code>ri</code>, <code>rj</code>, <code>rg</code>, <code>rh</code></li>
-</ul></td>
-</tr>
-</tbody>
-</table>
+</ul>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
     <div class="panel panel-default">
@@ -313,14 +409,33 @@ moments to be computed:</p>
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqmomo.html#src">dqmomo</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqmomo.html#src">dqmomo</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

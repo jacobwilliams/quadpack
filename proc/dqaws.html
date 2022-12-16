@@ -76,52 +76,78 @@
   <div class="row">
     <h1>dqaws
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.0% of total for procedures.">35 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-     <li class="active">dqaws</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 1.0% of total for procedures.">35 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/quadpack_generic.F90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+              <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
+          <li class="active">dqaws</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqaws.html#src">dqaws</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqaws.html#src">dqaws</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dqaws(f, a, b, alfa, beta, integr, epsabs, epsrel, result, abserr, neval, ier, limit, lenw, last, iwork, work)</h2>
+    <h2>public  subroutine dqaws(f, a, b, alfa, beta, integr, epsabs, epsrel, result, abserr, neval, ier, limit, lenw, last, iwork, work)  
+</h2>
     
 
     <p>1D integration of functions with powers and or logs over a finite interval</p>
@@ -137,49 +163,109 @@
 </ul>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-f~15"></span>procedure(func)</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-f~14"></span>
+              procedure(func)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>f</strong></td><td><p>function subprogram defining the integrand function <code>f(x)</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a~13"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f</strong></td>
+            <td>
+                <p>function subprogram defining the integrand function <code>f(x)</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~12"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td><p>lower limit of integration</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b~11"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>lower limit of integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~10"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>upper limit of integration, b&gt;a
-if b&lt;=a, the routine will end with ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-alfa"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                <p>upper limit of integration, b&gt;a
+if b&lt;=a, the routine will end with ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alfa"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>alfa</strong></td><td><p>parameter in the integrand function, <code>alfa&gt;(-1)</code>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alfa</strong></td>
+            <td>
+                <p>parameter in the integrand function, <code>alfa&gt;(-1)</code>
 if <code>alfa&lt;=(-1)</code>, the routine will end with
-ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-beta"></span>real(kind=wp),</td>
+ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>beta</strong></td><td><p>parameter in the integrand function, <code>beta&gt;(-1)</code>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+                <p>parameter in the integrand function, <code>beta&gt;(-1)</code>
 if <code>beta&lt;=(-1)</code>, the routine will end with
-ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-integr"></span>integer,</td>
+ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-integr"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>integr</strong></td><td><p>indicates which weight function is to be used:</p>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>integr</strong></td>
+            <td>
+                <p>indicates which weight function is to be used:</p>
 <ul>
 <li>= 1  <code>(x-a)**alfa*(b-x)**beta</code></li>
 <li>= 2  <code>(x-a)**alfa*(b-x)**beta*log(x-a)</code></li>
@@ -187,47 +273,101 @@ ier = 6.</p></td>
 <li>= 4  <code>(x-a)**alfa*(b-x)**beta*log(x-a)*log(b-x)</code></li>
 </ul>
 <p>if <code>integr&lt;1</code> or <code>integr&gt;4</code>, the routine
-will end with ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-epsabs"></span>real(kind=wp),</td>
+will end with ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epsabs"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>epsabs</strong></td><td><p>absolute accuracy requested</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-epsrel"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>epsabs</strong></td>
+            <td>
+                <p>absolute accuracy requested</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epsrel"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>epsrel</strong></td><td><p>relative accuracy requested.
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>epsrel</strong></td>
+            <td>
+                <p>relative accuracy requested.
 if <code>epsabs&lt;=0</code>
 and <code>epsrel&lt;max(50*rel.mach.acc.,0.5e-28)</code>,
-the routine will end with ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-result"></span>real(kind=wp),</td>
+the routine will end with ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>result</strong></td><td><p>approximation to the integral</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-abserr"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>result</strong></td>
+            <td>
+                <p>approximation to the integral</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-abserr"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>abserr</strong></td><td><p>estimate of the modulus of the absolute error,
-which should equal or exceed <code>abs(i-result)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-neval"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>abserr</strong></td>
+            <td>
+                <p>estimate of the modulus of the absolute error,
+which should equal or exceed <code>abs(i-result)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-neval"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>neval</strong></td><td><p>number of integrand evaluations</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ier"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>neval</strong></td>
+            <td>
+                <p>number of integrand evaluations</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ier"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>ier</strong></td><td><ul>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ier</strong></td>
+            <td>
+                <ul>
 <li>ier = 0 normal and reliable termination of the
   routine. it is assumed that the requested
   accuracy has been achieved.</li>
@@ -270,53 +410,98 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
   <code>iwork(1)</code>, <code>work(limit*2+1)</code> and
   <code>work(limit*3+1)</code> are set to zero, <code>work(1)</code>
   is set to <code>a</code> and <code>work(limit+1)</code> to <code>b</code>.</li>
-</ul></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-limit"></span>integer,</td>
+</ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-limit"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>limit</strong></td><td><p>dimensioning parameter for <code>iwork</code>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>limit</strong></td>
+            <td>
+                <p>dimensioning parameter for <code>iwork</code>
 limit determines the maximum number of
 subintervals in the partition of the given
 integration interval <code>(a,b)</code>, <code>limit&gt;=2</code>.
-if <code>limit&lt;2</code>, the routine will end with ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lenw"></span>integer,</td>
+if <code>limit&lt;2</code>, the routine will end with ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lenw"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>lenw</strong></td><td><p>dimensioning parameter for <code>work</code>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lenw</strong></td>
+            <td>
+                <p>dimensioning parameter for <code>work</code>
 <code>lenw</code> must be at least <code>limit*4</code>.
 if <code>lenw&lt;limit*4</code>, the routine will end
-with ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-last"></span>integer,</td>
+with ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>last</strong></td><td><p>on return, <code>last</code> equals the number of
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>last</strong></td>
+            <td>
+                <p>on return, <code>last</code> equals the number of
 subintervals produced in the subdivision process,
 which determines the significant number of
-elements actually in the work arrays.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iwork"></span>integer</td>
+elements actually in the work arrays.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iwork"></span>
+              integer
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>iwork</strong>(limit)</td><td><p>vector of dimension limit, the first <code>k</code>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iwork</strong>(limit)</td>
+            <td>
+                <p>vector of dimension limit, the first <code>k</code>
 elements of which contain pointers
 to the error estimates over the subintervals,
 such that <code>work(limit*3+iwork(1))</code>, ...,
 <code>work(limit*3+iwork(k))</code> form a decreasing
 sequence with <code>k = last</code> if <code>last&lt;=(limit/2+2)</code>,
-and <code>k = limit+1-last</code> otherwise</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-work"></span>real(kind=wp)</td>
+and <code>k = limit+1-last</code> otherwise</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-work"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>work</strong>(lenw)</td><td><p>on return:</p>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>work</strong>(lenw)</td>
+            <td>
+                <p>on return:</p>
 <ul>
 <li><code>work(1), ..., work(last)</code> contain the left
   end points of the subintervals in the
@@ -328,10 +513,11 @@ and <code>k = limit+1-last</code> otherwise</p></td>
   the subintervals,</li>
 <li><code>work(limit*3+1), ..., work(limit*3+last)</code>
   contain the error estimates.</li>
-</ul></td>
-</tr>
-</tbody>
-</table>
+</ul>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
     <div class="panel panel-default">
@@ -353,83 +539,83 @@ and <code>k = limit+1-last</code> otherwise</p></td>
 <!-- proc~dqaws -->
 <g id="proc~~dqaws~~CallsGraph_node1" class="node">
 <title>proc~dqaws</title>
-<polygon fill="none" stroke="black" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
-<text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">dqaws</text>
+<polygon fill="none" stroke="black" points="54,-66 0,-66 0,-42 54,-42 54,-66"/>
+<text text-anchor="middle" x="27" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">dqaws</text>
 </g>
 <!-- proc~dqawse -->
 <g id="proc~~dqaws~~CallsGraph_node2" class="node">
 <title>proc~dqawse</title>
 <g id="a_proc~~dqaws~~CallsGraph_node2"><a xlink:href=".././proc/dqawse.html" xlink:title="dqawse">
-<polygon fill="#d9534f" stroke="#d9534f" points="144,-45 90,-45 90,-21 144,-21 144,-45"/>
-<text text-anchor="middle" x="117" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawse</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawse</text>
 </a>
 </g>
 </g>
 <!-- proc~dqaws&#45;&gt;proc~dqawse -->
 <g id="proc~~dqaws~~CallsGraph_edge1" class="edge">
 <title>proc~dqaws&#45;&gt;proc~dqawse</title>
-<path fill="none" stroke="#000000" d="M54.4,-33C62.39,-33 71.31,-33 79.82,-33"/>
-<polygon fill="#000000" stroke="#000000" points="79.92,-36.5 89.92,-33 79.92,-29.5 79.92,-36.5"/>
-</g>
-<!-- proc~dqc25s -->
-<g id="proc~~dqaws~~CallsGraph_node3" class="node">
-<title>proc~dqc25s</title>
-<g id="a_proc~~dqaws~~CallsGraph_node3"><a xlink:href=".././proc/dqc25s.html" xlink:title="dqc25s">
-<polygon fill="#d9534f" stroke="#d9534f" points="237.5,-66 183.5,-66 183.5,-42 237.5,-42 237.5,-66"/>
-<text text-anchor="middle" x="210.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25s</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawse&#45;&gt;proc~dqc25s -->
-<g id="proc~~dqaws~~CallsGraph_edge2" class="edge">
-<title>proc~dqawse&#45;&gt;proc~dqc25s</title>
-<path fill="none" stroke="#000000" d="M144.47,-39.07C153.55,-41.16 163.88,-43.53 173.59,-45.76"/>
-<polygon fill="#000000" stroke="#000000" points="172.88,-49.19 183.41,-48.01 174.45,-42.36 172.88,-49.19"/>
+<path fill="none" stroke="#000000" d="M54.4,-54C62.39,-54 71.31,-54 79.82,-54"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-57.5 89.92,-54 79.92,-50.5 79.92,-57.5"/>
 </g>
 <!-- proc~dqmomo -->
-<g id="proc~~dqaws~~CallsGraph_node4" class="node">
+<g id="proc~~dqaws~~CallsGraph_node3" class="node">
 <title>proc~dqmomo</title>
-<g id="a_proc~~dqaws~~CallsGraph_node4"><a xlink:href=".././proc/dqmomo.html" xlink:title="dqmomo">
-<polygon fill="#d9534f" stroke="#d9534f" points="241,-24 180,-24 180,0 241,0 241,-24"/>
-<text text-anchor="middle" x="210.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqmomo</text>
+<g id="a_proc~~dqaws~~CallsGraph_node3"><a xlink:href=".././proc/dqmomo.html" xlink:title="dqmomo">
+<polygon fill="#d9534f" stroke="#d9534f" points="241,-87 180,-87 180,-63 241,-63 241,-87"/>
+<text text-anchor="middle" x="210.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqmomo</text>
 </a>
 </g>
 </g>
 <!-- proc~dqawse&#45;&gt;proc~dqmomo -->
-<g id="proc~~dqaws~~CallsGraph_edge3" class="edge">
+<g id="proc~~dqaws~~CallsGraph_edge2" class="edge">
 <title>proc~dqawse&#45;&gt;proc~dqmomo</title>
-<path fill="none" stroke="#000000" d="M144.47,-26.93C152.43,-25.1 161.35,-23.05 169.97,-21.07"/>
-<polygon fill="#000000" stroke="#000000" points="170.92,-24.45 179.88,-18.8 169.35,-17.62 170.92,-24.45"/>
+<path fill="none" stroke="#000000" d="M144.47,-60.07C152.43,-61.9 161.35,-63.95 169.97,-65.93"/>
+<polygon fill="#000000" stroke="#000000" points="169.35,-69.38 179.88,-68.2 170.92,-62.55 169.35,-69.38"/>
 </g>
-<!-- proc~dqk15w -->
-<g id="proc~~dqaws~~CallsGraph_node5" class="node">
-<title>proc~dqk15w</title>
-<g id="a_proc~~dqaws~~CallsGraph_node5"><a xlink:href=".././proc/dqk15w.html" xlink:title="dqk15w">
-<polygon fill="#d9534f" stroke="#d9534f" points="331,-87 277,-87 277,-63 331,-63 331,-87"/>
-<text text-anchor="middle" x="304" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15w</text>
+<!-- proc~dqc25s -->
+<g id="proc~~dqaws~~CallsGraph_node4" class="node">
+<title>proc~dqc25s</title>
+<g id="a_proc~~dqaws~~CallsGraph_node4"><a xlink:href=".././proc/dqc25s.html" xlink:title="dqc25s">
+<polygon fill="#d9534f" stroke="#d9534f" points="237.5,-45 183.5,-45 183.5,-21 237.5,-21 237.5,-45"/>
+<text text-anchor="middle" x="210.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25s</text>
 </a>
 </g>
 </g>
-<!-- proc~dqc25s&#45;&gt;proc~dqk15w -->
-<g id="proc~~dqaws~~CallsGraph_edge4" class="edge">
-<title>proc~dqc25s&#45;&gt;proc~dqk15w</title>
-<path fill="none" stroke="#000000" d="M237.97,-60.07C247.05,-62.16 257.38,-64.53 267.09,-66.76"/>
-<polygon fill="#000000" stroke="#000000" points="266.38,-70.19 276.91,-69.01 267.95,-63.36 266.38,-70.19"/>
+<!-- proc~dqawse&#45;&gt;proc~dqc25s -->
+<g id="proc~~dqaws~~CallsGraph_edge3" class="edge">
+<title>proc~dqawse&#45;&gt;proc~dqc25s</title>
+<path fill="none" stroke="#000000" d="M144.47,-47.93C153.55,-45.84 163.88,-43.47 173.59,-41.24"/>
+<polygon fill="#000000" stroke="#000000" points="174.45,-44.64 183.41,-38.99 172.88,-37.81 174.45,-44.64"/>
 </g>
 <!-- proc~dqcheb -->
-<g id="proc~~dqaws~~CallsGraph_node6" class="node">
+<g id="proc~~dqaws~~CallsGraph_node5" class="node">
 <title>proc~dqcheb</title>
-<g id="a_proc~~dqaws~~CallsGraph_node6"><a xlink:href=".././proc/dqcheb.html" xlink:title="dqcheb">
-<polygon fill="#d9534f" stroke="#d9534f" points="331,-45 277,-45 277,-21 331,-21 331,-45"/>
-<text text-anchor="middle" x="304" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqcheb</text>
+<g id="a_proc~~dqaws~~CallsGraph_node5"><a xlink:href=".././proc/dqcheb.html" xlink:title="dqcheb">
+<polygon fill="#d9534f" stroke="#d9534f" points="331,-66 277,-66 277,-42 331,-42 331,-66"/>
+<text text-anchor="middle" x="304" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqcheb</text>
 </a>
 </g>
 </g>
 <!-- proc~dqc25s&#45;&gt;proc~dqcheb -->
-<g id="proc~~dqaws~~CallsGraph_edge5" class="edge">
+<g id="proc~~dqaws~~CallsGraph_edge4" class="edge">
 <title>proc~dqc25s&#45;&gt;proc~dqcheb</title>
-<path fill="none" stroke="#000000" d="M237.97,-47.93C247.05,-45.84 257.38,-43.47 267.09,-41.24"/>
-<polygon fill="#000000" stroke="#000000" points="267.95,-44.64 276.91,-38.99 266.38,-37.81 267.95,-44.64"/>
+<path fill="none" stroke="#000000" d="M237.97,-39.07C247.05,-41.16 257.38,-43.53 267.09,-45.76"/>
+<polygon fill="#000000" stroke="#000000" points="266.38,-49.19 276.91,-48.01 267.95,-42.36 266.38,-49.19"/>
+</g>
+<!-- proc~dqk15w -->
+<g id="proc~~dqaws~~CallsGraph_node6" class="node">
+<title>proc~dqk15w</title>
+<g id="a_proc~~dqaws~~CallsGraph_node6"><a xlink:href=".././proc/dqk15w.html" xlink:title="dqk15w">
+<polygon fill="#d9534f" stroke="#d9534f" points="331,-24 277,-24 277,0 331,0 331,-24"/>
+<text text-anchor="middle" x="304" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15w</text>
+</a>
+</g>
+</g>
+<!-- proc~dqc25s&#45;&gt;proc~dqk15w -->
+<g id="proc~~dqaws~~CallsGraph_edge5" class="edge">
+<title>proc~dqc25s&#45;&gt;proc~dqk15w</title>
+<path fill="none" stroke="#000000" d="M237.97,-26.93C247.05,-24.84 257.38,-22.47 267.09,-20.24"/>
+<polygon fill="#000000" stroke="#000000" points="267.95,-23.64 276.91,-17.99 266.38,-16.81 267.95,-23.64"/>
 </g>
 </g>
 </svg>
@@ -497,14 +683,33 @@ and <code>k = limit+1-last</code> otherwise</p></td>
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqaws.html#src">dqaws</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqaws.html#src">dqaws</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">

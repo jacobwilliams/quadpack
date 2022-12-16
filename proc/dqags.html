@@ -76,52 +76,78 @@
   <div class="row">
     <h1>dqags
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.9% of total for procedures.">32 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/quadpack_generic.F90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
-     <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
-     <li class="active">dqags</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="row" id="info-bar">
+    <div class="col-lg-12">
+      <div class="well well-sm">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+          <li id="statements"><i class="fa fa-list-ol"></i>
+            <a data-toggle="tooltip"
+               data-placement="bottom" data-html="true"
+               title=" 0.9% of total for procedures.">32 statements</a>
+          </li>
+
+            <li id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/quadpack_generic.F90"> Source File</a>
+            </li>
+        </ul>
+        <ol class="breadcrumb in-well text-right">
+              <li><a href='../sourcefile/quadpack_generic.f90.html'>quadpack_generic.F90</a></li>
+              <li><a href='../module/quadpack_generic.html'>quadpack_generic</a></li>
+          <li class="active">dqags</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqags.html#src">dqags</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqags.html#src">dqags</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine dqags(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)</h2>
+    <h2>public  subroutine dqags(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)  
+</h2>
     
 
     <p>1D globally adaptive integrator using interval subdivision and extrapolation</p>
@@ -135,67 +161,154 @@
 </ul>
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-f~7"></span>procedure(func)</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th>Type</th>
+<th>Intent</th><th>Optional</th>        <th>Attributes</th>
+        <th></th>
+        <th>Name</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-f~6"></span>
+              procedure(func)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>f</strong></td><td><p>function subprogram defining the integrand
-function <code>f(x)</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a~5"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>f</strong></td>
+            <td>
+                <p>function subprogram defining the integrand
+function <code>f(x)</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~4"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td><p>lower limit of integration</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b~5"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>lower limit of integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~4"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>upper limit of integration</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-epsabs~7"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                <p>upper limit of integration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epsabs~7"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Epsabs</strong></td><td><p>absolute accuracy requested</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-epsrel~7"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Epsabs</strong></td>
+            <td>
+                <p>absolute accuracy requested</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epsrel~7"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Epsrel</strong></td><td><p>relative accuracy requested
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Epsrel</strong></td>
+            <td>
+                <p>relative accuracy requested
 if <code>epsabs&lt;=0</code>
 and <code>epsrel&lt;max(50*rel.mach.acc.,0.5e-28)</code>,
-the routine will end with ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-result~7"></span>real(kind=wp),</td>
+the routine will end with ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-result~6"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Result</strong></td><td><p>approximation to the integral</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-abserr~7"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Result</strong></td>
+            <td>
+                <p>approximation to the integral</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-abserr~7"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Abserr</strong></td><td><p>estimate of the modulus of the absolute error,
-which should equal or exceed <code>abs(i-result)</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-neval~7"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Abserr</strong></td>
+            <td>
+                <p>estimate of the modulus of the absolute error,
+which should equal or exceed <code>abs(i-result)</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-neval~7"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Neval</strong></td><td><p>number of integrand evaluations</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ier~7"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Neval</strong></td>
+            <td>
+                <p>number of integrand evaluations</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ier~7"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Ier</strong></td><td><ul>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Ier</strong></td>
+            <td>
+                <ul>
 <li>ier = 0 normal and reliable termination of the
   routine. it is assumed that the requested
   accuracy has been achieved.</li>
@@ -249,52 +362,97 @@ which should equal or exceed <code>abs(i-result)</code></p></td>
   <code>iwork(1), work(limit*2+1)</code> and
   <code>work(limit*3+1)</code> are set to zero, <code>work(1)</code>
   is set to <code>a</code> and <code>work(limit+1)</code> to <code>b</code>.</li>
-</ul></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-limit~6"></span>integer,</td>
+</ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-limit~6"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Limit</strong></td><td><p>dimensioning parameter for <code>iwork</code>.
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Limit</strong></td>
+            <td>
+                <p>dimensioning parameter for <code>iwork</code>.
 <code>limit</code> determines the maximum number of subintervals
 in the partition of the given integration interval
 <code>(a,b)</code>, <code>limit&gt;=1</code>.
-if <code>limit&lt;1</code>, the routine will end with ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-lenw~4"></span>integer,</td>
+if <code>limit&lt;1</code>, the routine will end with ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lenw~4"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Lenw</strong></td><td><p>dimensioning parameter for <code>work</code>.
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Lenw</strong></td>
+            <td>
+                <p>dimensioning parameter for <code>work</code>.
 <code>lenw</code> must be at least <code>limit*4</code>.
 if <code>lenw&lt;limit*4</code>, the routine will end
-with ier = 6.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-last~7"></span>integer,</td>
+with ier = 6.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-last~7"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Last</strong></td><td><p>on return, <code>last</code> equals the number of subintervals
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Last</strong></td>
+            <td>
+                <p>on return, <code>last</code> equals the number of subintervals
 produced in the subdivision process, determines the
 number of significant elements actually in the <code>work</code>
-arrays.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-iwork~4"></span>integer</td>
+arrays.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iwork~4"></span>
+              integer
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Iwork</strong>(Limit)</td><td><p>vector of dimension at least <code>limit</code>, the first <code>k</code>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Iwork</strong>(Limit)</td>
+            <td>
+                <p>vector of dimension at least <code>limit</code>, the first <code>k</code>
 elements of which contain pointers
 to the error estimates over the subintervals
 such that <code>work(limit*3+iwork(1)),...,work(limit*3+iwork(k))</code>
 form a decreasing sequence, with <code>k = last</code> if <code>last&lt;=(limit/2+2)</code>,
-and <code>k = limit+1-last</code> otherwise</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-work~4"></span>real(kind=wp)</td>
+and <code>k = limit+1-last</code> otherwise</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-work~4"></span>
+              real(kind=wp)
+            </td>
 <td></td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>Work</strong>(Lenw)</td><td><p>vector of dimension at least <code>lenw</code>.
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Work</strong>(Lenw)</td>
+            <td>
+                <p>vector of dimension at least <code>lenw</code>.
 on return:</p>
 <ul>
 <li><code>work(1), ..., work(last)</code> contain the left
@@ -306,10 +464,11 @@ on return:</p>
   the integral approximations over the subintervals,</li>
 <li><code>work(limit*3+1), ..., work(limit*3+last)</code>
   contain the error estimates.</li>
-</ul></td>
-</tr>
-</tbody>
-</table>
+</ul>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
     <div class="panel panel-default">
@@ -430,14 +589,33 @@ on return:</p>
     <br>
 
     <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/dqags.html#src">dqags</a>
-  </div>
-</div>
+        <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="panel panel-primary">
+      <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dqags.html#src">dqags</a>
+      </div>
+    </div>
+
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
