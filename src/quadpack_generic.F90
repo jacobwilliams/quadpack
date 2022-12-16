@@ -7827,8 +7827,8 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
     procedure(func) :: fun !! function subprogram defining the integrand function `f(x)`.
     real(wp),intent(in) :: a !! lower limit of integration
     real(wp),intent(in) :: b !! upper limit of integration (may be less than `A`)
-    real(wp),intent(out) :: err !! a requested error tolerance.  Normally, pick a value
-                                !! `0 < ERR < 1.0e-8`.
+    real(wp),intent(in) :: err !! a requested error tolerance.  Normally, pick a value
+                               !! `0 < ERR < 1.0e-8`.
     real(wp),intent(out) :: ans !! computed value of the integral.  Hopefully, `ANS` is
                                 !! accurate to within `ERR *` integral of `ABS(FUN(X))`.
     integer,intent(out) :: ierr !! a status code:
