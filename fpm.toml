@@ -18,17 +18,17 @@ include-dir = "src"
 [install]
 library = true
 
-[[ test ]]
+[[test]]
 name = "single"
 source-dir = "test"
 main = "quadpack_tests_single.F90"
 
-[[ test ]]
+[[test]]
 name = "double"
 source-dir = "test"
 main = "quadpack_tests_double.F90"
 
-[[ test ]]
+[[test]]
 name = "quad"
 source-dir = "test"
 main = "quadpack_tests_quad.F90"

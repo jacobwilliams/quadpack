@@ -4212,7 +4212,7 @@ module quadpack_generic
 
         real(wp) :: ak22, amom0, amom1, amom2, cc, &
                     p2, p3, p4, resabs, resasc, u
-        integer :: i, isym, k, kp
+        integer :: i, isym, k
         real(wp) :: fval(25) !! value of the function `f` at the points
                              !! `cos(k*pi/24)`, `k = 0, ..., 24`
         real(wp) :: cheb12(13) !! chebyshev series expansion coefficients,
@@ -4225,6 +4225,8 @@ module quadpack_generic
                           !! to the use of cheb24
         real(wp) :: hlgth !! half-length of the interval
         real(wp) :: centr !! mid point of the interval
+
+        integer,parameter :: kp = 0 !! unused variable for [[dqwgtc]]
 
         real(wp), dimension(11), parameter :: x = [(cos(k*pi/24.0_wp), k=1, 11)]
             !! the vector x contains the values `cos(k*pi/24)`,
@@ -6941,7 +6943,7 @@ module quadpack_generic
         real(wp), intent(in) :: p3
         real(wp), intent(in) :: p4
         real(wp), intent(in) :: x
-        integer, intent(in) :: Kp
+        integer, intent(in) :: Kp !! not used in this function
 
         dqwgtc = 1.0_wp/(x - c)
 
