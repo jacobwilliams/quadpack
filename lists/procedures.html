@@ -4,74 +4,56 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="Modern Fortran QUADPACK">
+      <meta name="description" content="Modern Fortran QUADPACK">
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
     <title>All Procedures &ndash; quadpack
 </title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">quadpack </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-              
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../sourcefile/quadpack_generic.f90.html">Source File</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../sourcefile/quadpack_generic.f90.html">Source File</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-                                       </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
       <div class="row">
@@ -138,524 +120,538 @@
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: call~~graph~~CallGraph Pages: 1 -->
-<svg id="callgraphCallGraph" width="440pt" height="798pt"
- viewBox="0.00 0.00 440.00 798.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="call~~graph~~CallGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 794)">
+<svg id="callgraphCallGraph" width="855pt" height="576pt"
+ viewBox="0.00 0.00 855.00 576.20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="call~~graph~~CallGraph" class="graph" transform="scale(1.13 1.13) rotate(0) translate(4 647)">
 <title>call~~graph~~CallGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-794 436,-794 436,4 -4,4"/>
-<!-- proc~dqawfe -->
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-647 962,-647 962,4 -4,4"/>
+<!-- proc~davint -->
 <g id="call~~graph~~CallGraph_node1" class="node">
-<title>proc~dqawfe</title>
-<g id="a_call~~graph~~CallGraph_node1"><a xlink:href=".././proc/dqawfe.html" xlink:title="dqawfe">
-<polygon fill="#d9534f" stroke="#d9534f" points="154,-66 100,-66 100,-42 154,-42 154,-66"/>
-<text text-anchor="middle" x="127" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawfe</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawoe -->
-<g id="call~~graph~~CallGraph_node5" class="node">
-<title>proc~dqawoe</title>
-<g id="a_call~~graph~~CallGraph_node5"><a xlink:href=".././proc/dqawoe.html" xlink:title="dqawoe">
-<polygon fill="#d9534f" stroke="#d9534f" points="245,-97 190,-97 190,-73 245,-73 245,-97"/>
-<text text-anchor="middle" x="217.5" y="-82.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawoe</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawfe&#45;&gt;proc~dqawoe -->
-<g id="call~~graph~~CallGraph_edge2" class="edge">
-<title>proc~dqawfe&#45;&gt;proc~dqawoe</title>
-<path fill="none" stroke="#000000" d="M154.07,-63.13C162.3,-66.01 171.54,-69.25 180.33,-72.33"/>
-<polygon fill="#000000" stroke="#000000" points="179.4,-75.71 190,-75.72 181.72,-69.11 179.4,-75.71"/>
-</g>
-<!-- proc~dqagie -->
-<g id="call~~graph~~CallGraph_node6" class="node">
-<title>proc~dqagie</title>
-<g id="a_call~~graph~~CallGraph_node6"><a xlink:href=".././proc/dqagie.html" xlink:title="dqagie">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-40 190.5,-40 190.5,-16 244.5,-16 244.5,-40"/>
-<text text-anchor="middle" x="217.5" y="-25.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqagie</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawfe&#45;&gt;proc~dqagie -->
-<g id="call~~graph~~CallGraph_edge1" class="edge">
-<title>proc~dqawfe&#45;&gt;proc~dqagie</title>
-<path fill="none" stroke="#000000" d="M154.07,-46.34C162.37,-43.9 171.7,-41.16 180.57,-38.56"/>
-<polygon fill="#000000" stroke="#000000" points="181.7,-41.87 190.31,-35.7 179.73,-35.16 181.7,-41.87"/>
-</g>
-<!-- proc~dqag -->
-<g id="call~~graph~~CallGraph_node2" class="node">
-<title>proc~dqag</title>
-<g id="a_call~~graph~~CallGraph_node2"><a xlink:href=".././proc/dqag.html" xlink:title="dqag">
-<polygon fill="#d9534f" stroke="#d9534f" points="59,-370 5,-370 5,-346 59,-346 59,-370"/>
-<text text-anchor="middle" x="32" y="-355.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqag</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage -->
-<g id="call~~graph~~CallGraph_node4" class="node">
-<title>proc~dqage</title>
-<g id="a_call~~graph~~CallGraph_node4"><a xlink:href=".././proc/dqage.html" xlink:title="dqage">
-<polygon fill="#d9534f" stroke="#d9534f" points="154,-370 100,-370 100,-346 154,-346 154,-370"/>
-<text text-anchor="middle" x="127" y="-355.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqage</text>
-</a>
-</g>
-</g>
-<!-- proc~dqag&#45;&gt;proc~dqage -->
-<g id="call~~graph~~CallGraph_edge3" class="edge">
-<title>proc~dqag&#45;&gt;proc~dqage</title>
-<path fill="none" stroke="#000000" d="M59.4,-358C68.81,-358 79.57,-358 89.66,-358"/>
-<polygon fill="#000000" stroke="#000000" points="89.85,-361.5 99.85,-358 89.85,-354.5 89.85,-361.5"/>
-</g>
-<!-- proc~dqk21 -->
-<g id="call~~graph~~CallGraph_node3" class="node">
-<title>proc~dqk21</title>
-<g id="a_call~~graph~~CallGraph_node3"><a xlink:href=".././proc/dqk21.html" xlink:title="dqk21">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-475 190.5,-475 190.5,-451 244.5,-451 244.5,-475"/>
-<text text-anchor="middle" x="217.5" y="-460.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk21</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk21 -->
-<g id="call~~graph~~CallGraph_edge6" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk21</title>
-<path fill="none" stroke="#000000" d="M135.52,-370.18C146.36,-387.25 167.58,-418.8 190,-442 190.75,-442.78 191.54,-443.56 192.34,-444.33"/>
-<polygon fill="#000000" stroke="#000000" points="190.11,-447.03 199.94,-450.99 194.73,-441.76 190.11,-447.03"/>
-</g>
-<!-- proc~dqk15 -->
-<g id="call~~graph~~CallGraph_node9" class="node">
-<title>proc~dqk15</title>
-<g id="a_call~~graph~~CallGraph_node9"><a xlink:href=".././proc/dqk15.html" xlink:title="dqk15">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-433 190.5,-433 190.5,-409 244.5,-409 244.5,-433"/>
-<text text-anchor="middle" x="217.5" y="-418.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk15 -->
-<g id="call~~graph~~CallGraph_edge4" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk15</title>
-<path fill="none" stroke="#000000" d="M145.06,-370.15C158.16,-379.47 176.45,-392.49 191.25,-403.02"/>
-<polygon fill="#000000" stroke="#000000" points="189.31,-405.94 199.49,-408.89 193.37,-400.24 189.31,-405.94"/>
-</g>
-<!-- proc~dqk51 -->
-<g id="call~~graph~~CallGraph_node18" class="node">
-<title>proc~dqk51</title>
-<g id="a_call~~graph~~CallGraph_node18"><a xlink:href=".././proc/dqk51.html" xlink:title="dqk51">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-391 190.5,-391 190.5,-367 244.5,-367 244.5,-391"/>
-<text text-anchor="middle" x="217.5" y="-376.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk51</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk51 -->
-<g id="call~~graph~~CallGraph_edge5" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk51</title>
-<path fill="none" stroke="#000000" d="M154.07,-364.19C162.37,-366.16 171.7,-368.37 180.57,-370.47"/>
-<polygon fill="#000000" stroke="#000000" points="179.77,-373.88 190.31,-372.78 181.38,-367.07 179.77,-373.88"/>
-</g>
-<!-- proc~dqk31 -->
-<g id="call~~graph~~CallGraph_node20" class="node">
-<title>proc~dqk31</title>
-<g id="a_call~~graph~~CallGraph_node20"><a xlink:href=".././proc/dqk31.html" xlink:title="dqk31">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-349 190.5,-349 190.5,-325 244.5,-325 244.5,-349"/>
-<text text-anchor="middle" x="217.5" y="-334.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk31</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk31 -->
-<g id="call~~graph~~CallGraph_edge8" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk31</title>
-<path fill="none" stroke="#000000" d="M154.07,-351.81C162.37,-349.84 171.7,-347.63 180.57,-345.53"/>
-<polygon fill="#000000" stroke="#000000" points="181.38,-348.93 190.31,-343.22 179.77,-342.12 181.38,-348.93"/>
-</g>
-<!-- proc~dqk61 -->
-<g id="call~~graph~~CallGraph_node22" class="node">
-<title>proc~dqk61</title>
-<g id="a_call~~graph~~CallGraph_node22"><a xlink:href=".././proc/dqk61.html" xlink:title="dqk61">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-307 190.5,-307 190.5,-283 244.5,-283 244.5,-307"/>
-<text text-anchor="middle" x="217.5" y="-292.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk61</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk61 -->
-<g id="call~~graph~~CallGraph_edge9" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk61</title>
-<path fill="none" stroke="#000000" d="M145.06,-345.85C158.16,-336.53 176.45,-323.51 191.25,-312.98"/>
-<polygon fill="#000000" stroke="#000000" points="193.37,-315.76 199.49,-307.11 189.31,-310.06 193.37,-315.76"/>
-</g>
-<!-- proc~dqk41 -->
-<g id="call~~graph~~CallGraph_node25" class="node">
-<title>proc~dqk41</title>
-<g id="a_call~~graph~~CallGraph_node25"><a xlink:href=".././proc/dqk41.html" xlink:title="dqk41">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-265 190.5,-265 190.5,-241 244.5,-241 244.5,-265"/>
-<text text-anchor="middle" x="217.5" y="-250.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk41</text>
-</a>
-</g>
-</g>
-<!-- proc~dqage&#45;&gt;proc~dqk41 -->
-<g id="call~~graph~~CallGraph_edge7" class="edge">
-<title>proc~dqage&#45;&gt;proc~dqk41</title>
-<path fill="none" stroke="#000000" d="M135.52,-345.82C146.36,-328.75 167.58,-297.2 190,-274 190.75,-273.22 191.54,-272.44 192.34,-271.67"/>
-<polygon fill="#000000" stroke="#000000" points="194.73,-274.24 199.94,-265.01 190.11,-268.97 194.73,-274.24"/>
-</g>
-<!-- proc~dqc25f -->
-<g id="call~~graph~~CallGraph_node30" class="node">
-<title>proc~dqc25f</title>
-<g id="a_call~~graph~~CallGraph_node30"><a xlink:href=".././proc/dqc25f.html" xlink:title="dqc25f">
-<polygon fill="#d9534f" stroke="#d9534f" points="338.5,-97 284.5,-97 284.5,-73 338.5,-73 338.5,-97"/>
-<text text-anchor="middle" x="311.5" y="-82.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25f</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawoe&#45;&gt;proc~dqc25f -->
-<g id="call~~graph~~CallGraph_edge10" class="edge">
-<title>proc~dqawoe&#45;&gt;proc~dqc25f</title>
-<path fill="none" stroke="#000000" d="M245.11,-85C254.15,-85 264.42,-85 274.09,-85"/>
-<polygon fill="#000000" stroke="#000000" points="274.27,-88.5 284.27,-85 274.27,-81.5 274.27,-88.5"/>
-</g>
-<!-- proc~dqk15i -->
-<g id="call~~graph~~CallGraph_node24" class="node">
-<title>proc~dqk15i</title>
-<g id="a_call~~graph~~CallGraph_node24"><a xlink:href=".././proc/dqk15i.html" xlink:title="dqk15i">
-<polygon fill="#d9534f" stroke="#d9534f" points="338.5,-40 284.5,-40 284.5,-16 338.5,-16 338.5,-40"/>
-<text text-anchor="middle" x="311.5" y="-25.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15i</text>
-</a>
-</g>
-</g>
-<!-- proc~dqagie&#45;&gt;proc~dqk15i -->
-<g id="call~~graph~~CallGraph_edge11" class="edge">
-<title>proc~dqagie&#45;&gt;proc~dqk15i</title>
-<path fill="none" stroke="#000000" d="M244.62,-28C253.84,-28 264.39,-28 274.3,-28"/>
-<polygon fill="#000000" stroke="#000000" points="274.32,-31.5 284.32,-28 274.32,-24.5 274.32,-31.5"/>
-</g>
-<!-- proc~dqagse -->
-<g id="call~~graph~~CallGraph_node7" class="node">
-<title>proc~dqagse</title>
-<g id="a_call~~graph~~CallGraph_node7"><a xlink:href=".././proc/dqagse.html" xlink:title="dqagse">
-<polygon fill="#d9534f" stroke="#d9534f" points="154,-496 100,-496 100,-472 154,-472 154,-496"/>
-<text text-anchor="middle" x="127" y="-481.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqagse</text>
-</a>
-</g>
-</g>
-<!-- proc~dqagse&#45;&gt;proc~dqk21 -->
-<g id="call~~graph~~CallGraph_edge12" class="edge">
-<title>proc~dqagse&#45;&gt;proc~dqk21</title>
-<path fill="none" stroke="#000000" d="M154.07,-477.81C162.37,-475.84 171.7,-473.63 180.57,-471.53"/>
-<polygon fill="#000000" stroke="#000000" points="181.38,-474.93 190.31,-469.22 179.77,-468.12 181.38,-474.93"/>
-</g>
-<!-- proc~dqawse -->
-<g id="call~~graph~~CallGraph_node8" class="node">
-<title>proc~dqawse</title>
-<g id="a_call~~graph~~CallGraph_node8"><a xlink:href=".././proc/dqawse.html" xlink:title="dqawse">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-160 190.5,-160 190.5,-136 244.5,-136 244.5,-160"/>
-<text text-anchor="middle" x="217.5" y="-145.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawse</text>
-</a>
-</g>
-</g>
-<!-- proc~dqc25s -->
-<g id="call~~graph~~CallGraph_node28" class="node">
-<title>proc~dqc25s</title>
-<g id="a_call~~graph~~CallGraph_node28"><a xlink:href=".././proc/dqc25s.html" xlink:title="dqc25s">
-<polygon fill="#d9534f" stroke="#d9534f" points="338.5,-181 284.5,-181 284.5,-157 338.5,-157 338.5,-181"/>
-<text text-anchor="middle" x="311.5" y="-166.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25s</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawse&#45;&gt;proc~dqc25s -->
-<g id="call~~graph~~CallGraph_edge14" class="edge">
-<title>proc~dqawse&#45;&gt;proc~dqc25s</title>
-<path fill="none" stroke="#000000" d="M244.62,-153.96C253.84,-156.07 264.39,-158.48 274.3,-160.74"/>
-<polygon fill="#000000" stroke="#000000" points="273.79,-164.21 284.32,-163.02 275.35,-157.39 273.79,-164.21"/>
-</g>
-<!-- proc~dqmomo -->
-<g id="call~~graph~~CallGraph_node36" class="node">
-<title>proc~dqmomo</title>
-<g id="a_call~~graph~~CallGraph_node36"><a xlink:href=".././proc/dqmomo.html" xlink:title="dqmomo">
-<polygon fill="#d9534f" stroke="#d9534f" points="342,-139 281,-139 281,-115 342,-115 342,-139"/>
-<text text-anchor="middle" x="311.5" y="-124.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqmomo</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawse&#45;&gt;proc~dqmomo -->
-<g id="call~~graph~~CallGraph_edge13" class="edge">
-<title>proc~dqawse&#45;&gt;proc~dqmomo</title>
-<path fill="none" stroke="#000000" d="M244.62,-142.04C252.8,-140.17 262.02,-138.07 270.92,-136.04"/>
-<polygon fill="#000000" stroke="#000000" points="271.78,-139.43 280.75,-133.79 270.22,-132.6 271.78,-139.43"/>
-</g>
-<!-- proc~dqawc -->
-<g id="call~~graph~~CallGraph_node10" class="node">
-<title>proc~dqawc</title>
-<g id="a_call~~graph~~CallGraph_node10"><a xlink:href=".././proc/dqawc.html" xlink:title="dqawc">
-<polygon fill="#d9534f" stroke="#d9534f" points="154,-223 100,-223 100,-199 154,-199 154,-223"/>
-<text text-anchor="middle" x="127" y="-208.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawc</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawce -->
-<g id="call~~graph~~CallGraph_node31" class="node">
-<title>proc~dqawce</title>
-<g id="a_call~~graph~~CallGraph_node31"><a xlink:href=".././proc/dqawce.html" xlink:title="dqawce">
-<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-223 190.5,-223 190.5,-199 244.5,-199 244.5,-223"/>
-<text text-anchor="middle" x="217.5" y="-208.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawce</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawc&#45;&gt;proc~dqawce -->
-<g id="call~~graph~~CallGraph_edge15" class="edge">
-<title>proc~dqawc&#45;&gt;proc~dqawce</title>
-<path fill="none" stroke="#000000" d="M154.07,-211C162.28,-211 171.5,-211 180.28,-211"/>
-<polygon fill="#000000" stroke="#000000" points="180.31,-214.5 190.31,-211 180.31,-207.5 180.31,-214.5"/>
-</g>
-<!-- proc~dqagpe -->
-<g id="call~~graph~~CallGraph_node11" class="node">
-<title>proc~dqagpe</title>
-<g id="a_call~~graph~~CallGraph_node11"><a xlink:href=".././proc/dqagpe.html" xlink:title="dqagpe">
-<polygon fill="#d9534f" stroke="#d9534f" points="154,-454 100,-454 100,-430 154,-430 154,-454"/>
-<text text-anchor="middle" x="127" y="-439.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqagpe</text>
-</a>
-</g>
-</g>
-<!-- proc~dqagpe&#45;&gt;proc~dqk21 -->
-<g id="call~~graph~~CallGraph_edge16" class="edge">
-<title>proc~dqagpe&#45;&gt;proc~dqk21</title>
-<path fill="none" stroke="#000000" d="M154.07,-448.19C162.37,-450.16 171.7,-452.37 180.57,-454.47"/>
-<polygon fill="#000000" stroke="#000000" points="179.77,-457.88 190.31,-456.78 181.38,-451.07 179.77,-457.88"/>
-</g>
-<!-- proc~dquad -->
-<g id="call~~graph~~CallGraph_node12" class="node">
-<title>proc~dquad</title>
-<g id="a_call~~graph~~CallGraph_node12"><a xlink:href=".././proc/dquad.html" xlink:title="dquad">
-<polygon fill="#d9534f" stroke="#d9534f" points="59,-538 5,-538 5,-514 59,-514 59,-538"/>
-<text text-anchor="middle" x="32" y="-523.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dquad</text>
-</a>
-</g>
-</g>
-<!-- proc~dqcheb -->
-<g id="call~~graph~~CallGraph_node13" class="node">
-<title>proc~dqcheb</title>
-<g id="a_call~~graph~~CallGraph_node13"><a xlink:href=".././proc/dqcheb.html" xlink:title="dqcheb">
-<polygon fill="#d9534f" stroke="#d9534f" points="432,-202 378,-202 378,-178 432,-178 432,-202"/>
-<text text-anchor="middle" x="405" y="-187.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqcheb</text>
+<title>proc~davint</title>
+<g id="a_call~~graph~~CallGraph_node1"><a xlink:href=".././proc/davint.html" xlink:title="quadpack_generic::davint">
+<polygon fill="#d9534f" stroke="#d9534f" points="160,-24 9,-24 9,0 160,0 160,-24"/>
+<text text-anchor="middle" x="84.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::davint</text>
 </a>
 </g>
 </g>
 <!-- proc~dgauss8 -->
-<g id="call~~graph~~CallGraph_node14" class="node">
+<g id="call~~graph~~CallGraph_node2" class="node">
 <title>proc~dgauss8</title>
-<g id="a_call~~graph~~CallGraph_node14"><a xlink:href=".././proc/dgauss8.html" xlink:title="dgauss8">
-<polygon fill="#d9534f" stroke="#d9534f" points="60.5,-580 3.5,-580 3.5,-556 60.5,-556 60.5,-580"/>
-<text text-anchor="middle" x="32" y="-565.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dgauss8</text>
-</a>
-</g>
-</g>
-<!-- proc~dqk15w -->
-<g id="call~~graph~~CallGraph_node15" class="node">
-<title>proc~dqk15w</title>
-<g id="a_call~~graph~~CallGraph_node15"><a xlink:href=".././proc/dqk15w.html" xlink:title="dqk15w">
-<polygon fill="#d9534f" stroke="#d9534f" points="432,-160 378,-160 378,-136 432,-136 432,-160"/>
-<text text-anchor="middle" x="405" y="-145.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqk15w</text>
-</a>
-</g>
-</g>
-<!-- proc~dqagi -->
-<g id="call~~graph~~CallGraph_node16" class="node">
-<title>proc~dqagi</title>
-<g id="a_call~~graph~~CallGraph_node16"><a xlink:href=".././proc/dqagi.html" xlink:title="dqagi">
-<polygon fill="#d9534f" stroke="#d9534f" points="154,-24 100,-24 100,0 154,0 154,-24"/>
-<text text-anchor="middle" x="127" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqagi</text>
-</a>
-</g>
-</g>
-<!-- proc~dqagi&#45;&gt;proc~dqagie -->
-<g id="call~~graph~~CallGraph_edge17" class="edge">
-<title>proc~dqagi&#45;&gt;proc~dqagie</title>
-<path fill="none" stroke="#000000" d="M154.07,-16.71C162.28,-18.2 171.5,-19.86 180.28,-21.45"/>
-<polygon fill="#000000" stroke="#000000" points="179.84,-24.93 190.31,-23.26 181.09,-18.04 179.84,-24.93"/>
-</g>
-<!-- proc~dqc25c -->
-<g id="call~~graph~~CallGraph_node17" class="node">
-<title>proc~dqc25c</title>
-<g id="a_call~~graph~~CallGraph_node17"><a xlink:href=".././proc/dqc25c.html" xlink:title="dqc25c">
-<polygon fill="#d9534f" stroke="#d9534f" points="338.5,-223 284.5,-223 284.5,-199 338.5,-199 338.5,-223"/>
-<text text-anchor="middle" x="311.5" y="-208.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqc25c</text>
-</a>
-</g>
-</g>
-<!-- proc~dqc25c&#45;&gt;proc~dqcheb -->
-<g id="call~~graph~~CallGraph_edge18" class="edge">
-<title>proc~dqc25c&#45;&gt;proc~dqcheb</title>
-<path fill="none" stroke="#000000" d="M338.97,-204.93C348.05,-202.84 358.38,-200.47 368.09,-198.24"/>
-<polygon fill="#000000" stroke="#000000" points="368.95,-201.64 377.91,-195.99 367.38,-194.81 368.95,-201.64"/>
-</g>
-<!-- proc~dqc25c&#45;&gt;proc~dqk15w -->
-<g id="call~~graph~~CallGraph_edge19" class="edge">
-<title>proc~dqc25c&#45;&gt;proc~dqk15w</title>
-<path fill="none" stroke="#000000" d="M330.14,-198.85C343.69,-189.53 362.6,-176.51 377.89,-165.98"/>
-<polygon fill="#000000" stroke="#000000" points="380.16,-168.66 386.41,-160.11 376.19,-162.9 380.16,-168.66"/>
-</g>
-<!-- proc~dqawf -->
-<g id="call~~graph~~CallGraph_node19" class="node">
-<title>proc~dqawf</title>
-<g id="a_call~~graph~~CallGraph_node19"><a xlink:href=".././proc/dqawf.html" xlink:title="dqawf">
-<polygon fill="#d9534f" stroke="#d9534f" points="59,-66 5,-66 5,-42 59,-42 59,-66"/>
-<text text-anchor="middle" x="32" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawf</text>
-</a>
-</g>
-</g>
-<!-- proc~dqawf&#45;&gt;proc~dqawfe -->
-<g id="call~~graph~~CallGraph_edge20" class="edge">
-<title>proc~dqawf&#45;&gt;proc~dqawfe</title>
-<path fill="none" stroke="#000000" d="M59.4,-54C68.81,-54 79.57,-54 89.66,-54"/>
-<polygon fill="#000000" stroke="#000000" points="89.85,-57.5 99.85,-54 89.85,-50.5 89.85,-57.5"/>
-</g>
-<!-- proc~davint -->
-<g id="call~~graph~~CallGraph_node21" class="node">
-<title>proc~davint</title>
-<g id="a_call~~graph~~CallGraph_node21"><a xlink:href=".././proc/davint.html" xlink:title="davint">
-<polygon fill="#d9534f" stroke="#d9534f" points="59,-622 5,-622 5,-598 59,-598 59,-622"/>
-<text text-anchor="middle" x="32" y="-607.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">davint</text>
+<g id="a_call~~graph~~CallGraph_node2"><a xlink:href=".././proc/dgauss8.html" xlink:title="quadpack_generic::dgauss8">
+<polygon fill="#d9534f" stroke="#d9534f" points="166,-66 3,-66 3,-42 166,-42 166,-66"/>
+<text text-anchor="middle" x="84.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dgauss8</text>
 </a>
 </g>
 </g>
 <!-- proc~dlobatto -->
-<g id="call~~graph~~CallGraph_node23" class="node">
+<g id="call~~graph~~CallGraph_node3" class="node">
 <title>proc~dlobatto</title>
-<g id="a_call~~graph~~CallGraph_node23"><a xlink:href=".././proc/dlobatto.html" xlink:title="dlobatto">
-<polygon fill="#d9534f" stroke="#d9534f" points="60.5,-664 3.5,-664 3.5,-640 60.5,-640 60.5,-664"/>
-<text text-anchor="middle" x="32" y="-649.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dlobatto</text>
+<g id="a_call~~graph~~CallGraph_node3"><a xlink:href=".././proc/dlobatto.html" xlink:title="quadpack_generic::dlobatto">
+<polygon fill="#d9534f" stroke="#d9534f" points="166,-108 3,-108 3,-84 166,-84 166,-108"/>
+<text text-anchor="middle" x="84.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dlobatto</text>
 </a>
 </g>
 </g>
-<!-- proc~dsimpson -->
-<g id="call~~graph~~CallGraph_node26" class="node">
-<title>proc~dsimpson</title>
-<g id="a_call~~graph~~CallGraph_node26"><a xlink:href=".././proc/dsimpson.html" xlink:title="dsimpson">
-<polygon fill="#d9534f" stroke="#d9534f" points="64,-706 0,-706 0,-682 64,-682 64,-706"/>
-<text text-anchor="middle" x="32" y="-691.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dsimpson</text>
+<!-- proc~dqag -->
+<g id="call~~graph~~CallGraph_node4" class="node">
+<title>proc~dqag</title>
+<g id="a_call~~graph~~CallGraph_node4"><a xlink:href=".././proc/dqag.html" xlink:title="quadpack_generic::dqag">
+<polygon fill="#d9534f" stroke="#d9534f" points="157,-150 12,-150 12,-126 157,-126 157,-150"/>
+<text text-anchor="middle" x="84.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqag</text>
 </a>
 </g>
 </g>
-<!-- proc~dqawo -->
+<!-- proc~dqage -->
+<g id="call~~graph~~CallGraph_node5" class="node">
+<title>proc~dqage</title>
+<g id="a_call~~graph~~CallGraph_node5"><a xlink:href=".././proc/dqage.html" xlink:title="quadpack_generic::dqage">
+<polygon fill="#d9534f" stroke="#d9534f" points="360.5,-150 208.5,-150 208.5,-126 360.5,-126 360.5,-150"/>
+<text text-anchor="middle" x="284.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqage</text>
+</a>
+</g>
+</g>
+<!-- proc~dqag&#45;&gt;proc~dqage -->
+<g id="call~~graph~~CallGraph_edge1" class="edge">
+<title>proc~dqag&#45;&gt;proc~dqage</title>
+<path fill="none" stroke="#000000" d="M157.26,-138C170.49,-138 184.42,-138 198.01,-138"/>
+<polygon fill="#000000" stroke="#000000" points="198.31,-141.5 208.31,-138 198.31,-134.5 198.31,-141.5"/>
+</g>
+<!-- proc~dqk15 -->
+<g id="call~~graph~~CallGraph_node24" class="node">
+<title>proc~dqk15</title>
+<g id="a_call~~graph~~CallGraph_node24"><a xlink:href=".././proc/dqk15.html" xlink:title="quadpack_generic::dqk15">
+<polygon fill="#d9534f" stroke="#d9534f" points="555.5,-213 404.5,-213 404.5,-189 555.5,-189 555.5,-213"/>
+<text text-anchor="middle" x="480" y="-198.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk15</text>
+</a>
+</g>
+</g>
+<!-- proc~dqage&#45;&gt;proc~dqk15 -->
+<g id="call~~graph~~CallGraph_edge2" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk15</title>
+<path fill="none" stroke="#000000" d="M316.34,-150.19C339.23,-159.02 371.33,-170.95 400,-180 406.79,-182.14 413.96,-184.25 421.09,-186.26"/>
+<polygon fill="#000000" stroke="#000000" points="420.18,-189.64 430.75,-188.93 422.04,-182.89 420.18,-189.64"/>
+</g>
+<!-- proc~dqk21 -->
 <g id="call~~graph~~CallGraph_node27" class="node">
-<title>proc~dqawo</title>
-<g id="a_call~~graph~~CallGraph_node27"><a xlink:href=".././proc/dqawo.html" xlink:title="dqawo">
-<polygon fill="#d9534f" stroke="#d9534f" points="154,-108 100,-108 100,-84 154,-84 154,-108"/>
-<text text-anchor="middle" x="127" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqawo</text>
+<title>proc~dqk21</title>
+<g id="a_call~~graph~~CallGraph_node27"><a xlink:href=".././proc/dqk21.html" xlink:title="quadpack_generic::dqk21">
+<polygon fill="#d9534f" stroke="#d9534f" points="555.5,-255 404.5,-255 404.5,-231 555.5,-231 555.5,-255"/>
+<text text-anchor="middle" x="480" y="-240.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk21</text>
 </a>
 </g>
 </g>
-<!-- proc~dqawo&#45;&gt;proc~dqawoe -->
-<g id="call~~graph~~CallGraph_edge21" class="edge">
-<title>proc~dqawo&#45;&gt;proc~dqawoe</title>
-<path fill="none" stroke="#000000" d="M154.07,-92.76C162.21,-91.75 171.34,-90.61 180.05,-89.53"/>
-<polygon fill="#000000" stroke="#000000" points="180.51,-93 190,-88.29 179.64,-86.05 180.51,-93"/>
+<!-- proc~dqage&#45;&gt;proc~dqk21 -->
+<g id="call~~graph~~CallGraph_edge3" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk21</title>
+<path fill="none" stroke="#000000" d="M300.6,-150.18C326.59,-170.95 378.98,-211.94 400,-222 404.33,-224.07 408.9,-225.97 413.56,-227.69"/>
+<polygon fill="#000000" stroke="#000000" points="412.64,-231.07 423.23,-230.99 414.9,-224.45 412.64,-231.07"/>
 </g>
-<!-- proc~dqc25s&#45;&gt;proc~dqcheb -->
-<g id="call~~graph~~CallGraph_edge22" class="edge">
-<title>proc~dqc25s&#45;&gt;proc~dqcheb</title>
-<path fill="none" stroke="#000000" d="M338.97,-175.07C348.05,-177.16 358.38,-179.53 368.09,-181.76"/>
-<polygon fill="#000000" stroke="#000000" points="367.38,-185.19 377.91,-184.01 368.95,-178.36 367.38,-185.19"/>
+<!-- proc~dqk31 -->
+<g id="call~~graph~~CallGraph_node28" class="node">
+<title>proc~dqk31</title>
+<g id="a_call~~graph~~CallGraph_node28"><a xlink:href=".././proc/dqk31.html" xlink:title="quadpack_generic::dqk31">
+<polygon fill="#d9534f" stroke="#d9534f" points="555.5,-171 404.5,-171 404.5,-147 555.5,-147 555.5,-171"/>
+<text text-anchor="middle" x="480" y="-156.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk31</text>
+</a>
 </g>
-<!-- proc~dqc25s&#45;&gt;proc~dqk15w -->
-<g id="call~~graph~~CallGraph_edge23" class="edge">
-<title>proc~dqc25s&#45;&gt;proc~dqk15w</title>
-<path fill="none" stroke="#000000" d="M338.97,-162.93C348.05,-160.84 358.38,-158.47 368.09,-156.24"/>
-<polygon fill="#000000" stroke="#000000" points="368.95,-159.64 377.91,-153.99 367.38,-152.81 368.95,-159.64"/>
 </g>
-<!-- proc~dqags -->
+<!-- proc~dqage&#45;&gt;proc~dqk31 -->
+<g id="call~~graph~~CallGraph_edge4" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk31</title>
+<path fill="none" stroke="#000000" d="M360.59,-146.15C371.57,-147.34 382.94,-148.58 394.1,-149.79"/>
+<polygon fill="#000000" stroke="#000000" points="393.95,-153.29 404.27,-150.89 394.71,-146.33 393.95,-153.29"/>
+</g>
+<!-- proc~dqk41 -->
 <g id="call~~graph~~CallGraph_node29" class="node">
-<title>proc~dqags</title>
-<g id="a_call~~graph~~CallGraph_node29"><a xlink:href=".././proc/dqags.html" xlink:title="dqags">
-<polygon fill="#d9534f" stroke="#d9534f" points="59,-496 5,-496 5,-472 59,-472 59,-496"/>
-<text text-anchor="middle" x="32" y="-481.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqags</text>
+<title>proc~dqk41</title>
+<g id="a_call~~graph~~CallGraph_node29"><a xlink:href=".././proc/dqk41.html" xlink:title="quadpack_generic::dqk41">
+<polygon fill="#d9534f" stroke="#d9534f" points="555.5,-129 404.5,-129 404.5,-105 555.5,-105 555.5,-129"/>
+<text text-anchor="middle" x="480" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk41</text>
 </a>
 </g>
 </g>
-<!-- proc~dqags&#45;&gt;proc~dqagse -->
-<g id="call~~graph~~CallGraph_edge24" class="edge">
-<title>proc~dqags&#45;&gt;proc~dqagse</title>
-<path fill="none" stroke="#000000" d="M59.4,-484C68.81,-484 79.57,-484 89.66,-484"/>
-<polygon fill="#000000" stroke="#000000" points="89.85,-487.5 99.85,-484 89.85,-480.5 89.85,-487.5"/>
+<!-- proc~dqage&#45;&gt;proc~dqk41 -->
+<g id="call~~graph~~CallGraph_edge5" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk41</title>
+<path fill="none" stroke="#000000" d="M360.59,-129.85C371.57,-128.66 382.94,-127.42 394.1,-126.21"/>
+<polygon fill="#000000" stroke="#000000" points="394.71,-129.67 404.27,-125.11 393.95,-122.71 394.71,-129.67"/>
 </g>
-<!-- proc~dqc25f&#45;&gt;proc~dqcheb -->
-<g id="call~~graph~~CallGraph_edge25" class="edge">
-<title>proc~dqc25f&#45;&gt;proc~dqcheb</title>
-<path fill="none" stroke="#000000" d="M332.22,-97.21C335.71,-99.86 339.13,-102.83 342,-106 363.64,-129.91 357.1,-144.44 378,-169 378.59,-169.7 379.21,-170.39 379.85,-171.07"/>
-<polygon fill="#000000" stroke="#000000" points="377.52,-173.69 387.21,-177.98 382.32,-168.58 377.52,-173.69"/>
-</g>
-<!-- proc~dqc25f&#45;&gt;proc~dqk15w -->
-<g id="call~~graph~~CallGraph_edge26" class="edge">
-<title>proc~dqc25f&#45;&gt;proc~dqk15w</title>
-<path fill="none" stroke="#000000" d="M330.14,-97.15C343.69,-106.47 362.6,-119.49 377.89,-130.02"/>
-<polygon fill="#000000" stroke="#000000" points="376.19,-133.1 386.41,-135.89 380.16,-127.34 376.19,-133.1"/>
-</g>
-<!-- proc~dqawce&#45;&gt;proc~dqc25c -->
-<g id="call~~graph~~CallGraph_edge27" class="edge">
-<title>proc~dqawce&#45;&gt;proc~dqc25c</title>
-<path fill="none" stroke="#000000" d="M244.62,-211C253.84,-211 264.39,-211 274.3,-211"/>
-<polygon fill="#000000" stroke="#000000" points="274.32,-214.5 284.32,-211 274.32,-207.5 274.32,-214.5"/>
-</g>
-<!-- proc~dqnc79 -->
-<g id="call~~graph~~CallGraph_node32" class="node">
-<title>proc~dqnc79</title>
-<g id="a_call~~graph~~CallGraph_node32"><a xlink:href=".././proc/dqnc79.html" xlink:title="dqnc79">
-<polygon fill="#d9534f" stroke="#d9534f" points="59,-748 5,-748 5,-724 59,-724 59,-748"/>
-<text text-anchor="middle" x="32" y="-733.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqnc79</text>
+<!-- proc~dqk51 -->
+<g id="call~~graph~~CallGraph_node30" class="node">
+<title>proc~dqk51</title>
+<g id="a_call~~graph~~CallGraph_node30"><a xlink:href=".././proc/dqk51.html" xlink:title="quadpack_generic::dqk51">
+<polygon fill="#d9534f" stroke="#d9534f" points="555.5,-87 404.5,-87 404.5,-63 555.5,-63 555.5,-87"/>
+<text text-anchor="middle" x="480" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk51</text>
 </a>
 </g>
 </g>
-<!-- proc~dqaws -->
-<g id="call~~graph~~CallGraph_node33" class="node">
-<title>proc~dqaws</title>
-<g id="a_call~~graph~~CallGraph_node33"><a xlink:href=".././proc/dqaws.html" xlink:title="dqaws">
-<polygon fill="#d9534f" stroke="#d9534f" points="154,-160 100,-160 100,-136 154,-136 154,-160"/>
-<text text-anchor="middle" x="127" y="-145.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqaws</text>
+<!-- proc~dqage&#45;&gt;proc~dqk51 -->
+<g id="call~~graph~~CallGraph_edge6" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk51</title>
+<path fill="none" stroke="#000000" d="M316.34,-125.81C339.23,-116.98 371.33,-105.05 400,-96 406.79,-93.86 413.96,-91.75 421.09,-89.74"/>
+<polygon fill="#000000" stroke="#000000" points="422.04,-93.11 430.75,-87.07 420.18,-86.36 422.04,-93.11"/>
+</g>
+<!-- proc~dqk61 -->
+<g id="call~~graph~~CallGraph_node31" class="node">
+<title>proc~dqk61</title>
+<g id="a_call~~graph~~CallGraph_node31"><a xlink:href=".././proc/dqk61.html" xlink:title="quadpack_generic::dqk61">
+<polygon fill="#d9534f" stroke="#d9534f" points="555.5,-45 404.5,-45 404.5,-21 555.5,-21 555.5,-45"/>
+<text text-anchor="middle" x="480" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk61</text>
 </a>
 </g>
 </g>
-<!-- proc~dqaws&#45;&gt;proc~dqawse -->
-<g id="call~~graph~~CallGraph_edge28" class="edge">
-<title>proc~dqaws&#45;&gt;proc~dqawse</title>
-<path fill="none" stroke="#000000" d="M154.07,-148C162.28,-148 171.5,-148 180.28,-148"/>
-<polygon fill="#000000" stroke="#000000" points="180.31,-151.5 190.31,-148 180.31,-144.5 180.31,-151.5"/>
+<!-- proc~dqage&#45;&gt;proc~dqk61 -->
+<g id="call~~graph~~CallGraph_edge7" class="edge">
+<title>proc~dqage&#45;&gt;proc~dqk61</title>
+<path fill="none" stroke="#000000" d="M298.53,-125.86C318.73,-107.65 359.53,-73.37 400,-54 404.33,-51.93 408.9,-50.03 413.56,-48.31"/>
+<polygon fill="#000000" stroke="#000000" points="414.9,-51.55 423.23,-45.01 412.64,-44.93 414.9,-51.55"/>
 </g>
-<!-- proc~dqng -->
-<g id="call~~graph~~CallGraph_node34" class="node">
-<title>proc~dqng</title>
-<g id="a_call~~graph~~CallGraph_node34"><a xlink:href=".././proc/dqng.html" xlink:title="dqng">
-<polygon fill="#d9534f" stroke="#d9534f" points="59,-790 5,-790 5,-766 59,-766 59,-790"/>
-<text text-anchor="middle" x="32" y="-775.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqng</text>
+<!-- proc~dqagi -->
+<g id="call~~graph~~CallGraph_node6" class="node">
+<title>proc~dqagi</title>
+<g id="a_call~~graph~~CallGraph_node6"><a xlink:href=".././proc/dqagi.html" xlink:title="quadpack_generic::dqagi">
+<polygon fill="#d9534f" stroke="#d9534f" points="358.5,-517 210.5,-517 210.5,-493 358.5,-493 358.5,-517"/>
+<text text-anchor="middle" x="284.5" y="-502.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagi</text>
 </a>
 </g>
+</g>
+<!-- proc~dqagie -->
+<g id="call~~graph~~CallGraph_node7" class="node">
+<title>proc~dqagie</title>
+<g id="a_call~~graph~~CallGraph_node7"><a xlink:href=".././proc/dqagie.html" xlink:title="quadpack_generic::dqagie">
+<polygon fill="#d9534f" stroke="#d9534f" points="557.5,-501 402.5,-501 402.5,-477 557.5,-477 557.5,-501"/>
+<text text-anchor="middle" x="480" y="-486.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagie</text>
+</a>
+</g>
+</g>
+<!-- proc~dqagi&#45;&gt;proc~dqagie -->
+<g id="call~~graph~~CallGraph_edge8" class="edge">
+<title>proc~dqagi&#45;&gt;proc~dqagie</title>
+<path fill="none" stroke="#000000" d="M358.65,-498.95C369.55,-498.05 380.88,-497.11 392.02,-496.19"/>
+<polygon fill="#000000" stroke="#000000" points="392.52,-499.66 402.2,-495.35 391.94,-492.69 392.52,-499.66"/>
+</g>
+<!-- proc~dqk15i -->
+<g id="call~~graph~~CallGraph_node25" class="node">
+<title>proc~dqk15i</title>
+<g id="a_call~~graph~~CallGraph_node25"><a xlink:href=".././proc/dqk15i.html" xlink:title="quadpack_generic::dqk15i">
+<polygon fill="#d9534f" stroke="#d9534f" points="756,-501 602,-501 602,-477 756,-477 756,-501"/>
+<text text-anchor="middle" x="679" y="-486.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk15i</text>
+</a>
+</g>
+</g>
+<!-- proc~dqagie&#45;&gt;proc~dqk15i -->
+<g id="call~~graph~~CallGraph_edge9" class="edge">
+<title>proc~dqagie&#45;&gt;proc~dqk15i</title>
+<path fill="none" stroke="#000000" d="M557.73,-489C568.81,-489 580.28,-489 591.54,-489"/>
+<polygon fill="#000000" stroke="#000000" points="591.8,-492.5 601.8,-489 591.8,-485.5 591.8,-492.5"/>
 </g>
 <!-- proc~dqagp -->
-<g id="call~~graph~~CallGraph_node35" class="node">
+<g id="call~~graph~~CallGraph_node8" class="node">
 <title>proc~dqagp</title>
-<g id="a_call~~graph~~CallGraph_node35"><a xlink:href=".././proc/dqagp.html" xlink:title="dqagp">
-<polygon fill="#d9534f" stroke="#d9534f" points="59,-454 5,-454 5,-430 59,-430 59,-454"/>
-<text text-anchor="middle" x="32" y="-439.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dqagp</text>
+<g id="a_call~~graph~~CallGraph_node8"><a xlink:href=".././proc/dqagp.html" xlink:title="quadpack_generic::dqagp">
+<polygon fill="#d9534f" stroke="#d9534f" points="160.5,-276 8.5,-276 8.5,-252 160.5,-252 160.5,-276"/>
+<text text-anchor="middle" x="84.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagp</text>
+</a>
+</g>
+</g>
+<!-- proc~dqagpe -->
+<g id="call~~graph~~CallGraph_node9" class="node">
+<title>proc~dqagpe</title>
+<g id="a_call~~graph~~CallGraph_node9"><a xlink:href=".././proc/dqagpe.html" xlink:title="quadpack_generic::dqagpe">
+<polygon fill="#d9534f" stroke="#d9534f" points="364,-276 205,-276 205,-252 364,-252 364,-276"/>
+<text text-anchor="middle" x="284.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagpe</text>
 </a>
 </g>
 </g>
 <!-- proc~dqagp&#45;&gt;proc~dqagpe -->
-<g id="call~~graph~~CallGraph_edge29" class="edge">
+<g id="call~~graph~~CallGraph_edge10" class="edge">
 <title>proc~dqagp&#45;&gt;proc~dqagpe</title>
-<path fill="none" stroke="#000000" d="M59.4,-442C68.81,-442 79.57,-442 89.66,-442"/>
-<polygon fill="#000000" stroke="#000000" points="89.85,-445.5 99.85,-442 89.85,-438.5 89.85,-445.5"/>
+<path fill="none" stroke="#000000" d="M160.64,-264C171.69,-264 183.17,-264 194.48,-264"/>
+<polygon fill="#000000" stroke="#000000" points="194.79,-267.5 204.79,-264 194.79,-260.5 194.79,-267.5"/>
+</g>
+<!-- proc~dqagpe&#45;&gt;proc~dqk21 -->
+<g id="call~~graph~~CallGraph_edge11" class="edge">
+<title>proc~dqagpe&#45;&gt;proc~dqk21</title>
+<path fill="none" stroke="#000000" d="M364.2,-255.46C374.17,-254.38 384.4,-253.27 394.45,-252.18"/>
+<polygon fill="#000000" stroke="#000000" points="394.87,-255.65 404.43,-251.09 394.11,-248.69 394.87,-255.65"/>
+</g>
+<!-- proc~dqags -->
+<g id="call~~graph~~CallGraph_node10" class="node">
+<title>proc~dqags</title>
+<g id="a_call~~graph~~CallGraph_node10"><a xlink:href=".././proc/dqags.html" xlink:title="quadpack_generic::dqags">
+<polygon fill="#d9534f" stroke="#d9534f" points="160,-234 9,-234 9,-210 160,-210 160,-234"/>
+<text text-anchor="middle" x="84.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqags</text>
+</a>
+</g>
+</g>
+<!-- proc~dqagse -->
+<g id="call~~graph~~CallGraph_node11" class="node">
+<title>proc~dqagse</title>
+<g id="a_call~~graph~~CallGraph_node11"><a xlink:href=".././proc/dqagse.html" xlink:title="quadpack_generic::dqagse">
+<polygon fill="#d9534f" stroke="#d9534f" points="363,-234 206,-234 206,-210 363,-210 363,-234"/>
+<text text-anchor="middle" x="284.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagse</text>
+</a>
+</g>
+</g>
+<!-- proc~dqags&#45;&gt;proc~dqagse -->
+<g id="call~~graph~~CallGraph_edge12" class="edge">
+<title>proc~dqags&#45;&gt;proc~dqagse</title>
+<path fill="none" stroke="#000000" d="M160.07,-222C171.6,-222 183.61,-222 195.4,-222"/>
+<polygon fill="#000000" stroke="#000000" points="195.69,-225.5 205.69,-222 195.69,-218.5 195.69,-225.5"/>
+</g>
+<!-- proc~dqagse&#45;&gt;proc~dqk21 -->
+<g id="call~~graph~~CallGraph_edge13" class="edge">
+<title>proc~dqagse&#45;&gt;proc~dqk21</title>
+<path fill="none" stroke="#000000" d="M363.09,-230.42C373.26,-231.52 383.73,-232.66 394.02,-233.78"/>
+<polygon fill="#000000" stroke="#000000" points="393.91,-237.29 404.22,-234.88 394.66,-230.33 393.91,-237.29"/>
+</g>
+<!-- proc~dqawc -->
+<g id="call~~graph~~CallGraph_node12" class="node">
+<title>proc~dqawc</title>
+<g id="a_call~~graph~~CallGraph_node12"><a xlink:href=".././proc/dqawc.html" xlink:title="quadpack_generic::dqawc">
+<polygon fill="#d9534f" stroke="#d9534f" points="361,-318 208,-318 208,-294 361,-294 361,-318"/>
+<text text-anchor="middle" x="284.5" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawc</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawce -->
+<g id="call~~graph~~CallGraph_node13" class="node">
+<title>proc~dqawce</title>
+<g id="a_call~~graph~~CallGraph_node13"><a xlink:href=".././proc/dqawce.html" xlink:title="quadpack_generic::dqawce">
+<polygon fill="#d9534f" stroke="#d9534f" points="560,-318 400,-318 400,-294 560,-294 560,-318"/>
+<text text-anchor="middle" x="480" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawce</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawc&#45;&gt;proc~dqawce -->
+<g id="call~~graph~~CallGraph_edge14" class="edge">
+<title>proc~dqawc&#45;&gt;proc~dqawce</title>
+<path fill="none" stroke="#000000" d="M361.14,-306C370.48,-306 380.1,-306 389.62,-306"/>
+<polygon fill="#000000" stroke="#000000" points="389.9,-309.5 399.9,-306 389.9,-302.5 389.9,-309.5"/>
+</g>
+<!-- proc~dqc25c -->
+<g id="call~~graph~~CallGraph_node20" class="node">
+<title>proc~dqc25c</title>
+<g id="a_call~~graph~~CallGraph_node20"><a xlink:href=".././proc/dqc25c.html" xlink:title="quadpack_generic::dqc25c">
+<polygon fill="#d9534f" stroke="#d9534f" points="757.5,-318 600.5,-318 600.5,-294 757.5,-294 757.5,-318"/>
+<text text-anchor="middle" x="679" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25c</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawce&#45;&gt;proc~dqc25c -->
+<g id="call~~graph~~CallGraph_edge15" class="edge">
+<title>proc~dqawce&#45;&gt;proc~dqc25c</title>
+<path fill="none" stroke="#000000" d="M560.28,-306C570.12,-306 580.22,-306 590.18,-306"/>
+<polygon fill="#000000" stroke="#000000" points="590.49,-309.5 600.49,-306 590.49,-302.5 590.49,-309.5"/>
+</g>
+<!-- proc~dqawf -->
+<g id="call~~graph~~CallGraph_node14" class="node">
+<title>proc~dqawf</title>
+<g id="a_call~~graph~~CallGraph_node14"><a xlink:href=".././proc/dqawf.html" xlink:title="quadpack_generic::dqawf">
+<polygon fill="#d9534f" stroke="#d9534f" points="160,-475 9,-475 9,-451 160,-451 160,-475"/>
+<text text-anchor="middle" x="84.5" y="-460.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawf</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawfe -->
+<g id="call~~graph~~CallGraph_node15" class="node">
+<title>proc~dqawfe</title>
+<g id="a_call~~graph~~CallGraph_node15"><a xlink:href=".././proc/dqawfe.html" xlink:title="quadpack_generic::dqawfe">
+<polygon fill="#d9534f" stroke="#d9534f" points="363,-475 206,-475 206,-451 363,-451 363,-475"/>
+<text text-anchor="middle" x="284.5" y="-460.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawfe</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawf&#45;&gt;proc~dqawfe -->
+<g id="call~~graph~~CallGraph_edge16" class="edge">
+<title>proc~dqawf&#45;&gt;proc~dqawfe</title>
+<path fill="none" stroke="#000000" d="M160.07,-463C171.6,-463 183.61,-463 195.4,-463"/>
+<polygon fill="#000000" stroke="#000000" points="195.69,-466.5 205.69,-463 195.69,-459.5 195.69,-466.5"/>
+</g>
+<!-- proc~dqawfe&#45;&gt;proc~dqagie -->
+<g id="call~~graph~~CallGraph_edge17" class="edge">
+<title>proc~dqawfe&#45;&gt;proc~dqagie</title>
+<path fill="none" stroke="#000000" d="M363.09,-473.43C372.69,-474.72 382.55,-476.04 392.27,-477.35"/>
+<polygon fill="#000000" stroke="#000000" points="391.96,-480.84 402.34,-478.7 392.89,-473.9 391.96,-480.84"/>
+</g>
+<!-- proc~dqawoe -->
+<g id="call~~graph~~CallGraph_node17" class="node">
+<title>proc~dqawoe</title>
+<g id="a_call~~graph~~CallGraph_node17"><a xlink:href=".././proc/dqawoe.html" xlink:title="quadpack_generic::dqawoe">
+<polygon fill="#d9534f" stroke="#d9534f" points="560,-444 400,-444 400,-420 560,-420 560,-444"/>
+<text text-anchor="middle" x="480" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawoe</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawfe&#45;&gt;proc~dqawoe -->
+<g id="call~~graph~~CallGraph_edge18" class="edge">
+<title>proc~dqawfe&#45;&gt;proc~dqawoe</title>
+<path fill="none" stroke="#000000" d="M360.59,-450.97C371.49,-449.22 382.77,-447.42 393.85,-445.64"/>
+<polygon fill="#000000" stroke="#000000" points="394.63,-449.06 403.95,-444.02 393.53,-442.15 394.63,-449.06"/>
+</g>
+<!-- proc~dqawo -->
+<g id="call~~graph~~CallGraph_node16" class="node">
+<title>proc~dqawo</title>
+<g id="a_call~~graph~~CallGraph_node16"><a xlink:href=".././proc/dqawo.html" xlink:title="quadpack_generic::dqawo">
+<polygon fill="#d9534f" stroke="#d9534f" points="361.5,-433 207.5,-433 207.5,-409 361.5,-409 361.5,-433"/>
+<text text-anchor="middle" x="284.5" y="-418.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawo</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawo&#45;&gt;proc~dqawoe -->
+<g id="call~~graph~~CallGraph_edge19" class="edge">
+<title>proc~dqawo&#45;&gt;proc~dqawoe</title>
+<path fill="none" stroke="#000000" d="M361.7,-425.33C370.86,-425.85 380.29,-426.39 389.62,-426.92"/>
+<polygon fill="#000000" stroke="#000000" points="389.51,-430.42 399.69,-427.49 389.9,-423.43 389.51,-430.42"/>
+</g>
+<!-- proc~dqc25f -->
+<g id="call~~graph~~CallGraph_node21" class="node">
+<title>proc~dqc25f</title>
+<g id="a_call~~graph~~CallGraph_node21"><a xlink:href=".././proc/dqc25f.html" xlink:title="quadpack_generic::dqc25f">
+<polygon fill="#d9534f" stroke="#d9534f" points="756.5,-444 601.5,-444 601.5,-420 756.5,-420 756.5,-444"/>
+<text text-anchor="middle" x="679" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25f</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawoe&#45;&gt;proc~dqc25f -->
+<g id="call~~graph~~CallGraph_edge20" class="edge">
+<title>proc~dqawoe&#45;&gt;proc~dqc25f</title>
+<path fill="none" stroke="#000000" d="M560.28,-432C570.46,-432 580.93,-432 591.22,-432"/>
+<polygon fill="#000000" stroke="#000000" points="591.45,-435.5 601.45,-432 591.45,-428.5 591.45,-435.5"/>
+</g>
+<!-- proc~dqaws -->
+<g id="call~~graph~~CallGraph_node18" class="node">
+<title>proc~dqaws</title>
+<g id="a_call~~graph~~CallGraph_node18"><a xlink:href=".././proc/dqaws.html" xlink:title="quadpack_generic::dqaws">
+<polygon fill="#d9534f" stroke="#d9534f" points="360.5,-370 208.5,-370 208.5,-346 360.5,-346 360.5,-370"/>
+<text text-anchor="middle" x="284.5" y="-355.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqaws</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawse -->
+<g id="call~~graph~~CallGraph_node19" class="node">
+<title>proc~dqawse</title>
+<g id="a_call~~graph~~CallGraph_node19"><a xlink:href=".././proc/dqawse.html" xlink:title="quadpack_generic::dqawse">
+<polygon fill="#d9534f" stroke="#d9534f" points="559.5,-370 400.5,-370 400.5,-346 559.5,-346 559.5,-370"/>
+<text text-anchor="middle" x="480" y="-355.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawse</text>
+</a>
+</g>
+</g>
+<!-- proc~dqaws&#45;&gt;proc~dqawse -->
+<g id="call~~graph~~CallGraph_edge21" class="edge">
+<title>proc~dqaws&#45;&gt;proc~dqawse</title>
+<path fill="none" stroke="#000000" d="M360.59,-358C370.29,-358 380.29,-358 390.18,-358"/>
+<polygon fill="#000000" stroke="#000000" points="390.44,-361.5 400.44,-358 390.44,-354.5 390.44,-361.5"/>
+</g>
+<!-- proc~dqc25s -->
+<g id="call~~graph~~CallGraph_node22" class="node">
+<title>proc~dqc25s</title>
+<g id="a_call~~graph~~CallGraph_node22"><a xlink:href=".././proc/dqc25s.html" xlink:title="quadpack_generic::dqc25s">
+<polygon fill="#d9534f" stroke="#d9534f" points="757.5,-360 600.5,-360 600.5,-336 757.5,-336 757.5,-360"/>
+<text text-anchor="middle" x="679" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25s</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawse&#45;&gt;proc~dqc25s -->
+<g id="call~~graph~~CallGraph_edge22" class="edge">
+<title>proc~dqawse&#45;&gt;proc~dqc25s</title>
+<path fill="none" stroke="#000000" d="M559.71,-354C569.76,-353.49 580.09,-352.97 590.27,-352.45"/>
+<polygon fill="#000000" stroke="#000000" points="590.57,-355.94 600.38,-351.94 590.21,-348.95 590.57,-355.94"/>
+</g>
+<!-- proc~dqmomo -->
+<g id="call~~graph~~CallGraph_node32" class="node">
+<title>proc~dqmomo</title>
+<g id="a_call~~graph~~CallGraph_node32"><a xlink:href=".././proc/dqmomo.html" xlink:title="quadpack_generic::dqmomo">
+<polygon fill="#d9534f" stroke="#d9534f" points="762,-402 596,-402 596,-378 762,-378 762,-402"/>
+<text text-anchor="middle" x="679" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqmomo</text>
+</a>
+</g>
+</g>
+<!-- proc~dqawse&#45;&gt;proc~dqmomo -->
+<g id="call~~graph~~CallGraph_edge23" class="edge">
+<title>proc~dqawse&#45;&gt;proc~dqmomo</title>
+<path fill="none" stroke="#000000" d="M554.92,-370.01C567.71,-372.08 581.09,-374.26 594.12,-376.37"/>
+<polygon fill="#000000" stroke="#000000" points="593.57,-379.83 604,-377.98 594.69,-372.92 593.57,-379.83"/>
+</g>
+<!-- proc~dqcheb -->
+<g id="call~~graph~~CallGraph_node23" class="node">
+<title>proc~dqcheb</title>
+<g id="a_call~~graph~~CallGraph_node23"><a xlink:href=".././proc/dqcheb.html" xlink:title="quadpack_generic::dqcheb">
+<polygon fill="#d9534f" stroke="#d9534f" points="957,-381 799,-381 799,-357 957,-357 957,-381"/>
+<text text-anchor="middle" x="878" y="-366.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqcheb</text>
+</a>
+</g>
+</g>
+<!-- proc~dqc25c&#45;&gt;proc~dqcheb -->
+<g id="call~~graph~~CallGraph_edge24" class="edge">
+<title>proc~dqc25c&#45;&gt;proc~dqcheb</title>
+<path fill="none" stroke="#000000" d="M735.82,-318.07C744.71,-320.62 753.71,-323.6 762,-327 779.14,-334.03 780.9,-340.89 798,-348 803.08,-350.11 808.43,-352.06 813.85,-353.86"/>
+<polygon fill="#000000" stroke="#000000" points="813.07,-357.28 823.65,-356.92 815.15,-350.6 813.07,-357.28"/>
+</g>
+<!-- proc~dqk15w -->
+<g id="call~~graph~~CallGraph_node26" class="node">
+<title>proc~dqk15w</title>
+<g id="a_call~~graph~~CallGraph_node26"><a xlink:href=".././proc/dqk15w.html" xlink:title="quadpack_generic::dqk15w">
+<polygon fill="#d9534f" stroke="#d9534f" points="958,-339 798,-339 798,-315 958,-315 958,-339"/>
+<text text-anchor="middle" x="878" y="-324.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk15w</text>
+</a>
+</g>
+</g>
+<!-- proc~dqc25c&#45;&gt;proc~dqk15w -->
+<g id="call~~graph~~CallGraph_edge25" class="edge">
+<title>proc~dqc25c&#45;&gt;proc~dqk15w</title>
+<path fill="none" stroke="#000000" d="M757.58,-314.27C767.51,-315.33 777.74,-316.42 787.84,-317.5"/>
+<polygon fill="#000000" stroke="#000000" points="787.56,-320.99 797.88,-318.57 788.3,-314.03 787.56,-320.99"/>
+</g>
+<!-- proc~dqc25f&#45;&gt;proc~dqcheb -->
+<g id="call~~graph~~CallGraph_edge26" class="edge">
+<title>proc~dqc25f&#45;&gt;proc~dqcheb</title>
+<path fill="none" stroke="#000000" d="M730.53,-419.9C740.99,-417.16 751.89,-414.13 762,-411 787.29,-403.16 815.2,-393.01 837.19,-384.65"/>
+<polygon fill="#000000" stroke="#000000" points="838.45,-387.91 846.53,-381.07 835.94,-381.38 838.45,-387.91"/>
+</g>
+<!-- proc~dqc25f&#45;&gt;proc~dqk15w -->
+<g id="call~~graph~~CallGraph_edge27" class="edge">
+<title>proc~dqc25f&#45;&gt;proc~dqk15w</title>
+<path fill="none" stroke="#000000" d="M746.63,-419.99C752.11,-417.53 757.32,-414.56 762,-411 787.65,-391.45 772.44,-367.66 798,-348 799.87,-346.56 801.84,-345.22 803.87,-343.97"/>
+<polygon fill="#000000" stroke="#000000" points="805.98,-346.81 813.19,-339.05 802.71,-340.62 805.98,-346.81"/>
+</g>
+<!-- proc~dqc25s&#45;&gt;proc~dqcheb -->
+<g id="call~~graph~~CallGraph_edge28" class="edge">
+<title>proc~dqc25s&#45;&gt;proc~dqcheb</title>
+<path fill="none" stroke="#000000" d="M757.58,-356.27C767.86,-357.37 778.46,-358.5 788.9,-359.61"/>
+<polygon fill="#000000" stroke="#000000" points="788.53,-363.09 798.85,-360.67 789.27,-356.13 788.53,-363.09"/>
+</g>
+<!-- proc~dqc25s&#45;&gt;proc~dqk15w -->
+<g id="call~~graph~~CallGraph_edge29" class="edge">
+<title>proc~dqc25s&#45;&gt;proc~dqk15w</title>
+<path fill="none" stroke="#000000" d="M757.58,-339.73C767.51,-338.67 777.74,-337.58 787.84,-336.5"/>
+<polygon fill="#000000" stroke="#000000" points="788.3,-339.97 797.88,-335.43 787.56,-333.01 788.3,-339.97"/>
+</g>
+<!-- proc~dqnc79 -->
+<g id="call~~graph~~CallGraph_node33" class="node">
+<title>proc~dqnc79</title>
+<g id="a_call~~graph~~CallGraph_node33"><a xlink:href=".././proc/dqnc79.html" xlink:title="quadpack_generic::dqnc79">
+<polygon fill="#d9534f" stroke="#d9534f" points="163.5,-517 5.5,-517 5.5,-493 163.5,-493 163.5,-517"/>
+<text text-anchor="middle" x="84.5" y="-502.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqnc79</text>
+</a>
+</g>
+</g>
+<!-- proc~dqng -->
+<g id="call~~graph~~CallGraph_node34" class="node">
+<title>proc~dqng</title>
+<g id="a_call~~graph~~CallGraph_node34"><a xlink:href=".././proc/dqng.html" xlink:title="quadpack_generic::dqng">
+<polygon fill="#d9534f" stroke="#d9534f" points="157,-559 12,-559 12,-535 157,-535 157,-559"/>
+<text text-anchor="middle" x="84.5" y="-544.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqng</text>
+</a>
+</g>
+</g>
+<!-- proc~dquad -->
+<g id="call~~graph~~CallGraph_node35" class="node">
+<title>proc~dquad</title>
+<g id="a_call~~graph~~CallGraph_node35"><a xlink:href=".././proc/dquad.html" xlink:title="quadpack_generic::dquad">
+<polygon fill="#d9534f" stroke="#d9534f" points="160.5,-601 8.5,-601 8.5,-577 160.5,-577 160.5,-601"/>
+<text text-anchor="middle" x="84.5" y="-586.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dquad</text>
+</a>
+</g>
+</g>
+<!-- proc~dsimpson -->
+<g id="call~~graph~~CallGraph_node36" class="node">
+<title>proc~dsimpson</title>
+<g id="a_call~~graph~~CallGraph_node36"><a xlink:href=".././proc/dsimpson.html" xlink:title="quadpack_generic::dsimpson">
+<polygon fill="#d9534f" stroke="#d9534f" points="169,-643 0,-643 0,-619 169,-619 169,-643"/>
+<text text-anchor="middle" x="84.5" y="-628.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dsimpson</text>
+</a>
+</g>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var pancallgraphCallGraph = svgPanZoom('#callgraphCallGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CallGraph-help-text">Help</a></div>
+          <div class="modal fade" id="CallGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                </div>
+              <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="597pt" height="32pt"
- viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.16 1.16) rotate(0) translate(4 28)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
 <!-- Subroutine -->
 <g id="node1" class="node">
 <title>Subroutine</title>
@@ -674,80 +670,83 @@
 <polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
 <text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
 </g>
-<!-- Unknown Procedure Type -->
+<!-- Type Bound Procedure -->
 <g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
 <title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
-<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node">
+<g id="node6" class="node">
 <title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
-<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node">
+<g id="node7" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
-<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>quadpack was developed by Jacob Williams<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>
