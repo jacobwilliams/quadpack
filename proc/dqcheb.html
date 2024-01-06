@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -35,7 +38,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" href="../sourcefile/quadpack_generic.f90.html">Source File</a>
+                    <a class="nav-link" href="sourcefile/quadpack_generic.f90.html">Source File</a>
                   </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/modules.html">Modules</a>
@@ -148,7 +151,7 @@
 <p>where <code>t(k,x)</code> is the chebyshev polynomial of degree <code>k</code>.</p>
 <h3>See also</h3>
 <ul>
-<li><a href="../proc/dqc25c.html">dqc25c</a>, <a href="../proc/dqc25f.html">dqc25f</a>, <a href="../proc/dqc25s.html">dqc25s</a></li>
+<li><a href="dqc25c.html">dqc25c</a>, <a href="dqc25f.html">dqc25f</a>, <a href="dqc25s.html">dqc25s</a></li>
 </ul>
 <h3>History</h3>
 <ul>
@@ -169,7 +172,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~4"></span>
+              <span class="anchor" id="variable-x~6"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -264,7 +267,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqc25c -->
 <g id="proc~~dqcheb~~CalledByGraph_node2" class="node">
 <title>proc~dqc25c</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node2"><a xlink:href=".././proc/dqc25c.html" xlink:title="quadpack_generic::dqc25c">
+<g id="a_proc~~dqcheb~~CalledByGraph_node2"><a xlink:href="../proc/dqc25c.html" xlink:title="quadpack_generic::dqc25c">
 <polygon fill="#d9534f" stroke="#d9534f" points="733,-139 576,-139 576,-115 733,-115 733,-139"/>
 <text text-anchor="middle" x="654.5" y="-124.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25c</text>
 </a>
@@ -279,7 +282,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqc25f -->
 <g id="proc~~dqcheb~~CalledByGraph_node3" class="node">
 <title>proc~dqc25f</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node3"><a xlink:href=".././proc/dqc25f.html" xlink:title="quadpack_generic::dqc25f">
+<g id="a_proc~~dqcheb~~CalledByGraph_node3"><a xlink:href="../proc/dqc25f.html" xlink:title="quadpack_generic::dqc25f">
 <polygon fill="#d9534f" stroke="#d9534f" points="732,-87 577,-87 577,-63 732,-63 732,-87"/>
 <text text-anchor="middle" x="654.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25f</text>
 </a>
@@ -294,7 +297,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqc25s -->
 <g id="proc~~dqcheb~~CalledByGraph_node4" class="node">
 <title>proc~dqc25s</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node4"><a xlink:href=".././proc/dqc25s.html" xlink:title="quadpack_generic::dqc25s">
+<g id="a_proc~~dqcheb~~CalledByGraph_node4"><a xlink:href="../proc/dqc25s.html" xlink:title="quadpack_generic::dqc25s">
 <polygon fill="#d9534f" stroke="#d9534f" points="733,-40 576,-40 576,-16 733,-16 733,-40"/>
 <text text-anchor="middle" x="654.5" y="-25.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25s</text>
 </a>
@@ -309,7 +312,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqawce -->
 <g id="proc~~dqcheb~~CalledByGraph_node5" class="node">
 <title>proc~dqawce</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node5"><a xlink:href=".././proc/dqawce.html" xlink:title="quadpack_generic::dqawce">
+<g id="a_proc~~dqcheb~~CalledByGraph_node5"><a xlink:href="../proc/dqawce.html" xlink:title="quadpack_generic::dqawce">
 <polygon fill="#d9534f" stroke="#d9534f" points="540,-144 380,-144 380,-120 540,-120 540,-144"/>
 <text text-anchor="middle" x="460" y="-129.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawce</text>
 </a>
@@ -324,7 +327,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqawoe -->
 <g id="proc~~dqcheb~~CalledByGraph_node6" class="node">
 <title>proc~dqawoe</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node6"><a xlink:href=".././proc/dqawoe.html" xlink:title="quadpack_generic::dqawoe">
+<g id="a_proc~~dqcheb~~CalledByGraph_node6"><a xlink:href="../proc/dqawoe.html" xlink:title="quadpack_generic::dqawoe">
 <polygon fill="#d9534f" stroke="#d9534f" points="540,-87 380,-87 380,-63 540,-63 540,-87"/>
 <text text-anchor="middle" x="460" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawoe</text>
 </a>
@@ -339,7 +342,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqawse -->
 <g id="proc~~dqcheb~~CalledByGraph_node7" class="node">
 <title>proc~dqawse</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node7"><a xlink:href=".././proc/dqawse.html" xlink:title="quadpack_generic::dqawse">
+<g id="a_proc~~dqcheb~~CalledByGraph_node7"><a xlink:href="../proc/dqawse.html" xlink:title="quadpack_generic::dqawse">
 <polygon fill="#d9534f" stroke="#d9534f" points="539.5,-35 380.5,-35 380.5,-11 539.5,-11 539.5,-35"/>
 <text text-anchor="middle" x="460" y="-20.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawse</text>
 </a>
@@ -354,7 +357,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqawc -->
 <g id="proc~~dqcheb~~CalledByGraph_node8" class="node">
 <title>proc~dqawc</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node8"><a xlink:href=".././proc/dqawc.html" xlink:title="quadpack_generic::dqawc">
+<g id="a_proc~~dqcheb~~CalledByGraph_node8"><a xlink:href="../proc/dqawc.html" xlink:title="quadpack_generic::dqawc">
 <polygon fill="#d9534f" stroke="#d9534f" points="342,-150 189,-150 189,-126 342,-126 342,-150"/>
 <text text-anchor="middle" x="265.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawc</text>
 </a>
@@ -369,7 +372,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqawfe -->
 <g id="proc~~dqcheb~~CalledByGraph_node9" class="node">
 <title>proc~dqawfe</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node9"><a xlink:href=".././proc/dqawfe.html" xlink:title="quadpack_generic::dqawfe">
+<g id="a_proc~~dqcheb~~CalledByGraph_node9"><a xlink:href="../proc/dqawfe.html" xlink:title="quadpack_generic::dqawfe">
 <polygon fill="#d9534f" stroke="#d9534f" points="344,-108 187,-108 187,-84 344,-84 344,-108"/>
 <text text-anchor="middle" x="265.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawfe</text>
 </a>
@@ -384,7 +387,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqawo -->
 <g id="proc~~dqcheb~~CalledByGraph_node10" class="node">
 <title>proc~dqawo</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node10"><a xlink:href=".././proc/dqawo.html" xlink:title="quadpack_generic::dqawo">
+<g id="a_proc~~dqcheb~~CalledByGraph_node10"><a xlink:href="../proc/dqawo.html" xlink:title="quadpack_generic::dqawo">
 <polygon fill="#d9534f" stroke="#d9534f" points="342.5,-66 188.5,-66 188.5,-42 342.5,-42 342.5,-66"/>
 <text text-anchor="middle" x="265.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawo</text>
 </a>
@@ -399,7 +402,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqaws -->
 <g id="proc~~dqcheb~~CalledByGraph_node11" class="node">
 <title>proc~dqaws</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node11"><a xlink:href=".././proc/dqaws.html" xlink:title="quadpack_generic::dqaws">
+<g id="a_proc~~dqcheb~~CalledByGraph_node11"><a xlink:href="../proc/dqaws.html" xlink:title="quadpack_generic::dqaws">
 <polygon fill="#d9534f" stroke="#d9534f" points="341.5,-24 189.5,-24 189.5,0 341.5,0 341.5,-24"/>
 <text text-anchor="middle" x="265.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqaws</text>
 </a>
@@ -414,7 +417,7 @@ chebyshev coefficients for degree 24</p>
 <!-- proc~dqawf -->
 <g id="proc~~dqcheb~~CalledByGraph_node12" class="node">
 <title>proc~dqawf</title>
-<g id="a_proc~~dqcheb~~CalledByGraph_node12"><a xlink:href=".././proc/dqawf.html" xlink:title="quadpack_generic::dqawf">
+<g id="a_proc~~dqcheb~~CalledByGraph_node12"><a xlink:href="../proc/dqawf.html" xlink:title="quadpack_generic::dqawf">
 <polygon fill="#d9534f" stroke="#d9534f" points="151,-108 0,-108 0,-84 151,-84 151,-108"/>
 <text text-anchor="middle" x="75.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawf</text>
 </a>
@@ -432,17 +435,17 @@ chebyshev coefficients for degree 24</p>
                   var panprocdqchebCalledByGraph = svgPanZoom('#procdqchebCalledByGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
-                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CalledByGraph-help-text">Help</a></div>
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -653,7 +656,7 @@ implementation in a submodule of an interface in a parent module.
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2023 
+          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2024 
 </p>
           </div>
           <div class="col">

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -35,7 +38,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" href="../sourcefile/quadpack_generic.f90.html">Source File</a>
+                    <a class="nav-link" href="sourcefile/quadpack_generic.f90.html">Source File</a>
                   </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/modules.html">Modules</a>
@@ -7190,8 +7193,8 @@
 <a id="ln-7043" name="ln-7043" href="#ln-7043"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">e</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">!! the superdiagonal of the tridiagonal matrix.</span>
 <a id="ln-7044" name="ln-7044" href="#ln-7044"></a><span class="w">                                        </span><span class="c">!! `e(1)` through `e(n-1)` should contain the superdiagonal.</span>
 <a id="ln-7045" name="ln-7045" href="#ln-7045"></a><span class="w">                                        </span><span class="c">!! on output `e` is destroyed.</span>
-<a id="ln-7046" name="ln-7046" href="#ln-7046"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">!! input: is the right hand side vector..</span>
-<a id="ln-7047" name="ln-7047" href="#ln-7047"></a><span class="w">                                        </span><span class="c">!! output: the solution vector.</span>
+<a id="ln-7046" name="ln-7046" href="#ln-7046"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c">!! * input: is the right hand side vector..</span>
+<a id="ln-7047" name="ln-7047" href="#ln-7047"></a><span class="w">                                        </span><span class="c">!! * output: the solution vector.</span>
 <a id="ln-7048" name="ln-7048" href="#ln-7048"></a>
 <a id="ln-7049" name="ln-7049" href="#ln-7049"></a><span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">kb</span><span class="p">,</span><span class="w"> </span><span class="n">kp1</span><span class="p">,</span><span class="w"> </span><span class="n">nm1</span><span class="p">,</span><span class="w"> </span><span class="n">nm2</span>
 <a id="ln-7050" name="ln-7050" href="#ln-7050"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span>
@@ -8715,7 +8718,7 @@
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2023 
+          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2024 
 </p>
           </div>
           <div class="col">

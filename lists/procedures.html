@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,7 +20,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -36,7 +39,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" href="../sourcefile/quadpack_generic.f90.html">Source File</a>
+                    <a class="nav-link" href="sourcefile/quadpack_generic.f90.html">Source File</a>
                   </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/modules.html">Modules</a>
@@ -62,57 +65,237 @@
 			 <table class="table table-striped">
 			 <thead><tr><th>Procedure</th><th>Location</th><th>Procedure Type</th><th>Description</th></tr></thead>
 			 <tbody>
-			   <tr><td><a href='../proc/davint.html'>davint</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>Integrate a function tabulated at arbitrarily spaced
-  abscissas using overlapping parabolas.</p><a href="../proc/davint.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dgauss8.html'>dgauss8</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>Integrate a real function of one variable over a finite
+			   <tr>
+                 <td><a href='../proc/davint.html'>davint</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Integrate a function tabulated at arbitrarily spaced
+  abscissas using overlapping parabolas.</p><a href="../proc/davint.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dgauss8.html'>dgauss8</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Integrate a real function of one variable over a finite
   interval using an adaptive 8-point Legendre-Gauss
-  algorithm.</p><a href="../proc/dgauss8.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dlobatto.html'>dlobatto</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>Numerically evaluate integral using adaptive Lobatto rule</p><a href="../proc/dlobatto.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqag.html'>dqag</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D globally adaptive integrator using Gauss-Kronrod quadrature, oscillating integrand</p><a href="../proc/dqag.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqage.html'>dqage</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>same as <a href="../proc/dqag.html">dqag</a> but provides more information and control</p><a href="../proc/dqage.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqagi.html'>dqagi</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D globally adaptive integrator, infinite intervals</p><a href="../proc/dqagi.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqagie.html'>dqagie</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>same as <a href="../proc/dqagi.html">dqagi</a> but provides more information and control</p><a href="../proc/dqagie.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqagp.html'>dqagp</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D globally adaptive integrator, singularities or discontinuities</p><a href="../proc/dqagp.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqagpe.html'>dqagpe</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>same as <a href="../proc/dqagp.html">dqagp</a> but provides more information and control</p><a href="../proc/dqagpe.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqags.html'>dqags</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D globally adaptive integrator using interval subdivision and extrapolation</p><a href="../proc/dqags.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqagse.html'>dqagse</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>same as <a href="../proc/dqags.html">dqags</a> but provides more information and control</p><a href="../proc/dqagse.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqawc.html'>dqawc</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>compute Cauchy principal value of <code>f(x)/(x-c)</code> over a finite interval</p><a href="../proc/dqawc.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqawce.html'>dqawce</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>same as <a href="../proc/dqawc.html">dqawc</a> but provides more information and control</p><a href="../proc/dqawce.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqawf.html'>dqawf</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>Fourier sine/cosine transform for user supplied interval <code>a</code> to <code>infinity</code></p><a href="../proc/dqawf.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqawfe.html'>dqawfe</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>same as <a href="../proc/dqawf.html">dqawf</a> but provides more information and control</p><a href="../proc/dqawfe.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqawo.html'>dqawo</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D integration of <code>cos(omega*x)*f(x)</code> or <code>sin(omega*x)*f(x)</code>
-  over a finite interval, adaptive subdivision with extrapolation</p><a href="../proc/dqawo.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqawoe.html'>dqawoe</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>same as <a href="../proc/dqawo.html">dqawo</a> but provides more information and control</p><a href="../proc/dqawoe.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqaws.html'>dqaws</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D integration of functions with powers and or logs over a finite interval</p><a href="../proc/dqaws.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqawse.html'>dqawse</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>same as <a href="../proc/dqaws.html">dqaws</a> but provides more information and control</p><a href="../proc/dqawse.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqc25c.html'>dqc25c</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D integral for Cauchy principal values using a 25 point quadrature rule</p><a href="../proc/dqc25c.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqc25f.html'>dqc25f</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D integral for sin/cos integrand using a 25 point quadrature rule</p><a href="../proc/dqc25f.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqc25s.html'>dqc25s</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>25-point clenshaw-curtis integration</p><a href="../proc/dqc25s.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqcheb.html'>dqcheb</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>chebyshev series expansion</p><a href="../proc/dqcheb.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqk15.html'>dqk15</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>estimate 1D integral on finite interval using a 15 point gauss-kronrod
-  rule and give error estimate, non-automatic</p><a href="../proc/dqk15.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqk15i.html'>dqk15i</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>estimate 1D integral on (semi)infinite interval using a 15 point
-  gauss-kronrod quadrature rule, non-automatic</p><a href="../proc/dqk15i.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqk15w.html'>dqk15w</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>estimate 1D integral with special singular weight functions using
-  a 15 point gauss-kronrod quadrature rule</p><a href="../proc/dqk15w.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqk21.html'>dqk21</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>estimate 1D integral on finite interval using a 21 point
-  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk21.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqk31.html'>dqk31</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>estimate 1D integral on finite interval using a 31 point
-  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk31.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqk41.html'>dqk41</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>estimate 1D integral on finite interval using a 41 point
-  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk41.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqk51.html'>dqk51</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>estimate 1D integral on finite interval using a 51 point
-  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk51.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqk61.html'>dqk61</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>estimate 1D integral on finite interval using a 61 point
-  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk61.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqmomo.html'>dqmomo</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D integration of <code>k</code>-th degree Chebyshev polynomial times a function with singularities</p><a href="../proc/dqmomo.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqnc79.html'>dqnc79</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>Integrate a function using a 7-point adaptive Newton-Cotes
-  quadrature rule.</p><a href="../proc/dqnc79.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dqng.html'>dqng</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>1D non-adaptive automatic integrator</p><a href="../proc/dqng.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dquad.html'>dquad</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>This subroutine attempts to calculate the integral of <code>f(x)</code>
+  algorithm.</p><a href="../proc/dgauss8.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dlobatto.html'>dlobatto</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Numerically evaluate integral using adaptive Lobatto rule</p><a href="../proc/dlobatto.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqag.html'>dqag</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D globally adaptive integrator using Gauss-Kronrod quadrature, oscillating integrand</p><a href="../proc/dqag.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqage.html'>dqage</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>same as <a href="dqag.html">dqag</a> but provides more information and control</p><a href="../proc/dqage.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqagi.html'>dqagi</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D globally adaptive integrator, infinite intervals</p><a href="../proc/dqagi.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqagie.html'>dqagie</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>same as <a href="dqagi.html">dqagi</a> but provides more information and control</p><a href="../proc/dqagie.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqagp.html'>dqagp</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D globally adaptive integrator, singularities or discontinuities</p><a href="../proc/dqagp.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqagpe.html'>dqagpe</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>same as <a href="dqagp.html">dqagp</a> but provides more information and control</p><a href="../proc/dqagpe.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqags.html'>dqags</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D globally adaptive integrator using interval subdivision and extrapolation</p><a href="../proc/dqags.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqagse.html'>dqagse</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>same as <a href="dqags.html">dqags</a> but provides more information and control</p><a href="../proc/dqagse.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqawc.html'>dqawc</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>compute Cauchy principal value of <code>f(x)/(x-c)</code> over a finite interval</p><a href="../proc/dqawc.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqawce.html'>dqawce</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>same as <a href="dqawc.html">dqawc</a> but provides more information and control</p><a href="../proc/dqawce.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqawf.html'>dqawf</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Fourier sine/cosine transform for user supplied interval <code>a</code> to <code>infinity</code></p><a href="../proc/dqawf.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqawfe.html'>dqawfe</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>same as <a href="dqawf.html">dqawf</a> but provides more information and control</p><a href="../proc/dqawfe.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqawo.html'>dqawo</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D integration of <code>cos(omega*x)*f(x)</code> or <code>sin(omega*x)*f(x)</code>
+  over a finite interval, adaptive subdivision with extrapolation</p><a href="../proc/dqawo.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqawoe.html'>dqawoe</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>same as <a href="dqawo.html">dqawo</a> but provides more information and control</p><a href="../proc/dqawoe.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqaws.html'>dqaws</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D integration of functions with powers and or logs over a finite interval</p><a href="../proc/dqaws.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqawse.html'>dqawse</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>same as <a href="dqaws.html">dqaws</a> but provides more information and control</p><a href="../proc/dqawse.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqc25c.html'>dqc25c</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D integral for Cauchy principal values using a 25 point quadrature rule</p><a href="../proc/dqc25c.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqc25f.html'>dqc25f</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D integral for sin/cos integrand using a 25 point quadrature rule</p><a href="../proc/dqc25f.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqc25s.html'>dqc25s</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>25-point clenshaw-curtis integration</p><a href="../proc/dqc25s.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqcheb.html'>dqcheb</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>chebyshev series expansion</p><a href="../proc/dqcheb.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqk15.html'>dqk15</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>estimate 1D integral on finite interval using a 15 point gauss-kronrod
+  rule and give error estimate, non-automatic</p><a href="../proc/dqk15.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqk15i.html'>dqk15i</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>estimate 1D integral on (semi)infinite interval using a 15 point
+  gauss-kronrod quadrature rule, non-automatic</p><a href="../proc/dqk15i.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqk15w.html'>dqk15w</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>estimate 1D integral with special singular weight functions using
+  a 15 point gauss-kronrod quadrature rule</p><a href="../proc/dqk15w.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqk21.html'>dqk21</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>estimate 1D integral on finite interval using a 21 point
+  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk21.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqk31.html'>dqk31</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>estimate 1D integral on finite interval using a 31 point
+  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk31.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqk41.html'>dqk41</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>estimate 1D integral on finite interval using a 41 point
+  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk41.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqk51.html'>dqk51</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>estimate 1D integral on finite interval using a 51 point
+  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk51.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqk61.html'>dqk61</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>estimate 1D integral on finite interval using a 61 point
+  gauss-kronrod rule and give error estimate, non-automatic</p><a href="../proc/dqk61.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqmomo.html'>dqmomo</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D integration of <code>k</code>-th degree Chebyshev polynomial times a function with singularities</p><a href="../proc/dqmomo.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqnc79.html'>dqnc79</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Integrate a function using a 7-point adaptive Newton-Cotes
+  quadrature rule.</p><a href="../proc/dqnc79.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dqng.html'>dqng</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>1D non-adaptive automatic integrator</p><a href="../proc/dqng.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dquad.html'>dquad</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>This subroutine attempts to calculate the integral of <code>f(x)</code>
   over the interval <code>a</code> to <code>b</code> with relative error not
-  exceeding <code>epsil</code>.</p><a href="../proc/dquad.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			   <tr><td><a href='../proc/dsimpson.html'>dsimpson</a></td><td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td><td>Subroutine</td><td><p>Numerically evaluate integral using adaptive Simpson rule.</p><a href="../proc/dsimpson.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
+  exceeding <code>epsil</code>.</p><a href="../proc/dquad.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/dsimpson.html'>dsimpson</a></td>
+                 <td><a href='../module/quadpack_generic.html'>quadpack_generic</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Numerically evaluate integral using adaptive Simpson rule.</p><a href="../proc/dsimpson.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+               </tr>
 			 </tbody></table>
              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -128,7 +311,7 @@
 <!-- proc~davint -->
 <g id="call~~graph~~CallGraph_node1" class="node">
 <title>proc~davint</title>
-<g id="a_call~~graph~~CallGraph_node1"><a xlink:href=".././proc/davint.html" xlink:title="quadpack_generic::davint">
+<g id="a_call~~graph~~CallGraph_node1"><a xlink:href="../proc/davint.html" xlink:title="quadpack_generic::davint">
 <polygon fill="#d9534f" stroke="#d9534f" points="160,-24 9,-24 9,0 160,0 160,-24"/>
 <text text-anchor="middle" x="84.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::davint</text>
 </a>
@@ -137,7 +320,7 @@
 <!-- proc~dgauss8 -->
 <g id="call~~graph~~CallGraph_node2" class="node">
 <title>proc~dgauss8</title>
-<g id="a_call~~graph~~CallGraph_node2"><a xlink:href=".././proc/dgauss8.html" xlink:title="quadpack_generic::dgauss8">
+<g id="a_call~~graph~~CallGraph_node2"><a xlink:href="../proc/dgauss8.html" xlink:title="quadpack_generic::dgauss8">
 <polygon fill="#d9534f" stroke="#d9534f" points="166,-66 3,-66 3,-42 166,-42 166,-66"/>
 <text text-anchor="middle" x="84.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dgauss8</text>
 </a>
@@ -146,7 +329,7 @@
 <!-- proc~dlobatto -->
 <g id="call~~graph~~CallGraph_node3" class="node">
 <title>proc~dlobatto</title>
-<g id="a_call~~graph~~CallGraph_node3"><a xlink:href=".././proc/dlobatto.html" xlink:title="quadpack_generic::dlobatto">
+<g id="a_call~~graph~~CallGraph_node3"><a xlink:href="../proc/dlobatto.html" xlink:title="quadpack_generic::dlobatto">
 <polygon fill="#d9534f" stroke="#d9534f" points="166,-108 3,-108 3,-84 166,-84 166,-108"/>
 <text text-anchor="middle" x="84.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dlobatto</text>
 </a>
@@ -155,7 +338,7 @@
 <!-- proc~dqag -->
 <g id="call~~graph~~CallGraph_node4" class="node">
 <title>proc~dqag</title>
-<g id="a_call~~graph~~CallGraph_node4"><a xlink:href=".././proc/dqag.html" xlink:title="quadpack_generic::dqag">
+<g id="a_call~~graph~~CallGraph_node4"><a xlink:href="../proc/dqag.html" xlink:title="quadpack_generic::dqag">
 <polygon fill="#d9534f" stroke="#d9534f" points="157,-150 12,-150 12,-126 157,-126 157,-150"/>
 <text text-anchor="middle" x="84.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqag</text>
 </a>
@@ -164,7 +347,7 @@
 <!-- proc~dqage -->
 <g id="call~~graph~~CallGraph_node5" class="node">
 <title>proc~dqage</title>
-<g id="a_call~~graph~~CallGraph_node5"><a xlink:href=".././proc/dqage.html" xlink:title="quadpack_generic::dqage">
+<g id="a_call~~graph~~CallGraph_node5"><a xlink:href="../proc/dqage.html" xlink:title="quadpack_generic::dqage">
 <polygon fill="#d9534f" stroke="#d9534f" points="360.5,-150 208.5,-150 208.5,-126 360.5,-126 360.5,-150"/>
 <text text-anchor="middle" x="284.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqage</text>
 </a>
@@ -179,7 +362,7 @@
 <!-- proc~dqk15 -->
 <g id="call~~graph~~CallGraph_node24" class="node">
 <title>proc~dqk15</title>
-<g id="a_call~~graph~~CallGraph_node24"><a xlink:href=".././proc/dqk15.html" xlink:title="quadpack_generic::dqk15">
+<g id="a_call~~graph~~CallGraph_node24"><a xlink:href="../proc/dqk15.html" xlink:title="quadpack_generic::dqk15">
 <polygon fill="#d9534f" stroke="#d9534f" points="555.5,-213 404.5,-213 404.5,-189 555.5,-189 555.5,-213"/>
 <text text-anchor="middle" x="480" y="-198.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk15</text>
 </a>
@@ -194,7 +377,7 @@
 <!-- proc~dqk21 -->
 <g id="call~~graph~~CallGraph_node27" class="node">
 <title>proc~dqk21</title>
-<g id="a_call~~graph~~CallGraph_node27"><a xlink:href=".././proc/dqk21.html" xlink:title="quadpack_generic::dqk21">
+<g id="a_call~~graph~~CallGraph_node27"><a xlink:href="../proc/dqk21.html" xlink:title="quadpack_generic::dqk21">
 <polygon fill="#d9534f" stroke="#d9534f" points="555.5,-255 404.5,-255 404.5,-231 555.5,-231 555.5,-255"/>
 <text text-anchor="middle" x="480" y="-240.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk21</text>
 </a>
@@ -209,7 +392,7 @@
 <!-- proc~dqk31 -->
 <g id="call~~graph~~CallGraph_node28" class="node">
 <title>proc~dqk31</title>
-<g id="a_call~~graph~~CallGraph_node28"><a xlink:href=".././proc/dqk31.html" xlink:title="quadpack_generic::dqk31">
+<g id="a_call~~graph~~CallGraph_node28"><a xlink:href="../proc/dqk31.html" xlink:title="quadpack_generic::dqk31">
 <polygon fill="#d9534f" stroke="#d9534f" points="555.5,-171 404.5,-171 404.5,-147 555.5,-147 555.5,-171"/>
 <text text-anchor="middle" x="480" y="-156.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk31</text>
 </a>
@@ -224,7 +407,7 @@
 <!-- proc~dqk41 -->
 <g id="call~~graph~~CallGraph_node29" class="node">
 <title>proc~dqk41</title>
-<g id="a_call~~graph~~CallGraph_node29"><a xlink:href=".././proc/dqk41.html" xlink:title="quadpack_generic::dqk41">
+<g id="a_call~~graph~~CallGraph_node29"><a xlink:href="../proc/dqk41.html" xlink:title="quadpack_generic::dqk41">
 <polygon fill="#d9534f" stroke="#d9534f" points="555.5,-129 404.5,-129 404.5,-105 555.5,-105 555.5,-129"/>
 <text text-anchor="middle" x="480" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk41</text>
 </a>
@@ -239,7 +422,7 @@
 <!-- proc~dqk51 -->
 <g id="call~~graph~~CallGraph_node30" class="node">
 <title>proc~dqk51</title>
-<g id="a_call~~graph~~CallGraph_node30"><a xlink:href=".././proc/dqk51.html" xlink:title="quadpack_generic::dqk51">
+<g id="a_call~~graph~~CallGraph_node30"><a xlink:href="../proc/dqk51.html" xlink:title="quadpack_generic::dqk51">
 <polygon fill="#d9534f" stroke="#d9534f" points="555.5,-87 404.5,-87 404.5,-63 555.5,-63 555.5,-87"/>
 <text text-anchor="middle" x="480" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk51</text>
 </a>
@@ -254,7 +437,7 @@
 <!-- proc~dqk61 -->
 <g id="call~~graph~~CallGraph_node31" class="node">
 <title>proc~dqk61</title>
-<g id="a_call~~graph~~CallGraph_node31"><a xlink:href=".././proc/dqk61.html" xlink:title="quadpack_generic::dqk61">
+<g id="a_call~~graph~~CallGraph_node31"><a xlink:href="../proc/dqk61.html" xlink:title="quadpack_generic::dqk61">
 <polygon fill="#d9534f" stroke="#d9534f" points="555.5,-45 404.5,-45 404.5,-21 555.5,-21 555.5,-45"/>
 <text text-anchor="middle" x="480" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk61</text>
 </a>
@@ -269,7 +452,7 @@
 <!-- proc~dqagi -->
 <g id="call~~graph~~CallGraph_node6" class="node">
 <title>proc~dqagi</title>
-<g id="a_call~~graph~~CallGraph_node6"><a xlink:href=".././proc/dqagi.html" xlink:title="quadpack_generic::dqagi">
+<g id="a_call~~graph~~CallGraph_node6"><a xlink:href="../proc/dqagi.html" xlink:title="quadpack_generic::dqagi">
 <polygon fill="#d9534f" stroke="#d9534f" points="358.5,-517 210.5,-517 210.5,-493 358.5,-493 358.5,-517"/>
 <text text-anchor="middle" x="284.5" y="-502.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagi</text>
 </a>
@@ -278,7 +461,7 @@
 <!-- proc~dqagie -->
 <g id="call~~graph~~CallGraph_node7" class="node">
 <title>proc~dqagie</title>
-<g id="a_call~~graph~~CallGraph_node7"><a xlink:href=".././proc/dqagie.html" xlink:title="quadpack_generic::dqagie">
+<g id="a_call~~graph~~CallGraph_node7"><a xlink:href="../proc/dqagie.html" xlink:title="quadpack_generic::dqagie">
 <polygon fill="#d9534f" stroke="#d9534f" points="557.5,-501 402.5,-501 402.5,-477 557.5,-477 557.5,-501"/>
 <text text-anchor="middle" x="480" y="-486.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagie</text>
 </a>
@@ -293,7 +476,7 @@
 <!-- proc~dqk15i -->
 <g id="call~~graph~~CallGraph_node25" class="node">
 <title>proc~dqk15i</title>
-<g id="a_call~~graph~~CallGraph_node25"><a xlink:href=".././proc/dqk15i.html" xlink:title="quadpack_generic::dqk15i">
+<g id="a_call~~graph~~CallGraph_node25"><a xlink:href="../proc/dqk15i.html" xlink:title="quadpack_generic::dqk15i">
 <polygon fill="#d9534f" stroke="#d9534f" points="756,-501 602,-501 602,-477 756,-477 756,-501"/>
 <text text-anchor="middle" x="679" y="-486.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk15i</text>
 </a>
@@ -308,7 +491,7 @@
 <!-- proc~dqagp -->
 <g id="call~~graph~~CallGraph_node8" class="node">
 <title>proc~dqagp</title>
-<g id="a_call~~graph~~CallGraph_node8"><a xlink:href=".././proc/dqagp.html" xlink:title="quadpack_generic::dqagp">
+<g id="a_call~~graph~~CallGraph_node8"><a xlink:href="../proc/dqagp.html" xlink:title="quadpack_generic::dqagp">
 <polygon fill="#d9534f" stroke="#d9534f" points="160.5,-276 8.5,-276 8.5,-252 160.5,-252 160.5,-276"/>
 <text text-anchor="middle" x="84.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagp</text>
 </a>
@@ -317,7 +500,7 @@
 <!-- proc~dqagpe -->
 <g id="call~~graph~~CallGraph_node9" class="node">
 <title>proc~dqagpe</title>
-<g id="a_call~~graph~~CallGraph_node9"><a xlink:href=".././proc/dqagpe.html" xlink:title="quadpack_generic::dqagpe">
+<g id="a_call~~graph~~CallGraph_node9"><a xlink:href="../proc/dqagpe.html" xlink:title="quadpack_generic::dqagpe">
 <polygon fill="#d9534f" stroke="#d9534f" points="364,-276 205,-276 205,-252 364,-252 364,-276"/>
 <text text-anchor="middle" x="284.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagpe</text>
 </a>
@@ -338,7 +521,7 @@
 <!-- proc~dqags -->
 <g id="call~~graph~~CallGraph_node10" class="node">
 <title>proc~dqags</title>
-<g id="a_call~~graph~~CallGraph_node10"><a xlink:href=".././proc/dqags.html" xlink:title="quadpack_generic::dqags">
+<g id="a_call~~graph~~CallGraph_node10"><a xlink:href="../proc/dqags.html" xlink:title="quadpack_generic::dqags">
 <polygon fill="#d9534f" stroke="#d9534f" points="160,-234 9,-234 9,-210 160,-210 160,-234"/>
 <text text-anchor="middle" x="84.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqags</text>
 </a>
@@ -347,7 +530,7 @@
 <!-- proc~dqagse -->
 <g id="call~~graph~~CallGraph_node11" class="node">
 <title>proc~dqagse</title>
-<g id="a_call~~graph~~CallGraph_node11"><a xlink:href=".././proc/dqagse.html" xlink:title="quadpack_generic::dqagse">
+<g id="a_call~~graph~~CallGraph_node11"><a xlink:href="../proc/dqagse.html" xlink:title="quadpack_generic::dqagse">
 <polygon fill="#d9534f" stroke="#d9534f" points="363,-234 206,-234 206,-210 363,-210 363,-234"/>
 <text text-anchor="middle" x="284.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagse</text>
 </a>
@@ -368,7 +551,7 @@
 <!-- proc~dqawc -->
 <g id="call~~graph~~CallGraph_node12" class="node">
 <title>proc~dqawc</title>
-<g id="a_call~~graph~~CallGraph_node12"><a xlink:href=".././proc/dqawc.html" xlink:title="quadpack_generic::dqawc">
+<g id="a_call~~graph~~CallGraph_node12"><a xlink:href="../proc/dqawc.html" xlink:title="quadpack_generic::dqawc">
 <polygon fill="#d9534f" stroke="#d9534f" points="361,-318 208,-318 208,-294 361,-294 361,-318"/>
 <text text-anchor="middle" x="284.5" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawc</text>
 </a>
@@ -377,7 +560,7 @@
 <!-- proc~dqawce -->
 <g id="call~~graph~~CallGraph_node13" class="node">
 <title>proc~dqawce</title>
-<g id="a_call~~graph~~CallGraph_node13"><a xlink:href=".././proc/dqawce.html" xlink:title="quadpack_generic::dqawce">
+<g id="a_call~~graph~~CallGraph_node13"><a xlink:href="../proc/dqawce.html" xlink:title="quadpack_generic::dqawce">
 <polygon fill="#d9534f" stroke="#d9534f" points="560,-318 400,-318 400,-294 560,-294 560,-318"/>
 <text text-anchor="middle" x="480" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawce</text>
 </a>
@@ -392,7 +575,7 @@
 <!-- proc~dqc25c -->
 <g id="call~~graph~~CallGraph_node20" class="node">
 <title>proc~dqc25c</title>
-<g id="a_call~~graph~~CallGraph_node20"><a xlink:href=".././proc/dqc25c.html" xlink:title="quadpack_generic::dqc25c">
+<g id="a_call~~graph~~CallGraph_node20"><a xlink:href="../proc/dqc25c.html" xlink:title="quadpack_generic::dqc25c">
 <polygon fill="#d9534f" stroke="#d9534f" points="757.5,-318 600.5,-318 600.5,-294 757.5,-294 757.5,-318"/>
 <text text-anchor="middle" x="679" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25c</text>
 </a>
@@ -407,7 +590,7 @@
 <!-- proc~dqawf -->
 <g id="call~~graph~~CallGraph_node14" class="node">
 <title>proc~dqawf</title>
-<g id="a_call~~graph~~CallGraph_node14"><a xlink:href=".././proc/dqawf.html" xlink:title="quadpack_generic::dqawf">
+<g id="a_call~~graph~~CallGraph_node14"><a xlink:href="../proc/dqawf.html" xlink:title="quadpack_generic::dqawf">
 <polygon fill="#d9534f" stroke="#d9534f" points="160,-475 9,-475 9,-451 160,-451 160,-475"/>
 <text text-anchor="middle" x="84.5" y="-460.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawf</text>
 </a>
@@ -416,7 +599,7 @@
 <!-- proc~dqawfe -->
 <g id="call~~graph~~CallGraph_node15" class="node">
 <title>proc~dqawfe</title>
-<g id="a_call~~graph~~CallGraph_node15"><a xlink:href=".././proc/dqawfe.html" xlink:title="quadpack_generic::dqawfe">
+<g id="a_call~~graph~~CallGraph_node15"><a xlink:href="../proc/dqawfe.html" xlink:title="quadpack_generic::dqawfe">
 <polygon fill="#d9534f" stroke="#d9534f" points="363,-475 206,-475 206,-451 363,-451 363,-475"/>
 <text text-anchor="middle" x="284.5" y="-460.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawfe</text>
 </a>
@@ -437,7 +620,7 @@
 <!-- proc~dqawoe -->
 <g id="call~~graph~~CallGraph_node17" class="node">
 <title>proc~dqawoe</title>
-<g id="a_call~~graph~~CallGraph_node17"><a xlink:href=".././proc/dqawoe.html" xlink:title="quadpack_generic::dqawoe">
+<g id="a_call~~graph~~CallGraph_node17"><a xlink:href="../proc/dqawoe.html" xlink:title="quadpack_generic::dqawoe">
 <polygon fill="#d9534f" stroke="#d9534f" points="560,-444 400,-444 400,-420 560,-420 560,-444"/>
 <text text-anchor="middle" x="480" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawoe</text>
 </a>
@@ -452,7 +635,7 @@
 <!-- proc~dqawo -->
 <g id="call~~graph~~CallGraph_node16" class="node">
 <title>proc~dqawo</title>
-<g id="a_call~~graph~~CallGraph_node16"><a xlink:href=".././proc/dqawo.html" xlink:title="quadpack_generic::dqawo">
+<g id="a_call~~graph~~CallGraph_node16"><a xlink:href="../proc/dqawo.html" xlink:title="quadpack_generic::dqawo">
 <polygon fill="#d9534f" stroke="#d9534f" points="361.5,-433 207.5,-433 207.5,-409 361.5,-409 361.5,-433"/>
 <text text-anchor="middle" x="284.5" y="-418.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawo</text>
 </a>
@@ -467,7 +650,7 @@
 <!-- proc~dqc25f -->
 <g id="call~~graph~~CallGraph_node21" class="node">
 <title>proc~dqc25f</title>
-<g id="a_call~~graph~~CallGraph_node21"><a xlink:href=".././proc/dqc25f.html" xlink:title="quadpack_generic::dqc25f">
+<g id="a_call~~graph~~CallGraph_node21"><a xlink:href="../proc/dqc25f.html" xlink:title="quadpack_generic::dqc25f">
 <polygon fill="#d9534f" stroke="#d9534f" points="756.5,-444 601.5,-444 601.5,-420 756.5,-420 756.5,-444"/>
 <text text-anchor="middle" x="679" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25f</text>
 </a>
@@ -482,7 +665,7 @@
 <!-- proc~dqaws -->
 <g id="call~~graph~~CallGraph_node18" class="node">
 <title>proc~dqaws</title>
-<g id="a_call~~graph~~CallGraph_node18"><a xlink:href=".././proc/dqaws.html" xlink:title="quadpack_generic::dqaws">
+<g id="a_call~~graph~~CallGraph_node18"><a xlink:href="../proc/dqaws.html" xlink:title="quadpack_generic::dqaws">
 <polygon fill="#d9534f" stroke="#d9534f" points="360.5,-370 208.5,-370 208.5,-346 360.5,-346 360.5,-370"/>
 <text text-anchor="middle" x="284.5" y="-355.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqaws</text>
 </a>
@@ -491,7 +674,7 @@
 <!-- proc~dqawse -->
 <g id="call~~graph~~CallGraph_node19" class="node">
 <title>proc~dqawse</title>
-<g id="a_call~~graph~~CallGraph_node19"><a xlink:href=".././proc/dqawse.html" xlink:title="quadpack_generic::dqawse">
+<g id="a_call~~graph~~CallGraph_node19"><a xlink:href="../proc/dqawse.html" xlink:title="quadpack_generic::dqawse">
 <polygon fill="#d9534f" stroke="#d9534f" points="559.5,-370 400.5,-370 400.5,-346 559.5,-346 559.5,-370"/>
 <text text-anchor="middle" x="480" y="-355.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawse</text>
 </a>
@@ -506,7 +689,7 @@
 <!-- proc~dqc25s -->
 <g id="call~~graph~~CallGraph_node22" class="node">
 <title>proc~dqc25s</title>
-<g id="a_call~~graph~~CallGraph_node22"><a xlink:href=".././proc/dqc25s.html" xlink:title="quadpack_generic::dqc25s">
+<g id="a_call~~graph~~CallGraph_node22"><a xlink:href="../proc/dqc25s.html" xlink:title="quadpack_generic::dqc25s">
 <polygon fill="#d9534f" stroke="#d9534f" points="757.5,-360 600.5,-360 600.5,-336 757.5,-336 757.5,-360"/>
 <text text-anchor="middle" x="679" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25s</text>
 </a>
@@ -521,7 +704,7 @@
 <!-- proc~dqmomo -->
 <g id="call~~graph~~CallGraph_node32" class="node">
 <title>proc~dqmomo</title>
-<g id="a_call~~graph~~CallGraph_node32"><a xlink:href=".././proc/dqmomo.html" xlink:title="quadpack_generic::dqmomo">
+<g id="a_call~~graph~~CallGraph_node32"><a xlink:href="../proc/dqmomo.html" xlink:title="quadpack_generic::dqmomo">
 <polygon fill="#d9534f" stroke="#d9534f" points="762,-402 596,-402 596,-378 762,-378 762,-402"/>
 <text text-anchor="middle" x="679" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqmomo</text>
 </a>
@@ -536,7 +719,7 @@
 <!-- proc~dqcheb -->
 <g id="call~~graph~~CallGraph_node23" class="node">
 <title>proc~dqcheb</title>
-<g id="a_call~~graph~~CallGraph_node23"><a xlink:href=".././proc/dqcheb.html" xlink:title="quadpack_generic::dqcheb">
+<g id="a_call~~graph~~CallGraph_node23"><a xlink:href="../proc/dqcheb.html" xlink:title="quadpack_generic::dqcheb">
 <polygon fill="#d9534f" stroke="#d9534f" points="957,-381 799,-381 799,-357 957,-357 957,-381"/>
 <text text-anchor="middle" x="878" y="-366.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqcheb</text>
 </a>
@@ -551,7 +734,7 @@
 <!-- proc~dqk15w -->
 <g id="call~~graph~~CallGraph_node26" class="node">
 <title>proc~dqk15w</title>
-<g id="a_call~~graph~~CallGraph_node26"><a xlink:href=".././proc/dqk15w.html" xlink:title="quadpack_generic::dqk15w">
+<g id="a_call~~graph~~CallGraph_node26"><a xlink:href="../proc/dqk15w.html" xlink:title="quadpack_generic::dqk15w">
 <polygon fill="#d9534f" stroke="#d9534f" points="958,-339 798,-339 798,-315 958,-315 958,-339"/>
 <text text-anchor="middle" x="878" y="-324.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk15w</text>
 </a>
@@ -590,7 +773,7 @@
 <!-- proc~dqnc79 -->
 <g id="call~~graph~~CallGraph_node33" class="node">
 <title>proc~dqnc79</title>
-<g id="a_call~~graph~~CallGraph_node33"><a xlink:href=".././proc/dqnc79.html" xlink:title="quadpack_generic::dqnc79">
+<g id="a_call~~graph~~CallGraph_node33"><a xlink:href="../proc/dqnc79.html" xlink:title="quadpack_generic::dqnc79">
 <polygon fill="#d9534f" stroke="#d9534f" points="163.5,-517 5.5,-517 5.5,-493 163.5,-493 163.5,-517"/>
 <text text-anchor="middle" x="84.5" y="-502.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqnc79</text>
 </a>
@@ -599,7 +782,7 @@
 <!-- proc~dqng -->
 <g id="call~~graph~~CallGraph_node34" class="node">
 <title>proc~dqng</title>
-<g id="a_call~~graph~~CallGraph_node34"><a xlink:href=".././proc/dqng.html" xlink:title="quadpack_generic::dqng">
+<g id="a_call~~graph~~CallGraph_node34"><a xlink:href="../proc/dqng.html" xlink:title="quadpack_generic::dqng">
 <polygon fill="#d9534f" stroke="#d9534f" points="157,-559 12,-559 12,-535 157,-535 157,-559"/>
 <text text-anchor="middle" x="84.5" y="-544.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqng</text>
 </a>
@@ -608,7 +791,7 @@
 <!-- proc~dquad -->
 <g id="call~~graph~~CallGraph_node35" class="node">
 <title>proc~dquad</title>
-<g id="a_call~~graph~~CallGraph_node35"><a xlink:href=".././proc/dquad.html" xlink:title="quadpack_generic::dquad">
+<g id="a_call~~graph~~CallGraph_node35"><a xlink:href="../proc/dquad.html" xlink:title="quadpack_generic::dquad">
 <polygon fill="#d9534f" stroke="#d9534f" points="160.5,-601 8.5,-601 8.5,-577 160.5,-577 160.5,-601"/>
 <text text-anchor="middle" x="84.5" y="-586.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dquad</text>
 </a>
@@ -617,7 +800,7 @@
 <!-- proc~dsimpson -->
 <g id="call~~graph~~CallGraph_node36" class="node">
 <title>proc~dsimpson</title>
-<g id="a_call~~graph~~CallGraph_node36"><a xlink:href=".././proc/dsimpson.html" xlink:title="quadpack_generic::dsimpson">
+<g id="a_call~~graph~~CallGraph_node36"><a xlink:href="../proc/dsimpson.html" xlink:title="quadpack_generic::dsimpson">
 <polygon fill="#d9534f" stroke="#d9534f" points="169,-643 0,-643 0,-619 169,-619 169,-643"/>
 <text text-anchor="middle" x="84.5" y="-628.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dsimpson</text>
 </a>
@@ -629,17 +812,17 @@
                   var pancallgraphCallGraph = svgPanZoom('#callgraphCallGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
-                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CallGraph-help-text">Help</a></div>
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CallGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -713,7 +896,7 @@ implementation in a submodule of an interface in a parent module.
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2023 
+          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2024 
 </p>
           </div>
           <div class="col">

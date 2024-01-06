@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -35,7 +38,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" href="../sourcefile/quadpack_generic.f90.html">Source File</a>
+                    <a class="nav-link" href="sourcefile/quadpack_generic.f90.html">Source File</a>
                   </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/modules.html">Modules</a>
@@ -137,7 +140,7 @@
 </h2>
     
 
-    <p>same as <a href="../proc/dqag.html">dqag</a> but provides more information and control</p>
+    <p>same as <a href="dqag.html">dqag</a> but provides more information and control</p>
 <p>the routine calculates an approximation result to a given
   definite integral i = integral of <code>f</code> over <code>(a,b)</code>,
   hopefully satisfying following claim for accuracy
@@ -176,7 +179,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2"></span>
+              <span class="anchor" id="variable-a~3"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -191,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~2"></span>
+              <span class="anchor" id="variable-b~3"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -515,7 +518,7 @@ subdivision process</p>
 <!-- proc~dqk15 -->
 <g id="proc~~dqage~~CallsGraph_node2" class="node">
 <title>proc~dqk15</title>
-<g id="a_proc~~dqage~~CallsGraph_node2"><a xlink:href=".././proc/dqk15.html" xlink:title="quadpack_generic::dqk15">
+<g id="a_proc~~dqage~~CallsGraph_node2"><a xlink:href="../proc/dqk15.html" xlink:title="quadpack_generic::dqk15">
 <polygon fill="#d9534f" stroke="#d9534f" points="339,-234 188,-234 188,-210 339,-210 339,-234"/>
 <text text-anchor="middle" x="263.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk15</text>
 </a>
@@ -530,7 +533,7 @@ subdivision process</p>
 <!-- proc~dqk21 -->
 <g id="proc~~dqage~~CallsGraph_node3" class="node">
 <title>proc~dqk21</title>
-<g id="a_proc~~dqage~~CallsGraph_node3"><a xlink:href=".././proc/dqk21.html" xlink:title="quadpack_generic::dqk21">
+<g id="a_proc~~dqage~~CallsGraph_node3"><a xlink:href="../proc/dqk21.html" xlink:title="quadpack_generic::dqk21">
 <polygon fill="#d9534f" stroke="#d9534f" points="339,-192 188,-192 188,-168 339,-168 339,-192"/>
 <text text-anchor="middle" x="263.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk21</text>
 </a>
@@ -545,7 +548,7 @@ subdivision process</p>
 <!-- proc~dqk31 -->
 <g id="proc~~dqage~~CallsGraph_node4" class="node">
 <title>proc~dqk31</title>
-<g id="a_proc~~dqage~~CallsGraph_node4"><a xlink:href=".././proc/dqk31.html" xlink:title="quadpack_generic::dqk31">
+<g id="a_proc~~dqage~~CallsGraph_node4"><a xlink:href="../proc/dqk31.html" xlink:title="quadpack_generic::dqk31">
 <polygon fill="#d9534f" stroke="#d9534f" points="339,-150 188,-150 188,-126 339,-126 339,-150"/>
 <text text-anchor="middle" x="263.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk31</text>
 </a>
@@ -560,7 +563,7 @@ subdivision process</p>
 <!-- proc~dqk41 -->
 <g id="proc~~dqage~~CallsGraph_node5" class="node">
 <title>proc~dqk41</title>
-<g id="a_proc~~dqage~~CallsGraph_node5"><a xlink:href=".././proc/dqk41.html" xlink:title="quadpack_generic::dqk41">
+<g id="a_proc~~dqage~~CallsGraph_node5"><a xlink:href="../proc/dqk41.html" xlink:title="quadpack_generic::dqk41">
 <polygon fill="#d9534f" stroke="#d9534f" points="339,-108 188,-108 188,-84 339,-84 339,-108"/>
 <text text-anchor="middle" x="263.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk41</text>
 </a>
@@ -575,7 +578,7 @@ subdivision process</p>
 <!-- proc~dqk51 -->
 <g id="proc~~dqage~~CallsGraph_node6" class="node">
 <title>proc~dqk51</title>
-<g id="a_proc~~dqage~~CallsGraph_node6"><a xlink:href=".././proc/dqk51.html" xlink:title="quadpack_generic::dqk51">
+<g id="a_proc~~dqage~~CallsGraph_node6"><a xlink:href="../proc/dqk51.html" xlink:title="quadpack_generic::dqk51">
 <polygon fill="#d9534f" stroke="#d9534f" points="339,-66 188,-66 188,-42 339,-42 339,-66"/>
 <text text-anchor="middle" x="263.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk51</text>
 </a>
@@ -590,7 +593,7 @@ subdivision process</p>
 <!-- proc~dqk61 -->
 <g id="proc~~dqage~~CallsGraph_node7" class="node">
 <title>proc~dqk61</title>
-<g id="a_proc~~dqage~~CallsGraph_node7"><a xlink:href=".././proc/dqk61.html" xlink:title="quadpack_generic::dqk61">
+<g id="a_proc~~dqage~~CallsGraph_node7"><a xlink:href="../proc/dqk61.html" xlink:title="quadpack_generic::dqk61">
 <polygon fill="#d9534f" stroke="#d9534f" points="339,-24 188,-24 188,0 339,0 339,-24"/>
 <text text-anchor="middle" x="263.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk61</text>
 </a>
@@ -604,17 +607,17 @@ subdivision process</p>
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CallsGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -708,7 +711,7 @@ implementation in a submodule of an interface in a parent module.
 <!-- proc~dqag -->
 <g id="proc~~dqage~~CalledByGraph_node2" class="node">
 <title>proc~dqag</title>
-<g id="a_proc~~dqage~~CalledByGraph_node2"><a xlink:href=".././proc/dqag.html" xlink:title="quadpack_generic::dqag">
+<g id="a_proc~~dqage~~CalledByGraph_node2"><a xlink:href="../proc/dqag.html" xlink:title="quadpack_generic::dqag">
 <polygon fill="#d9534f" stroke="#d9534f" points="145,-24 0,-24 0,0 145,0 145,-24"/>
 <text text-anchor="middle" x="72.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqag</text>
 </a>
@@ -722,17 +725,17 @@ implementation in a submodule of an interface in a parent module.
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CalledByGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -1088,7 +1091,7 @@ implementation in a submodule of an interface in a parent module.
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2023 
+          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2024 
 </p>
           </div>
           <div class="col">

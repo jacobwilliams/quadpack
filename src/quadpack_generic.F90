@@ -7044,8 +7044,8 @@ module quadpack_generic
         real(wp), intent(inout) :: e(n) !! the superdiagonal of the tridiagonal matrix.
                                         !! `e(1)` through `e(n-1)` should contain the superdiagonal.
                                         !! on output `e` is destroyed.
-        real(wp), intent(inout) :: b(n) !! input: is the right hand side vector..
-                                        !! output: the solution vector.
+        real(wp), intent(inout) :: b(n) !! * input: is the right hand side vector..
+                                        !! * output: the solution vector.
 
         integer :: k, kb, kp1, nm1, nm2
         real(wp) :: t

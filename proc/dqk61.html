@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -35,7 +38,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" href="../sourcefile/quadpack_generic.f90.html">Source File</a>
+                    <a class="nav-link" href="sourcefile/quadpack_generic.f90.html">Source File</a>
                   </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/modules.html">Modules</a>
@@ -160,7 +163,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~26"></span>
+              <span class="anchor" id="variable-f~27"></span>
               procedure(func)
             </td>
 <td></td>
@@ -175,7 +178,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~24"></span>
+              <span class="anchor" id="variable-a~26"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -190,7 +193,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~22"></span>
+              <span class="anchor" id="variable-b~24"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -205,7 +208,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~26"></span>
+              <span class="anchor" id="variable-result~27"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -296,7 +299,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
 <!-- proc~dqage -->
 <g id="proc~~dqk61~~CalledByGraph_node2" class="node">
 <title>proc~dqage</title>
-<g id="a_proc~~dqk61~~CalledByGraph_node2"><a xlink:href=".././proc/dqage.html" xlink:title="quadpack_generic::dqage">
+<g id="a_proc~~dqk61~~CalledByGraph_node2"><a xlink:href="../proc/dqage.html" xlink:title="quadpack_generic::dqage">
 <polygon fill="#d9534f" stroke="#d9534f" points="333,-24 181,-24 181,0 333,0 333,-24"/>
 <text text-anchor="middle" x="257" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqage</text>
 </a>
@@ -311,7 +314,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
 <!-- proc~dqag -->
 <g id="proc~~dqk61~~CalledByGraph_node3" class="node">
 <title>proc~dqag</title>
-<g id="a_proc~~dqk61~~CalledByGraph_node3"><a xlink:href=".././proc/dqag.html" xlink:title="quadpack_generic::dqag">
+<g id="a_proc~~dqk61~~CalledByGraph_node3"><a xlink:href="../proc/dqag.html" xlink:title="quadpack_generic::dqag">
 <polygon fill="#d9534f" stroke="#d9534f" points="145,-24 0,-24 0,0 145,0 145,-24"/>
 <text text-anchor="middle" x="72.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqag</text>
 </a>
@@ -325,17 +328,17 @@ which should equal or exceed <code>abs(i-result)</code></p>
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CalledByGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -599,7 +602,7 @@ implementation in a submodule of an interface in a parent module.
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2023 
+          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2024 
 </p>
           </div>
           <div class="col">

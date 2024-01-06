@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -35,7 +38,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" href="../sourcefile/quadpack_generic.f90.html">Source File</a>
+                    <a class="nav-link" href="sourcefile/quadpack_generic.f90.html">Source File</a>
                   </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/modules.html">Modules</a>
@@ -237,17 +240,17 @@
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -359,7 +362,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqag"></span><h3>public  subroutine <a href='../proc/dqag.html'>dqag</a>(f, a, b, Epsabs, Epsrel, Key, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqag"></span> <h3>public  subroutine <a href='../proc/dqag.html'>dqag</a>(f, a, b, Epsabs, Epsrel, Key, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)  
 </h3></div>
     <div class="card-body">
           
@@ -393,7 +396,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a"></span>
+              <span class="anchor" id="variable-a~2"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -408,7 +411,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b"></span>
+              <span class="anchor" id="variable-b~2"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -639,11 +642,11 @@ work(limit<em>3+1), ..., work(limit</em>3+last) contain
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqage"></span><h3>public  subroutine <a href='../proc/dqage.html'>dqage</a>(f, a, b, Epsabs, Epsrel, Key, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqage"></span> <h3>public  subroutine <a href='../proc/dqage.html'>dqage</a>(f, a, b, Epsabs, Epsrel, Key, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
 </h3></div>
     <div class="card-body">
           
-  <p>same as <a href="../proc/dqag.html">dqag</a> but provides more information and control</p><a href="../proc/dqage.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>same as <a href="dqag.html">dqag</a> but provides more information and control</p><a href="../proc/dqage.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -673,7 +676,7 @@ work(limit<em>3+1), ..., work(limit</em>3+last) contain
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~2"></span>
+              <span class="anchor" id="variable-a~3"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -688,7 +691,7 @@ work(limit<em>3+1), ..., work(limit</em>3+last) contain
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~2"></span>
+              <span class="anchor" id="variable-b~3"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -942,7 +945,7 @@ subdivision process</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqagi"></span><h3>public  subroutine <a href='../proc/dqagi.html'>dqagi</a>(f, Bound, Inf, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqagi"></span> <h3>public  subroutine <a href='../proc/dqagi.html'>dqagi</a>(f, Bound, Inf, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)  
 </h3></div>
     <div class="card-body">
           
@@ -1207,11 +1210,11 @@ on return:
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqagie"></span><h3>public  subroutine <a href='../proc/dqagie.html'>dqagie</a>(f, Bound, Inf, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqagie"></span> <h3>public  subroutine <a href='../proc/dqagie.html'>dqagie</a>(f, Bound, Inf, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
 </h3></div>
     <div class="card-body">
           
-  <p>same as <a href="../proc/dqagi.html">dqagi</a> but provides more information and control</p><a href="../proc/dqagie.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>same as <a href="dqagi.html">dqagi</a> but provides more information and control</p><a href="../proc/dqagie.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1498,7 +1501,7 @@ in the subdivision process</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqagp"></span><h3>public  subroutine <a href='../proc/dqagp.html'>dqagp</a>(f, a, b, Npts2, Points, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Leniw, Lenw, Last, Iwork, Work)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqagp"></span> <h3>public  subroutine <a href='../proc/dqagp.html'>dqagp</a>(f, a, b, Npts2, Points, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Leniw, Lenw, Last, Iwork, Work)  
 </h3></div>
     <div class="card-body">
           
@@ -1532,7 +1535,7 @@ in the subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3"></span>
+              <span class="anchor" id="variable-a~4"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -1547,7 +1550,7 @@ in the subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~3"></span>
+              <span class="anchor" id="variable-b~4"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -1803,11 +1806,11 @@ on return:</p><a href="../proc/dqagp.html#variable-work~3" class="pull-right"><e
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqagpe"></span><h3>public  subroutine <a href='../proc/dqagpe.html'>dqagpe</a>(f, a, b, Npts2, Points, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Pts, Iord, Level, Ndin, Last)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqagpe"></span> <h3>public  subroutine <a href='../proc/dqagpe.html'>dqagpe</a>(f, a, b, Npts2, Points, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Pts, Iord, Level, Ndin, Last)  
 </h3></div>
     <div class="card-body">
           
-  <p>same as <a href="../proc/dqagp.html">dqagp</a> but provides more information and control</p><a href="../proc/dqagpe.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>same as <a href="dqagp.html">dqagp</a> but provides more information and control</p><a href="../proc/dqagpe.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1822,7 +1825,7 @@ on return:</p><a href="../proc/dqagp.html#variable-work~3" class="pull-right"><e
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~32"></span>
+              <span class="anchor" id="variable-f~6"></span>
               procedure(func)
             </td>
 <td></td>
@@ -1837,7 +1840,7 @@ on return:</p><a href="../proc/dqagp.html#variable-work~3" class="pull-right"><e
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~31"></span>
+              <span class="anchor" id="variable-a~5"></span>
               real(kind=wp)
             </td>
 <td></td>
@@ -1852,7 +1855,7 @@ on return:</p><a href="../proc/dqagp.html#variable-work~3" class="pull-right"><e
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~29"></span>
+              <span class="anchor" id="variable-b~5"></span>
               real(kind=wp)
             </td>
 <td></td>
@@ -1955,7 +1958,7 @@ ier = 6.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~28"></span>
+              <span class="anchor" id="variable-result~6"></span>
               real(kind=wp)
             </td>
 <td></td>
@@ -2188,7 +2191,7 @@ subdivisions process</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqags"></span><h3>public  subroutine <a href='../proc/dqags.html'>dqags</a>(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqags"></span> <h3>public  subroutine <a href='../proc/dqags.html'>dqags</a>(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)  
 </h3></div>
     <div class="card-body">
           
@@ -2207,7 +2210,7 @@ subdivisions process</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~6"></span>
+              <span class="anchor" id="variable-f~7"></span>
               procedure(func)
             </td>
 <td></td>
@@ -2223,7 +2226,7 @@ function <code>f(x)</code>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~4"></span>
+              <span class="anchor" id="variable-a~6"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -2238,7 +2241,7 @@ function <code>f(x)</code>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~4"></span>
+              <span class="anchor" id="variable-b~6"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -2286,7 +2289,7 @@ the routine will end with ier = 6.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~6"></span>
+              <span class="anchor" id="variable-result~7"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -2444,11 +2447,11 @@ on return:</p><a href="../proc/dqags.html#variable-work~4" class="pull-right"><e
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqagse"></span><h3>public  subroutine <a href='../proc/dqagse.html'>dqagse</a>(f, a, b, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqagse"></span> <h3>public  subroutine <a href='../proc/dqagse.html'>dqagse</a>(f, a, b, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
 </h3></div>
     <div class="card-body">
           
-  <p>same as <a href="../proc/dqags.html">dqags</a> but provides more information and control</p><a href="../proc/dqagse.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>same as <a href="dqags.html">dqags</a> but provides more information and control</p><a href="../proc/dqagse.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -2463,7 +2466,7 @@ on return:</p><a href="../proc/dqags.html#variable-work~4" class="pull-right"><e
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~7"></span>
+              <span class="anchor" id="variable-f~8"></span>
               procedure(func)
             </td>
 <td></td>
@@ -2479,7 +2482,7 @@ function <code>f(x)</code>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~5"></span>
+              <span class="anchor" id="variable-a~7"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -2494,7 +2497,7 @@ function <code>f(x)</code>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~5"></span>
+              <span class="anchor" id="variable-b~7"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -2558,7 +2561,7 @@ in the partition of <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~7"></span>
+              <span class="anchor" id="variable-result~8"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -2774,7 +2777,7 @@ subdivision process</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqawc"></span><h3>public  subroutine <a href='../proc/dqawc.html'>dqawc</a>(f, a, b, c, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqawc"></span> <h3>public  subroutine <a href='../proc/dqawc.html'>dqawc</a>(f, a, b, c, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Limit, Lenw, Last, Iwork, Work)  
 </h3></div>
     <div class="card-body">
           
@@ -2793,7 +2796,7 @@ subdivision process</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~8"></span>
+              <span class="anchor" id="variable-f~9"></span>
               procedure(func)
             </td>
 <td></td>
@@ -2808,7 +2811,7 @@ subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~6"></span>
+              <span class="anchor" id="variable-a~8"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -2823,7 +2826,7 @@ subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~6"></span>
+              <span class="anchor" id="variable-b~8"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -2838,7 +2841,7 @@ subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c"></span>
+              <span class="anchor" id="variable-c~2"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -2888,7 +2891,7 @@ the routine will end with ier = 6.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~8"></span>
+              <span class="anchor" id="variable-result~9"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -3075,11 +3078,11 @@ on return:</p><a href="../proc/dqawc.html#variable-work~5" class="pull-right"><e
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqawce"></span><h3>public  subroutine <a href='../proc/dqawce.html'>dqawce</a>(f, a, b, c, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqawce"></span> <h3>public  subroutine <a href='../proc/dqawce.html'>dqawce</a>(f, a, b, c, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
 </h3></div>
     <div class="card-body">
           
-  <p>same as <a href="../proc/dqawc.html">dqawc</a> but provides more information and control</p><a href="../proc/dqawce.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>same as <a href="dqawc.html">dqawc</a> but provides more information and control</p><a href="../proc/dqawce.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -3094,7 +3097,7 @@ on return:</p><a href="../proc/dqawc.html#variable-work~5" class="pull-right"><e
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~9"></span>
+              <span class="anchor" id="variable-f~10"></span>
               procedure(func)
             </td>
 <td></td>
@@ -3109,7 +3112,7 @@ on return:</p><a href="../proc/dqawc.html#variable-work~5" class="pull-right"><e
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~7"></span>
+              <span class="anchor" id="variable-a~9"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -3124,7 +3127,7 @@ on return:</p><a href="../proc/dqawc.html#variable-work~5" class="pull-right"><e
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~7"></span>
+              <span class="anchor" id="variable-b~9"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -3139,7 +3142,7 @@ on return:</p><a href="../proc/dqawc.html#variable-work~5" class="pull-right"><e
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~4"></span>
+              <span class="anchor" id="variable-c~3"></span>
               real(kind=wp)
             </td>
 <td></td>
@@ -3203,7 +3206,7 @@ in the partition of <code>(a,b)</code>, <code>limit&gt;=1</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~9"></span>
+              <span class="anchor" id="variable-result~10"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -3376,7 +3379,7 @@ the subdivision process</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqawf"></span><h3>public  subroutine <a href='../proc/dqawf.html'>dqawf</a>(f, a, Omega, Integr, Epsabs, Result, Abserr, Neval, Ier, Limlst, Lst, Leniw, Maxp1, Lenw, Iwork, Work)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqawf"></span> <h3>public  subroutine <a href='../proc/dqawf.html'>dqawf</a>(f, a, Omega, Integr, Epsabs, Result, Abserr, Neval, Ier, Limlst, Lst, Leniw, Maxp1, Lenw, Iwork, Work)  
 </h3></div>
     <div class="card-body">
           
@@ -3395,7 +3398,7 @@ the subdivision process</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~10"></span>
+              <span class="anchor" id="variable-f~11"></span>
               procedure(func)
             </td>
 <td></td>
@@ -3410,7 +3413,7 @@ the subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~8"></span>
+              <span class="anchor" id="variable-a~10"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -3471,7 +3474,7 @@ if <code>epsabs&lt;=0</code>, the routine will end with ier = 6.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~10"></span>
+              <span class="anchor" id="variable-result~11"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -3662,11 +3665,11 @@ on return:</p><a href="../proc/dqawf.html#variable-work~6" class="pull-right"><e
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqawfe"></span><h3>public  subroutine <a href='../proc/dqawfe.html'>dqawfe</a>(f, a, Omega, Integr, Epsabs, Limlst, Limit, Maxp1, Result, Abserr, Neval, Ier, Rslst, Erlst, Ierlst, Lst, Alist, Blist, Rlist, Elist, Iord, Nnlog, Chebmo)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqawfe"></span> <h3>public  subroutine <a href='../proc/dqawfe.html'>dqawfe</a>(f, a, Omega, Integr, Epsabs, Limlst, Limit, Maxp1, Result, Abserr, Neval, Ier, Rslst, Erlst, Ierlst, Lst, Alist, Blist, Rlist, Elist, Iord, Nnlog, Chebmo)  
 </h3></div>
     <div class="card-body">
           
-  <p>same as <a href="../proc/dqawf.html">dqawf</a> but provides more information and control</p><a href="../proc/dqawfe.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>same as <a href="dqawf.html">dqawf</a> but provides more information and control</p><a href="../proc/dqawfe.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -3681,7 +3684,7 @@ on return:</p><a href="../proc/dqawf.html#variable-work~6" class="pull-right"><e
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~11"></span>
+              <span class="anchor" id="variable-f~12"></span>
               procedure(func)
             </td>
 <td></td>
@@ -3696,7 +3699,7 @@ on return:</p><a href="../proc/dqawf.html#variable-work~6" class="pull-right"><e
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~9"></span>
+              <span class="anchor" id="variable-a~11"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -3809,7 +3812,7 @@ for the intervals of lengths
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~11"></span>
+              <span class="anchor" id="variable-result~12"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -4048,7 +4051,7 @@ process of each cycle</p>
             <td>
 <p>array of dimension at least <code>(maxp1,25)</code>, providing
 space for the chebyshev moments needed within the
-cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
+cycles (see also routine <a href="dqc25f.html">dqc25f</a>)</p>
             </td>
         </tr>
     </tbody>
@@ -4059,7 +4062,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqawo"></span><h3>public  subroutine <a href='../proc/dqawo.html'>dqawo</a>(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Leniw, Maxp1, Lenw, Last, Iwork, Work)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqawo"></span> <h3>public  subroutine <a href='../proc/dqawo.html'>dqawo</a>(f, a, b, Omega, Integr, Epsabs, Epsrel, Result, Abserr, Neval, Ier, Leniw, Maxp1, Lenw, Last, Iwork, Work)  
 </h3></div>
     <div class="card-body">
           
@@ -4079,7 +4082,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~12"></span>
+              <span class="anchor" id="variable-f~13"></span>
               procedure(func)
             </td>
 <td></td>
@@ -4094,7 +4097,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~10"></span>
+              <span class="anchor" id="variable-a~12"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -4109,7 +4112,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~8"></span>
+              <span class="anchor" id="variable-b~10"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -4187,7 +4190,7 @@ the routine will end with ier = 6.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~12"></span>
+              <span class="anchor" id="variable-result~13"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -4372,11 +4375,11 @@ on return:</p><a href="../proc/dqawo.html#variable-work~7" class="pull-right"><e
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqawoe"></span><h3>public  subroutine <a href='../proc/dqawoe.html'>dqawoe</a>(f, a, b, Omega, Integr, Epsabs, Epsrel, Limit, Icall, Maxp1, Result, Abserr, Neval, Ier, Last, Alist, Blist, Rlist, Elist, Iord, Nnlog, Momcom, Chebmo)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqawoe"></span> <h3>public  subroutine <a href='../proc/dqawoe.html'>dqawoe</a>(f, a, b, Omega, Integr, Epsabs, Epsrel, Limit, Icall, Maxp1, Result, Abserr, Neval, Ier, Last, Alist, Blist, Rlist, Elist, Iord, Nnlog, Momcom, Chebmo)  
 </h3></div>
     <div class="card-body">
           
-  <p>same as <a href="../proc/dqawo.html">dqawo</a> but provides more information and control</p><a href="../proc/dqawoe.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>same as <a href="dqawo.html">dqawo</a> but provides more information and control</p><a href="../proc/dqawoe.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -4391,7 +4394,7 @@ on return:</p><a href="../proc/dqawo.html#variable-work~7" class="pull-right"><e
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~13"></span>
+              <span class="anchor" id="variable-f~14"></span>
               procedure(func)
             </td>
 <td></td>
@@ -4406,7 +4409,7 @@ on return:</p><a href="../proc/dqawo.html#variable-work~7" class="pull-right"><e
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~11"></span>
+              <span class="anchor" id="variable-a~13"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -4421,7 +4424,7 @@ on return:</p><a href="../proc/dqawo.html#variable-work~7" class="pull-right"><e
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~9"></span>
+              <span class="anchor" id="variable-b~11"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -4559,7 +4562,7 @@ if <code>maxp1&lt;1</code>, the routine will end with ier = 6.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~13"></span>
+              <span class="anchor" id="variable-result~14"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -4788,7 +4791,7 @@ containing the chebyshev moments</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqaws"></span><h3>public  subroutine <a href='../proc/dqaws.html'>dqaws</a>(f, a, b, alfa, beta, integr, epsabs, epsrel, result, abserr, neval, ier, limit, lenw, last, iwork, work)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqaws"></span> <h3>public  subroutine <a href='../proc/dqaws.html'>dqaws</a>(f, a, b, alfa, beta, integr, epsabs, epsrel, result, abserr, neval, ier, limit, lenw, last, iwork, work)  
 </h3></div>
     <div class="card-body">
           
@@ -4807,7 +4810,7 @@ containing the chebyshev moments</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~14"></span>
+              <span class="anchor" id="variable-f~15"></span>
               procedure(func)
             </td>
 <td></td>
@@ -4822,7 +4825,7 @@ containing the chebyshev moments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~12"></span>
+              <span class="anchor" id="variable-a~14"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -4837,7 +4840,7 @@ containing the chebyshev moments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~10"></span>
+              <span class="anchor" id="variable-b~12"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -4996,7 +4999,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-limit"></span>
+              <span class="anchor" id="variable-limit~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5033,7 +5036,7 @@ with ier = 6.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last"></span>
+              <span class="anchor" id="variable-last~3"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -5093,11 +5096,11 @@ and <code>k = limit+1-last</code> otherwise</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqawse"></span><h3>public  subroutine <a href='../proc/dqawse.html'>dqawse</a>(f, a, b, Alfa, Beta, Integr, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqawse"></span> <h3>public  subroutine <a href='../proc/dqawse.html'>dqawse</a>(f, a, b, Alfa, Beta, Integr, Epsabs, Epsrel, Limit, Result, Abserr, Neval, Ier, Alist, Blist, Rlist, Elist, Iord, Last)  
 </h3></div>
     <div class="card-body">
           
-  <p>same as <a href="../proc/dqaws.html">dqaws</a> but provides more information and control</p><a href="../proc/dqawse.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>same as <a href="dqaws.html">dqaws</a> but provides more information and control</p><a href="../proc/dqawse.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -5112,7 +5115,7 @@ and <code>k = limit+1-last</code> otherwise</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~15"></span>
+              <span class="anchor" id="variable-f~16"></span>
               procedure(func)
             </td>
 <td></td>
@@ -5127,7 +5130,7 @@ and <code>k = limit+1-last</code> otherwise</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~13"></span>
+              <span class="anchor" id="variable-a~15"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -5142,7 +5145,7 @@ and <code>k = limit+1-last</code> otherwise</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~11"></span>
+              <span class="anchor" id="variable-b~13"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -5257,7 +5260,7 @@ if <code>limit&lt;2</code>, the routine will end with ier = 6.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~14"></span>
+              <span class="anchor" id="variable-result~15"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -5430,7 +5433,7 @@ the subdivision process</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqc25c"></span><h3>public  subroutine <a href='../proc/dqc25c.html'>dqc25c</a>(f, a, b, c, Result, Abserr, Krul, Neval)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqc25c"></span> <h3>public  subroutine <a href='../proc/dqc25c.html'>dqc25c</a>(f, a, b, c, Result, Abserr, Krul, Neval)  
 </h3></div>
     <div class="card-body">
           
@@ -5449,7 +5452,7 @@ the subdivision process</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~16"></span>
+              <span class="anchor" id="variable-f~17"></span>
               procedure(func)
             </td>
 <td></td>
@@ -5464,7 +5467,7 @@ the subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~14"></span>
+              <span class="anchor" id="variable-a~16"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -5479,7 +5482,7 @@ the subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~12"></span>
+              <span class="anchor" id="variable-b~14"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -5494,7 +5497,7 @@ the subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~2"></span>
+              <span class="anchor" id="variable-c~4"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -5509,7 +5512,7 @@ the subdivision process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~15"></span>
+              <span class="anchor" id="variable-result~16"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -5582,7 +5585,7 @@ gauss-kronrod scheme has been used</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqc25f"></span><h3>public  subroutine <a href='../proc/dqc25f.html'>dqc25f</a>(f, a, b, Omega, Integr, Nrmom, Maxp1, Ksave, Result, Abserr, Neval, Resabs, Resasc, Momcom, Chebmo)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqc25f"></span> <h3>public  subroutine <a href='../proc/dqc25f.html'>dqc25f</a>(f, a, b, Omega, Integr, Nrmom, Maxp1, Ksave, Result, Abserr, Neval, Resabs, Resasc, Momcom, Chebmo)  
 </h3></div>
     <div class="card-body">
           
@@ -5601,7 +5604,7 @@ gauss-kronrod scheme has been used</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~17"></span>
+              <span class="anchor" id="variable-f~18"></span>
               procedure(func)
             </td>
 <td></td>
@@ -5617,7 +5620,7 @@ function <code>f(x)</code>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~15"></span>
+              <span class="anchor" id="variable-a~17"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -5632,7 +5635,7 @@ function <code>f(x)</code>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~13"></span>
+              <span class="anchor" id="variable-b~15"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -5730,7 +5733,7 @@ current interval have been computed</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~16"></span>
+              <span class="anchor" id="variable-result~17"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -5850,7 +5853,7 @@ the modified chebyshev moments for the first <code>momcom</code>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqc25s"></span><h3>public  subroutine <a href='../proc/dqc25s.html'>dqc25s</a>(f, a, b, Bl, Br, Alfa, Beta, Ri, Rj, Rg, Rh, Result, Abserr, Resasc, Integr, Nev)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqc25s"></span> <h3>public  subroutine <a href='../proc/dqc25s.html'>dqc25s</a>(f, a, b, Bl, Br, Alfa, Beta, Ri, Rj, Rg, Rh, Result, Abserr, Resasc, Integr, Nev)  
 </h3></div>
     <div class="card-body">
           
@@ -5869,7 +5872,7 @@ the modified chebyshev moments for the first <code>momcom</code>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~18"></span>
+              <span class="anchor" id="variable-f~19"></span>
               procedure(func)
             </td>
 <td></td>
@@ -5884,7 +5887,7 @@ the modified chebyshev moments for the first <code>momcom</code>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~16"></span>
+              <span class="anchor" id="variable-a~18"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -5899,7 +5902,7 @@ the modified chebyshev moments for the first <code>momcom</code>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~14"></span>
+              <span class="anchor" id="variable-b~16"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -5986,7 +5989,7 @@ the modified chebyshev moments for the first <code>momcom</code>
             <td>
 <p>modified chebyshev moments for the application
 of the generalized clenshaw-curtis
-method (computed in subroutine <a href="../proc/dqmomo.html">dqmomo</a>)</p>
+method (computed in subroutine <a href="dqmomo.html">dqmomo</a>)</p>
             </td>
         </tr>
         <tr>
@@ -6003,7 +6006,7 @@ method (computed in subroutine <a href="../proc/dqmomo.html">dqmomo</a>)</p>
             <td>
 <p>modified chebyshev moments for the application
 of the generalized clenshaw-curtis
-method (computed in subroutine <a href="../proc/dqmomo.html">dqmomo</a>)</p>
+method (computed in subroutine <a href="dqmomo.html">dqmomo</a>)</p>
             </td>
         </tr>
         <tr>
@@ -6020,7 +6023,7 @@ method (computed in subroutine <a href="../proc/dqmomo.html">dqmomo</a>)</p>
             <td>
 <p>modified chebyshev moments for the application
 of the generalized clenshaw-curtis
-method (computed in subroutine <a href="../proc/dqmomo.html">dqmomo</a>)</p>
+method (computed in subroutine <a href="dqmomo.html">dqmomo</a>)</p>
             </td>
         </tr>
         <tr>
@@ -6037,12 +6040,12 @@ method (computed in subroutine <a href="../proc/dqmomo.html">dqmomo</a>)</p>
             <td>
 <p>modified chebyshev moments for the application
 of the generalized clenshaw-curtis
-method (computed in subroutine <a href="../proc/dqmomo.html">dqmomo</a>)</p>
+method (computed in subroutine <a href="dqmomo.html">dqmomo</a>)</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~17"></span>
+              <span class="anchor" id="variable-result~18"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -6133,7 +6136,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqcheb"></span><h3>public  subroutine <a href='../proc/dqcheb.html'>dqcheb</a>(x, Fval, Cheb12, Cheb24)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqcheb"></span> <h3>public  subroutine <a href='../proc/dqcheb.html'>dqcheb</a>(x, Fval, Cheb12, Cheb24)  
 </h3></div>
     <div class="card-body">
           
@@ -6152,7 +6155,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~4"></span>
+              <span class="anchor" id="variable-x~6"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6226,7 +6229,7 @@ chebyshev coefficients for degree 24</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqk15"></span><h3>public  subroutine <a href='../proc/dqk15.html'>dqk15</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqk15"></span> <h3>public  subroutine <a href='../proc/dqk15.html'>dqk15</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
 </h3></div>
     <div class="card-body">
           
@@ -6246,7 +6249,7 @@ chebyshev coefficients for degree 24</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~19"></span>
+              <span class="anchor" id="variable-f~20"></span>
               procedure(func)
             </td>
 <td></td>
@@ -6261,7 +6264,7 @@ chebyshev coefficients for degree 24</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~17"></span>
+              <span class="anchor" id="variable-a~19"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6276,7 +6279,7 @@ chebyshev coefficients for degree 24</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~15"></span>
+              <span class="anchor" id="variable-b~17"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6291,7 +6294,7 @@ chebyshev coefficients for degree 24</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~19"></span>
+              <span class="anchor" id="variable-result~20"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -6361,7 +6364,7 @@ which should not exceed <code>abs(i-result)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqk15i"></span><h3>public  subroutine <a href='../proc/dqk15i.html'>dqk15i</a>(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqk15i"></span> <h3>public  subroutine <a href='../proc/dqk15i.html'>dqk15i</a>(f, Boun, Inf, a, b, Result, Abserr, Resabs, Resasc)  
 </h3></div>
     <div class="card-body">
           
@@ -6381,7 +6384,7 @@ which should not exceed <code>abs(i-result)</code></p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~20"></span>
+              <span class="anchor" id="variable-f~21"></span>
               procedure(func)
             </td>
 <td></td>
@@ -6429,7 +6432,7 @@ integrals, one over <code>(-infinity,0)</code> and one over
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~18"></span>
+              <span class="anchor" id="variable-a~20"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6444,7 +6447,7 @@ integrals, one over <code>(-infinity,0)</code> and one over
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~16"></span>
+              <span class="anchor" id="variable-b~18"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6459,7 +6462,7 @@ integrals, one over <code>(-infinity,0)</code> and one over
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~20"></span>
+              <span class="anchor" id="variable-result~21"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -6530,7 +6533,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqk15w"></span><h3>public  subroutine <a href='../proc/dqk15w.html'>dqk15w</a>(f, w, p1, p2, p3, p4, Kp, a, b, Result, Abserr, Resabs, Resasc)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqk15w"></span> <h3>public  subroutine <a href='../proc/dqk15w.html'>dqk15w</a>(f, w, p1, p2, p3, p4, Kp, a, b, Result, Abserr, Resabs, Resasc)  
 </h3></div>
     <div class="card-body">
           
@@ -6550,7 +6553,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~21"></span>
+              <span class="anchor" id="variable-f~22"></span>
               procedure(func)
             </td>
 <td></td>
@@ -6580,7 +6583,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p1"></span>
+              <span class="anchor" id="variable-p1~2"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6595,7 +6598,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p2"></span>
+              <span class="anchor" id="variable-p2~3"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6610,7 +6613,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p3"></span>
+              <span class="anchor" id="variable-p3~3"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6625,7 +6628,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p4"></span>
+              <span class="anchor" id="variable-p4~3"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6655,7 +6658,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~19"></span>
+              <span class="anchor" id="variable-a~21"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6670,7 +6673,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~17"></span>
+              <span class="anchor" id="variable-b~19"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6685,7 +6688,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~21"></span>
+              <span class="anchor" id="variable-result~22"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -6755,7 +6758,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqk21"></span><h3>public  subroutine <a href='../proc/dqk21.html'>dqk21</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqk21"></span> <h3>public  subroutine <a href='../proc/dqk21.html'>dqk21</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
 </h3></div>
     <div class="card-body">
           
@@ -6775,7 +6778,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~22"></span>
+              <span class="anchor" id="variable-f~23"></span>
               procedure(func)
             </td>
 <td></td>
@@ -6790,7 +6793,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~20"></span>
+              <span class="anchor" id="variable-a~22"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6805,7 +6808,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~18"></span>
+              <span class="anchor" id="variable-b~20"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6820,7 +6823,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~22"></span>
+              <span class="anchor" id="variable-result~23"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -6891,7 +6894,7 @@ over <code>(a,b)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqk31"></span><h3>public  subroutine <a href='../proc/dqk31.html'>dqk31</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqk31"></span> <h3>public  subroutine <a href='../proc/dqk31.html'>dqk31</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
 </h3></div>
     <div class="card-body">
           
@@ -6911,7 +6914,7 @@ over <code>(a,b)</code></p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~23"></span>
+              <span class="anchor" id="variable-f~24"></span>
               procedure(func)
             </td>
 <td></td>
@@ -6926,7 +6929,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~21"></span>
+              <span class="anchor" id="variable-a~23"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6941,7 +6944,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~19"></span>
+              <span class="anchor" id="variable-b~21"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -6956,7 +6959,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~23"></span>
+              <span class="anchor" id="variable-result~24"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -7028,7 +7031,7 @@ over <code>(a,b)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqk41"></span><h3>public  subroutine <a href='../proc/dqk41.html'>dqk41</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqk41"></span> <h3>public  subroutine <a href='../proc/dqk41.html'>dqk41</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
 </h3></div>
     <div class="card-body">
           
@@ -7048,7 +7051,7 @@ over <code>(a,b)</code></p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~24"></span>
+              <span class="anchor" id="variable-f~25"></span>
               procedure(func)
             </td>
 <td></td>
@@ -7063,7 +7066,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~22"></span>
+              <span class="anchor" id="variable-a~24"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7078,7 +7081,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~20"></span>
+              <span class="anchor" id="variable-b~22"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7093,7 +7096,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~24"></span>
+              <span class="anchor" id="variable-result~25"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -7165,7 +7168,7 @@ over <code>(a,b)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqk51"></span><h3>public  subroutine <a href='../proc/dqk51.html'>dqk51</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqk51"></span> <h3>public  subroutine <a href='../proc/dqk51.html'>dqk51</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
 </h3></div>
     <div class="card-body">
           
@@ -7185,7 +7188,7 @@ over <code>(a,b)</code></p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~25"></span>
+              <span class="anchor" id="variable-f~26"></span>
               procedure(func)
             </td>
 <td></td>
@@ -7200,7 +7203,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~23"></span>
+              <span class="anchor" id="variable-a~25"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7215,7 +7218,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~21"></span>
+              <span class="anchor" id="variable-b~23"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7230,7 +7233,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~25"></span>
+              <span class="anchor" id="variable-result~26"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -7301,7 +7304,7 @@ over <code>(a,b)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqk61"></span><h3>public  subroutine <a href='../proc/dqk61.html'>dqk61</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqk61"></span> <h3>public  subroutine <a href='../proc/dqk61.html'>dqk61</a>(f, a, b, Result, Abserr, Resabs, Resasc)  
 </h3></div>
     <div class="card-body">
           
@@ -7321,7 +7324,7 @@ over <code>(a,b)</code></p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~26"></span>
+              <span class="anchor" id="variable-f~27"></span>
               procedure(func)
             </td>
 <td></td>
@@ -7336,7 +7339,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~24"></span>
+              <span class="anchor" id="variable-a~26"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7351,7 +7354,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~22"></span>
+              <span class="anchor" id="variable-b~24"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7366,7 +7369,7 @@ over <code>(a,b)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~26"></span>
+              <span class="anchor" id="variable-result~27"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -7436,7 +7439,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqmomo"></span><h3>public  subroutine <a href='../proc/dqmomo.html'>dqmomo</a>(Alfa, Beta, Ri, Rj, Rg, Rh, Integr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqmomo"></span> <h3>public  subroutine <a href='../proc/dqmomo.html'>dqmomo</a>(Alfa, Beta, Ri, Rj, Rg, Rh, Integr)  
 </h3></div>
     <div class="card-body">
           
@@ -7571,7 +7574,7 @@ moments to be computed:</p><a href="../proc/dqmomo.html#variable-integr~8" class
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqng"></span><h3>public  subroutine <a href='../proc/dqng.html'>dqng</a>(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqng"></span> <h3>public  subroutine <a href='../proc/dqng.html'>dqng</a>(f, a, b, Epsabs, Epsrel, Result, Abserr, Neval, Ier)  
 </h3></div>
     <div class="card-body">
           
@@ -7590,7 +7593,7 @@ moments to be computed:</p><a href="../proc/dqmomo.html#variable-integr~8" class
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~27"></span>
+              <span class="anchor" id="variable-f~28"></span>
               procedure(func)
             </td>
 <td></td>
@@ -7605,7 +7608,7 @@ moments to be computed:</p><a href="../proc/dqmomo.html#variable-integr~8" class
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~25"></span>
+              <span class="anchor" id="variable-a~27"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7620,7 +7623,7 @@ moments to be computed:</p><a href="../proc/dqmomo.html#variable-integr~8" class
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~23"></span>
+              <span class="anchor" id="variable-b~25"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7668,7 +7671,7 @@ the routine will end with ier = 6.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~27"></span>
+              <span class="anchor" id="variable-result~28"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -7743,7 +7746,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dquad"></span><h3>public  subroutine <a href='../proc/dquad.html'>dquad</a>(f, a, b, result, epsil, npts, icheck)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dquad"></span> <h3>public  subroutine <a href='../proc/dquad.html'>dquad</a>(f, a, b, result, epsil, npts, icheck)  
 </h3></div>
     <div class="card-body">
           
@@ -7764,7 +7767,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~28"></span>
+              <span class="anchor" id="variable-f~29"></span>
               procedure(func)
             </td>
 <td></td>
@@ -7779,7 +7782,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~26"></span>
+              <span class="anchor" id="variable-a~29"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7794,7 +7797,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~24"></span>
+              <span class="anchor" id="variable-b~28"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -7843,7 +7846,7 @@ as the result.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-npts"></span>
+              <span class="anchor" id="variable-npts~2"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -7881,7 +7884,7 @@ on exit.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-davint"></span><h3>public  subroutine <a href='../proc/davint.html'>davint</a>(x, y, n, xlo, xup, ans, ierr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-davint"></span> <h3>public  subroutine <a href='../proc/davint.html'>davint</a>(x, y, n, xlo, xup, ans, ierr)  
 </h3></div>
     <div class="card-body">
           
@@ -7901,7 +7904,7 @@ on exit.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~5"></span>
+              <span class="anchor" id="variable-x~11"></span>
               real(kind=wp),
             </td>
 <td>intent(in),</td>
@@ -8013,7 +8016,7 @@ on exit.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dqnc79"></span><h3>public  subroutine <a href='../proc/dqnc79.html'>dqnc79</a>(fun, a, b, err, ans, ierr, k)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dqnc79"></span> <h3>public  subroutine <a href='../proc/dqnc79.html'>dqnc79</a>(fun, a, b, err, ans, ierr, k)  
 </h3></div>
     <div class="card-body">
           
@@ -8048,7 +8051,7 @@ on exit.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~27"></span>
+              <span class="anchor" id="variable-a~31"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -8063,7 +8066,7 @@ on exit.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~25"></span>
+              <span class="anchor" id="variable-b~30"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -8125,7 +8128,7 @@ accurate to within <code>ERR *</code> integral of <code>ABS(FUN(X))</code>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~3"></span>
+              <span class="anchor" id="variable-k~15"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -8149,7 +8152,7 @@ difficult problem; other programs may be more efficient.
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dgauss8"></span><h3>public  subroutine <a href='../proc/dgauss8.html'>dgauss8</a>(f, a, b, error_tol, ans, ierr, err)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dgauss8"></span> <h3>public  subroutine <a href='../proc/dgauss8.html'>dgauss8</a>(f, a, b, error_tol, ans, ierr, err)  
 </h3></div>
     <div class="card-body">
           
@@ -8170,7 +8173,7 @@ difficult problem; other programs may be more efficient.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~29"></span>
+              <span class="anchor" id="variable-f~31"></span>
               procedure(func)
             </td>
 <td></td>
@@ -8185,7 +8188,7 @@ difficult problem; other programs may be more efficient.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~28"></span>
+              <span class="anchor" id="variable-a~32"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -8200,7 +8203,7 @@ difficult problem; other programs may be more efficient.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~26"></span>
+              <span class="anchor" id="variable-b~31"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -8290,7 +8293,7 @@ should not be used as a correction to the computed integral.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dsimpson"></span><h3>public recursive subroutine <a href='../proc/dsimpson.html'>dsimpson</a>(f, a, b, error_tol, ans, ierr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dsimpson"></span> <h3>public recursive subroutine <a href='../proc/dsimpson.html'>dsimpson</a>(f, a, b, error_tol, ans, ierr)  
 </h3></div>
     <div class="card-body">
           
@@ -8309,7 +8312,7 @@ should not be used as a correction to the computed integral.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~30"></span>
+              <span class="anchor" id="variable-f~32"></span>
               procedure(func)
             </td>
 <td></td>
@@ -8324,7 +8327,7 @@ should not be used as a correction to the computed integral.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~29"></span>
+              <span class="anchor" id="variable-a~33"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -8339,7 +8342,7 @@ should not be used as a correction to the computed integral.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~27"></span>
+              <span class="anchor" id="variable-b~32"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -8405,7 +8408,7 @@ should not be used as a correction to the computed integral.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dlobatto"></span><h3>public recursive subroutine <a href='../proc/dlobatto.html'>dlobatto</a>(f, a, b, error_tol, ans, ierr)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dlobatto"></span> <h3>public recursive subroutine <a href='../proc/dlobatto.html'>dlobatto</a>(f, a, b, error_tol, ans, ierr)  
 </h3></div>
     <div class="card-body">
           
@@ -8424,7 +8427,7 @@ should not be used as a correction to the computed integral.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~31"></span>
+              <span class="anchor" id="variable-f~33"></span>
               procedure(func)
             </td>
 <td></td>
@@ -8439,7 +8442,7 @@ should not be used as a correction to the computed integral.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~30"></span>
+              <span class="anchor" id="variable-a~35"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -8454,7 +8457,7 @@ should not be used as a correction to the computed integral.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~28"></span>
+              <span class="anchor" id="variable-b~34"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -8484,7 +8487,7 @@ should not be used as a correction to the computed integral.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ans~5"></span>
+              <span class="anchor" id="variable-ans~6"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -8532,7 +8535,7 @@ should not be used as a correction to the computed integral.</p>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2023 
+          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2024 
 </p>
           </div>
           <div class="col">

@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -35,7 +38,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" href="../sourcefile/quadpack_generic.f90.html">Source File</a>
+                    <a class="nav-link" href="sourcefile/quadpack_generic.f90.html">Source File</a>
                   </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/modules.html">Modules</a>
@@ -137,7 +140,7 @@
 </h2>
     
 
-    <p>same as <a href="../proc/dqawf.html">dqawf</a> but provides more information and control</p>
+    <p>same as <a href="dqawf.html">dqawf</a> but provides more information and control</p>
 <p>the routine calculates an approximation result to a
   given fourier integral
   i = integral of <code>f(x)*w(x)</code> over <code>(a,infinity)</code>
@@ -163,7 +166,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-f~11"></span>
+              <span class="anchor" id="variable-f~12"></span>
               procedure(func)
             </td>
 <td></td>
@@ -178,7 +181,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~9"></span>
+              <span class="anchor" id="variable-a~11"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -297,7 +300,7 @@ for the intervals of lengths
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~11"></span>
+              <span class="anchor" id="variable-result~12"></span>
               real(kind=wp),
             </td>
 <td>intent(out)</td>
@@ -438,7 +441,7 @@ which should equal or exceed <code>abs(i-result)</code></p>
      <code>ierlst(k)</code>.</li>
 </ul>
 <p>if <code>omega = 0</code> and <code>integr = 1</code>,
-the integral is calculated by means of <a href="../proc/dqagie.html">dqagie</a>
+the integral is calculated by means of <a href="dqagie.html">dqagie</a>
 and <code>ier = ierlst(1)</code> (with meaning as described
 for <code>ierlst(k), k = 1</code>).</p>
             </td>
@@ -623,7 +626,7 @@ process of each cycle</p>
             <td>
                 <p>array of dimension at least <code>(maxp1,25)</code>, providing
 space for the chebyshev moments needed within the
-cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
+cycles (see also routine <a href="dqc25f.html">dqc25f</a>)</p>
             </td>
         </tr>
     </tbody>
@@ -655,7 +658,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
 <!-- proc~dqagie -->
 <g id="proc~~dqawfe~~CallsGraph_node2" class="node">
 <title>proc~dqagie</title>
-<g id="a_proc~~dqawfe~~CallsGraph_node2"><a xlink:href=".././proc/dqagie.html" xlink:title="quadpack_generic::dqagie">
+<g id="a_proc~~dqawfe~~CallsGraph_node2"><a xlink:href="../proc/dqagie.html" xlink:title="quadpack_generic::dqagie">
 <polygon fill="#d9534f" stroke="#d9534f" points="350.5,-87 195.5,-87 195.5,-63 350.5,-63 350.5,-87"/>
 <text text-anchor="middle" x="273" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqagie</text>
 </a>
@@ -670,7 +673,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
 <!-- proc~dqawoe -->
 <g id="proc~~dqawfe~~CallsGraph_node3" class="node">
 <title>proc~dqawoe</title>
-<g id="a_proc~~dqawfe~~CallsGraph_node3"><a xlink:href=".././proc/dqawoe.html" xlink:title="quadpack_generic::dqawoe">
+<g id="a_proc~~dqawfe~~CallsGraph_node3"><a xlink:href="../proc/dqawoe.html" xlink:title="quadpack_generic::dqawoe">
 <polygon fill="#d9534f" stroke="#d9534f" points="353,-45 193,-45 193,-21 353,-21 353,-45"/>
 <text text-anchor="middle" x="273" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawoe</text>
 </a>
@@ -685,7 +688,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
 <!-- proc~dqk15i -->
 <g id="proc~~dqawfe~~CallsGraph_node5" class="node">
 <title>proc~dqk15i</title>
-<g id="a_proc~~dqawfe~~CallsGraph_node5"><a xlink:href=".././proc/dqk15i.html" xlink:title="quadpack_generic::dqk15i">
+<g id="a_proc~~dqawfe~~CallsGraph_node5"><a xlink:href="../proc/dqk15i.html" xlink:title="quadpack_generic::dqk15i">
 <polygon fill="#d9534f" stroke="#d9534f" points="543.5,-87 389.5,-87 389.5,-63 543.5,-63 543.5,-87"/>
 <text text-anchor="middle" x="466.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk15i</text>
 </a>
@@ -700,7 +703,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
 <!-- proc~dqc25f -->
 <g id="proc~~dqawfe~~CallsGraph_node4" class="node">
 <title>proc~dqc25f</title>
-<g id="a_proc~~dqawfe~~CallsGraph_node4"><a xlink:href=".././proc/dqc25f.html" xlink:title="quadpack_generic::dqc25f">
+<g id="a_proc~~dqawfe~~CallsGraph_node4"><a xlink:href="../proc/dqc25f.html" xlink:title="quadpack_generic::dqc25f">
 <polygon fill="#d9534f" stroke="#d9534f" points="544,-45 389,-45 389,-21 544,-21 544,-45"/>
 <text text-anchor="middle" x="466.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqc25f</text>
 </a>
@@ -715,7 +718,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
 <!-- proc~dqcheb -->
 <g id="proc~~dqawfe~~CallsGraph_node6" class="node">
 <title>proc~dqcheb</title>
-<g id="a_proc~~dqawfe~~CallsGraph_node6"><a xlink:href=".././proc/dqcheb.html" xlink:title="quadpack_generic::dqcheb">
+<g id="a_proc~~dqawfe~~CallsGraph_node6"><a xlink:href="../proc/dqcheb.html" xlink:title="quadpack_generic::dqcheb">
 <polygon fill="#d9534f" stroke="#d9534f" points="739,-66 581,-66 581,-42 739,-42 739,-66"/>
 <text text-anchor="middle" x="660" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqcheb</text>
 </a>
@@ -730,7 +733,7 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
 <!-- proc~dqk15w -->
 <g id="proc~~dqawfe~~CallsGraph_node7" class="node">
 <title>proc~dqk15w</title>
-<g id="a_proc~~dqawfe~~CallsGraph_node7"><a xlink:href=".././proc/dqk15w.html" xlink:title="quadpack_generic::dqk15w">
+<g id="a_proc~~dqawfe~~CallsGraph_node7"><a xlink:href="../proc/dqk15w.html" xlink:title="quadpack_generic::dqk15w">
 <polygon fill="#d9534f" stroke="#d9534f" points="740,-24 580,-24 580,0 740,0 740,-24"/>
 <text text-anchor="middle" x="660" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqk15w</text>
 </a>
@@ -748,17 +751,17 @@ cycles (see also routine <a href="../proc/dqc25f.html">dqc25f</a>)</p>
                   var panprocdqawfeCallsGraph = svgPanZoom('#procdqawfeCallsGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
-                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CallsGraph-help-text">Help</a></div>
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -852,7 +855,7 @@ implementation in a submodule of an interface in a parent module.
 <!-- proc~dqawf -->
 <g id="proc~~dqawfe~~CalledByGraph_node2" class="node">
 <title>proc~dqawf</title>
-<g id="a_proc~~dqawfe~~CalledByGraph_node2"><a xlink:href=".././proc/dqawf.html" xlink:title="quadpack_generic::dqawf">
+<g id="a_proc~~dqawfe~~CalledByGraph_node2"><a xlink:href="../proc/dqawf.html" xlink:title="quadpack_generic::dqawf">
 <polygon fill="#d9534f" stroke="#d9534f" points="151,-24 0,-24 0,0 151,0 151,-24"/>
 <text text-anchor="middle" x="75.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">quadpack_generic::dqawf</text>
 </a>
@@ -866,17 +869,17 @@ implementation in a submodule of an interface in a parent module.
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CalledByGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -1267,7 +1270,7 @@ implementation in a submodule of an interface in a parent module.
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2023 
+          <div class="col"><p>quadpack was developed by Jacob Williams<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
