@@ -1,6 +1,7 @@
 ![quadpack2](media/logo.png)
 ============
 
+[![Language](https://img.shields.io/badge/-Fortran-734f96?logo=fortran&logoColor=white)](https://github.com/topics/fortran)
 [![GitHub release](https://img.shields.io/github/release/jacobwilliams/quadpack.svg)](https://github.com/jacobwilliams/quadpack/releases/latest)
 [![Build Status](https://github.com/jacobwilliams/quadpack/actions/workflows/CI.yml/badge.svg)](https://github.com/jacobwilliams/quadpack/actions)
 [![codecov](https://codecov.io/gh/jacobwilliams/quadpack/branch/master/graph/badge.svg)](https://codecov.io/gh/jacobwilliams/quadpack)
