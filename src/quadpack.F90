@@ -19,7 +19,8 @@
                                qnc79 => dqnc79, &
                                gauss8 => dgauss8, &
                                simpson => dsimpson, &
-                               lobatto => dlobatto
+                               lobatto => dlobatto, &
+                               tanhsinh => dtanhsinh
 
     use quadpack_double
 
@@ -36,7 +37,8 @@
                              qqnc79 => dqnc79, &
                              qgauss8 => dgauss8, &
                              qsimpson => dsimpson, &
-                             qlobatto => dlobatto
+                             qlobatto => dlobatto, &
+                             qtanhsinh => dtanhsinh
 #endif
 
 !********************************************************************************

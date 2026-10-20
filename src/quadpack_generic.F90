@@ -77,6 +77,7 @@ module quadpack_generic
     public :: dqnc79
     public :: dgauss8
     public :: dsimpson, dlobatto
+    public :: dtanhsinh
 
     contains
 !********************************************************************************
@@ -8505,6 +8506,252 @@ subroutine dquad(f, a, b, result, epsil, npts, icheck)
 !**************************************************************
 
     end subroutine dlobatto
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  1D integrator using tanh-sinh (double exponential) quadrature.
+!
+!  The routine calculates an approximation `result` to a given
+!  definite integral `i = integral of f over (a,b)`,
+!  hopefully satisfying the claim for accuracy
+!  `abs(i-result)<=max(epsabs,epsrel*abs(i))`.
+!
+!  The interval is mapped onto the real line using the transformation
+!  `x = c + d*tanh((pi/2)*sinh(t))`, with `c=(a+b)/2` and `d=(b-a)/2`,
+!  and the resulting integrand (which decays double exponentially)
+!  is integrated with the trapezoidal rule. The step size `h` starts
+!  at 1 and is halved at each level, reusing all the previous function
+!  values, until two successive estimates agree to within the requested
+!  tolerance.
+!
+!  The method is very efficient for analytic integrands, and is
+!  particularly well suited to integrands with algebraic or
+!  logarithmic singularities at one or both endpoints. The integrand
+!  is never evaluated at `a` or `b`. Abscissae that are too close to an
+!  endpoint to be distinguished from it in `real(wp)` are skipped.
+!
+!### References
+!  * H. Takahasi and M. Mori, "Double Exponential Formulas for Numerical
+!    Integration", Publ. RIMS, Kyoto Univ. 9 (1974), 721-741.
+!  * D. H. Bailey, K. Jeyabalan, and X. S. Li, "A Comparison of Three
+!    High-Precision Quadrature Schemes", Experimental Mathematics 14:3 (2005).
+!
+!### History
+!  * Jacob Williams, Oct 2026 : original version.
+
+    subroutine dtanhsinh(f, a, b, epsabs, epsrel, result, abserr, neval, ier, maxlev)
+
+    implicit none
+
+    procedure(func) :: f !! function subprogram defining the integrand function `f(x)`.
+    real(wp), intent(in) :: a !! lower limit of integration
+    real(wp), intent(in) :: b !! upper limit of integration
+    real(wp), intent(in) :: epsabs !! absolute accuracy requested
+    real(wp), intent(in) :: epsrel !! relative accuracy requested
+                                   !! if `epsabs<=0`
+                                   !! and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
+                                   !! the routine will end with ier = 6.
+    real(wp), intent(out) :: result !! approximation to the integral
+    real(wp), intent(out) :: abserr !! estimate of the modulus of the absolute error,
+                                    !! computed as the difference between the
+                                    !! estimates of the last two levels. This is
+                                    !! usually very pessimistic, since the method
+                                    !! roughly doubles the number of correct digits
+                                    !! at each level.
+    integer, intent(out) :: neval !! number of integrand evaluations
+    integer, intent(out) :: ier !! * ier = 0 normal and reliable termination of the
+                                !!   routine. it is assumed that the requested
+                                !!   accuracy has been achieved.
+                                !! * ier>0 abnormal termination of the routine. it is
+                                !!   assumed that the requested accuracy has not
+                                !!   been achieved.
+                                !!
+                                !! error messages:
+                                !!
+                                !! * ier = 1 the maximum number of levels (`maxlev`)
+                                !!   has been reached without achieving the
+                                !!   requested accuracy.
+                                !! * ier = 3 the integrand returned a non-finite value
+                                !!   (NaN or Inf) at some point inside the interval.
+                                !! * ier = 6 the input is invalid, because
+                                !!   `epsabs<=0` and `epsrel<max(50*rel.mach.acc.,0.5e-28)`,
+                                !!   or `maxlev<1`.
+                                !!   `result`, `abserr` and `neval` are set to zero.
+    integer, intent(in), optional :: maxlev !! maximum number of times the step size is
+                                            !! halved (default is 12). The maximum number
+                                            !! of function evaluations grows like `2**maxlev`.
+
+    real(wp), parameter :: pi2 = pi/2.0_wp !! pi/2
+    real(wp), parameter :: umax = -log(uflow)/2.0_wp !! largest value of `(pi/2)*sinh(t)`
+                                                     !! for which `exp(-2u)` does not underflow
+    real(wp), parameter :: tmax = asinh(umax/pi2) !! the abscissae for `t>tmax` are
+                                                  !! indistinguishable from the endpoints
+    integer, parameter :: kmax0 = int(tmax) !! number of nodes on each side for the first level (`h=1`)
+    integer, parameter :: minlev = 3 !! minimum number of levels before checking for convergence
+    integer, parameter :: default_maxlev = 12 !! default value for `maxlev`
+
+    integer :: nlev !! maximum number of levels
+    integer :: lev !! level counter
+    integer :: k !! node counter
+    integer :: kleft, kright !! last non-negligible nodes on each side for the first level
+    real(wp) :: c !! center of the interval
+    real(wp) :: d !! half-length of the interval
+    real(wp) :: h !! step size
+    real(wp) :: t !! node in the transformed variable
+    real(wp) :: tleft, tright !! truncation points of the sum on each side
+    real(wp) :: s !! sum of the weighted function values (not scaled by `h*d`)
+    real(wp) :: sabs !! sum of the absolute values of the terms for the first level
+    real(wp) :: result_prev !! result from the previous level
+    real(wp) :: comp, w !! complementary abscissa and weight
+    real(wp) :: tl, tr !! terms on the left and right side
+    real(wp), dimension(kmax0) :: termsl, termsr !! terms for the first level
+
+    result = 0.0_wp
+    abserr = 0.0_wp
+    neval = 0
+    ier = 6
+
+    nlev = default_maxlev
+    if (present(maxlev)) nlev = maxlev
+    if (nlev < 1) return
+    if (epsabs <= 0.0_wp .and. epsrel < max(50.0_wp*epmach, 0.5e-28_wp)) return
+
+    ier = 0
+    if (a == b) return
+
+    c = (a + b)/2.0_wp
+    d = (b - a)/2.0_wp
+
+    ! first level: h = 1, all nodes out to tmax.
+    ! the weight at t=0 is pi/2.
+    h = 1.0_wp
+    s = pi2*f(c)
+    neval = 1
+    sabs = abs(s)
+    do k = 1, kmax0
+        call node(real(k, wp), comp, w)
+        termsl(k) = term(a + d*comp)
+        termsr(k) = term(b - d*comp)
+        s = s + termsl(k) + termsr(k)
+        sabs = sabs + abs(termsl(k)) + abs(termsr(k))
+    end do
+
+    ! the sum is truncated on each side after the last
+    ! term that is not negligible relative to the total:
+    kleft = 0
+    kright = 0
+    do k = 1, kmax0
+        if (abs(termsl(k)) > epmach*sabs) kleft = k
+        if (abs(termsr(k)) > epmach*sabs) kright = k
+    end do
+    tleft = min(real(kleft + 1, wp), tmax)
+    tright = min(real(kright + 1, wp), tmax)
+
+    result = d*h*s
+    if (.not. finite(result)) then
+        ier = 3
+        return
+    end if
+
+    ! halve the step size at each level. only the new
+    ! (odd) nodes need to be evaluated:
+    do lev = 1, nlev
+
+        result_prev = result
+        h = h/2.0_wp
+        k = 1
+        do
+            t = k*h
+            if (t > max(tleft, tright)) exit
+            call node(t, comp, w)
+            tl = 0.0_wp
+            tr = 0.0_wp
+            if (t <= tleft) tl = term(a + d*comp)
+            if (t <= tright) tr = term(b - d*comp)
+            s = s + tl + tr
+            k = k + 2
+        end do
+
+        result = d*h*s
+        abserr = abs(result - result_prev)
+
+        if (.not. finite(result)) then
+            ier = 3
+            return
+        end if
+        if (lev >= min(minlev, nlev) .and. &
+            abserr <= max(epsabs, epsrel*abs(result))) return
+
+    end do
+
+    ier = 1 ! maximum number of levels reached
+
+    contains
+
+    !************************************************************************************
+    !>
+    !  Compute the complementary abscissa `comp = 1 - tanh(u)`, where
+    !  `u = (pi/2)*sinh(t)`, and the weight `w = (pi/2)*cosh(t)/cosh(u)**2`
+    !  for the node `t >= 0`. These are computed in terms of `q = exp(-2u)`,
+    !  which avoids both the cancellation in `1 - tanh(u)` and the overflow
+    !  of `cosh(u)**2` for large `t`.
+
+        subroutine node(t, comp, w)
+
+        implicit none
+
+        real(wp), intent(in) :: t
+        real(wp), intent(out) :: comp
+        real(wp), intent(out) :: w
+
+        real(wp) :: q
+
+        q = exp(-2.0_wp*pi2*sinh(t))
+        comp = 2.0_wp*q/(1.0_wp + q)
+        w = 2.0_wp*pi*cosh(t)*q/(1.0_wp + q)**2
+
+        end subroutine node
+    !************************************************************************************
+
+    !************************************************************************************
+    !>
+    !  Weighted function value at the abscissa `x` (with the current weight `w`).
+    !  Returns zero if `x` has rounded to one of the endpoints.
+
+        function term(x)
+
+        implicit none
+
+        real(wp), intent(in) :: x
+        real(wp) :: term
+
+        if (x == a .or. x == b .or. w == 0.0_wp) then
+            term = 0.0_wp
+        else
+            term = w*f(x)
+            neval = neval + 1
+        end if
+
+        end function term
+    !************************************************************************************
+
+    !************************************************************************************
+    !>
+    !  Returns true if `x` is not NaN or Inf.
+
+        pure logical function finite(x)
+
+        implicit none
+
+        real(wp), intent(in) :: x
+
+        finite = (x == x) .and. (abs(x) <= oflow)
+
+        end function finite
+    !************************************************************************************
+
+    end subroutine dtanhsinh
 !********************************************************************************
 
 !********************************************************************************
