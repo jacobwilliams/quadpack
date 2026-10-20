@@ -18,6 +18,7 @@
     call test_qng()
     call test_C()
     !call test_G()
+    call test_tanhsinh()
     call test_davint()
 
 #ifndef MOD_INCLUDE

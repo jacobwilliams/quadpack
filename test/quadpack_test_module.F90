@@ -450,6 +450,7 @@ contains
                 call dgauss8( f, a, b, epsrel, result, ier, err)
                 call check_result('dgauss8 '//casename, result, answer, neval)
 
+
                 if (casename(1:2) /= 'i2') then
                     ! i2 one has nans...
                     call dsimpson(f, a, b, epsrel, result, ier)
@@ -457,6 +458,10 @@ contains
 
                     call dlobatto(f, a, b, epsrel, result, ier)
                     call check_result('lobatto '//casename, result, answer, neval)
+
+                    ! for i2, the integrand itself is NaN for x very close to 0
+                    call dtanhsinh(f, a, b, epsabs, epsrel, result, abserr, neval, ier)
+                    call check_result('dtanhsinh '//casename, result, answer, neval)
                 end if
             end if
 
@@ -584,6 +589,99 @@ contains
         end function g3
 
     end subroutine test_G
+
+    subroutine test_tanhsinh
+        !! Test of [[dtanhsinh]], mostly for integrands
+        !! with endpoint singularities.
+        implicit none
+
+        real(wp), parameter :: pi = acos(-1.0_wp)
+
+        procedure(func), pointer :: test_func
+        real(wp) :: a, b, abserr, result, answer
+        integer :: ier, neval, i
+        character(len=:), allocatable :: casename
+
+        do i = 1, 7
+            select case (i)
+            case(1)
+                casename = '1/sqrt(x)'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => t1
+                answer = 2.0_wp
+            case(2)
+                casename = 'log(x)'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => t2
+                answer = -1.0_wp
+            case(3)
+                casename = 'sqrt(x)*log(x)'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => t3
+                answer = -4.0_wp/9.0_wp
+            case(4)
+                ! note: accuracy is limited to about sqrt(epsilon) here, since
+                ! the integrand is singular at a nonzero endpoint, and x rounds
+                ! to +/-1 once 1-abs(x) is less than epsilon.
+                casename = '1/sqrt(1-x**2)'
+                a = -1.0_wp
+                b = 1.0_wp
+                test_func => t4
+                answer = pi
+            case(5)
+                casename = 'log(x)**2'
+                a = 0.0_wp
+                b = 1.0_wp
+                test_func => t5
+                answer = 2.0_wp
+            case(6)
+                casename = 'reversed'  ! integral from 1 to 0
+                a = 1.0_wp
+                b = 0.0_wp
+                test_func => t1
+                answer = -2.0_wp
+            case(7)
+                casename = 'a==b'
+                a = 2.0_wp
+                b = 2.0_wp
+                test_func => t1
+                answer = 0.0_wp
+            end select
+            call dtanhsinh(test_func, a, b, epsabs, epsrel, result, abserr, neval, ier)
+            call check_result('dtanhsinh '//casename, result, answer, neval)
+        end do
+
+    contains
+
+        real(wp) function t1(x)
+            real(wp), intent(in) :: x
+            t1 = 1.0_wp / sqrt(x)
+        end function t1
+
+        real(wp) function t2(x)
+            real(wp), intent(in) :: x
+            t2 = log(x)
+        end function t2
+
+        real(wp) function t3(x)
+            real(wp), intent(in) :: x
+            t3 = sqrt(x) * log(x)
+        end function t3
+
+        real(wp) function t4(x)
+            real(wp), intent(in) :: x
+            t4 = 1.0_wp / sqrt((1.0_wp - x)*(1.0_wp + x))
+        end function t4
+
+        real(wp) function t5(x)
+            real(wp), intent(in) :: x
+            t5 = log(x)**2
+        end function t5
+
+    end subroutine test_tanhsinh
 
     subroutine test_davint
         !! Test of [[davint]]
